@@ -2,11 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:wordy/TopicScreen/topic_item_back.dart';
-import 'package:wordy/TopicScreen/topic_item_front.dart';
 
 class TopicItem extends StatefulWidget {
-  TopicItem({required this.image, required this.label,required this.color});
+  TopicItem({required this.image, required this.label, required this.color});
   String label;
   String image;
   Color color;
@@ -17,53 +15,50 @@ class TopicItem extends StatefulWidget {
 
 class _TopicItemState extends State<TopicItem> with TickerProviderStateMixin {
   @override
-  late AnimationController _controller;
-  late Tween<double> _tween;
-  double angle = 0 * -pi;
-  @override
-  void initState() {
-    _controller =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 500))
-          ..addListener(() {
-            setState(() {});
-          });
-    _tween = Tween<double>(
-      begin: 0,
-      end: 1,
-    )..animate(_controller).addListener(() {
-        setState(() {
-          angle = _controller.value * -pi;
-        });
-      });
-    super.initState();
-  }
-
-  Widget cardState() {
-    if(_controller.value<0.5){
-
-      return  TopicItemFront(
-      color:widget.color,
-          image: widget.image,
-          label: widget.label,
-        );
-    }else{
-      return TopicItemBack();
-    }
-  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          _controller.forward();
-        });
+        setState(() {});
       },
-      child: Transform(
-        alignment: Alignment.center,
-        transform: Matrix4.identity()
-          ..setEntry(3, 2, 0.001)
-          ..rotateY(angle),
-        child: cardState()
+      child: Container(
+        margin: const EdgeInsets.all(20),
+        height: 100,
+        width: 100,
+        decoration: BoxDecoration(
+            color: widget.color, borderRadius: BorderRadius.circular(10)),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: Image(
+                      width: 70, height: 70, image: AssetImage(widget.image)),
+                ),
+              ),
+              Expanded(
+                  flex: 1,
+                  child: LayoutBuilder(
+                    builder:
+                        (BuildContext context, BoxConstraints constraints) {
+                      return Container(
+                        width: 200,
+                        height: 20,
+                        padding: const EdgeInsets.only(left: 5, right: 5),
+                        child: AutoSizeText(
+                          minFontSize: 15,
+                          widget.label,
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    },
+                  ))
+            ],
+          ),
+        ),
       ),
     );
   }

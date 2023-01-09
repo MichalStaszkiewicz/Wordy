@@ -39,6 +39,8 @@ dependencies:
   google_fonts: ^3.0.1
   auto_size_text: ^3.0.0
   percent_indicator: ^4.2.2
+  flutter_bloc: ^8.1.1
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordy/ProfileScreen/profile_screen.dart';
 import 'package:wordy/SettingsScreen/settings_screen.dart';
 import 'package:wordy/TopicScreen/progression_bar.dart';
 import 'package:wordy/TopicScreen/topic_grid_view.dart';
@@ -32,14 +33,28 @@ List<BottomNavigationBarItem> bottom_nav_items = [
         padding: const EdgeInsets.only(top: 10),
         child: const Icon(Icons.settings)),
   ),
+  BottomNavigationBarItem(
+    label: "",
+    icon: Container(
+        padding: const EdgeInsets.only(top: 10),
+        child: const Icon(Icons.person)),
+  ),
 ];
 int currentIndex = 0;
-List<Widget> _currentScreen = [TopicScreen(),VocabularyScreen(),SettingsScreen()];
+List<Widget> _currentScreen = [
+  TopicScreen(),
+  VocabularyScreen(),
+  SettingsScreen(),
+  ProfileScreen()
+];
+
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          iconSize: 24,
           currentIndex: currentIndex,
           onTap: (index) {
             setState(() {
@@ -47,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           },
           items: bottom_nav_items),
-      body:_currentScreen[currentIndex],
+      body: _currentScreen[currentIndex],
     );
   }
 }

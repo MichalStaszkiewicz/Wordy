@@ -1,68 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/TopicScreen/topic_item.dart';
 
-List<TopicItem> items = [
-  TopicItem(
-    color: Colors.red,
-    image: 'assets/it.png',
-    label: 'Information technology',
-  ),
-  TopicItem(
-    color: Colors.blue,
-    image: 'assets/dailyusage.png',
-    label: 'Basic Conversation',
-  ),
-  TopicItem(
-    color: Colors.orange,
-    image: 'assets/summer.png',
-    label: 'Travel',
-  ),
-  TopicItem(
-    color: Colors.purple,
-    image: 'assets/cooking-pot.png',
-    label: 'Food And Cooking',
-  ),
-  TopicItem(
-    color: Colors.red,
-    image: 'assets/it.png',
-    label: 'Information technology',
-  ),
-  TopicItem(
-    color: Colors.blue,
-    image: 'assets/dailyusage.png',
-    label: 'Basic Conversation',
-  ),
-  TopicItem(
-    color: Colors.orange,
-    image: 'assets/summer.png',
-    label: 'Travel',
-  ),
-  TopicItem(
-    color: Colors.purple,
-    image: 'assets/cooking-pot.png',
-    label: 'Food And Cooking',
-  ),
-  TopicItem(
-    color: Colors.red,
-    image: 'assets/it.png',
-    label: 'Information technology',
-  ),
-  TopicItem(
-    color: Colors.blue,
-    image: 'assets/dailyusage.png',
-    label: 'Basic Conversation',
-  ),
-  TopicItem(
-    color: Colors.orange,
-    image: 'assets/summer.png',
-    label: 'Travel',
-  ),
-  TopicItem(
-    color: Colors.purple,
-    image: 'assets/cooking-pot.png',
-    label: 'Food And Cooking',
-  ),
-];
+import '../bloc/topics/topics_bloc.dart';
+
+
 
 class TopicGridView extends StatelessWidget {
   const TopicGridView({
@@ -71,16 +13,33 @@ class TopicGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverGrid(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          return items[index];
-        },
-        childCount: items.length,
-      ),
+    return BlocBuilder<TopicsBloc, TopicsState>(
+      builder: (context, state) {
+        if (state is TopicsLoaded) {
+          return SliverGrid(
+            
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return TopicItem(
+                  image: state.topics[index].image,
+                  color: Colors.blueAccent,
+                  label: state.topics[index].name,
+                );
+              },
+              childCount: state.topics.length,
+            ),
+          );
+        } else {
+          return const SliverToBoxAdapter(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
     );
   }
 }
