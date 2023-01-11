@@ -13,8 +13,9 @@ class LoadTopics extends TopicsEvent {
 
 class ChooseSettingsForQuiz extends TopicsEvent {
   ChooseSettingsForQuiz(
-      {required this.settingsOpen, required this.localPosition,required this.globalPosition});
+      {required this.settingsOpen, required this.localPosition,required this.globalPosition,required this.index});
   final bool settingsOpen;
   final Offset localPosition;
   final Offset globalPosition;
+  final int index;
 }

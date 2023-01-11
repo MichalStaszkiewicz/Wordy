@@ -26,7 +26,7 @@ class TopicGridView extends StatelessWidget {
                 return TopicItem(
                   image: state.topics[index].image,
                   color: Colors.white,
-                  label: state.topics[index].name,
+                  label: state.topics[index].name, index: index,
                 );
               },
               childCount: state.topics.length,

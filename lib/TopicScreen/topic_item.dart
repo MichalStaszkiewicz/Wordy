@@ -6,11 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/Bloc/topics/topics_bloc.dart';
 
 class TopicItem extends StatefulWidget {
-  TopicItem({required this.image, required this.label, required this.color});
+  TopicItem({required this.image, required this.label, required this.color,required this.index});
   String label;
   String image;
   Color color;
-
+  int index;
   @override
   State<TopicItem> createState() => _TopicItemState();
 }
@@ -25,14 +25,9 @@ class _TopicItemState extends State<TopicItem> with TickerProviderStateMixin {
           return GestureDetector(
             onTapDown: (details) {
               context.read<TopicsBloc>().add(ChooseSettingsForQuiz(
-                 localPosition: details.localPosition,
-                 globalPosition: details.globalPosition,
-                  settingsOpen: !state.selectedTopic));
-          
-            },
-            onPanUpdate: (details) {},
-            onTap: () {
-              setState(() {});
+                  localPosition: details.localPosition,
+                  globalPosition: details.globalPosition,
+                  settingsOpen: !state.selectedTopic, index: widget.index));
             },
             child: Container(
               margin: const EdgeInsets.all(20),

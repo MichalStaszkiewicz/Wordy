@@ -13,18 +13,23 @@ class TopicsBloc extends Bloc<TopicsEvent, TopicsState> {
   }
   void loadTopics() {
     on<LoadTopics>((event, emit) {
-      emit(TopicsLoaded(topics: [
-        Topic(name: "Information Technology", image: "assets/it.png"),
-        Topic(name: "Travel", image: "assets/summer.png"),
-        Topic(name: "Food And Cooking", image: "assets/cooking-pot.png"),
-        Topic(name: "Basic Conversation", image: "assets/dailyusage.png"),
-        Topic(name: "Travel", image: "assets/summer.png"),
-        Topic(name: "Food And Cooking", image: "assets/cooking-pot.png"),
-        Topic(name: "Basic Conversation", image: "assets/dailyusage.png"),
-        Topic(name: "Travel", image: "assets/summer.png"),
-        Topic(name: "Food And Cooking", image: "assets/cooking-pot.png"),
-        Topic(name: "Basic Conversation", image: "assets/dailyusage.png"),
-      ], localPosition: Offset(0, 0),globalPosition: Offset(0,0), selectedTopic: false));
+      emit(TopicsLoaded(
+          index: 0,
+          topics: [
+            Topic(name: "Information Technology", image: "assets/it.png"),
+            Topic(name: "Travel", image: "assets/summer.png"),
+            Topic(name: "Food And Cooking", image: "assets/cooking-pot.png"),
+            Topic(name: "Basic Conversation", image: "assets/dailyusage.png"),
+            Topic(name: "Travel", image: "assets/summer.png"),
+            Topic(name: "Food And Cooking", image: "assets/cooking-pot.png"),
+            Topic(name: "Basic Conversation", image: "assets/dailyusage.png"),
+            Topic(name: "Travel", image: "assets/summer.png"),
+            Topic(name: "Food And Cooking", image: "assets/cooking-pot.png"),
+            Topic(name: "Basic Conversation", image: "assets/dailyusage.png"),
+          ],
+          localPosition: Offset(0, 0),
+          globalPosition: Offset(0, 0),
+          selectedTopic: false));
     });
   }
 
@@ -35,7 +40,9 @@ class TopicsBloc extends Bloc<TopicsEvent, TopicsState> {
         emit(TopicsLoaded(
             topics: state.topics,
             selectedTopic: event.settingsOpen,
-            localPosition:event.localPosition,globalPosition: event.globalPosition));
+            localPosition: event.localPosition,
+            globalPosition: event.globalPosition,
+            index: event.index));
       }
     });
   }
