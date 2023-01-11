@@ -29,17 +29,21 @@ class _ChoosenTopicVocabularyState extends State<ChoosenTopicVocabulary> {
                       color: Colors.white,
                       boxShadow: const [
                         BoxShadow(
-                          offset: Offset(0, 0),
-                          spreadRadius: -4,
-                          blurRadius: 7,
-                          color: Color.fromRGBO(81, 77, 77, 1),
-                        )
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 6.0,
+                        ),
                       ],
-                      borderRadius: BorderRadius.circular(5)),
+                      borderRadius: BorderRadius.circular(10)),
                   margin: const EdgeInsets.all(20),
                   height: 100,
                   width: 100,
-                  child: Center(child: Text("Breakfast",style: Theme.of(context).textTheme.subtitle2,),),
+                  child: Center(
+                    child: Text(
+                      "Breakfast",
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                  ),
                 )),
       ),
     );

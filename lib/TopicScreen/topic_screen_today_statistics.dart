@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 class TopicScreenTodayStaticstics extends StatelessWidget {
   TopicScreenTodayStaticstics(
-      {required this.icon, required this.label, required this.color});
-  IconData icon;
+      {required this.label, required this.image});
+String image;
   int label;
-  Color color;
+ 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            size: 30,
-            icon,
-            color: color,
+          Container(
+            height: 30,
+            child: Image(
+              image: AssetImage(image),
+            ),
           ),
           SizedBox(
             width: 5,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wordy/ProfileScreen/profile_screen.dart';
 import 'package:wordy/SettingsScreen/settings_screen.dart';
-import 'package:wordy/TopicScreen/progression_bar.dart';
+
 import 'package:wordy/TopicScreen/topic_grid_view.dart';
 import 'package:wordy/VocabularyScreen/vocabulary_screen.dart';
 
@@ -27,25 +27,26 @@ List<BottomNavigationBarItem> bottom_nav_items = [
     icon: Container(
         padding: const EdgeInsets.only(top: 10), child: const Icon(Icons.book)),
   ),
+   BottomNavigationBarItem(
+    label: "",
+    icon: Container(
+        padding: const EdgeInsets.only(top: 10),
+        child: const Icon(Icons.person)),
+  ),
   BottomNavigationBarItem(
     label: "",
     icon: Container(
         padding: const EdgeInsets.only(top: 10),
         child: const Icon(Icons.settings)),
   ),
-  BottomNavigationBarItem(
-    label: "",
-    icon: Container(
-        padding: const EdgeInsets.only(top: 10),
-        child: const Icon(Icons.person)),
-  ),
+ 
 ];
 int currentIndex = 0;
 List<Widget> _currentScreen = [
   TopicScreen(),
   VocabularyScreen(),
+  ProfileScreen(),
   SettingsScreen(),
-  ProfileScreen()
 ];
 
 class _MyHomePageState extends State<MyHomePage> {

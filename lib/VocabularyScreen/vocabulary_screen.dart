@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/VocabularyScreen/choosen_topic_vocabulary.dart';
 import 'package:wordy/bloc/vocabulary/vocabulary_bloc.dart';
-import '../TopicScreen/progression_bar.dart';
 
 class VocabularyScreen extends StatefulWidget {
   const VocabularyScreen({super.key});
@@ -32,7 +31,10 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
         title: Center(
           child: Text(
             "Vocabulary",
-            style: Theme.of(context).textTheme.headline5,
+            style: Theme.of(context)
+                .textTheme
+                .headline5!
+                .copyWith(color: Colors.white),
           ),
         ),
       ),
@@ -70,7 +72,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                       itemCount: state.vocabularyListSearched.length,
                       itemBuilder: (context, index) {
                         final topic = state.vocabularyListSearched[index];
-                      
+
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -82,38 +84,40 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                         )));
                           },
                           child: Container(
-                            height: 150,
+                            height: 100,
                             child: Card(
-                       color: const Color.fromRGBO(250, 250, 250, 1),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              color: const Color.fromRGBO(250, 250, 250, 1),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Text(
-                                    topic.topic,
-                                    style: Theme.of(context).textTheme.headline6,
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                        height: 60,
+                                        child: const Center(
+                                            child: Image(
+                                                image: AssetImage(
+                                                    'assets/dailyusage.png')))),
                                   ),
-                                  ProgressionBar(
-                                    image: topic.image,
-                                    percentage: topic.percentage,
-                                  ),
-                                  Container(
+                                  Expanded(
+                                    flex: 3,
                                     child: Center(
                                       child: Text(
-                                        "${(topic.percentage * 10).round() / 10}%",
-                                        style:
-                                            Theme.of(context).textTheme.headline6,
+                                        topic.topic,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6,
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
                           ),
                         );
                       },
-                      separatorBuilder: (context, index) => Container(
-                      
-                      ),
+                      separatorBuilder: (context, index) => Container(),
                     ),
                   ),
                 ],

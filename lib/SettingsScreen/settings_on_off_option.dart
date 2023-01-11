@@ -35,7 +35,7 @@ class SettingsOnOffOption extends StatelessWidget {
         value: stateOfSwitch,
         onChanged: (value) {
           stateOfSwitch = value;
-          callback;
+        callback();
         });
   }
 }
