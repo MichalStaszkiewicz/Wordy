@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:wordy/Utility/utility.dart';
@@ -18,6 +19,32 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     learningWords();
     reviewWords();
     nextQuestion();
+    selectAnswer();
+  }
+  void selectAnswer() {
+    on<SelectAnswer>((event, emit) {
+      if (state is QuizLoaded) {
+        final state = this.state as QuizLoaded;
+        int state_of_selected_ans = 0;
+        List<int> modified_question_answer_state = [0, 0, 0, 0];
+        if (event.index == state.questions[state.index].correct_answer_index) {
+          modified_question_answer_state[event.index] = 1;
+          state_of_selected_ans = 1;
+        } else {
+          modified_question_answer_state[
+              state.questions[state.index].correct_answer_index] = 1;
+          modified_question_answer_state[event.index] = 2;
+        
+        }
+        emit(QuizLoaded(
+          questions: state.questions,
+          index: state.index,
+          selected: true,
+          question_answer_state: modified_question_answer_state,
+          correct: state.correct + state_of_selected_ans,
+        ));
+      }
+    });
   }
 
   void nextQuestion() {
@@ -26,7 +53,10 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
         final state = this.state as QuizLoaded;
         emit(QuizLoaded(
           questions: state.questions,
-          index: state.index++,
+          index: state.index + 1,
+          selected: false,
+          question_answer_state: [0, 0, 0, 0],
+          correct: state.correct,
         ));
       }
     });
@@ -44,7 +74,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       var connection = await MySqlConnection.connect(settings);
       var results = await connection
           .query("SELECT * FROM translations WHERE Topic = ?", [event.topic]);
-      print(results.length);
+
       List<Word> words = [];
       for (int i = 0; i < results.length; i++) {
         words.add(Word(
@@ -63,42 +93,49 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       var profile = await db.rawQuery("SELECT currentCourse FROM profile");
       if (profile.isNotEmpty) {
         String currentCourse = profile.elementAt(0)['currentCourse'].toString();
-        print(currentCourse);
+
         Map<String, String> map =
             utility.convertCurrentCourseName(currentCourse);
         String languageToLearn = map['languageToLearn'] ?? "";
         String languageThatUserWillLearnFrom =
             map['languageThatUserWillLearnFrom'] ?? "";
 
-        print("languageToLearn " + languageToLearn.toLowerCase());
-        print("languageThatUserWillLearnFrom " +
-            languageThatUserWillLearnFrom.toLowerCase());
-        print("courseNameTable " + map['courseNameTable'].toString());
         var learnedWords =
             await db.rawQuery("SELECT * FROM ${map['courseNameTable']}");
-        print(words.length);
+
+        var random = new Random();
         for (int i = 0; i < words.length; i++) {
           if (questions.length == 20) {
             break;
           }
           if (languageToLearn.toLowerCase() == "english" &&
               languageThatUserWillLearnFrom.toLowerCase() == "polish") {
-            Random rnd = Random();
+            var answers = Set<String>();
+            while (answers.length < 4) {
+              var randomWord = words[random.nextInt(words.length)].polish;
+              if (!answers.contains(randomWord)) {
+                answers.add(randomWord);
+              }
+            }
+            List<String> answersList = answers.toList();
+            var correctAnswerIndex = random.nextInt(4);
+            var correctAnswer = words[i].polish;
+            answersList[correctAnswerIndex] = correctAnswer;
+
             questions.add(QuizQuestion(
-                answer: words[i].english,
-                questionOptions: [
-                  words[rnd.nextInt(words.length - 1)].english,
-                  words[rnd.nextInt(words.length - 1)].english,
-                  words[rnd.nextInt(words.length - 1)].english,
-                  words[rnd.nextInt(words.length - 1)].english,
-                ],
-                question: words[i].polish));
+                answer: words[i].polish,
+                questionOptions: answersList,
+                question: words[i].english,
+                correct_answer_index: correctAnswerIndex));
           }
         }
 
         emit(QuizLoaded(
           questions: questions,
           index: 0,
+          selected: false,
+          question_answer_state: [0, 0, 0, 0],
+          correct: 0,
         ));
       }
     });
@@ -127,9 +164,11 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       }
       connection.close();
       emit(QuizLoaded(
-        questions: [],
-        index: 0,
-      ));
+          questions: [],
+          index: 0,
+          selected: false,
+          question_answer_state: [0, 0, 0, 0],
+          correct: 0));
     });
   }
 }

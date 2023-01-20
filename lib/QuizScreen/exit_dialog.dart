@@ -13,7 +13,8 @@ class ExitDialog extends StatelessWidget {
         ),
         OutlinedButton(
           child: Text('Tak'),
-          onPressed: () => Navigator.popAndPushNamed(context, '/'),
+          onPressed: () =>
+              Navigator.of(context).popUntil(ModalRoute.withName('/')),
         ),
       ],
     );

@@ -10,43 +10,53 @@ import '../models/quiz_question.dart';
 import 'answears_column.dart';
 
 class QuizScreenQuestions extends StatelessWidget {
-  QuizScreenQuestions({required this.topic, required this.question,});
+  QuizScreenQuestions(
+      {required this.topic, required this.questions, required this.index});
   final String topic;
-  final QuizQuestion question;
+  final List<QuizQuestion> questions;
+  final index;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child:
-          Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Container(
-          height: 60,
-        ),
-        Expanded(
-          flex: 2,
-          child: QuizWordToAnswear(
-            word: question.question,
-          ),
-        ),
-        Expanded(
-          flex: 4,
-          child: AnswearsColumn(
-            answears: question.questionOptions,
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: QuizNextButton(function: () {
-            context.read<QuizBloc>().add(LoadNextQuestion());
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: ((context) => QuizFinishScreen(
-                      correct: 20,
-                      maximum: 40,
-                      topic: topic,
-                    ))));
-          }),
-        )
-      ]),
+    return BlocBuilder<QuizBloc, QuizState>(
+      builder: (context, qstate) {
+        final state = qstate as QuizLoaded;
+        return Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  height: 60,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: QuizWordToAnswear(
+                    word: questions[index].question,
+                  ),
+                ),
+                Expanded(
+                  flex: 4,
+                  child: AnswearsColumn(
+                    answears: questions[index].questionOptions,
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: QuizNextButton(function: () {
+                    context.read<QuizBloc>().add(LoadNextQuestion());
+                    if (index == questions.length - 2) {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => QuizFinishScreen(
+                                correct: state.correct,
+                                maximum: state.questions.length,
+                                topic: topic,
+                              ))));
+                    }
+                  }),
+                )
+              ]),
+        );
+      },
     );
   }
 }

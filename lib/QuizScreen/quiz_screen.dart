@@ -53,8 +53,9 @@ class _QuizScreenState extends State<QuizScreen> {
             }
             if (state is QuizLoaded) {
               return QuizScreenQuestions(
+                questions: state.questions,
+                index: state.index,
                 topic: widget.topic,
-                question: state.questions[state.index],
               );
             } else {
               return const Center(

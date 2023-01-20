@@ -12,13 +12,21 @@ class QuizInitial extends QuizState {
 }
 
 class QuizLoaded extends QuizState {
-  QuizLoaded({required this.questions, required this.index});
+  QuizLoaded(
+      {required this.questions,
+      required this.index,
+      required this.selected,
+      required this.question_answer_state,
+      required this.correct});
   final List<QuizQuestion> questions;
+  bool selected;
   int index;
-
+  int correct;
+  List<int> question_answer_state;
 
   @override
-  List<Object> get props => [questions, index];
+  List<Object> get props =>
+      [questions, index, selected, question_answer_state, correct];
 }
 
 class QuizCompleted extends QuizState {

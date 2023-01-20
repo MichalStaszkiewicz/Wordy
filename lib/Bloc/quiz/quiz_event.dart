@@ -24,7 +24,12 @@ class LoadQuestionsForReview extends QuizEvent {
 }
 
 
+class SelectAnswer extends QuizEvent{
+SelectAnswer({required this.index});
+int index;
 
+
+}
 class LoadNextQuestion extends QuizEvent {
   LoadNextQuestion();
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wordy/Bloc/quiz/quiz_bloc.dart';
 import 'package:wordy/Bloc/topics/topics_bloc.dart';
 import 'package:wordy/QuizScreen/quiz_finish_button.dart';
 import 'package:wordy/QuizScreen/quiz_screen.dart';
@@ -46,7 +47,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                   color: Colors.black12,
                   offset: Offset(0, 2),
                   blurRadius: 6.0,
-                ),  
+                ),
               ], color: Colors.white, borderRadius: BorderRadius.circular(20)),
               child: Column(
                 children: [
@@ -98,10 +99,9 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                               margin:
                                   const EdgeInsets.only(left: 20, right: 20),
                               child: AutoSizeText(
-                                maxLines: 1,
-                                "Percentage of the correct answears: ${(widget.correct / widget.maximum) * 100}%",
-                                style: Theme.of(context).textTheme.headline5,
-                              ),
+                                  maxLines: 1,
+                                  "Percentage of the correct answears: ${((widget.correct / widget.maximum) * 100).toInt()}%",
+                                  style: Theme.of(context).textTheme.headline6),
                             ),
                           ],
                         ),
@@ -115,8 +115,11 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
           QuizFinishButton(
             function: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: ((context) => QuizScreen(
-                        topic: widget.topic,
+                  builder: ((context) => BlocProvider(
+                        create: (context) => QuizBloc()..add(LoadQuestionsForLearning(topic: widget.topic)),
+                        child: QuizScreen(
+                          topic: widget.topic,
+                        ),
                       ))));
             },
             label: 'Repeat Quiz',
