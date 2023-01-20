@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:wordy/VocabularyScreen/flip_cards.dart';
+import 'package:wordy/VocabularyScreen/vocabulary_back_card.dart';
+import 'package:wordy/VocabularyScreen/vocabulary_front_card.dart';
 
 class ChoosenTopicVocabulary extends StatefulWidget {
   ChoosenTopicVocabulary({super.key, required this.topic});
@@ -15,35 +18,23 @@ class _ChoosenTopicVocabularyState extends State<ChoosenTopicVocabulary> {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child:
-              Text(widget.topic, style: Theme.of(context).textTheme.headline5),
-        ),
+            child: Container(
+          margin: const EdgeInsets.only(right: 50),
+          child: Text(widget.topic,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5!
+                  .copyWith(color: Colors.white)),
+        )),
       ),
       body: Container(
         child: GridView.builder(
             itemCount: 10,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2),
-            itemBuilder: (context, index) => Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          offset: Offset(0, 2),
-                          blurRadius: 6.0,
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(10)),
-                  margin: const EdgeInsets.all(20),
-                  height: 100,
-                  width: 100,
-                  child: Center(
-                    child: Text(
-                      "Breakfast",
-                      style: Theme.of(context).textTheme.subtitle2,
-                    ),
-                  ),
+            itemBuilder: (context, index) => FlipCards(
+                  front: const VocabularyFrontCard(),
+                  back: const VocabularyBackCard(),
                 )),
       ),
     );

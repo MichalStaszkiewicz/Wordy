@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/ProfileScreen/AchievemetnsScreen/achievements_screen.dart';
 import 'package:wordy/ProfileScreen/FinishedTopicsScreen/finished_topics_screen.dart';
 import 'package:wordy/ProfileScreen/header_in_profile.dart';
+import 'package:wordy/ProfileScreen/profile_details.dart';
 import 'package:wordy/ProfileScreen/statistics_item.dart';
 import 'package:wordy/ProfileScreen/users_courses.dart';
 import 'package:wordy/ProfileScreen/WordsLearnedScreen/words_learned_screen.dart';
+
+import '../Bloc/user_settings_and_preferences/user_settings_and_preferences_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -22,22 +26,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
     StatisticsItem(
       image: 'assets/fire.png',
       label: 'Days in a row',
-      statisticsCount: 365, navigation: null,
+      statisticsCount: 365,
+      navigation: null,
     ),
     StatisticsItem(
       image: 'assets/open-book.png',
       label: 'Learned words',
-      statisticsCount: 7650, navigation: const WordsLearnedScreen(),
+      statisticsCount: 7650,
+      navigation: const WordsLearnedScreen(),
     ),
     StatisticsItem(
       image: 'assets/medal.png',
       label: 'Finished topics',
-      statisticsCount: 50, navigation: const FinishedTopicsScreen(),
+      statisticsCount: 50,
+      navigation: const FinishedTopicsScreen(),
     ),
     StatisticsItem(
       image: 'assets/award.png',
       label: 'Achivments',
-      statisticsCount: 30, navigation: const AchievemetnsScreen(),
+      statisticsCount: 30,
+      navigation: const AchievemetnsScreen(),
     ),
   ];
   @override
@@ -47,31 +55,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: Center(
             child: Text(
           "Profile",
-          style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white),
+          style: Theme.of(context)
+              .textTheme
+              .headline5!
+              .copyWith(color: Colors.white),
         )),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            HeaderInProfile(
-              label: "My Courses",
-            ),
-            const UsersCourses(),
-            HeaderInProfile(
-              label: "Statistics",
-            ),
-            Container(
-              height: 400,
-              child: GridView.builder(
-                controller: _scrollStatisticsController,
-                itemCount: 4,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                itemBuilder: (context, index) => _statItems[index],
-              ),
-            )
-          ],
-        ),
+      body: BlocBuilder<UserSettingsAndPreferencesBloc,
+          UserSettingsAndPreferencesState>(
+        builder: (context, state) {
+          if (state is UserSettingsAndPreferencesInitial) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state is UserSettingsAndPreferencesLoaded) {
+            return ProfileDetails(
+                scrollStatisticsController: _scrollStatisticsController,
+                statItems: _statItems);
+          } else {
+            return const Text("Something went wrong");
+          }
+        },
       ),
     );
   }

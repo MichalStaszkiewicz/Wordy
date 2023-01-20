@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/QuizScreen/quiz_screen.dart';
 import 'package:wordy/TopicScreen/menu_button.dart';
+
+import '../Bloc/quiz/quiz_bloc.dart';
 
 class QuizOptions extends StatefulWidget {
   final String topicName;
@@ -59,14 +62,21 @@ class _QuizOptionsState extends State<QuizOptions>
             label: 'Review',
             function: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => QuizScreen(topic: widget.topicName)));
+                  builder: (context) => BlocProvider(
+                        create: (context) => QuizBloc()
+                          ..add(LoadQuestionsForReview(topic: widget.topicName)),
+                        child: QuizScreen(topic: widget.topicName),
+                      )));
             },
           ),
           MenuButton(
             label: 'Learn',
             function: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => QuizScreen(topic: widget.topicName)));
+                  builder: (context) => BlocProvider(
+                        create: (context) => QuizBloc()..add(LoadQuestionsForLearning(topic: widget.topicName)),
+                        child: QuizScreen(topic: widget.topicName),
+                      )));
             },
           ),
         ],

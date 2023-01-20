@@ -16,12 +16,12 @@ class AnswearsColumn extends StatelessWidget {
             children: [
               Expanded(
                 child: QuizAnswear(
-                  answear: answears[0],
+                  answer: answears[0],
                 ),
               ),
               Expanded(
                 child: QuizAnswear(
-                  answear: answears[1],
+                  answer: answears[1],
                 ),
               ),
             ],
@@ -30,12 +30,12 @@ class AnswearsColumn extends StatelessWidget {
             children: [
               Expanded(
                 child: QuizAnswear(
-                  answear: answears[2],
+                  answer: answears[2],
                 ),
               ),
               Expanded(
                 child: QuizAnswear(
-                  answear: answears[3],
+                  answer: answears[3],
                 ),
               ),
             ],

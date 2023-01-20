@@ -8,7 +8,14 @@ abstract class UserSettingsAndPreferencesState extends Equatable {
 }
 
 class UserSettingsAndPreferencesInitial
-    extends UserSettingsAndPreferencesState {}
+    extends UserSettingsAndPreferencesState {
+  UserSettingsAndPreferencesInitial();
+  @override
+  List<Object> get props => [];
+}
 
 class UserSettingsAndPreferencesLoaded extends UserSettingsAndPreferencesState {
+  UserSettingsAndPreferencesLoaded();
+  @override
+  List<Object> get props => [];
 }

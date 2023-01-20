@@ -6,6 +6,8 @@ import 'package:wordy/TopicScreen/quiz_options.dart';
 import 'package:wordy/TopicScreen/topic_grid_view.dart';
 import 'package:wordy/TopicScreen/topic_screen_today_statistics.dart';
 
+import '../Bloc/user_settings_and_preferences/user_settings_and_preferences_bloc.dart';
+
 class TopicScreen extends StatefulWidget {
   const TopicScreen({
     Key? key,
@@ -15,10 +17,11 @@ class TopicScreen extends StatefulWidget {
   State<TopicScreen> createState() => _TopicScreenState();
 }
 
-class _TopicScreenState extends State<TopicScreen> with TickerProviderStateMixin{
+class _TopicScreenState extends State<TopicScreen>
+    with TickerProviderStateMixin {
   ScrollController _controller = ScrollController();
-  Positioned quizSettings(
-      bool show, Offset localPosition, Offset globalPosition, int index) {
+  Positioned quizSettings(bool show, Offset localPosition,
+      Offset globalPosition, int index, String name) {
     if (show == true) {
       var deviceDimensions = MediaQuery.of(context).size;
       Offset showMenuPosition = Offset(globalPosition.dx - localPosition.dx,
@@ -33,7 +36,7 @@ class _TopicScreenState extends State<TopicScreen> with TickerProviderStateMixin
           top: offsetAfterJump.dy + 30,
           left: offsetAfterJump.dx,
           child: QuizOptions(
-            topicName: "Daily Usage",
+            topicName: name,
           ),
         );
       } else if (deviceDimensions.height < showMenuPosition.dy + 180 &&
@@ -46,7 +49,7 @@ class _TopicScreenState extends State<TopicScreen> with TickerProviderStateMixin
           top: offsetAfterJump.dy,
           left: offsetAfterJump.dx,
           child: QuizOptions(
-            topicName: "Daily Usage",
+            topicName: name,
           ),
         );
       } else {
@@ -54,7 +57,7 @@ class _TopicScreenState extends State<TopicScreen> with TickerProviderStateMixin
           top: showMenuPosition.dy,
           left: showMenuPosition.dx,
           child: QuizOptions(
-            topicName: "Daily Usage",
+            topicName: name,
           ),
         );
       }
@@ -65,16 +68,28 @@ class _TopicScreenState extends State<TopicScreen> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => TopicsBloc()..add(LoadTopics()),
-      child: BlocBuilder<TopicsBloc, TopicsState>(
-        builder: (context, state) {
-          if (state is TopicsLoaded) {
-            return Stack(children: [
+    return BlocBuilder<TopicsBloc, TopicsState>(
+      builder: (context, state) {
+        if (state is TopicsInitial) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is TopicsLoaded) {
+          return GestureDetector(
+            onTap: () {
+              context.read<TopicsBloc>().add(ChooseSettingsForQuiz(
+                  globalPosition: state.globalPosition,
+                  index: state.index,
+                  localPosition: state.localPosition,
+                  settingsOpen: false));
+            },
+            child: Stack(children: [
               CustomScrollView(
                 controller: _controller,
                 slivers: [
                   SliverAppBar(
+                    automaticallyImplyLeading: false,
                     title: Center(
                         child: Text(
                       "Topic",
@@ -122,16 +137,20 @@ class _TopicScreenState extends State<TopicScreen> with TickerProviderStateMixin
                   TopicGridView()
                 ],
               ),
-              quizSettings(state.selectedTopic, state.localPosition,
-                  state.globalPosition, state.index)
-            ]);
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
+              quizSettings(
+                  state.selectedTopic,
+                  state.localPosition,
+                  state.globalPosition,
+                  state.index,
+                  state.topics.elementAt(state.index).name)
+            ]),
+          );
+        } else {
+          return const Center(
+            child: Text("Something went wrong"),
+          );
+        }
+      },
     );
   }
 }

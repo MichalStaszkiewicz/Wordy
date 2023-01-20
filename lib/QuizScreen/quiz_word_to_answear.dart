@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
+
 class QuizWordToAnswear extends StatelessWidget {
- QuizWordToAnswear({required this.word});
- String word;
+  QuizWordToAnswear({required this.word});
+  String word;
   @override
   Widget build(BuildContext context) {
     return Container(
-      
-    
       width: 200,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -19,7 +18,12 @@ class QuizWordToAnswear extends StatelessWidget {
           ),
         ],
       ),
-      child: Center(child: Text(word,style: Theme.of(context).textTheme.headline5,),),
+      child: Center(
+        child: Text(
+          word,
+          style: Theme.of(context).textTheme.headline5,
+        ),
+      ),
     );
   }
 }

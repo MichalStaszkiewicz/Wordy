@@ -6,3 +6,13 @@ abstract class UserSettingsAndPreferencesEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+class LoadUserDataAndPreferences extends UserSettingsAndPreferencesEvent{
+LoadUserDataAndPreferences();
+
+
+}
+class CreateLocalDatabase extends UserSettingsAndPreferencesEvent{
+CreateLocalDatabase();
+
+
+}

@@ -10,14 +10,12 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  void print_something() {
-    print("something");
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        
         title: Center(
           child: Text(
             "Settings",
@@ -68,7 +66,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 alignment: Alignment.bottomLeft,
                                 child: Text(
                                   "Interface language",
-                                  style: Theme.of(context).textTheme!.subtitle1,
+                                  style: Theme.of(context).textTheme.subtitle1,
                                 )),
                             Text(
                               "Use this option if you want to change interface language",
