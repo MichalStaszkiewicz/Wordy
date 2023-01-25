@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wordy/TopicScreen/topic_screen.dart';
-import 'package:wordy/bloc/topics/topics_bloc.dart';
-import 'package:wordy/bloc/vocabulary/vocabulary_bloc.dart';
-import 'package:wordy/home_page.dart';
+import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
+import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
+import 'package:wordy/presentation/screens/topic_screen.dart';
 
-import 'Bloc/user_settings_and_preferences/user_settings_and_preferences_bloc.dart';
+import 'package:wordy/presentation/home_page.dart';
+import 'package:wordy/presentation/Bloc/user_settings_and_preferences/user_settings_and_preferences_bloc.dart';
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

@@ -1,59 +1,142 @@
+import 'dart:math';
+
 import 'package:sqflite/sqflite.dart';
+import 'package:wordy/domain/models/word.dart';
+
+import '../domain/models/quiz_question.dart';
 
 class Utility {
   Utility();
-  Map<String, String> convertCurrentCourseName(String courseName) {
-    Map<String, String> map = {};
-    String courseNameTable = "";
-    String languageThatUserWillLearnFrom = "";
-    String languageToLearn = "";
-    bool space = false;
-
-    for (int i = 0; i < courseName.length; i++) {
-      if (courseName[i] != " ") {
-        courseNameTable += courseName[i];
-        if (space == false) {
-          languageThatUserWillLearnFrom += courseName[i];
-        } else {
-          languageToLearn += courseName[i];
-        }
+ List<QuizQuestion> createListOfQuestions(List<Word> words,
+      String languageToLearn, String languageThatUserWillLearnFrom) {
+    List<QuizQuestion> questions = [];
+    for (int i = 0; i < words.length; i++) {
+      Random random = Random();
+      if (questions.length == 20) {
+        break;
       }
-      if (courseName[i] == " ") {
-        courseNameTable += "To";
-        space = true;
+      if (languageToLearn.toLowerCase() == "english" &&
+          languageThatUserWillLearnFrom.toLowerCase() == "polish") {
+        var answers = <String>{};
+        while (answers.length < 4) {
+          var randomWord = words[random.nextInt(words.length)].polish;
+          if (!answers.contains(randomWord)) {
+            answers.add(randomWord);
+          }
+        }
+        List<String> answersList = answers.toList();
+        var correctAnswerIndex = random.nextInt(4);
+        var correctAnswer = words[i].polish;
+        answersList[correctAnswerIndex] = correctAnswer;
+
+        questions.add(QuizQuestion(
+            answer: words[i].polish,
+            questionOptions: answersList,
+            question: words[i].english,
+            correct_answer_index: correctAnswerIndex));
+      }
+      if (languageToLearn.toLowerCase() == "spanish" &&
+          languageThatUserWillLearnFrom.toLowerCase() == "polish") {
+        var answers = <String>{};
+        while (answers.length < 4) {
+          var randomWord = words[random.nextInt(words.length)].polish;
+          if (!answers.contains(randomWord)) {
+            answers.add(randomWord);
+          }
+        }
+        List<String> answersList = answers.toList();
+        var correctAnswerIndex = random.nextInt(4);
+        var correctAnswer = words[i].polish;
+        answersList[correctAnswerIndex] = correctAnswer;
+
+        questions.add(QuizQuestion(
+            answer: words[i].polish,
+            questionOptions: answersList,
+            question: words[i].spanish,
+            correct_answer_index: correctAnswerIndex));
+      }
+      if (languageToLearn.toLowerCase() == "french" &&
+          languageThatUserWillLearnFrom.toLowerCase() == "polish") {
+        var answers = <String>{};
+        while (answers.length < 4) {
+          var randomWord = words[random.nextInt(words.length)].polish;
+          if (!answers.contains(randomWord)) {
+            answers.add(randomWord);
+          }
+        }
+        List<String> answersList = answers.toList();
+        var correctAnswerIndex = random.nextInt(4);
+        var correctAnswer = words[i].polish;
+        answersList[correctAnswerIndex] = correctAnswer;
+
+        questions.add(QuizQuestion(
+            answer: words[i].polish,
+            questionOptions: answersList,
+            question: words[i].french,
+            correct_answer_index: correctAnswerIndex));
+      }
+      if (languageToLearn.toLowerCase() == "french" &&
+          languageThatUserWillLearnFrom.toLowerCase() == "english") {
+        var answers = <String>{};
+        while (answers.length < 4) {
+          var randomWord = words[random.nextInt(words.length)].polish;
+          if (!answers.contains(randomWord)) {
+            answers.add(randomWord);
+          }
+        }
+        List<String> answersList = answers.toList();
+        var correctAnswerIndex = random.nextInt(4);
+        var correctAnswer = words[i].english;
+        answersList[correctAnswerIndex] = correctAnswer;
+
+        questions.add(QuizQuestion(
+            answer: words[i].english,
+            questionOptions: answersList,
+            question: words[i].french,
+            correct_answer_index: correctAnswerIndex));
+      }
+      if (languageToLearn.toLowerCase() == "spanish" &&
+          languageThatUserWillLearnFrom.toLowerCase() == "english") {
+        var answers = <String>{};
+        while (answers.length < 4) {
+          var randomWord = words[random.nextInt(words.length)].polish;
+          if (!answers.contains(randomWord)) {
+            answers.add(randomWord);
+          }
+        }
+        List<String> answersList = answers.toList();
+        var correctAnswerIndex = random.nextInt(4);
+        var correctAnswer = words[i].english;
+        answersList[correctAnswerIndex] = correctAnswer;
+
+        questions.add(QuizQuestion(
+            answer: words[i].english,
+            questionOptions: answersList,
+            question: words[i].spanish,
+            correct_answer_index: correctAnswerIndex));
+      }
+      if (languageToLearn.toLowerCase() == "polish" &&
+          languageThatUserWillLearnFrom.toLowerCase() == "english") {
+        var answers = <String>{};
+        while (answers.length < 4) {
+          var randomWord = words[random.nextInt(words.length)].polish;
+          if (!answers.contains(randomWord)) {
+            answers.add(randomWord);
+          }
+        }
+        List<String> answersList = answers.toList();
+        var correctAnswerIndex = random.nextInt(4);
+        var correctAnswer = words[i].english;
+        answersList[correctAnswerIndex] = correctAnswer;
+
+        questions.add(QuizQuestion(
+            answer: words[i].english,
+            questionOptions: answersList,
+            question: words[i].polish,
+            correct_answer_index: correctAnswerIndex));
       }
     }
-    map.addAll({
-      "courseNameTable": courseNameTable,
-      "languageThatUserWillLearnFrom": languageThatUserWillLearnFrom,
-      "languageToLearn": languageToLearn
-    });
-    return map;
-  }
 
-  void createDatabase() async {
-    String databasePath = await getDatabasesPath();
-    String path = "$databasePath/wordyDB.db/";
-    Database database =
-        await openDatabase(path, version: 1, onCreate: (db, version) async {
-      await db.execute(
-          'CREATE TABLE EnglishToPolish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT, learned INTEGER)');
-      await db.execute(
-          'CREATE TABLE EnglishToChinese (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT, learned INTEGER)');
-      await db.execute(
-          'CREATE TABLE EnglishToSpanish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT, learned INTEGER)');
-      await db.execute(
-          'CREATE TABLE PolishToEnglish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT, learned INTEGER)');
-      await db.execute(
-          'CREATE TABLE PolishToChinese (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT, learned INTEGER)');
-      await db.execute(
-          'CREATE TABLE PolishToSpanish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT, learned INTEGER)');
-      await db.execute(
-          'CREATE TABLE profile (id INTEGER PRIMARY KEY,currentCourse TEXT, daysStreak INTEGER, learnedWords INTEGER, finishedTopics INTEGER, achievements INTEGER, themeMode TEXT, interfaceLanguage INTEGER, EnglishPolish INTEGER,EnglishChinese INTEGER, EnglishSpanish INTEGER, PolishEnglish INTEGER, PolishChinese INTEGER, PolishSpanish INTEGER)');
-    });
-    int id = await database.rawInsert(
-        'INSERT INTO profile (currentCourse, daysStreak, learnedWords, finishedTopics, achievements, themeMode, interfaceLanguage, EnglishPolish, EnglishChinese, EnglishSpanish, PolishEnglish, PolishChinese, PolishSpanish) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
-        ['Polish English', 0, 0, 0, 0, 'light', 'Polish', 0, 0, 0, 1, 0, 0]);
-    print("Successfully added record into profile with id: $id");
+    return questions;
   }
 }
