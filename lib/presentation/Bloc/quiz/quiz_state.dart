@@ -21,7 +21,7 @@ class QuizLoaded extends QuizState {
   final List<QuizQuestion> questions;
   bool selected;
   int index;
-  List<String> correct;
+  List<Course> correct;
   List<int> question_answer_state;
 
   @override

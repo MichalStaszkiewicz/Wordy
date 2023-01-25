@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:wordy/Utility/utility.dart';
+import 'package:wordy/domain/models/course.dart';
 
 import '../../../domain/logic/quiz_logic.dart';
 import '../../../domain/models/quiz_question.dart';
@@ -27,22 +28,23 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       if (state is QuizLoaded) {
         final state = this.state as QuizLoaded;
 
-        List<String> list = state.correct.toList();
-        List<int> modified_question_answer_state = [0, 0, 0, 0];
+        List<Course> list = state.correct.toList();
+        List<int> modifiedQuestionAnswerState = [0, 0, 0, 0];
         if (event.index == state.questions[state.index].correct_answer_index) {
-          modified_question_answer_state[event.index] = 1;
+          modifiedQuestionAnswerState[event.index] = 1;
 
-          list.add(state.questions[state.index].question);
+         
+            list.add(Course(translation: state.questions[state.index].answer, word:state.questions[state.index].question));
         } else {
-          modified_question_answer_state[
+          modifiedQuestionAnswerState[
               state.questions[state.index].correct_answer_index] = 1;
-          modified_question_answer_state[event.index] = 2;
+          modifiedQuestionAnswerState[event.index] = 2;
         }
         emit(QuizLoaded(
           questions: state.questions,
           index: state.index,
           selected: true,
-          question_answer_state: modified_question_answer_state,
+          question_answer_state: modifiedQuestionAnswerState,
           correct: list,
         ));
       }

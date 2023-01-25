@@ -45,6 +45,7 @@ class QuizScreenQuestions extends StatelessWidget {
                   child: QuizNextButton(function: () {
                     context.read<QuizBloc>().add(LoadNextQuestion());
                     if (index == questions.length - 2) {
+                      
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: ((context) => QuizFinishScreen(
                                 correct: state.correct.length,

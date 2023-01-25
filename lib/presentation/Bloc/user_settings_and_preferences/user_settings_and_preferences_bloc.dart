@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:wordy/Utility/utility.dart';
+import 'package:wordy/data/local/local_repository_implementation.dart';
 
 import '../../../data/local/local_database.dart';
 
@@ -13,12 +14,22 @@ class UserSettingsAndPreferencesBloc extends Bloc<
   UserSettingsAndPreferencesBloc()
       : super(UserSettingsAndPreferencesInitial()) {
     loadUserData();
+    updateUserLearnedWords();
   }
   void loadUserData() {
     on<LoadUserDataAndPreferences>((event, emit) {
-      LocalDatabase localDB = LocalDatabase();
-      localDB.setupDatabase();
+      LocalRepository localRepository = LocalRepository();
+      localRepository.setupDatabase();
       emit(UserSettingsAndPreferencesLoaded());
     });
+  }
+  void updateUserLearnedWords(){
+on<UpdateLearnedWords>((event, emit) {
+
+
+
+});
+
+    
   }
 }
