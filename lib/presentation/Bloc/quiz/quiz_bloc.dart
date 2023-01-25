@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:wordy/Utility/utility.dart';
+import 'package:wordy/data/local/local_repository_implementation.dart';
 import 'package:wordy/domain/models/course.dart';
 
 import '../../../domain/logic/quiz_logic.dart';
@@ -22,6 +23,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     reviewWords();
     nextQuestion();
     selectAnswer();
+    updateLearnedWords();
   }
   void selectAnswer() {
     on<SelectAnswer>((event, emit) {
@@ -33,8 +35,10 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
         if (event.index == state.questions[state.index].correct_answer_index) {
           modifiedQuestionAnswerState[event.index] = 1;
 
-         
-            list.add(Course(translation: state.questions[state.index].answer, word:state.questions[state.index].question));
+          list.add(Course(
+              translation: state.questions[state.index].answer,
+              word: state.questions[state.index].question,
+              topic: state.topic));
         } else {
           modifiedQuestionAnswerState[
               state.questions[state.index].correct_answer_index] = 1;
@@ -46,6 +50,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           selected: true,
           question_answer_state: modifiedQuestionAnswerState,
           correct: list,
+          topic: state.topic,
         ));
       }
     });
@@ -61,8 +66,17 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           selected: false,
           question_answer_state: [0, 0, 0, 0],
           correct: state.correct,
+          topic: state.topic,
         ));
       }
+    });
+  }
+
+  void updateLearnedWords() {
+    on<UpdateLearnedWords>((event, emit) {
+      LocalRepository localRepository = LocalRepository();
+      localRepository.insertLearnedWordsToDatabase(event.words);
+      emit(QuizCompleted());
     });
   }
 
@@ -76,7 +90,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           index: 0,
           selected: false,
           question_answer_state: [0, 0, 0, 0],
-          correct: []));
+          correct: [],
+          topic: event.topic));
     });
   }
 
@@ -90,7 +105,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           index: 0,
           selected: false,
           question_answer_state: [0, 0, 0, 0],
-          correct: []));
+          correct: [],
+          topic: event.topic));
     });
   }
 }

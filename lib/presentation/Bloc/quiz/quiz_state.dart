@@ -17,16 +17,16 @@ class QuizLoaded extends QuizState {
       required this.index,
       required this.selected,
       required this.question_answer_state,
-      required this.correct});
+      required this.correct,required this.topic});
   final List<QuizQuestion> questions;
   bool selected;
   int index;
   List<Course> correct;
   List<int> question_answer_state;
-
+  final String topic;
   @override
   List<Object> get props =>
-      [questions, index, selected, question_answer_state, correct];
+      [questions, index, selected, question_answer_state, correct,topic];
 }
 
 class QuizCompleted extends QuizState {

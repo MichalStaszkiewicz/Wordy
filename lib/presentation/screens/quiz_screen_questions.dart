@@ -8,7 +8,9 @@ import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 
 import '../../domain/models/quiz_question.dart';
+import '../Bloc/user_settings_and_preferences/user_settings_and_preferences_bloc.dart';
 import '../Widgets/quiz_next_button.dart';
+
 class QuizScreenQuestions extends StatelessWidget {
   QuizScreenQuestions(
       {required this.topic, required this.questions, required this.index});
@@ -43,15 +45,20 @@ class QuizScreenQuestions extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: QuizNextButton(function: () {
-                    context.read<QuizBloc>().add(LoadNextQuestion());
-                    if (index == questions.length - 2) {
-                      
+                    if (index == questions.length - 1) {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: ((context) => QuizFinishScreen(
-                                correct: state.correct.length,
-                                maximum: state.questions.length,
-                                topic: topic,
+                          builder: ((context) => BlocProvider(
+                                create: (context) => QuizBloc()
+                                  ..add(UpdateLearnedWords(
+                                      words: qstate.correct)),
+                                child: QuizFinishScreen(
+                                  correct: state.correct.length,
+                                  maximum: state.questions.length,
+                                  topic: topic,
+                                ),
                               ))));
+                    } else {
+                      context.read<QuizBloc>().add(LoadNextQuestion());
                     }
                   }),
                 )

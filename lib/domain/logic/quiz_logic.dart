@@ -34,7 +34,8 @@ class QuizLogic {
     for (int i = 0; i < filtredWords.length; i++) {
       if (!userLearned.contains(Course(
           translation: filtredWords[i].translation,
-          word: filtredWords[i].word))) {
+          word: filtredWords[i].word, topic: filtredWords[i].topic))) {
+            print("Found word that user dont know yet its : "  + filtredWords[i].word);
         result.add(filtredWords[i]);
       }
     }

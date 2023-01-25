@@ -21,9 +21,7 @@ class LocalDatabase {
     return _db;
   }
 
-  
-
-  void close() {
-    _db.close();
+  void close() async {
+    await _db.close();
   }
 }

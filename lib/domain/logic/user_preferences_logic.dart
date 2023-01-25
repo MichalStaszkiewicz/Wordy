@@ -13,9 +13,13 @@ class UserPreferencesLogic {
     List<Course> userLearnedWordsAlready = await localRepository
         .getUserLearnedWordies()
         .then((value) => value.map((e) => e.toDomain()).toList());
+    List<Course> result = [];
+   
     for (Course word in wordsToInsert) {
-
-
+      if (!userLearnedWordsAlready.contains(word)) {
+        result.add(word);
+      }
+      localRepository.insertLearnedWordsToDatabase(result);
 
     }
   }

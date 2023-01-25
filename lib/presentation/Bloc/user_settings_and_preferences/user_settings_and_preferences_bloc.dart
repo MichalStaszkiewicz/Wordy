@@ -5,6 +5,8 @@ import 'package:wordy/Utility/utility.dart';
 import 'package:wordy/data/local/local_repository_implementation.dart';
 
 import '../../../data/local/local_database.dart';
+import '../../../domain/logic/user_preferences_logic.dart';
+import '../../../domain/models/course.dart';
 
 part 'user_settings_and_preferences_event.dart';
 part 'user_settings_and_preferences_state.dart';
@@ -14,7 +16,7 @@ class UserSettingsAndPreferencesBloc extends Bloc<
   UserSettingsAndPreferencesBloc()
       : super(UserSettingsAndPreferencesInitial()) {
     loadUserData();
-    updateUserLearnedWords();
+   
   }
   void loadUserData() {
     on<LoadUserDataAndPreferences>((event, emit) {
@@ -23,13 +25,6 @@ class UserSettingsAndPreferencesBloc extends Bloc<
       emit(UserSettingsAndPreferencesLoaded());
     });
   }
-  void updateUserLearnedWords(){
-on<UpdateLearnedWords>((event, emit) {
 
 
-
-});
-
-    
-  }
 }

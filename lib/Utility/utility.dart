@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:sqflite/sqflite.dart';
@@ -16,7 +17,8 @@ class Utility {
     for (Word word in words) {
       if (languageToLearn.toLowerCase() == "english" &&
           languageThatUserWillLearnFrom.toLowerCase() == "polish") {
-        result.add(Course(translation: word.english, word: word.polish));
+        result.add(Course(
+            translation: word.english, word: word.polish, topic: word.topic));
       }
     }
     return result;
@@ -37,29 +39,43 @@ class Utility {
 
   List<QuizQuestion> createListOfQuestions(List<Course> words) {
     List<QuizQuestion> questions = [];
+    HashSet<String> usedWords = HashSet<String>();
     for (int i = 0; i < words.length; i++) {
       Random random = Random();
       if (questions.length == 20) {
         break;
       }
 
-      var answers = <String>{};
-      while (answers.length < 4) {
+      while (usedWords.length < 4) {
         var randomWord = words[random.nextInt(words.length)].word;
-        if (!answers.contains(randomWord)) {
-          answers.add(randomWord);
+        if (!usedWords.contains(randomWord)) {
+          usedWords.add(randomWord);
         }
       }
-      List<String> answersList = answers.toList();
-      var correctAnswerIndex = random.nextInt(4);
+      List<String> answersList = usedWords.toList();
+      var correctAnswerIndex = 0;
       var correctAnswer = words[i].word;
-      answersList[correctAnswerIndex] = correctAnswer;
+     
+      if (usedWords.contains(correctAnswer)) {
+    
+        for (int i = 0; i < usedWords.length; i++) {
+          if (usedWords.elementAt(i) == correctAnswer) {
+            answersList[i] = correctAnswer;
+            correctAnswerIndex = i;
+          }
+        }
+      } else {
+        correctAnswerIndex = random.nextInt(4);
+        answersList[correctAnswerIndex] = correctAnswer;
+      }
 
       questions.add(QuizQuestion(
           answer: words[i].word,
           questionOptions: answersList,
           question: words[i].translation,
           correct_answer_index: correctAnswerIndex));
+
+      usedWords.remove(correctAnswer);
     }
 
     return questions;

@@ -19,7 +19,7 @@ ServerDatabaseConnection connection = ServerDatabaseConnection();
             polish: queryResult.elementAt(i).fields['Polish'],
             english: queryResult.elementAt(i).fields['English'],
             french: queryResult.elementAt(i).fields['French'],
-            spanish: queryResult.elementAt(i).fields['Spanish']));
+            spanish: queryResult.elementAt(i).fields['Spanish'], topic: topic));
       }
       connection.close();
       return words;

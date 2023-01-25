@@ -5,9 +5,9 @@ import 'package:wordy/data/local/local_database.dart';
 
 import 'package:wordy/domain/repositiories/local_database_interface_repository.dart';
 
+import '../../domain/models/course.dart';
+
 class LocalRepository implements LocalInterface {
-
-
   @override
   void createDatabase() async {
     String databasePath = await getDatabasesPath();
@@ -33,10 +33,11 @@ class LocalRepository implements LocalInterface {
         'INSERT INTO profile (currentCourse, daysStreak, learnedWords, finishedTopics, achievements, themeMode, interfaceLanguage, EnglishPolish, EnglishChinese, EnglishSpanish, PolishEnglish, PolishChinese, PolishSpanish) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
         ['English', 0, 0, 0, 0, 'light', 'Polish', 0, 0, 0, 1, 0, 0]);
   }
-@override
+
+  @override
   Future<Map<String, String>> getCurrentCourseInformation() async {
     LocalDatabase localDB = LocalDatabase();
-  Utility utility = Utility();
+    Utility utility = Utility();
     var connection = await localDB.connect();
 
     var profile = await connection.rawQuery("SELECT * FROM profile");
@@ -46,8 +47,23 @@ class LocalRepository implements LocalInterface {
         profile.elementAt(0)['interfaceLanguage'].toString();
     Map<String, String> map =
         utility.convertCurrentCourseName(currentCourse, interfaceLanguage);
-  
+
     return map;
+  }
+
+  @override
+  void insertLearnedWordsToDatabase(List<Course> words) async {
+    LocalDatabase localDB = LocalDatabase();
+    Map<String, String> userInformations = await getCurrentCourseInformation();
+    String tableName = userInformations['courseNameTable']!;
+    var connection = await localDB.connect();
+    for (Course word in words) {
+      await connection.execute(
+          'INSERT INTO $tableName (word, translation, topic) VALUES (?,?,?)',
+          [word.translation, word.word, word.topic]);
+    }
+
+    await connection.close();
   }
 
   @override
@@ -62,10 +78,12 @@ class LocalRepository implements LocalInterface {
 
       var learnedWords =
           await db.rawQuery("SELECT * FROM ${map['courseNameTable']}");
+
       for (int i = 0; i < learnedWords.length; i++) {
         words.add(CourseDto(
             translation: learnedWords[i]["translation"].toString(),
-            word: learnedWords[i]["word"].toString()));
+            word: learnedWords[i]["word"].toString(),
+            topic: learnedWords[i]['topic'].toString()));
       }
     }
     await db.close();
@@ -83,12 +101,13 @@ class LocalRepository implements LocalInterface {
     if (currentCourse.isNotEmpty) {
       Map<String, String> map = await getCurrentCourseInformation();
 
-      var learnedWords = await db.rawQuery(
-          "SELECT * FROM ${map['courseNameTable']} WHERE topic =$topic");
+  var learnedWords = await db.rawQuery(
+          "SELECT * FROM ${map['courseNameTable']} WHERE topic = \'$topic\'");
       for (int i = 0; i < learnedWords.length; i++) {
         words.add(CourseDto(
             translation: learnedWords[i]["translation"].toString(),
-            word: learnedWords[i]["word"].toString()));
+            word: learnedWords[i]["word"].toString(),
+            topic: learnedWords[i]['topic'].toString()));
       }
     }
     await db.close();

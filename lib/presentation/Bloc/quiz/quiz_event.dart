@@ -23,6 +23,12 @@ class LoadQuestionsForReview extends QuizEvent {
   List<Object> get props => [topic];
 }
 
+class UpdateLearnedWords extends QuizEvent {
+  UpdateLearnedWords({required this.words});
+  List<Course> words;
+  @override
+  List<Object> get props => [];
+}
 
 class SelectAnswer extends QuizEvent{
 SelectAnswer({required this.index});
