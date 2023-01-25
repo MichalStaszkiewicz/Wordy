@@ -22,7 +22,7 @@ class QuizScreenQuestions extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<QuizBloc, QuizState>(
       builder: (context, qstate) {
-        final state = qstate as QuizLoaded;
+        final state = qstate as LearningQuizLoaded;
         return Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

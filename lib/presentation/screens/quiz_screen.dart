@@ -4,9 +4,7 @@ import 'package:wordy/presentation/Widgets/exit_dialog.dart';
 
 import 'package:wordy/presentation/screens/quiz_screen_questions.dart';
 
-
 import '../Bloc/quiz/quiz_bloc.dart';
-
 
 class QuizScreen extends StatefulWidget {
   QuizScreen({required this.topic});
@@ -49,12 +47,34 @@ class _QuizScreenState extends State<QuizScreen> {
             if (state is QuizInitial) {
               return const Center(child: CircularProgressIndicator());
             }
-            if (state is QuizLoaded) {
-              return QuizScreenQuestions(
-                questions: state.questions,
-                index: state.index,
-                topic: widget.topic,
-              );
+            if (state is LearningQuizLoaded) {
+              if (state.questions.isEmpty) {
+                return Center(
+                  child: Text(
+                      'Congratulations you finished topic: ${widget.topic}'),
+                );
+              } else {
+                return QuizScreenQuestions(
+                  questions: state.questions,
+                  index: state.index,
+                  topic: widget.topic,
+                );
+              }
+            }
+
+            if (state is ReviewQuizLoaded) {
+              if (state.questions.isEmpty) {
+                return Center(
+                  child: Text(
+                      'You have no words to review'),
+                );
+              } else {
+                return QuizScreenQuestions(
+                  questions: state.questions,
+                  index: state.index,
+                  topic: widget.topic,
+                );
+              }
             } else {
               return const Center(
                 child: Text("Something went wrong"),

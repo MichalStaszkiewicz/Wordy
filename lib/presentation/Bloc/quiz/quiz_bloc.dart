@@ -27,8 +27,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   }
   void selectAnswer() {
     on<SelectAnswer>((event, emit) {
-      if (state is QuizLoaded) {
-        final state = this.state as QuizLoaded;
+      if (state is LearningQuizLoaded) {
+        final state = this.state as LearningQuizLoaded;
 
         List<Course> list = state.correct.toList();
         List<int> modifiedQuestionAnswerState = [0, 0, 0, 0];
@@ -44,7 +44,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
               state.questions[state.index].correct_answer_index] = 1;
           modifiedQuestionAnswerState[event.index] = 2;
         }
-        emit(QuizLoaded(
+        emit(LearningQuizLoaded(
           questions: state.questions,
           index: state.index,
           selected: true,
@@ -58,9 +58,9 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
   void nextQuestion() {
     on<LoadNextQuestion>((event, emit) {
-      if (state is QuizLoaded) {
-        final state = this.state as QuizLoaded;
-        emit(QuizLoaded(
+      if (state is LearningQuizLoaded) {
+        final state = this.state as LearningQuizLoaded;
+        emit(LearningQuizLoaded(
           questions: state.questions,
           index: state.index + 1,
           selected: false,
@@ -85,7 +85,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       QuizLogic logic = QuizLogic();
       List<QuizQuestion> questions =
           await logic.createLearningQuiz(event.topic);
-      emit(QuizLoaded(
+      emit(LearningQuizLoaded(
           questions: questions,
           index: 0,
           selected: false,
@@ -100,7 +100,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       QuizLogic logic = QuizLogic();
 
       List<QuizQuestion> questions = await logic.createReviewQuiz(event.topic);
-      emit(QuizLoaded(
+      emit(ReviewQuizLoaded(
           questions: questions,
           index: 0,
           selected: false,
