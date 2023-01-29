@@ -7,7 +7,7 @@ import 'package:wordy/domain/models/quiz_question.dart';
 
 import '../../Utility/utility.dart';
 import '../../data/network/network_repository_implementation.dart';
-import '../models/course.dart';
+import '../models/course_entry.dart';
 import '../models/word.dart';
 
 class QuizLogic {
@@ -18,21 +18,21 @@ class QuizLogic {
     ServerDatabaseOperations remote = ServerDatabaseOperations();
 
     List<Word> allWords = [];
-    List<Course> userLearned = await local
+    List<CourseEntry> userLearned = await local
         .getUserLearnedWordies()
         .then((value) => value.map((element) => element.toDomain()).toList());
     allWords = await remote
-        .getWordies(topic)
+        .getWordiesByTopic(topic)
         .then((value) => value.map((element) => element.toDomain()).toList());
 
-    Map<String, String> map = await local.getCurrentCourseInformation();
+    Map<String, String> map = await local.getUserData();
 
-    List<Course> filtredWords = utility.convertWordToCourse(
+    List<CourseEntry> filtredWords = utility.convertWordToCourse(
         allWords, map['courseName'] ?? "", map['interfaceLanguage'] ?? "");
-    List<Course> result = [];
+    List<CourseEntry> result = [];
 
     for (int i = 0; i < filtredWords.length; i++) {
-      if (!userLearned.contains(Course(
+      if (!userLearned.contains(CourseEntry(
           translation: filtredWords[i].translation,
           word: filtredWords[i].word, topic: filtredWords[i].topic))) {
             print("Found word that user dont know yet its : "  + filtredWords[i].word);
@@ -51,9 +51,9 @@ class QuizLogic {
     LocalRepository localRepository = LocalRepository();
 
     Map<String, String> map =
-        await localRepository.getCurrentCourseInformation();
+        await localRepository.getUserData();
 
-    List<Course> learnedWords = await localRepository
+    List<CourseEntry> learnedWords = await localRepository
         .getUserLearnedWordiesWithSpecificTopic(topic)
         .then((value) => value.map((e) => e.toDomain()).toList());
 

@@ -1,13 +1,12 @@
-import 'package:equatable/equatable.dart';
+import 'course_entry.dart';
 
-class Course extends Equatable{
-  Course({required this.translation,required this.word,required this.topic});
-  String word;
-  String translation;
-  String topic;
-  
-  @override
+class Course{
+Course({required this.entries,required this.courseName,required this.maximum,required this.topicsMaximum,required this.current,required this.topicsCurrent});
+List<CourseEntry> entries;
+int maximum;
+int current;
+String courseName;
+Map<String,int> topicsMaximum;
+Map<String,int> topicsCurrent;
 
-  List<Object?> get props => [word,topic,translation];
- 
 }

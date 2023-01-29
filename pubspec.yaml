@@ -43,8 +43,6 @@ dependencies:
   sqflite: ^2.2.2
   dio: ^4.0.6
   mysql1: ^0.20.0
- 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

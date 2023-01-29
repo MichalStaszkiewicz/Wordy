@@ -1,13 +1,64 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:wordy/Utility/utility.dart';
-import 'package:wordy/data/dto/course_dto.dart';
+import 'package:wordy/data/dto/course_entry_dto.dart';
 import 'package:wordy/data/local/local_database.dart';
 
 import 'package:wordy/domain/repositiories/local_database_interface_repository.dart';
+import 'package:wordy/shared/consts.dart';
 
 import '../../domain/models/course.dart';
+import '../../domain/models/course_entry.dart';
+import '../dto/course_dto.dart';
+import '../dto/word_dto.dart';
+import '../network/network_repository_implementation.dart';
 
 class LocalRepository implements LocalInterface {
+  Map<String, List<String>> availableCourses() {
+    Map<String, List<String>> result = {};
+
+    result.addAll({
+      "Polish": ["English", "French", "Spanish"],
+      "English": ["Polish", "French", "Spanish"],
+    });
+    return result;
+  }
+
+  Future<List<CourseDto>> getUserWordsLearned() async {
+    ServerDatabaseOperations remote = ServerDatabaseOperations();
+    Map<String, List<String>> avCourses = availableCourses();
+    Map<String, String> userData = await getUserData();
+    Utility utility = Utility();
+
+    List<WordDto> allWords = await remote.getAllWordies();
+    List<CourseDto> allCourses = [];
+    for (String courseName in avCourses[userData['interfaceLanguage']]!) {
+      Map<String, String> courseData = utility.convertCurrentCourseName(
+          courseName, userData['interfaceLanguage']!);
+      List<CourseEntryDto> entries =
+          await getUserLearnedWordiesWithSpecificNameTable(
+              courseData['courseNameTable']!);
+      Map<String, int> topicsMaximum = {};
+      Map<String, int> topicsCurrent = {};
+      for (String topic in topics) {
+        topicsMaximum
+            .addAll({topic: await remote.getWordiesCountByTopic(topic)});
+        topicsCurrent.addAll({
+          topic: await getLearnedWordiesCountByTopic(
+              topic, courseData['courseNameTable']!)
+        });
+      }
+      allCourses.add(CourseDto(
+          courseName: courseName,
+          entries: entries,
+          maximum: allWords.length,
+          topicsMaximum: topicsMaximum,
+          current: entries.length,
+          topicsCurrent: topicsMaximum));
+    }
+
+    return allCourses;
+  }
+
   @override
   void createDatabase() async {
     String databasePath = await getDatabasesPath();
@@ -35,7 +86,7 @@ class LocalRepository implements LocalInterface {
   }
 
   @override
-  Future<Map<String, String>> getCurrentCourseInformation() async {
+  Future<Map<String, String>> getUserData() async {
     LocalDatabase localDB = LocalDatabase();
     Utility utility = Utility();
     var connection = await localDB.connect();
@@ -52,12 +103,12 @@ class LocalRepository implements LocalInterface {
   }
 
   @override
-  void insertLearnedWordsToDatabase(List<Course> words) async {
+  void insertLearnedWordsToDatabase(List<CourseEntry> words) async {
     LocalDatabase localDB = LocalDatabase();
-    Map<String, String> userInformations = await getCurrentCourseInformation();
+    Map<String, String> userInformations = await getUserData();
     String tableName = userInformations['courseNameTable']!;
     var connection = await localDB.connect();
-    for (Course word in words) {
+    for (CourseEntry word in words) {
       await connection.execute(
           'INSERT INTO $tableName (word, translation, topic) VALUES (?,?,?)',
           [word.translation, word.word, word.topic]);
@@ -66,21 +117,39 @@ class LocalRepository implements LocalInterface {
     await connection.close();
   }
 
-  @override
-  Future<List<CourseDto>> getUserLearnedWordies() async {
+  Future<List<CourseEntryDto>> getUserLearnedWordiesWithSpecificNameTable(
+      String nameTable) async {
     LocalDatabase localdb = LocalDatabase();
     Database db = await localdb.connect();
-    List<CourseDto> words = [];
+    List<CourseEntryDto> words = [];
+
+    var learnedWords = await db.rawQuery("SELECT * FROM $nameTable");
+
+    for (int i = 0; i < learnedWords.length; i++) {
+      words.add(CourseEntryDto(
+          translation: learnedWords[i]["translation"].toString(),
+          word: learnedWords[i]["word"].toString(),
+          topic: learnedWords[i]['topic'].toString()));
+    }
+    await db.close();
+    return words;
+  }
+
+  @override
+  Future<List<CourseEntryDto>> getUserLearnedWordies() async {
+    LocalDatabase localdb = LocalDatabase();
+    Database db = await localdb.connect();
+    List<CourseEntryDto> words = [];
 
     var currentCourse = await db.rawQuery("SELECT currentCourse FROM profile");
     if (currentCourse.isNotEmpty) {
-      Map<String, String> map = await getCurrentCourseInformation();
+      Map<String, String> map = await getUserData();
 
       var learnedWords =
           await db.rawQuery("SELECT * FROM ${map['courseNameTable']}");
 
       for (int i = 0; i < learnedWords.length; i++) {
-        words.add(CourseDto(
+        words.add(CourseEntryDto(
             translation: learnedWords[i]["translation"].toString(),
             word: learnedWords[i]["word"].toString(),
             topic: learnedWords[i]['topic'].toString()));
@@ -91,20 +160,20 @@ class LocalRepository implements LocalInterface {
   }
 
   @override
-  Future<List<CourseDto>> getUserLearnedWordiesWithSpecificTopic(
+  Future<List<CourseEntryDto>> getUserLearnedWordiesWithSpecificTopic(
       String topic) async {
     LocalDatabase localdb = LocalDatabase();
     Database db = await localdb.connect();
-    List<CourseDto> words = [];
+    List<CourseEntryDto> words = [];
 
     var currentCourse = await db.rawQuery("SELECT currentCourse FROM profile");
     if (currentCourse.isNotEmpty) {
-      Map<String, String> map = await getCurrentCourseInformation();
+      Map<String, String> map = await getUserData();
 
-  var learnedWords = await db.rawQuery(
+      var learnedWords = await db.rawQuery(
           "SELECT * FROM ${map['courseNameTable']} WHERE topic = \'$topic\'");
       for (int i = 0; i < learnedWords.length; i++) {
-        words.add(CourseDto(
+        words.add(CourseEntryDto(
             translation: learnedWords[i]["translation"].toString(),
             word: learnedWords[i]["word"].toString(),
             topic: learnedWords[i]['topic'].toString()));
@@ -130,5 +199,18 @@ class LocalRepository implements LocalInterface {
       print("Database already exists at " + path + " + loading user data...");
     }
     await connection.close();
+  }
+
+  @override
+  Future<int> getLearnedWordiesCountByTopic(
+      String topic, String nameTable) async {
+    LocalDatabase localdb = LocalDatabase();
+    Database db = await localdb.connect();
+
+    var queryResult = await db
+        .rawQuery("SELECT COUNT(id) FROM $nameTable WHERE Topic = '$topic'");
+
+    await db.close();
+    return int.parse(queryResult[0]["COUNT(id)"].toString());
   }
 }

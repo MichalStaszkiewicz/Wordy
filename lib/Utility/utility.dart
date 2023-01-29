@@ -4,20 +4,20 @@ import 'dart:math';
 import 'package:sqflite/sqflite.dart';
 import 'package:wordy/domain/models/word.dart';
 
-import '../domain/models/course.dart';
+import '../domain/models/course_entry.dart';
 import '../domain/models/quiz_question.dart';
 
 class Utility {
   Utility();
 
-  List<Course> convertWordToCourse(List<Word> words, String languageToLearn,
+  List<CourseEntry> convertWordToCourse(List<Word> words, String languageToLearn,
       String languageThatUserWillLearnFrom) {
-    List<Course> result = [];
+    List<CourseEntry> result = [];
 
     for (Word word in words) {
       if (languageToLearn.toLowerCase() == "english" &&
           languageThatUserWillLearnFrom.toLowerCase() == "polish") {
-        result.add(Course(
+        result.add(CourseEntry(
             translation: word.english, word: word.polish, topic: word.topic));
       }
     }
@@ -37,7 +37,7 @@ class Utility {
     return map;
   }
 
-  List<QuizQuestion> createListOfQuestions(List<Course> words) {
+  List<QuizQuestion> createListOfQuestions(List<CourseEntry> words) {
     List<QuizQuestion> questions = [];
     HashSet<String> usedWords = HashSet<String>();
     for (int i = 0; i < words.length; i++) {

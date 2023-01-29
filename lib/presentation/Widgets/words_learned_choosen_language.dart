@@ -31,7 +31,7 @@ class _WordsLearnedChoosenLanguageState
           ),
         ),
       ),
-      body: StatisticsList(image: 'assets/dailyusage.png', label: 'Basic Conversations', navigation: null,),
+      body: StatisticsList(image: 'assets/dailyusage.png', label: 'Basic Conversation', navigation: null,),
     );
   }
 }

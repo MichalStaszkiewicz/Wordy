@@ -11,3 +11,12 @@ class LoadUserDataAndPreferences extends UserSettingsAndPreferencesEvent {
   LoadUserDataAndPreferences();
 }
 
+class LoadLearnedWords extends UserSettingsAndPreferencesEvent {
+  LoadLearnedWords();
+}
+
+class LoadLearnedWorsdWithSpecificCourse
+    extends UserSettingsAndPreferencesEvent {
+  LoadLearnedWorsdWithSpecificCourse({required this.course});
+  Course course;
+}

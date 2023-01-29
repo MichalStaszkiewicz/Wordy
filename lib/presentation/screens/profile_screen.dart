@@ -32,7 +32,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       image: 'assets/open-book.png',
       label: 'Learned words',
       statisticsCount: 7650,
-      navigation: const WordsLearnedScreen(),
+      navigation:  BlocProvider(
+        create: (context) => UserSettingsAndPreferencesBloc()..add(LoadLearnedWords()),
+        child: WordsLearnedScreen(),
+      ),
     ),
     StatisticsItem(
       image: 'assets/medal.png',

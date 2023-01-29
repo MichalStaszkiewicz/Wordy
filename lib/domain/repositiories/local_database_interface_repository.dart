@@ -1,14 +1,16 @@
 import 'package:wordy/domain/models/quiz_question.dart';
 
-import '../../data/dto/course_dto.dart';
+import '../../data/dto/course_entry_dto.dart';
 import '../../data/dto/word_dto.dart';
-import '../models/course.dart';
+import '../models/course_entry.dart';
 
 abstract class LocalInterface {
-  Future<List<CourseDto>> getUserLearnedWordies();
+  Future<List<CourseEntryDto>> getUserLearnedWordies();
   void createDatabase();
   void setupDatabase();
-  Future<List<CourseDto>> getUserLearnedWordiesWithSpecificTopic(String topic);
-  Future<Map<String, String>> getCurrentCourseInformation();
-  void insertLearnedWordsToDatabase(List<Course> words);
+  Future<List<CourseEntryDto>> getUserLearnedWordiesWithSpecificTopic(
+      String topic);
+  Future<Map<String, String>> getUserData();
+  Future<int> getLearnedWordiesCountByTopic(String topic,String tableName);
+  void insertLearnedWordsToDatabase(List<CourseEntry> words);
 }

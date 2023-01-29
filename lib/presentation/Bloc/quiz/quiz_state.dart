@@ -21,7 +21,7 @@ class LearningQuizLoaded extends QuizState {
   final List<QuizQuestion> questions;
   bool selected;
   int index;
-  List<Course> correct;
+  List<CourseEntry> correct;
   List<int> question_answer_state;
   final String topic;
   @override
@@ -43,7 +43,7 @@ class ReviewQuizLoaded extends QuizState {
   final List<QuizQuestion> questions;
   bool selected;
   int index;
-  List<Course> correct;
+  List<CourseEntry> correct;
   List<int> question_answer_state;
   final String topic;
   @override

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wordy/presentation/Bloc/user_settings_and_preferences/user_settings_and_preferences_bloc.dart';
 import 'package:wordy/presentation/Widgets/statistics_list.dart';
 import 'package:wordy/presentation/Widgets/words_learned_choosen_language.dart';
-
 
 class WordsLearnedScreen extends StatefulWidget {
   const WordsLearnedScreen({super.key});
@@ -30,7 +31,24 @@ class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
           ),
         ),
       ),
-      body: StatisticsList(image: 'assets/poland.png', label: 'Polish', navigation:  WordsLearnedChoosenLanguage(choosenLanguage: 'Polish',),),
+      body: BlocBuilder<UserSettingsAndPreferencesBloc,
+          UserSettingsAndPreferencesState>(
+        builder: (context, state) {
+          if (state is UserLearnedWordsLoaded) {
+            return StatisticsList(
+              image: 'assets/poland.png',
+              label: 'Polish',
+              navigation: WordsLearnedChoosenLanguage(
+                choosenLanguage: 'Polish',
+              ),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 }

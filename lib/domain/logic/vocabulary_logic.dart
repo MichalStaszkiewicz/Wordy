@@ -13,11 +13,11 @@ class VocabularyLogic {
     ServerDatabaseOperations server = ServerDatabaseOperations();
     LocalRepository localRepository = LocalRepository();
 
-    Map<String, String> map = await localRepository.getCurrentCourseInformation();
+    Map<String, String> map = await localRepository.getUserData();
     List<Word> words = await server
-        .getWordies(topic)
+        .getWordiesByTopic(topic)
         .then((value) => value.map((element) => element.toDomain()).toList());
-
+   
     Utility utility = Utility();
     List<QuizQuestion> questions = utility.createListOfQuestions(utility.convertWordToCourse(words, map['courseName']??"", map['interfaceLanguage']??""),
        );

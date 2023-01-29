@@ -25,7 +25,7 @@ class LoadQuestionsForReview extends QuizEvent {
 
 class UpdateLearnedWords extends QuizEvent {
   UpdateLearnedWords({required this.words});
-  List<Course> words;
+  List<CourseEntry> words;
   @override
   List<Object> get props => [];
 }
