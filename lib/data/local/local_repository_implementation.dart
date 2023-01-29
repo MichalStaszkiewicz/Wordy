@@ -23,6 +23,42 @@ class LocalRepository implements LocalInterface {
     return result;
   }
 
+  Future<int> countLearnedWordies() async {
+    Map<String, List<String>> avCourses = availableCourses();
+    Map<String, String> userData = await getUserData();
+    Utility utility = Utility();
+    int sum = 0;
+    for (String courseName in avCourses[userData['interfaceLanguage']]!) {
+      Map<String, String> courseData = utility.convertCurrentCourseName(
+          courseName, userData['interfaceLanguage']!);
+
+      sum += await getLearnedWordiesCount(courseData['courseNameTable']!);
+    }
+    return sum;
+  }
+
+  Future<int> countUserFinishedTopics() async {
+    ServerDatabaseOperations remote = ServerDatabaseOperations();
+    int result = 0;
+    Map<String, List<String>> avCourses = availableCourses();
+    Map<String, String> userData = await getUserData();
+    Utility utility = Utility();
+
+    for (String topic in topics) {
+      int remoteCount = await remote.getWordiesCountByTopic(topic);
+      for (String courseName in avCourses[userData['interfaceLanguage']]!) {
+        Map<String, String> courseData = utility.convertCurrentCourseName(
+            courseName, userData['interfaceLanguage']!);
+        int localCount = await getLearnedWordiesCountByTopic(
+            topic, courseData['courseNameTable']!);
+        if (remoteCount == localCount) {
+          result++;
+        }
+      }
+    }
+    return result;
+  }
+
   Future<List<CourseDto>> getUserWordsLearned() async {
     ServerDatabaseOperations remote = ServerDatabaseOperations();
     Map<String, List<String>> avCourses = availableCourses();
@@ -86,6 +122,14 @@ class LocalRepository implements LocalInterface {
   }
 
   @override
+  void updateUserProfile(String fieldToUpdate ,String value) async{
+
+    LocalDatabase localDB = LocalDatabase();
+    var connection = await localDB.connect();
+    await connection.rawQuery("UPDATE profile SET $fieldToUpdate = '$value' WHERE id = 1");
+
+  }
+  @override
   Future<Map<String, String>> getUserData() async {
     LocalDatabase localDB = LocalDatabase();
     Utility utility = Utility();
@@ -96,8 +140,10 @@ class LocalRepository implements LocalInterface {
 
     String interfaceLanguage =
         profile.elementAt(0)['interfaceLanguage'].toString();
+    String themeMode = profile.elementAt(0)['themeMode'].toString();
     Map<String, String> map =
         utility.convertCurrentCourseName(currentCourse, interfaceLanguage);
+    map.addAll({"themeMode": themeMode});
 
     return map;
   }
@@ -202,13 +248,24 @@ class LocalRepository implements LocalInterface {
   }
 
   @override
+  Future<int> getLearnedWordiesCount(String tableName) async {
+    LocalDatabase localdb = LocalDatabase();
+    Database db = await localdb.connect();
+
+    var queryResult = await db.rawQuery("SELECT COUNT(id) FROM $tableName");
+
+    await db.close();
+    return int.parse(queryResult[0]["COUNT(id)"].toString());
+  }
+
+  @override
   Future<int> getLearnedWordiesCountByTopic(
-      String topic, String nameTable) async {
+      String topic, String tableName) async {
     LocalDatabase localdb = LocalDatabase();
     Database db = await localdb.connect();
 
     var queryResult = await db
-        .rawQuery("SELECT COUNT(id) FROM $nameTable WHERE Topic = '$topic'");
+        .rawQuery("SELECT COUNT(id) FROM $tableName WHERE Topic = '$topic'");
 
     await db.close();
     return int.parse(queryResult[0]["COUNT(id)"].toString());

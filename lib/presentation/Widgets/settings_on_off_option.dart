@@ -2,6 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../Bloc/settings/settings_bloc.dart';
 
 class SettingsOnOffOption extends StatelessWidget {
   SettingsOnOffOption(
@@ -9,13 +12,14 @@ class SettingsOnOffOption extends StatelessWidget {
       required this.icon,
       required this.title,
       required this.subtitle,
-      required this.callback});
+      required this.callback,required this.stateOfSwitch});
   String title;
   String subtitle;
   IconData icon;
+  bool stateOfSwitch;
   final Function callback;
 
-  bool stateOfSwitch = false;
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,8 @@ class SettingsOnOffOption extends StatelessWidget {
         ),
         value: stateOfSwitch,
         onChanged: (value) {
-          stateOfSwitch = value;
+         
+      context.read<SettingsBloc>().add(UpdateUserTheme(themeMode: value));
         callback();
         });
   }

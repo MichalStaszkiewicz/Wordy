@@ -1,31 +1,32 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:wordy/Utility/utility.dart';
 import 'package:wordy/data/local/local_repository_implementation.dart';
 
-import '../../../data/local/local_database.dart';
 import '../../../domain/logic/user_preferences_logic.dart';
 import '../../../domain/models/course.dart';
-import '../../../domain/models/course_entry.dart';
 
-part 'user_settings_and_preferences_event.dart';
-part 'user_settings_and_preferences_state.dart';
+part 'user_progress_event.dart';
+part 'user_progress_state.dart';
 
-class UserSettingsAndPreferencesBloc extends Bloc<
-    UserSettingsAndPreferencesEvent, UserSettingsAndPreferencesState> {
-  UserSettingsAndPreferencesBloc()
-      : super(UserSettingsAndPreferencesInitial()) {
+class UserProgressBloc extends Bloc<
+    UserProgressEvent, UserProgressState> {
+  UserProgressBloc()
+      : super(UserProgressInitial()) {
     loadUserData();
     loadLearnedWords();
     loadLearnedWordsByCourse();
+    
   }
   void loadUserData() {
-    on<LoadUserDataAndPreferences>((event, emit) {
+    on<LoadUserDataAndPreferences>((event, emit) async {
       LocalRepository localRepository = LocalRepository();
+      UserPreferencesLogic userLogic = UserPreferencesLogic();
       localRepository.setupDatabase();
-      emit(UserSettingsAndPreferencesLoaded());
+       emit(UserProgressLoaded(
+          achievements: 0,
+          daysStreak: 0,
+          finishedTopics: await userLogic.getFinishedTopicsCount(),
+          learnedWords: await userLogic.getLearnedWordiesCount()));
     });
   }
 
@@ -41,4 +42,6 @@ class UserSettingsAndPreferencesBloc extends Bloc<
       emit(UserLearnedWordsSpecificCourse(course: event.course));
     });
   }
+
+ 
 }

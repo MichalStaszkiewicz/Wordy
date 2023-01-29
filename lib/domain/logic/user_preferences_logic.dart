@@ -26,13 +26,25 @@ class UserPreferencesLogic {
     }
   }
 
+  Future<int> getFinishedTopicsCount() async {
+    LocalRepository localRepository = LocalRepository();
+
+    return await localRepository.countUserFinishedTopics();
+  }
+
+  Future<int> getLearnedWordiesCount() async {
+    LocalRepository localRepository = LocalRepository();
+
+    return await localRepository.countLearnedWordies();
+  }
+
   Future<List<Course>> getCoursesData() async {
     LocalRepository localRepository = LocalRepository();
 
     List<Course> result = await localRepository
         .getUserWordsLearned()
         .then((value) => value.map((e) => e.toDomain()).toList());
-      
+
     return result;
   }
 }

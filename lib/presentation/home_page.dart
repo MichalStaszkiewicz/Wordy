@@ -2,16 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 
 import 'package:wordy/presentation/screens/profile_screen.dart';
 import 'package:wordy/presentation/screens/settings_screen.dart';
 
-
 import 'package:wordy/presentation/screens/vocabulary_screen.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
-import 'package:wordy/presentation/Bloc/user_settings_and_preferences/user_settings_and_preferences_bloc.dart';
 
-
+import 'Bloc/user_progress/user_progress_bloc.dart';
 import 'screens/topic_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -55,17 +54,20 @@ List<Widget> _currentScreen = [
     child: TopicScreen(),
   ),
   VocabularyScreen(),
-  ProfileScreen(),
-  SettingsScreen(),
+  BlocProvider(
+    create: (context) => UserProgressBloc()..add(LoadUserDataAndPreferences()),
+    child: ProfileScreen(),
+  ),
+  BlocProvider(
+    create: (context) => SettingsBloc()..add(LoadSettings()),
+    child: SettingsScreen(),
+  ),
 ];
 
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-   
-    context
-        .read<UserSettingsAndPreferencesBloc>()
-        .add(LoadUserDataAndPreferences());
+    context.read<UserProgressBloc>().add(LoadUserDataAndPreferences());
     super.initState();
   }
 

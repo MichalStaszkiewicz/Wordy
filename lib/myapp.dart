@@ -6,7 +6,8 @@ import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/screens/topic_screen.dart';
 
 import 'package:wordy/presentation/home_page.dart';
-import 'package:wordy/presentation/Bloc/user_settings_and_preferences/user_settings_and_preferences_bloc.dart';
+
+import 'presentation/Bloc/user_progress/user_progress_bloc.dart';
 
 
 
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
             create: (context) => TopicsBloc()..add(LoadTopics()),
           ),
           BlocProvider(
-            create: (context) => UserSettingsAndPreferencesBloc()
+            create: (context) => UserProgressBloc()
           )
         ],
         child: const HomePage(),

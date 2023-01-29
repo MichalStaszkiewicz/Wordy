@@ -8,7 +8,6 @@ import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 
 import '../../domain/models/quiz_question.dart';
-import '../Bloc/user_settings_and_preferences/user_settings_and_preferences_bloc.dart';
 import '../Widgets/quiz_next_button.dart';
 
 class QuizScreenQuestions extends StatelessWidget {
