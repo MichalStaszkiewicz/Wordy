@@ -9,6 +9,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc() : super(SettingsInitial()) {
     loadSettings();
     updateUserTheme();
+    updateUserInterfaceLanguage();
   }
 
   void updateUserTheme() {
@@ -21,7 +22,16 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           interfaceLanguage: state.interfaceLanguage));
     });
   }
-
+ void updateUserInterfaceLanguage() {
+    on<UpdateUserInterfaceLanguage>((event, emit) {
+      SettingsLogic settingsLogic = SettingsLogic();
+      final state = this.state as SettingsLoaded;
+      settingsLogic.updateUserInterfaceLanguage(event.interfaceLanguage);
+      emit(SettingsLoaded(
+          themeMode: state.themeMode,
+          interfaceLanguage: event.interfaceLanguage));
+    });
+  }
   void loadSettings() {
     on<LoadSettings>((event, emit) async {
       SettingsLogic settingsLogic = SettingsLogic();

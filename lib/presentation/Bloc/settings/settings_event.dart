@@ -19,3 +19,9 @@ class UpdateUserTheme extends SettingsEvent{
 
 
 }
+class UpdateUserInterfaceLanguage  extends SettingsEvent{
+UpdateUserInterfaceLanguage({required this.interfaceLanguage});
+String interfaceLanguage;
+
+
+}

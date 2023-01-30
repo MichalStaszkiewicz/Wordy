@@ -12,12 +12,12 @@ class SettingsOnOffOption extends StatelessWidget {
       required this.icon,
       required this.title,
       required this.subtitle,
-      required this.callback,required this.stateOfSwitch});
+     required this.stateOfSwitch});
   String title;
   String subtitle;
   IconData icon;
   bool stateOfSwitch;
-  final Function callback;
+
 
  
 
@@ -40,7 +40,7 @@ class SettingsOnOffOption extends StatelessWidget {
         onChanged: (value) {
          
       context.read<SettingsBloc>().add(UpdateUserTheme(themeMode: value));
-        callback();
+   
         });
   }
 }

@@ -1,6 +1,6 @@
 class Language {
-  Language({required this.image, required this.label, required this.selected});
+  Language({required this.image, required this.label});
   String image;
   String label;
-  bool selected;
+  
 }

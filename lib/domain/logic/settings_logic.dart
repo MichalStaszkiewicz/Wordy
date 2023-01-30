@@ -29,4 +29,10 @@ class SettingsLogic {
     }
     localRepository.updateUserProfile('themeMode', themeMode);
   }
+  void updateUserInterfaceLanguage(String interfaceLanguage){
+    localRepository.updateUserProfile("interfaceLanguage",interfaceLanguage);
+
+
+
+  }
 }

@@ -32,7 +32,7 @@ class _SettingsState extends State<Settings> {
                 title: "Theme",
                 subtitle:
                     "Use this option if you want to switch to other theme mode",
-                callback: () {}, stateOfSwitch: state.themeMode,
+                stateOfSwitch: state.themeMode,
               ),
               Container(
                 height: 100,
