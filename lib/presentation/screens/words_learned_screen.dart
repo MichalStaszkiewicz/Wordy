@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Widgets/statistics_list.dart';
 import 'package:wordy/presentation/Widgets/words_learned_choosen_language.dart';
+import 'package:wordy/shared/consts.dart';
 
 import '../Bloc/user_progress/user_progress_bloc.dart';
 
@@ -22,7 +23,7 @@ class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
           child: Center(
             child: Container(
               child: Text(
-                "Words Learned",
+                ui_lang[userLanguage]!['profile_screen_learned_words'].toString(),
                 style: Theme.of(context)
                     .textTheme
                     .headline5!

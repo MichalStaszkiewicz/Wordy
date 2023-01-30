@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wordy/domain/models/word.dart';
+import 'package:wordy/shared/consts.dart';
 
 import '../../../domain/logic/vocabulary_logic.dart';
 import '../../../domain/models/quiz_question.dart';
@@ -20,21 +21,10 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
     return on<LoadVocabulary>((event, emit) {
       List<Vocabulary> list = [
         Vocabulary(
-          topic: "Basic Conversation",
+          topic: ui_lang[userLanguage]!['topic_label'][0],
           image: "assets/dailyusage.png",
         ),
-        Vocabulary(
-          topic: "Information Technology",
-          image: "assets/it.png",
-        ),
-        Vocabulary(
-          topic: "Travel",
-          image: "assets/summer.png",
-        ),
-        Vocabulary(
-          topic: "Food And Cooking",
-          image: "assets/cooking-pot.png",
-        ),
+      
       ];
       emit(
           VocabularyLoaded(vocabularyList: list, vocabularyListSearched: list));

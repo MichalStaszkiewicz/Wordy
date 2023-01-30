@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wordy/domain/logic/settings_logic.dart';
+import 'package:wordy/shared/consts.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';
@@ -26,7 +27,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<UpdateUserInterfaceLanguage>((event, emit) {
       SettingsLogic settingsLogic = SettingsLogic();
       final state = this.state as SettingsLoaded;
+   
       settingsLogic.updateUserInterfaceLanguage(event.interfaceLanguage);
+         userLanguage = event.interfaceLanguage;
       emit(SettingsLoaded(
           themeMode: state.themeMode,
           interfaceLanguage: event.interfaceLanguage));

@@ -5,12 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Widgets/menu_button.dart';
 import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
-
+import 'package:wordy/shared/consts.dart';
 
 class QuizOptions extends StatefulWidget {
   final String topicName;
+  final String title;
 
-  QuizOptions({required this.topicName});
+  QuizOptions({required this.topicName,required this.title});
 
   @override
   State<QuizOptions> createState() => _QuizOptionsState();
@@ -56,26 +57,29 @@ class _QuizOptionsState extends State<QuizOptions>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(widget.topicName, style: TextStyle(fontSize: 20)),
+          Text(widget.title, style: const TextStyle(fontSize: 20)),
           const SizedBox(height: 10),
           MenuButton(
-            label: 'Review',
+            label: ui_lang[userLanguage]!['quiz_settings_review'].toString(),
             function: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => BlocProvider(
                         create: (context) => QuizBloc()
-                          ..add(LoadQuestionsForReview(topic: widget.topicName)),
-                        child: QuizScreen(topic: widget.topicName),
+                          ..add(
+                              LoadQuestionsForReview(topic: widget.topicName)),
+                        child: QuizScreen(topic: widget.title),
                       )));
             },
           ),
           MenuButton(
-            label: 'Learn',
+            label: ui_lang[userLanguage]!['quiz_settings_learn'].toString(),
             function: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => BlocProvider(
-                        create: (context) => QuizBloc()..add(LoadQuestionsForLearning(topic: widget.topicName)),
-                        child: QuizScreen(topic: widget.topicName),
+                        create: (context) => QuizBloc()
+                          ..add(LoadQuestionsForLearning(
+                              topic: widget.topicName)),
+                        child: QuizScreen(topic: widget.title),
                       )));
             },
           ),

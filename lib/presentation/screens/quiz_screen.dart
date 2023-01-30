@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Widgets/exit_dialog.dart';
 
 import 'package:wordy/presentation/screens/quiz_screen_questions.dart';
+import 'package:wordy/shared/consts.dart';
 
 import '../Bloc/quiz/quiz_bloc.dart';
+import '../Widgets/unexpected_error.dart';
 
 class QuizScreen extends StatefulWidget {
   QuizScreen({required this.topic});
@@ -51,7 +53,7 @@ class _QuizScreenState extends State<QuizScreen> {
               if (state.questions.isEmpty) {
                 return Center(
                   child: Text(
-                      'Congratulations you finished topic: ${widget.topic}'),
+                      '${ui_lang[userLanguage]!['finished_topic_announcement'].toString()} ${widget.topic}'),
                 );
               } else {
                 return QuizScreenQuestions(
@@ -66,7 +68,7 @@ class _QuizScreenState extends State<QuizScreen> {
               if (state.questions.isEmpty) {
                 return Center(
                   child: Text(
-                      'You have no words to review'),
+                      ui_lang[userLanguage]!['no_words_to_review_announcement'].toString()),
                 );
               } else {
                 return QuizScreenQuestions(
@@ -76,9 +78,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 );
               }
             } else {
-              return const Center(
-                child: Text("Something went wrong"),
-              );
+              return  UnexpectedError();
             }
           },
         ),

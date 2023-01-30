@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/Widgets/choosen_topic_vocabulary.dart';
+import 'package:wordy/shared/consts.dart';
 
 class VocabularyScreen extends StatefulWidget {
   const VocabularyScreen({super.key});
@@ -30,7 +31,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       appBar: AppBar(
         title: Center(
           child: Text(
-            "Vocabulary",
+            ui_lang[userLanguage]!['vocabulary_screen_app_bar'].toString(),
             style: Theme.of(context)
                 .textTheme
                 .headline5!
@@ -56,7 +57,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                         },
                         controller: _textEditingController,
                         decoration: InputDecoration(
-                          hintText: 'Search Specific Topic',
+                          hintText:    ui_lang[userLanguage]!['vocabulary_screen_search_hint'].toString(),
                           hintStyle: Theme.of(context)
                               .textTheme
                               .subtitle2!

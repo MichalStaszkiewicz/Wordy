@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wordy/Utility/utility.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
-
-import 'package:wordy/presentation/Widgets/quiz_options.dart';
 import 'package:wordy/presentation/Widgets/topic_grid_view.dart';
 
 
 import 'package:wordy/presentation/screens/topic_screen_today_statistics.dart';
+import 'package:wordy/shared/consts.dart';
+
+import '../Widgets/unexpected_error.dart';
 
 
 
 class TopicScreen extends StatefulWidget {
-  const TopicScreen({
-    Key? key,
-  }) : super(key: key);
-
+TopicScreen();
   @override
   State<TopicScreen> createState() => _TopicScreenState();
 }
@@ -22,52 +21,8 @@ class TopicScreen extends StatefulWidget {
 class _TopicScreenState extends State<TopicScreen>
     with TickerProviderStateMixin {
   ScrollController _controller = ScrollController();
-  Positioned quizSettings(bool show, Offset localPosition,
-      Offset globalPosition, int index, String name) {
-    if (show == true) {
-      var deviceDimensions = MediaQuery.of(context).size;
-      Offset showMenuPosition = Offset(globalPosition.dx - localPosition.dx,
-          globalPosition.dy - localPosition.dy);
-
-      if (showMenuPosition.dy < 10) {
-        Offset offsetAfterJump = Offset(globalPosition.dx - localPosition.dx,
-            (globalPosition.dy - (showMenuPosition.dy)) - localPosition.dy);
-        _controller.animateTo(_controller.offset + (showMenuPosition.dy),
-            duration: const Duration(milliseconds: 500), curve: Curves.ease);
-        return Positioned(
-          top: offsetAfterJump.dy + 30,
-          left: offsetAfterJump.dx,
-          child: QuizOptions(
-            topicName: name,
-          ),
-        );
-      } else if (deviceDimensions.height < showMenuPosition.dy + 180 &&
-          showMenuPosition.dy > 10) {
-        Offset offsetAfterJump = Offset(globalPosition.dx - localPosition.dx,
-            (globalPosition.dy - 180) - localPosition.dy);
-        _controller.animateTo(_controller.offset + 180,
-            duration: const Duration(milliseconds: 500), curve: Curves.ease);
-        return Positioned(
-          top: offsetAfterJump.dy,
-          left: offsetAfterJump.dx,
-          child: QuizOptions(
-            topicName: name,
-          ),
-        );
-      } else {
-        return Positioned(
-          top: showMenuPosition.dy,
-          left: showMenuPosition.dx,
-          child: QuizOptions(
-            topicName: name,
-          ),
-        );
-      }
-    } else {
-      return Positioned(child: Container());
-    }
-  }
-
+ 
+Utility utility = Utility();
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TopicsBloc, TopicsState>(
@@ -94,7 +49,7 @@ class _TopicScreenState extends State<TopicScreen>
                     automaticallyImplyLeading: false,
                     title: Center(
                         child: Text(
-                      "Topic",
+                      ui_lang[userLanguage]!['home_screen_app_bar'].toString(),
                       style: Theme.of(context)
                           .textTheme
                           .headline5!
@@ -139,18 +94,16 @@ class _TopicScreenState extends State<TopicScreen>
                   TopicGridView()
                 ],
               ),
-              quizSettings(
+              utility.quizSettings(
                   state.selectedTopic,
                   state.localPosition,
                   state.globalPosition,
                   state.index,
-                  state.topics.elementAt(state.index).name)
+                  state.topicsToReadFromDatabase.elementAt(state.index),state.topics.elementAt(state.index).name,context,_controller),
             ]),
           );
         } else {
-          return const Center(
-            child: Text("Something went wrong"),
-          );
+          return UnexpectedError();
         }
       },
     );

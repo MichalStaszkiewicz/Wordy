@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Widgets/quiz_finish_button.dart';
 import 'package:wordy/presentation/screens/quiz_screen.dart';
+import 'package:wordy/shared/consts.dart';
 
 import '../Bloc/quiz/quiz_bloc.dart';
 
@@ -25,7 +26,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
         automaticallyImplyLeading: false,
         title: Center(
           child: Text(
-            "Summary",
+            ui_lang[userLanguage]!['quiz_finish_header'].toString(),
             style: Theme.of(context)
                 .textTheme
                 .headline5!
@@ -86,7 +87,9 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                                         children: [
                                           Text(
                                             maxLines: 1,
-                                            "Your Score",
+                                            ui_lang[userLanguage]![
+                                                    'quiz_finish_your_score']
+                                                .toString(),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headline5,
@@ -106,7 +109,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                                         left: 20, right: 20),
                                     child: AutoSizeText(
                                         maxLines: 1,
-                                        "Percentage of the correct answears: ${((widget.correct / widget.maximum) * 100).toInt()}%",
+                                        "${ui_lang[userLanguage]!['quiz_finish_percentage'].toString()} ${((widget.correct / widget.maximum) * 100).toInt()}%",
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline6),
@@ -132,7 +135,8 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                               ),
                             ))));
                   },
-                  label: 'Repeat Quiz',
+                  label:
+                      ui_lang[userLanguage]!['quiz_finish_repeat'].toString(),
                 ),
                 const SizedBox(
                   height: 20,
@@ -141,7 +145,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                   function: () {
                     Navigator.of(context).popUntil(ModalRoute.withName('/'));
                   },
-                  label: 'Home',
+                  label: ui_lang[userLanguage]!['quiz_finish_home'].toString(),
                 ),
                 const SizedBox(
                   height: 50,

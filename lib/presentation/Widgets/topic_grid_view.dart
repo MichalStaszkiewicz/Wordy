@@ -5,9 +5,7 @@ import 'package:wordy/presentation/Widgets/topic_item.dart';
 
 
 class TopicGridView extends StatelessWidget {
-  const TopicGridView({
-    Key? key,
-  }) : super(key: key);
+TopicGridView();
 
   @override
   Widget build(BuildContext context) {

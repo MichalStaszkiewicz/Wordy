@@ -13,10 +13,11 @@ class LanguageDialog extends StatelessWidget {
     Language(
       image: "assets/poland.png",
       label: "Polish",
-   
     ),
     Language(
-        image: "assets/united-kingdom.png", label: "English",),
+      image: "assets/united-kingdom.png",
+      label: "English",
+    ),
   ];
   @override
   Widget build(BuildContext context) {
@@ -76,7 +77,8 @@ class LanguageDialog extends StatelessWidget {
                                   image: AssetImage(_languages[index].image),
                                 ),
                                 title: Text(_languages[index].label),
-                                trailing: state.interfaceLanguage == _languages[index].label
+                                trailing: state.interfaceLanguage ==
+                                        _languages[index].label
                                     ? const Icon(
                                         Icons.check_circle,
                                         color: Colors.green,
@@ -87,10 +89,7 @@ class LanguageDialog extends StatelessWidget {
                                       UpdateUserInterfaceLanguage(
                                           interfaceLanguage:
                                               _languages[index].label));
-                                              Navigator.of(context).pop();
-                                      
-
-                                
+                                  Navigator.of(context).pop();
                                 },
                               );
                             },

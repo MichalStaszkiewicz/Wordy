@@ -30,7 +30,7 @@ class _SettingsState extends State<Settings> {
                 icon: Icons.dark_mode,
                 title: "Theme",
                 subtitle:
-                    "Use this option if you want to switch to other theme mode",
+                    ui_lang[userLanguage]!['settings_screen_theme_description'].toString(),
                 stateOfSwitch: state.themeMode,
               ),
               Container(
@@ -66,12 +66,12 @@ class _SettingsState extends State<Settings> {
                               Container(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
-                                    "Interface language",
+                                   ui_lang[userLanguage]!['settings_screen_interface_header'].toString(),
                                     style:
                                         Theme.of(context).textTheme.subtitle1,
                                   )),
                               Text(
-                                "Use this option if you want to change interface language",
+                             ui_lang[userLanguage]!['settings_screen_interface_description'].toString(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle2!

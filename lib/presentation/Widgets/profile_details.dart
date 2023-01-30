@@ -5,6 +5,7 @@ import 'package:wordy/presentation/Widgets/statistics_item.dart';
 import 'package:wordy/presentation/Widgets/users_courses.dart';
 import 'package:wordy/presentation/screens/achievements_screen.dart';
 import 'package:wordy/presentation/screens/words_learned_screen.dart';
+import 'package:wordy/shared/consts.dart';
 
 import '../Bloc/user_progress/user_progress_bloc.dart';
 import '../screens/finished_topics_screen.dart';
@@ -25,7 +26,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         state as UserProgressLoaded;
         return StatisticsItem(
           image: 'assets/fire.png',
-          label: 'Days in a row',
+          label: ui_lang[userLanguage]!['profile_screen_days_in_a_row'].toString(),
           statisticsCount: state.daysStreak,
           navigation: null,
         );
@@ -36,7 +37,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         state as UserProgressLoaded;
         return StatisticsItem(
           image: 'assets/open-book.png',
-          label: 'Learned words',
+          label: ui_lang[userLanguage]!['profile_screen_learned_words'].toString(),
           statisticsCount: state.learnedWords,
           navigation: BlocProvider(
             create: (context) => UserProgressBloc()..add(LoadLearnedWords()),
@@ -50,7 +51,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         state as UserProgressLoaded;
         return StatisticsItem(
           image: 'assets/medal.png',
-          label: 'Finished topics',
+          label:  ui_lang[userLanguage]!['profile_screen_finished_topics'].toString(),
           statisticsCount: state.finishedTopics,
           navigation: const FinishedTopicsScreen(),
         );
@@ -61,7 +62,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             state as UserProgressLoaded;
         return StatisticsItem(
           image: 'assets/award.png',
-          label: 'Achivments',
+          label:ui_lang[userLanguage]!['profile_screen_achievements'].toString(),
           statisticsCount: state.achievements,
           navigation: const AchievemetnsScreen(),
         );
@@ -74,17 +75,17 @@ class _ProfileDetailsState extends State<ProfileDetails> {
       child: Column(
         children: [
           HeaderInProfile(
-            label: "My Courses",
+            label:ui_lang[userLanguage]!['profile_screen_courses_header'].toString(),
           ),
           const UsersCourses(),
           HeaderInProfile(
-            label: "Statistics",
+            label: ui_lang[userLanguage]!['profile_screen_statistics_header'].toString(),
           ),
           Container(
             height: 400,
             child: GridView.builder(
               controller: _scrollStatisticsController,
-              itemCount: 4,
+              itemCount: _statItems.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2),
               itemBuilder: (context, index) => _statItems[index],

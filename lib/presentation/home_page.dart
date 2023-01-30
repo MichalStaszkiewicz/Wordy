@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
+import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 
 import 'package:wordy/presentation/screens/profile_screen.dart';
 import 'package:wordy/presentation/screens/settings_screen.dart';
@@ -22,6 +23,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+int currentIndex = 0;
 List<BottomNavigationBarItem> bottom_nav_items = [
   BottomNavigationBarItem(
     label: "",
@@ -47,13 +49,15 @@ List<BottomNavigationBarItem> bottom_nav_items = [
   ),
 ];
 
-int currentIndex = 0;
 List<Widget> _currentScreen = [
   BlocProvider(
     create: (context) => TopicsBloc()..add(LoadTopics()),
     child: TopicScreen(),
   ),
-  VocabularyScreen(),
+  BlocProvider(
+    create: (context) => VocabularyBloc()..add(LoadVocabulary()),
+    child: VocabularyScreen(),
+  ),
   BlocProvider(
     create: (context) => UserProgressBloc()..add(LoadUserDataAndPreferences()),
     child: ProfileScreen(),
@@ -73,18 +77,22 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          iconSize: 24,
-          currentIndex: currentIndex,
-          onTap: (index) {
-            setState(() {
-              currentIndex = index;
-            });
-          },
-          items: bottom_nav_items),
-      body: _currentScreen[currentIndex],
+    return BlocBuilder<UserProgressBloc, UserProgressState>(
+      builder: (context, state) {
+        return Scaffold(
+          bottomNavigationBar: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              iconSize: 24,
+              currentIndex: currentIndex,
+              onTap: (index) {
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+              items: bottom_nav_items),
+          body: _currentScreen[currentIndex],
+        );
+      },
     );
   }
 }

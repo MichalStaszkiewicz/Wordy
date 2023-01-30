@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
+import 'package:wordy/presentation/Widgets/unexpected_error.dart';
+import 'package:wordy/shared/consts.dart';
 
 import '../Widgets/select_language_dialog.dart';
 import '../Widgets/settings.dart';
@@ -19,7 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child: Text("Settings",
+          child: Text(ui_lang[userLanguage]!['settings_screen_app_bar'].toString(),
               style: Theme.of(context)
                   .textTheme
                   .headline5!
@@ -36,9 +38,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           if (state is SettingsLoaded) {
             return const Settings();
           } else {
-            return const Center(
-              child: Text("Something went wrong"),
-            );
+            return UnexpectedError();
           }
         },
       ),

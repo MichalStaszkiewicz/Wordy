@@ -228,9 +228,20 @@ class LocalRepository implements LocalInterface {
     await db.close();
     return words;
   }
+  Future<bool> checkIfDatabaseExist()async {
+ String databasePath = await getDatabasesPath();
+    String path = "$databasePath/wordyDB.db/";
 
+    bool exists = await databaseExists(path);
+    if(exists){
+      return true;
+    }
+    return false;
+
+
+  }
   @override
-  void setupDatabase() async {
+  Future<void> setupDatabase() async {
     LocalDatabase localDB = LocalDatabase();
     String databasePath = await getDatabasesPath();
     String path = "$databasePath/wordyDB.db/";
