@@ -1,12 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
+import 'package:wordy/presentation/Widgets/settings.dart';
+import 'package:wordy/presentation/screens/settings_screen.dart';
 
 import '../../domain/models/language.dart';
 
 class LanguageDialog extends StatelessWidget {
-  LanguageDialog();
+  LanguageDialog({required this.ctx});
+  BuildContext ctx;
   final List<Language> _languages = [
     Language(
       image: "assets/poland.png",
@@ -81,12 +83,14 @@ class LanguageDialog extends StatelessWidget {
                                       )
                                     : null,
                                 onTap: () {
-                                  context.read<SettingsBloc>().add(
+                                  ctx.read<SettingsBloc>().add(
                                       UpdateUserInterfaceLanguage(
                                           interfaceLanguage:
                                               _languages[index].label));
+                                              Navigator.of(context).pop();
+                                      
 
-                                  Navigator.of(context).pop();
+                                
                                 },
                               );
                             },

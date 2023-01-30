@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Widgets/select_language_dialog.dart';
 import 'package:wordy/presentation/Widgets/settings_on_off_option.dart';
+import 'package:wordy/shared/consts.dart';
 
 import '../Bloc/settings/settings_bloc.dart';
 
@@ -16,11 +17,9 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
-
       builder: (context, state) {
+        state as SettingsLoaded;
 
-
-        state as  SettingsLoaded;
         return SingleChildScrollView(
           child: Column(
             children: [
@@ -43,18 +42,20 @@ class _SettingsState extends State<Settings> {
                         flex: 1,
                         child: Container(
                             margin: const EdgeInsets.only(left: 10, right: 10),
-                            child: const Image(
-                                image:
-                                    AssetImage('assets/united-kingdom.png')))),
+                            child: Image(
+                                image: AssetImage(
+                                    'assets/${flagWays[state.interfaceLanguage]}.png')))),
                     Expanded(
                       flex: 5,
                       child: GestureDetector(
                         onTap: () {
+                         
                           showDialog(
                               context: context,
-                              builder: (_) => LanguageDialog());
-
-                          setState(() {});
+                              builder: (_) => LanguageDialog(ctx: context,));
+                         
+                       
+                    
                         },
                         child: Container(
                           padding: const EdgeInsets.only(left: 5),
