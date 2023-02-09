@@ -3,22 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 import 'package:wordy/presentation/Widgets/settings.dart';
 import 'package:wordy/presentation/screens/settings_screen.dart';
+import 'package:wordy/shared/consts.dart';
 
 import '../../domain/models/language.dart';
 
 class LanguageDialog extends StatelessWidget {
   LanguageDialog({required this.ctx});
   BuildContext ctx;
-  final List<Language> _languages = [
-    Language(
-      image: "assets/poland.png",
-      label: "Polish",
-    ),
-    Language(
-      image: "assets/united-kingdom.png",
-      label: "English",
-    ),
-  ];
+ 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -56,9 +48,9 @@ class LanguageDialog extends StatelessWidget {
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(10.0),
                                   topRight: Radius.circular(10.0))),
-                          child: const Text(
-                            "Select Interface Language",
-                            style: TextStyle(
+                          child:  Text(
+                            ui_lang[userLanguage]!['settings_screen_choose_interface_language'].toString(),
+                            style: const TextStyle(
                                 fontSize: 20.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
@@ -70,15 +62,15 @@ class LanguageDialog extends StatelessWidget {
                         ),
                         Expanded(
                           child: ListView.builder(
-                            itemCount: _languages.length,
+                            itemCount: languages.length,
                             itemBuilder: (BuildContext context, int index) {
                               return ListTile(
                                 leading: Image(
-                                  image: AssetImage(_languages[index].image),
+                                  image: AssetImage(languages[index].image),
                                 ),
-                                title: Text(_languages[index].label),
+                                title: Text(languages[index].label),
                                 trailing: state.interfaceLanguage ==
-                                        _languages[index].label
+                                        languages[index].label
                                     ? const Icon(
                                         Icons.check_circle,
                                         color: Colors.green,
@@ -88,7 +80,7 @@ class LanguageDialog extends StatelessWidget {
                                   ctx.read<SettingsBloc>().add(
                                       UpdateUserInterfaceLanguage(
                                           interfaceLanguage:
-                                              _languages[index].label));
+                                              languages[index].label));
                                   Navigator.of(context).pop();
                                 },
                               );

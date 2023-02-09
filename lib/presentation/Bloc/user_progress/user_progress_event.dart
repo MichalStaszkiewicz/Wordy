@@ -15,11 +15,22 @@ class LoadLearnedWords extends UserProgressEvent {
   LoadLearnedWords();
 }
 
-class LoadLearnedWorsdWithSpecificCourse
-    extends UserProgressEvent {
+class CreatingNewUserPreferencesUpdate extends UserProgressEvent{
+CreatingNewUserPreferencesUpdate({required this.userLanguageToLearn,required this.userNativeLanguage});
+String userNativeLanguage;
+String userLanguageToLearn;
+
+}
+
+class CreateNewUserAndLoadData extends UserProgressEvent {
+  CreateNewUserAndLoadData();
+}
+
+class LoadNewUserChoosingLanguageToLearn extends UserProgressEvent {
+  LoadNewUserChoosingLanguageToLearn();
+}
+
+class LoadLearnedWorsdWithSpecificCourse extends UserProgressEvent {
   LoadLearnedWorsdWithSpecificCourse({required this.course});
   Course course;
 }
-
-
-

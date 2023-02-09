@@ -7,15 +7,14 @@ abstract class UserProgressState extends Equatable {
   List<Object> get props => [];
 }
 
-class UserProgressInitial
-    extends UserProgressState {
+class UserProgressInitial extends UserProgressState {
   UserProgressInitial();
   @override
   List<Object> get props => [];
 }
 
 class UserProgressLoaded extends UserProgressState {
-   UserProgressLoaded(
+  UserProgressLoaded(
       {required this.learnedWords,
       required this.achievements,
       required this.daysStreak,
@@ -27,6 +26,19 @@ class UserProgressLoaded extends UserProgressState {
   @override
   List<Object> get props =>
       [learnedWords, daysStreak, finishedTopics, achievements];
+}
+
+class NewUserCreating extends UserProgressState {
+  NewUserCreating();
+}
+
+class CreatingNewUserPreferences extends UserProgressState {
+  CreatingNewUserPreferences(
+      {required this.userLanguageToLearn, required this.userNativeLanguage});
+  String userNativeLanguage;
+  String userLanguageToLearn;
+  @override
+  List<Object> get props => [userLanguageToLearn, userLanguageToLearn];
 }
 
 class UserLearnedWordsLoaded extends UserProgressState {
@@ -42,4 +54,3 @@ class UserLearnedWordsSpecificCourse extends UserProgressState {
   @override
   List<Object> get props => [course];
 }
-

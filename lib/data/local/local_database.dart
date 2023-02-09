@@ -1,7 +1,4 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:wordy/Utility/utility.dart';
-
-import '../../domain/models/quiz_question.dart';
 
 class LocalDatabase {
   static final LocalDatabase _instance = LocalDatabase._internal();

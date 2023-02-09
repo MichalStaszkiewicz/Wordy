@@ -30,7 +30,8 @@ class _SettingsState extends State<Settings> {
                 icon: Icons.dark_mode,
                 title: "Theme",
                 subtitle:
-                    ui_lang[userLanguage]!['settings_screen_theme_description'].toString(),
+                    ui_lang[userLanguage]!['settings_screen_theme_description']
+                        .toString(),
                 stateOfSwitch: state.themeMode,
               ),
               Container(
@@ -49,13 +50,11 @@ class _SettingsState extends State<Settings> {
                       flex: 5,
                       child: GestureDetector(
                         onTap: () {
-                         
                           showDialog(
                               context: context,
-                              builder: (_) => LanguageDialog(ctx: context,));
-                         
-                       
-                    
+                              builder: (_) => LanguageDialog(
+                                    ctx: context,
+                                  ));
                         },
                         child: Container(
                           padding: const EdgeInsets.only(left: 5),
@@ -66,12 +65,16 @@ class _SettingsState extends State<Settings> {
                               Container(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
-                                   ui_lang[userLanguage]!['settings_screen_interface_header'].toString(),
+                                    ui_lang[userLanguage]![
+                                            'settings_screen_interface_header']
+                                        .toString(),
                                     style:
                                         Theme.of(context).textTheme.subtitle1,
                                   )),
                               Text(
-                             ui_lang[userLanguage]!['settings_screen_interface_description'].toString(),
+                                ui_lang[userLanguage]![
+                                        'settings_screen_interface_description']
+                                    .toString(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle2!

@@ -8,13 +8,11 @@ abstract class LocalInterface {
   Future<List<CourseEntryDto>> getUserLearnedWordies();
   void createDatabase();
   void setupDatabase();
-    void insertLearnedWordsToDatabase(List<CourseEntry> words);
-    void updateUserProfile(String fieldToUpdate, String value);
+  void insertLearnedWordsToDatabase(List<CourseEntry> words);
+  void updateUserProfile(String fieldToUpdate, String value);
   Future<List<CourseEntryDto>> getUserLearnedWordiesWithSpecificTopic(
       String topic);
   Future<Map<String, String>> getUserData();
-  Future<int> getLearnedWordiesCountByTopic(String topic,String tableName);
+  Future<int> getLearnedWordiesCountByTopic(String topic, String tableName);
   Future<int> getLearnedWordiesCount(String tableName);
-
-
 }

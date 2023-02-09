@@ -96,7 +96,7 @@ class LocalRepository implements LocalInterface {
   }
 
   @override
-  void createDatabase() async {
+  Future<void> createDatabase() async {
     String databasePath = await getDatabasesPath();
     String path = "$databasePath/wordyDB.db/";
     Database database =
@@ -114,21 +114,21 @@ class LocalRepository implements LocalInterface {
       await db.execute(
           'CREATE TABLE PolishToSpanish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
       await db.execute(
-          'CREATE TABLE profile (id INTEGER PRIMARY KEY,currentCourse TEXT, daysStreak INTEGER, learnedWords INTEGER, finishedTopics INTEGER, achievements INTEGER, themeMode TEXT, interfaceLanguage TEXT, EnglishPolish INTEGER,EnglishChinese INTEGER, EnglishSpanish INTEGER, PolishEnglish INTEGER, PolishChinese INTEGER, PolishSpanish INTEGER)');
+          'CREATE TABLE profile (id INTEGER PRIMARY KEY,currentCourse TEXT, daysStreak INTEGER, learnedWords INTEGER, finishedTopics INTEGER, achievements INTEGER, themeMode TEXT, interfaceLanguage TEXT, EnglishPolish INTEGER,EnglishChinese INTEGER, EnglishSpanish INTEGER, PolishEnglish INTEGER, PolishChinese INTEGER, PolishSpanish INTEGER, firstOpen INTEGER)');
     });
     await database.execute(
-        'INSERT INTO profile (currentCourse, daysStreak, learnedWords, finishedTopics, achievements, themeMode, interfaceLanguage, EnglishPolish, EnglishChinese, EnglishSpanish, PolishEnglish, PolishChinese, PolishSpanish) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
-        ['English', 0, 0, 0, 0, 'light', 'Polish', 0, 0, 0, 1, 0, 0]);
+        'INSERT INTO profile (currentCourse, daysStreak, learnedWords, finishedTopics, achievements, themeMode, interfaceLanguage, EnglishPolish, EnglishChinese, EnglishSpanish, PolishEnglish, PolishChinese, PolishSpanish,firstOpen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+        ['English', 0, 0, 0, 0, 'light', 'Polish', 0, 0, 0, 1, 0, 0,0]);
   }
 
   @override
-  void updateUserProfile(String fieldToUpdate ,String value) async{
-
+  void updateUserProfile(String fieldToUpdate, String value) async {
     LocalDatabase localDB = LocalDatabase();
     var connection = await localDB.connect();
-    await connection.rawQuery("UPDATE profile SET $fieldToUpdate = '$value' WHERE id = 1");
-
+    await connection
+        .rawQuery("UPDATE profile SET $fieldToUpdate = '$value' WHERE id = 1");
   }
+
   @override
   Future<Map<String, String>> getUserData() async {
     LocalDatabase localDB = LocalDatabase();
@@ -228,34 +228,30 @@ class LocalRepository implements LocalInterface {
     await db.close();
     return words;
   }
-  Future<bool> checkIfDatabaseExist()async {
- String databasePath = await getDatabasesPath();
-    String path = "$databasePath/wordyDB.db/";
 
-    bool exists = await databaseExists(path);
-    if(exists){
-      return true;
-    }
-    return false;
-
-
-  }
   @override
-  Future<void> setupDatabase() async {
+  Future<bool> setupDatabase() async {
     LocalDatabase localDB = LocalDatabase();
     String databasePath = await getDatabasesPath();
     String path = "$databasePath/wordyDB.db/";
+    bool st = false;
 
     bool exists = await databaseExists(path);
     var connection = await localDB.connect();
     if (!exists) {
-      createDatabase();
-      print("Creating Database...");
+
+    
+      await connection.close();
+      print("STATE OF DB: " + st.toString());
+      return false;
     } else {
       connection = await openDatabase(path);
       print("Database already exists at " + path + " + loading user data...");
+      await connection.close();
+      st = true;
+      print("STATE OF DB: " + st.toString());
+      return true;
     }
-    await connection.close();
   }
 
   @override

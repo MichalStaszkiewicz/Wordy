@@ -1,3 +1,5 @@
+import '../domain/models/language.dart';
+
 List<String> topics = ["Basic Conversation"];
 Map<String, String> flagWays = {
   "Polish": "poland",
@@ -6,7 +8,16 @@ Map<String, String> flagWays = {
   "English": "united-kingdom"
 };
 String userLanguage = "Polish";
-
+ final List<Language> languages = [
+    Language(
+      image: "assets/poland.png",
+      label: "Polish",
+    ),
+    Language(
+      image: "assets/united-kingdom.png",
+      label: "English",
+    ),
+  ];
 Map<String, Map<String, dynamic>> ui_lang = {
   "Polish": {
     "home_screen_app_bar": "Kategorie",
@@ -26,6 +37,7 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "settings_screen_interface_header": "Język interfejsu",
     "settings_screen_interface_description":
         "Użyj tej opcji aby zmienić język interfejsu",
+    "settings_screen_choose_interface_language": "Wybierz język interfejsu",
     "unexpected_error": "Coś poszło nie tak",
     "quiz_settings_learn": "Nauka",
     "quiz_settings_review": "Powtórka",
@@ -36,12 +48,12 @@ Map<String, Map<String, dynamic>> ui_lang = {
         "Czy na pewno chcesz wyjść? Jeśli tak, utracisz postęp.",
     "exit_dialog_yes": "Tak",
     "exit_dialog_no": "Nie",
-    "quiz_next_button":"Dalej",
-       "quiz_finish_header":"Podsumowanie",
-      "quiz_finish_your_score":"Wynik",
-    "quiz_finish_percentage":"Procent poprawnych odpowiedzi:",
-      "quiz_finish_repeat":"Powtórz quiz",
-    "quiz_finish_home":"Zakończ",
+    "quiz_next_button": "Dalej",
+    "quiz_finish_header": "Podsumowanie",
+    "quiz_finish_your_score": "Wynik",
+    "quiz_finish_percentage": "Procent poprawnych odpowiedzi:",
+    "quiz_finish_repeat": "Powtórz quiz",
+    "quiz_finish_home": "Zakończ",
   },
   "English": {
     "home_screen_app_bar": "Topic",
@@ -61,6 +73,7 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "settings_screen_interface_header": "Interface language",
     "settings_screen_interface_description":
         "Use this option to change the interface language",
+         "settings_screen_choose_interface_language": "Choose interface language",
     "unexpected_error": "Something went wrong",
     "quiz_settings_learn": "Learn",
     "quiz_settings_review": "Review",
@@ -71,11 +84,11 @@ Map<String, Map<String, dynamic>> ui_lang = {
         "Are you sure you want to exit? If so, you will lose progress.",
     "exit_dialog_yes": "Yes",
     "exit_dialog_no": "No",
-    "quiz_next_button":"Next",
-      "quiz_finish_header":"Summary",
-    "quiz_finish_your_score":"Your Score",
-      "quiz_finish_percentage":"Percentage of the correct answers",
-    "quiz_finish_repeat":"Repeat quiz",
-    "quiz_finish_home":"Finish",
+    "quiz_next_button": "Next",
+    "quiz_finish_header": "Summary",
+    "quiz_finish_your_score": "Your Score",
+    "quiz_finish_percentage": "Percentage of the correct answers",
+    "quiz_finish_repeat": "Repeat quiz",
+    "quiz_finish_home": "Finish",
   }
 };

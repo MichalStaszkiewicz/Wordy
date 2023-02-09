@@ -9,8 +9,6 @@ import 'package:wordy/presentation/home_page.dart';
 
 import 'presentation/Bloc/user_progress/user_progress_bloc.dart';
 
-
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -19,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: "/",
       routes: {
-        '/home': (context) => TopicScreen(),
+        '/home': (context) => HomePage(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -32,12 +30,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) => VocabularyBloc()..add(LoadVocabulary()),
           ),
-          BlocProvider(
-            create: (context) => TopicsBloc()..add(LoadTopics()),
-          ),
-          BlocProvider(
-            create: (context) => UserProgressBloc()
-          )
+          BlocProvider(create: (context) => UserProgressBloc())
         ],
         child: const HomePage(),
       ),

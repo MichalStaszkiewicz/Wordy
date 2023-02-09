@@ -8,8 +8,8 @@ import 'package:wordy/domain/models/quiz_question.dart';
 import '../../data/network/network_repository_implementation.dart';
 import '../models/word.dart';
 
-class UserPreferencesLogic {
-  UserPreferencesLogic();
+class UserDataLogic {
+  UserDataLogic();
 
   void insertLearnedWordsToDatabase(List<CourseEntry> wordsToInsert) async {
     LocalRepository localRepository = LocalRepository();

@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
+import 'package:wordy/presentation/Widgets/unexpected_error.dart';
+import 'package:wordy/presentation/screens/language_to_learn_from_screen.dart';
+import 'package:wordy/presentation/screens/new_user_screen.dart';
 
 import 'package:wordy/presentation/screens/profile_screen.dart';
 import 'package:wordy/presentation/screens/settings_screen.dart';
@@ -79,19 +82,28 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return BlocBuilder<UserProgressBloc, UserProgressState>(
       builder: (context, state) {
-        return Scaffold(
-          bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              iconSize: 24,
-              currentIndex: currentIndex,
-              onTap: (index) {
-                setState(() {
-                  currentIndex = index;
-                });
-              },
-              items: bottom_nav_items),
-          body: _currentScreen[currentIndex],
-        );
+        if (state is UserProgressLoaded || state is UserProgressInitial) {
+          return Scaffold(
+            bottomNavigationBar: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                iconSize: 24,
+                currentIndex: currentIndex,
+                onTap: (index) {
+                  setState(() {
+                    currentIndex = index;
+                  });
+                },
+                items: bottom_nav_items),
+            body: _currentScreen[currentIndex],
+          );
+        }
+
+        if (state is CreatingNewUserPreferences) {
+          return NewUserScreen();
+        } else {
+          print("Other STATE: " + state.toString());
+          return UnexpectedError();
+        }
       },
     );
   }
