@@ -52,7 +52,7 @@ Utility utility = Utility();
                       ui_lang[userLanguage]!['home_screen_app_bar'].toString(),
                       style: Theme.of(context)
                           .textTheme
-                          .headline5!
+                          .headlineSmall!
                           .copyWith(color: Colors.white),
                     )),
                   ),
@@ -99,7 +99,7 @@ Utility utility = Utility();
                   state.localPosition,
                   state.globalPosition,
                   state.index,
-                  state.topicsToReadFromDatabase.elementAt(state.index),state.topics.elementAt(state.index).name,context,_controller),
+               state.topics.elementAt(state.index).name,context,_controller),
             ]),
           );
         } else {

@@ -20,11 +20,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Center(
           child: Text(ui_lang[userLanguage]!['settings_screen_app_bar'].toString(),
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
+                  .headlineSmall!
                   .copyWith(color: Colors.white)),
         ),
       ),

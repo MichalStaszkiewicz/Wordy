@@ -84,7 +84,7 @@ class Utility {
   }
 
    Positioned quizSettings(bool show, Offset localPosition,
-      Offset globalPosition, int index, String name,String nameForAppBar,BuildContext context,ScrollController controller) {
+      Offset globalPosition, int index, String name,BuildContext context,ScrollController controller) {
     if (show == true) {
       var deviceDimensions = MediaQuery.of(context).size;
       Offset showMenuPosition = Offset(globalPosition.dx - localPosition.dx,
@@ -99,7 +99,7 @@ class Utility {
           top: offsetAfterJump.dy + 30,
           left: offsetAfterJump.dx,
           child: QuizOptions(
-            topicName: name, title: nameForAppBar,
+           title: name,
           ),
         );
       } else if (deviceDimensions.height < showMenuPosition.dy + 180 &&
@@ -112,8 +112,8 @@ class Utility {
           top: offsetAfterJump.dy,
           left: offsetAfterJump.dx,
           child: QuizOptions(
-            title: nameForAppBar,
-            topicName: name,
+            title: name,
+       
           ),
         );
       } else {
@@ -121,8 +121,8 @@ class Utility {
           top: showMenuPosition.dy,
           left: showMenuPosition.dx,
           child: QuizOptions(
-            title: nameForAppBar,
-            topicName: name,
+            title: name,
+        
           ),
         );
       }

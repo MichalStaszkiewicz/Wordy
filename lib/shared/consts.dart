@@ -1,6 +1,10 @@
 import '../domain/models/language.dart';
 
 List<String> topics = ["Basic Conversation"];
+Map<String, String> quizTitles = {
+  "Basic Conversation": "Basic Conversation",
+  "Podstawowe Wyrażenia": "Basic Conversation"
+};
 Map<String, String> flagWays = {
   "Polish": "poland",
   "Spanish": "spain",
@@ -8,16 +12,16 @@ Map<String, String> flagWays = {
   "English": "united-kingdom"
 };
 String userLanguage = "Polish";
- final List<Language> languages = [
-    Language(
-      image: "assets/poland.png",
-      label: "Polish",
-    ),
-    Language(
-      image: "assets/united-kingdom.png",
-      label: "English",
-    ),
-  ];
+final List<Language> languages = [
+  Language(
+    image: "assets/poland.png",
+    label: "Polish",
+  ),
+  Language(
+    image: "assets/united-kingdom.png",
+    label: "English",
+  ),
+];
 Map<String, Map<String, dynamic>> ui_lang = {
   "Polish": {
     "home_screen_app_bar": "Kategorie",
@@ -73,7 +77,7 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "settings_screen_interface_header": "Interface language",
     "settings_screen_interface_description":
         "Use this option to change the interface language",
-         "settings_screen_choose_interface_language": "Choose interface language",
+    "settings_screen_choose_interface_language": "Choose interface language",
     "unexpected_error": "Something went wrong",
     "quiz_settings_learn": "Learn",
     "quiz_settings_review": "Review",

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
+import 'package:wordy/presentation/home_page.dart';
 import 'package:wordy/shared/consts.dart';
 
 class ExitDialog extends StatelessWidget {
@@ -14,10 +17,10 @@ class ExitDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         OutlinedButton(
-          child: Text(ui_lang[userLanguage]!['exit_dialog_yes'].toString()),
-          onPressed: () =>
-              Navigator.of(context).popUntil(ModalRoute.withName('/')),
-        ),
+            child: Text(ui_lang[userLanguage]!['exit_dialog_yes'].toString()),
+            onPressed: () {
+              Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+            }),
       ],
     );
   }

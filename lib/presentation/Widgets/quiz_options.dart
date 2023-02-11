@@ -8,10 +8,10 @@ import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 import 'package:wordy/shared/consts.dart';
 
 class QuizOptions extends StatefulWidget {
-  final String topicName;
+
   final String title;
 
-  QuizOptions({required this.topicName,required this.title});
+  QuizOptions({required this.title});
 
   @override
   State<QuizOptions> createState() => _QuizOptionsState();
@@ -66,7 +66,7 @@ class _QuizOptionsState extends State<QuizOptions>
                   builder: (context) => BlocProvider(
                         create: (context) => QuizBloc()
                           ..add(
-                              LoadQuestionsForReview(topic: widget.topicName)),
+                              LoadQuestionsForReview(topic: quizTitles[widget.title]!)),
                         child: QuizScreen(topic: widget.title),
                       )));
             },
@@ -78,7 +78,7 @@ class _QuizOptionsState extends State<QuizOptions>
                   builder: (context) => BlocProvider(
                         create: (context) => QuizBloc()
                           ..add(LoadQuestionsForLearning(
-                              topic: widget.topicName)),
+                              topic:  quizTitles[widget.title]!)),
                         child: QuizScreen(topic: widget.title),
                       )));
             },

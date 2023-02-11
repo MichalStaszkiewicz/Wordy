@@ -38,7 +38,7 @@ class CreatingNewUserPreferences extends UserProgressState {
   String userNativeLanguage;
   String userLanguageToLearn;
   @override
-  List<Object> get props => [userLanguageToLearn, userLanguageToLearn];
+  List<Object> get props => [userLanguageToLearn, userNativeLanguage];
 }
 
 class UserLearnedWordsLoaded extends UserProgressState {

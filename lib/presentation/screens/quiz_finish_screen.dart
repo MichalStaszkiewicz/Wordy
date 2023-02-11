@@ -29,7 +29,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
             ui_lang[userLanguage]!['quiz_finish_header'].toString(),
             style: Theme.of(context)
                 .textTheme
-                .headline5!
+                .headlineSmall!
                 .copyWith(color: Colors.white),
           ),
         ),
@@ -60,7 +60,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                         ),
                         Text(
                           widget.topic,
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         const SizedBox(
                           height: 50,
@@ -92,13 +92,13 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                                                 .toString(),
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline5,
+                                                .headlineSmall,
                                           ),
                                           Text(
                                             "${widget.correct} / ${widget.maximum}",
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headline3,
+                                                .headlineSmall,
                                           )
                                         ],
                                       ),
@@ -112,7 +112,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                                         "${ui_lang[userLanguage]!['quiz_finish_percentage'].toString()} ${((widget.correct / widget.maximum) * 100).toInt()}%",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline6),
+                                            .headlineSmall),
                                   ),
                                 ],
                               ),
@@ -129,7 +129,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                         builder: ((context) => BlocProvider(
                               create: (context) => QuizBloc()
                                 ..add(LoadQuestionsForLearning(
-                                    topic: widget.topic)),
+                                    topic: quizTitles[widget.topic]!)),
                               child: QuizScreen(
                                 topic: widget.topic,
                               ),
@@ -143,7 +143,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                 ),
                 QuizFinishButton(
                   function: () {
-                    Navigator.of(context).popUntil(ModalRoute.withName('/'));
+                    Navigator.of(context).popUntil(ModalRoute.withName('/home'));
                   },
                   label: ui_lang[userLanguage]!['quiz_finish_home'].toString(),
                 ),

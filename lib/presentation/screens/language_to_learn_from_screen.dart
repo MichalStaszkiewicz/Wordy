@@ -22,7 +22,7 @@ class LanguageToLearnFromScreen extends StatelessWidget {
               "Your native language",
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
+                  .headlineSmall!
                   .copyWith(color: Colors.white),
             ),
           ),
@@ -38,17 +38,20 @@ class LanguageToLearnFromScreen extends StatelessWidget {
                                   image: AssetImage(languages[index].image),
                                 ),
                                 title: Text(languages[index].label),
-                                trailing: state.userNativeLanguage == languages[index].label
+                                trailing: state.userNativeLanguage ==
+                                        languages[index].label
                                     ? const Icon(
                                         Icons.check_circle,
                                         color: Colors.green,
                                       )
                                     : null,
                                 onTap: () {
-                                  
                                   context.read<UserProgressBloc>().add(
-                                      CreatingNewUserPreferencesUpdate(userLanguageToLearn:state.userLanguageToLearn , userNativeLanguage: languages[index].label
-                                        ));
+                                      CreatingNewUserPreferencesUpdate(
+                                          userLanguageToLearn:
+                                              state.userLanguageToLearn,
+                                          userNativeLanguage:
+                                              languages[index].label));
                                 },
                               )))),
               Expanded(
@@ -58,7 +61,15 @@ class LanguageToLearnFromScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => LanguageToLearnScreen()));
+                              builder: (context) => BlocProvider(
+                                    create: (context) => UserProgressBloc()
+                                      ..add(CreatingNewUserPreferencesUpdate(
+                                          userLanguageToLearn:
+                                              state.userLanguageToLearn,
+                                          userNativeLanguage:
+                                              state.userNativeLanguage)),
+                                    child: const LanguageToLearnScreen(),
+                                  )));
                     },
                     child: const ConfirmButton(),
                   ))

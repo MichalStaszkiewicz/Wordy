@@ -21,7 +21,7 @@ class LanguageToLearnScreen extends StatelessWidget {
                 "Language you want to learn",
                 style: Theme.of(context)
                     .textTheme
-                    .headline5!
+                    .headlineSmall!
                     .copyWith(color: Colors.white),
               ),
             ),
@@ -37,7 +37,8 @@ class LanguageToLearnScreen extends StatelessWidget {
                                     image: AssetImage(languages[index].image),
                                   ),
                                   title: Text(languages[index].label),
-                                  trailing: state.userLanguageToLearn == languages[index].label
+                                  trailing: state.userLanguageToLearn ==
+                                          languages[index].label
                                       ? const Icon(
                                           Icons.check_circle,
                                           color: Colors.green,
@@ -47,7 +48,7 @@ class LanguageToLearnScreen extends StatelessWidget {
                                     context.read<UserProgressBloc>().add(
                                         CreatingNewUserPreferencesUpdate(
                                             userLanguageToLearn:
-                                                  languages[index].label,
+                                                languages[index].label,
                                             userNativeLanguage:
                                                 state.userNativeLanguage));
                                   },
@@ -56,14 +57,9 @@ class LanguageToLearnScreen extends StatelessWidget {
                     flex: 1,
                     child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BlocProvider(
-                                        create: (context) => UserProgressBloc()
-                                          ..add(CreateNewUserAndLoadData()),
-                                        child: HomePage(),
-                                      )));
+                          context.read<UserProgressBloc>().add(CreateNewUser());
+                          Navigator.pushNamed(context, '/home',
+                           );
                         },
                         child: const ConfirmButton()))
               ],

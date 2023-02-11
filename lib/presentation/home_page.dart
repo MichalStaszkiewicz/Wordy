@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/Widgets/unexpected_error.dart';
-import 'package:wordy/presentation/screens/language_to_learn_from_screen.dart';
 import 'package:wordy/presentation/screens/new_user_screen.dart';
 
 import 'package:wordy/presentation/screens/profile_screen.dart';
@@ -66,7 +65,7 @@ List<Widget> _currentScreen = [
     child: ProfileScreen(),
   ),
   BlocProvider(
-    create: (context) => SettingsBloc()..add(LoadSettings()),
+    create: (context) => SettingsBloc()..add(const LoadSettings()),
     child: SettingsScreen(),
   ),
 ];
@@ -74,37 +73,48 @@ List<Widget> _currentScreen = [
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    context.read<UserProgressBloc>().add(LoadUserDataAndPreferences());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserProgressBloc, UserProgressState>(
-      builder: (context, state) {
-        if (state is UserProgressLoaded || state is UserProgressInitial) {
-          return Scaffold(
-            bottomNavigationBar: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                iconSize: 24,
-                currentIndex: currentIndex,
-                onTap: (index) {
-                  setState(() {
-                    currentIndex = index;
-                  });
-                },
-                items: bottom_nav_items),
-            body: _currentScreen[currentIndex],
-          );
-        }
+    return BlocProvider(
+      create: (context) => UserProgressBloc(),
+      child: BlocBuilder<UserProgressBloc, UserProgressState>(
+        builder: (context, state) {
+          if (state is UserProgressInitial) {
+            context
+                .read<UserProgressBloc>()
+                .add(LoadUserPreferencesOrCreateNewUser());
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          if (state is UserProgressLoaded) {
+            return Scaffold(
+              bottomNavigationBar: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  iconSize: 24,
+                  currentIndex: currentIndex,
+                  onTap: (index) {
+                    setState(() {
+                      currentIndex = index;
+                    });
+                  },
+                  items: bottom_nav_items),
+              body: _currentScreen[currentIndex],
+            );
+          }
 
-        if (state is CreatingNewUserPreferences) {
-          return NewUserScreen();
-        } else {
-          print("Other STATE: " + state.toString());
-          return UnexpectedError();
-        }
-      },
+          if (state is CreatingNewUserPreferences) {
+            return const NewUserScreen();
+          } else {
+            return UnexpectedError();
+          }
+        },
+      ),
     );
   }
 }

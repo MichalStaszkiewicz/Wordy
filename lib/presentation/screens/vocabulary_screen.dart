@@ -29,6 +29,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Center(
           child: Text(
             ui_lang[userLanguage]!['vocabulary_screen_app_bar'].toString(),
@@ -57,7 +58,9 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                         },
                         controller: _textEditingController,
                         decoration: InputDecoration(
-                          hintText:    ui_lang[userLanguage]!['vocabulary_screen_search_hint'].toString(),
+                          hintText: ui_lang[userLanguage]![
+                                  'vocabulary_screen_search_hint']
+                              .toString(),
                           hintStyle: Theme.of(context)
                               .textTheme
                               .subtitle2!
@@ -80,7 +83,9 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => BlocProvider(
-                                          create: (context) => VocabularyBloc()..add(ListVocabularyWordsByTopic(topic: topic.topic)),
+                                          create: (context) => VocabularyBloc()
+                                            ..add(ListVocabularyWordsByTopic(
+                                                topic: topic.topic)),
                                           child: ChoosenTopicVocabulary(
                                             topic: topic.topic,
                                           ),

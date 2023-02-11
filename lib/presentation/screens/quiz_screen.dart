@@ -29,6 +29,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+   
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -39,7 +40,7 @@ class _QuizScreenState extends State<QuizScreen> {
               child: Text(widget.topic,
                   style: Theme.of(context)
                       .textTheme
-                      .headline5!
+                      .headlineSmall!
                       .copyWith(color: Colors.white)),
             ),
           ),
@@ -68,7 +69,8 @@ class _QuizScreenState extends State<QuizScreen> {
               if (state.questions.isEmpty) {
                 return Center(
                   child: Text(
-                      ui_lang[userLanguage]!['no_words_to_review_announcement'].toString()),
+                      ui_lang[userLanguage]!['no_words_to_review_announcement']
+                          .toString()),
                 );
               } else {
                 return QuizScreenQuestions(
@@ -78,7 +80,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 );
               }
             } else {
-              return  UnexpectedError();
+              return UnexpectedError();
             }
           },
         ),

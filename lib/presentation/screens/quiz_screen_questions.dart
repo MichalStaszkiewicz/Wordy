@@ -15,7 +15,7 @@ class QuizScreenQuestions extends StatelessWidget {
       {required this.topic, required this.questions, required this.index});
   final String topic;
   final List<QuizQuestion> questions;
-  final index;
+  final int index;
 
   @override
   Widget build(BuildContext context) {

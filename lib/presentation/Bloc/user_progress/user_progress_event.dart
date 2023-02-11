@@ -6,7 +6,10 @@ abstract class UserProgressEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+class LoadUserPreferencesOrCreateNewUser extends UserProgressEvent{
+LoadUserPreferencesOrCreateNewUser();
 
+}
 class LoadUserDataAndPreferences extends UserProgressEvent {
   LoadUserDataAndPreferences();
 }
@@ -22,8 +25,8 @@ String userLanguageToLearn;
 
 }
 
-class CreateNewUserAndLoadData extends UserProgressEvent {
-  CreateNewUserAndLoadData();
+class CreateNewUser extends UserProgressEvent {
+  CreateNewUser();
 }
 
 class LoadNewUserChoosingLanguageToLearn extends UserProgressEvent {

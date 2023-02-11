@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 import 'package:wordy/presentation/Widgets/unexpected_error.dart';
 import 'package:wordy/presentation/screens/language_to_learn_from_screen.dart';
-import 'package:wordy/presentation/screens/language_to_learn_screen.dart';
-
 class NewUserScreen extends StatelessWidget {
   const NewUserScreen({super.key});
 
@@ -12,11 +10,9 @@ class NewUserScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserProgressBloc, UserProgressState>(
       builder: (context, state) {
-      print("STATE inside newUserScreen: " + state.toString());
         if (state is CreatingNewUserPreferences) {
           return const LanguageToLearnFromScreen();
-        }
-        else {
+        } else {
           return UnexpectedError();
         }
       },
