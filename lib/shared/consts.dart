@@ -11,11 +11,29 @@ Map<String, String> flagWays = {
   "French": "france",
   "English": "united-kingdom"
 };
-String userLanguage = "Polish";
+String userLanguage = "";
+final List<Language> languages_available_for_interface = [
+  Language(
+    image: "assets/poland.png",
+    label: "Polish",
+  ),
+  Language(
+    image: "assets/united-kingdom.png",
+    label: "English",
+  ),
+];
 final List<Language> languages = [
   Language(
     image: "assets/poland.png",
     label: "Polish",
+  ),
+  Language(
+    image: "assets/spain.png",
+    label: "Spanish",
+  ),
+  Language(
+    image: "assets/france.png",
+    label: "French",
   ),
   Language(
     image: "assets/united-kingdom.png",

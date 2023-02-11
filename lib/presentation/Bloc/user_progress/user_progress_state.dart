@@ -34,11 +34,20 @@ class NewUserCreating extends UserProgressState {
 
 class CreatingNewUserPreferences extends UserProgressState {
   CreatingNewUserPreferences(
-      {required this.userLanguageToLearn, required this.userNativeLanguage});
+      {required this.userLanguageToLearn,
+      required this.userNativeLanguage,
+      required this.userLanguageToLearnSelected,required this.userNativeLanguageSelected});
   String userNativeLanguage;
   String userLanguageToLearn;
+  bool userNativeLanguageSelected;
+  bool userLanguageToLearnSelected;
   @override
-  List<Object> get props => [userLanguageToLearn, userNativeLanguage];
+  List<Object> get props => [
+        userLanguageToLearn,
+        userNativeLanguage,
+        userNativeLanguageSelected,
+        userLanguageToLearnSelected
+      ];
 }
 
 class UserLearnedWordsLoaded extends UserProgressState {

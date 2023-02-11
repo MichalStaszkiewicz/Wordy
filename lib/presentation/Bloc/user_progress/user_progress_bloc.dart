@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wordy/data/local/local_repository_implementation.dart';
+import 'package:wordy/domain/logic/settings_logic.dart';
+import 'package:wordy/shared/consts.dart';
 import '../../../domain/logic/user_data_logic.dart';
 import '../../../domain/models/course.dart';
 part 'user_progress_event.dart';
@@ -19,8 +21,10 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
     on<LoadUserPreferencesOrCreateNewUser>((event, emit) async {
       LocalRepository localRepository = LocalRepository();
       UserDataLogic userLogic = UserDataLogic();
+      SettingsLogic settingsLogic = SettingsLogic();
       bool databaseExists = await localRepository.setupDatabase();
       if (databaseExists) {
+        userLanguage = await settingsLogic.getUserInterfaceLanguage();
         emit(UserProgressLoaded(
             achievements: 0,
             daysStreak: 0,
@@ -28,7 +32,10 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
             learnedWords: await userLogic.getLearnedWordiesCount()));
       } else {
         emit(CreatingNewUserPreferences(
-            userLanguageToLearn: '', userNativeLanguage: ''));
+            userLanguageToLearn: '',
+            userNativeLanguage: '',
+            userLanguageToLearnSelected: false,
+            userNativeLanguageSelected: false));
       }
     });
   }
@@ -37,15 +44,17 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
     on<CreatingNewUserPreferencesUpdate>((event, emit) {
       emit(CreatingNewUserPreferences(
           userLanguageToLearn: event.userLanguageToLearn,
-          userNativeLanguage: event.userNativeLanguage));
+          userNativeLanguage: event.userNativeLanguage,
+          userLanguageToLearnSelected: event.userLanguageToLearnSelected,
+          userNativeLanguageSelected: event.userNativeLanguageSelected));
     });
   }
 
   void createNewUser() {
     on<CreateNewUser>((event, emit) async {
-   
       LocalRepository localRepository = LocalRepository();
-      await localRepository.createDatabase();
+      await localRepository.createDatabase(
+          event.nativeLanguage, event.languageToLearn);
     });
   }
 

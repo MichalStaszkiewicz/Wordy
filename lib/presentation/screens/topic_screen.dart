@@ -4,25 +4,22 @@ import 'package:wordy/Utility/utility.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
 import 'package:wordy/presentation/Widgets/topic_grid_view.dart';
 
-
 import 'package:wordy/presentation/screens/topic_screen_today_statistics.dart';
 import 'package:wordy/shared/consts.dart';
 
 import '../Widgets/unexpected_error.dart';
 
-
-
 class TopicScreen extends StatefulWidget {
-TopicScreen();
+  TopicScreen();
   @override
   State<TopicScreen> createState() => _TopicScreenState();
 }
 
 class _TopicScreenState extends State<TopicScreen>
     with TickerProviderStateMixin {
-  ScrollController _controller = ScrollController();
- 
-Utility utility = Utility();
+  final ScrollController _controller = ScrollController();
+
+  Utility utility = Utility();
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TopicsBloc, TopicsState>(
@@ -99,7 +96,9 @@ Utility utility = Utility();
                   state.localPosition,
                   state.globalPosition,
                   state.index,
-               state.topics.elementAt(state.index).name,context,_controller),
+                  state.topics.elementAt(state.index).name,
+                  context,
+                  _controller),
             ]),
           );
         } else {

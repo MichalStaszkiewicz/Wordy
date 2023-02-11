@@ -62,15 +62,15 @@ class LanguageDialog extends StatelessWidget {
                         ),
                         Expanded(
                           child: ListView.builder(
-                            itemCount: languages.length,
+                            itemCount: languages_available_for_interface.length,
                             itemBuilder: (BuildContext context, int index) {
                               return ListTile(
                                 leading: Image(
-                                  image: AssetImage(languages[index].image),
+                                  image: AssetImage(languages_available_for_interface[index].image),
                                 ),
-                                title: Text(languages[index].label),
+                                title: Text(languages_available_for_interface[index].label),
                                 trailing: state.interfaceLanguage ==
-                                        languages[index].label
+                                        languages_available_for_interface[index].label
                                     ? const Icon(
                                         Icons.check_circle,
                                         color: Colors.green,
@@ -80,7 +80,7 @@ class LanguageDialog extends StatelessWidget {
                                   ctx.read<SettingsBloc>().add(
                                       UpdateUserInterfaceLanguage(
                                           interfaceLanguage:
-                                              languages[index].label));
+                                              languages_available_for_interface[index].label));
                                   Navigator.of(context).pop();
                                 },
                               );

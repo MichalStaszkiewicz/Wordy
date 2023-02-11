@@ -6,10 +6,11 @@ abstract class UserProgressEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
-class LoadUserPreferencesOrCreateNewUser extends UserProgressEvent{
-LoadUserPreferencesOrCreateNewUser();
 
+class LoadUserPreferencesOrCreateNewUser extends UserProgressEvent {
+  LoadUserPreferencesOrCreateNewUser();
 }
+
 class LoadUserDataAndPreferences extends UserProgressEvent {
   LoadUserDataAndPreferences();
 }
@@ -18,15 +19,19 @@ class LoadLearnedWords extends UserProgressEvent {
   LoadLearnedWords();
 }
 
-class CreatingNewUserPreferencesUpdate extends UserProgressEvent{
-CreatingNewUserPreferencesUpdate({required this.userLanguageToLearn,required this.userNativeLanguage});
-String userNativeLanguage;
-String userLanguageToLearn;
-
+class CreatingNewUserPreferencesUpdate extends UserProgressEvent {
+  CreatingNewUserPreferencesUpdate(
+      {required this.userLanguageToLearn, required this.userNativeLanguage,required this.userLanguageToLearnSelected,required this.userNativeLanguageSelected});
+  String userNativeLanguage;
+  String userLanguageToLearn;
+  bool userNativeLanguageSelected;
+  bool userLanguageToLearnSelected;
 }
 
 class CreateNewUser extends UserProgressEvent {
-  CreateNewUser();
+  CreateNewUser({required this.languageToLearn, required this.nativeLanguage});
+  String languageToLearn;
+  String nativeLanguage;
 }
 
 class LoadNewUserChoosingLanguageToLearn extends UserProgressEvent {

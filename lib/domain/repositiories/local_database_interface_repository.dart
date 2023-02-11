@@ -6,7 +6,7 @@ import '../models/course_entry.dart';
 
 abstract class LocalInterface {
   Future<List<CourseEntryDto>> getUserLearnedWordies();
-  void createDatabase();
+  void createDatabase(String userNativeLanguage,String languageToLearn);
   void setupDatabase();
   void insertLearnedWordsToDatabase(List<CourseEntry> words);
   void updateUserProfile(String fieldToUpdate, String value);

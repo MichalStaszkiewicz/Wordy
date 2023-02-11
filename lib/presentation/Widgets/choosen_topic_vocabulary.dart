@@ -25,7 +25,7 @@ class _ChoosenTopicVocabularyState extends State<ChoosenTopicVocabulary> {
           child: Text(widget.topic,
               style: Theme.of(context)
                   .textTheme
-                  .headline5!
+                  .headlineSmall!
                   .copyWith(color: Colors.white)),
         )),
       ),

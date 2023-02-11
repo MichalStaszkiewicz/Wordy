@@ -96,7 +96,7 @@ class LocalRepository implements LocalInterface {
   }
 
   @override
-  Future<void> createDatabase() async {
+  Future<void> createDatabase(String userNativeLanguage,String languageToLearn) async {
     String databasePath = await getDatabasesPath();
     String path = "$databasePath/wordyDB.db/";
     Database database =
@@ -118,7 +118,7 @@ class LocalRepository implements LocalInterface {
     });
     await database.execute(
         'INSERT INTO profile (currentCourse, daysStreak, learnedWords, finishedTopics, achievements, themeMode, interfaceLanguage, EnglishPolish, EnglishChinese, EnglishSpanish, PolishEnglish, PolishChinese, PolishSpanish,firstOpen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-        ['English', 0, 0, 0, 0, 'light', 'Polish', 0, 0, 0, 1, 0, 0,0]);
+        [languageToLearn, 0, 0, 0, 0, 'light', userNativeLanguage, 0, 0, 0, 1, 0, 0,0]);
   }
 
   @override
