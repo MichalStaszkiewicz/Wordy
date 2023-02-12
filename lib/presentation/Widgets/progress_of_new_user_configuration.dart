@@ -46,17 +46,66 @@ class ProgressOfNewUserConfigurationState
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(10),
-        color: Colors.amber,
-        width: 400,
-        child: Row(
+      width: 390,
+      child: Container(
+        child: Stack(
           children: [
-            StepperEntry(step: 1, label: "Native Language"),
-            Expanded(child: StepperConnector()),
-            StepperEntry(step: 2, label: "Language To Learn"),
-            Expanded(child: StepperConnector()),
-            StepperEntry(step: 3, label: "Finish!"),
+            Positioned(
+              top:180,
+            child: Container(
+              
+             
+                width: 390,
+                child: Text(
+                  "Choose your native language",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+            ),
+            Positioned(
+                left: 0,
+                top: 50,
+                child: Container(
+                  width: 390,
+                  child: Center(
+                    child: Text(
+                      "Learning Profile",
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                )),
+            Positioned(
+              top: 70,
+              left: 0,
+              child: StepperEntry(step: 1, label: "Native Language"),
+            ),
+            Positioned(
+              top: 107,
+              left: 65, // entry width
+              child: StepperConnector(
+                width: 115,
+              ),
+            ),
+            Positioned(
+              top: 70,
+              left: 145,
+              child: StepperEntry(step: 1, label: "Language To Learn"),
+            ),
+            Positioned(
+              top: 107,
+              left: 210, // entry width
+              child: StepperConnector(
+                width: 115,
+              ),
+            ),
+            Positioned(
+              top: 70,
+              left: 290,
+              child: StepperEntry(step: 2, label: "Finish!"),
+            ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }

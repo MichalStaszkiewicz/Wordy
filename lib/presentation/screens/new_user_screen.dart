@@ -20,7 +20,7 @@ class NewUserScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: Container(child: ProgressOfNewUserConfiguration()),
                   ),
                   Expanded(

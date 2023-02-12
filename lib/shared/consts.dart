@@ -1,5 +1,8 @@
-import '../domain/models/language.dart';
+import 'package:flutter/material.dart';
 
+import '../domain/models/language.dart';
+const Color kdisabledcolor =  Color.fromARGB(156, 212, 209, 209);
+const Color kactivestatuscolor = Color.fromARGB(255, 67, 165, 70);
 List<String> topics = ["Basic Conversation"];
 Map<String, String> quizTitles = {
   "Basic Conversation": "Basic Conversation",
