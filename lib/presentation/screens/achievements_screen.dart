@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 
 class AchievemetnsScreen extends StatefulWidget {
   const AchievemetnsScreen({super.key});
@@ -22,7 +21,7 @@ class _AchievemetnsScreenState extends State<AchievemetnsScreen> {
                 "Achievements",
                 style: Theme.of(context)
                     .textTheme
-                    .headline5!
+                    .headlineSmall!
                     .copyWith(color: Colors.white),
               ),
             ),

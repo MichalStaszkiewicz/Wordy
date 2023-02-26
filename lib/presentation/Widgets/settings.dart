@@ -69,7 +69,7 @@ class _SettingsState extends State<Settings> {
                                             'settings_screen_interface_header']
                                         .toString(),
                                     style:
-                                        Theme.of(context).textTheme.subtitle1,
+                                        Theme.of(context).textTheme.titleMedium,
                                   )),
                               Text(
                                 ui_lang[userLanguage]![
@@ -77,7 +77,7 @@ class _SettingsState extends State<Settings> {
                                     .toString(),
                                 style: Theme.of(context)
                                     .textTheme
-                                    .subtitle2!
+                                    .titleSmall!
                                     .copyWith(color: Colors.grey),
                               )
                             ],

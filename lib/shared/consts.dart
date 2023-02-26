@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../domain/models/language.dart';
-const Color kdisabledcolor =  Color.fromARGB(156, 212, 209, 209);
+
+const Color kdisabledcolor = Color.fromARGB(156, 212, 209, 209);
 const Color kactivestatuscolor = Color.fromARGB(255, 67, 165, 70);
+const Color ktitlecolor = Color.fromRGBO(51, 51, 51, 1.0);
 List<String> topics = ["Basic Conversation"];
 Map<String, String> quizTitles = {
   "Basic Conversation": "Basic Conversation",
@@ -44,7 +46,11 @@ final List<Language> languages = [
   ),
 ];
 Map<String, Map<String, dynamic>> ui_lang = {
-  "Polish": {
+  "Polish": {"language_menu_information":"Wybierz język którego chcesz się nauczyć",
+    "dialog_change_native_language_to_english":
+        "Ten język jest dostępny tylko jeśli już znasz angielski. Czy chcesz zmienić swój ojczysty język na angielski?",
+    "dialog_change_native_language_to_polish":
+        "Ten język jest dostępny tylko jeśli już znasz język polski. Czy chcesz zmienić swój ojczysty język na język polski?",
     "home_screen_app_bar": "Kategorie",
     "vocabulary_screen_app_bar": "Słownictwo",
     "vocabulary_screen_search_hint": "Wyszukaj kategorie",
@@ -68,11 +74,11 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "quiz_settings_review": "Powtórka",
     "finished_topic_announcement": "Gratulacje udało ci się ukończyć temat:",
     "no_words_to_review_announcement": "Nie masz słow do powtórki",
-    "exit_dialog_header": "Uwaga!",
+    "warning_dialog_header": "Uwaga!",
     "exit_dialog_description":
         "Czy na pewno chcesz wyjść? Jeśli tak, utracisz postęp.",
-    "exit_dialog_yes": "Tak",
-    "exit_dialog_no": "Nie",
+    "dialog_yes": "Tak",
+    "dialog_no": "Nie",
     "quiz_next_button": "Dalej",
     "quiz_finish_header": "Podsumowanie",
     "quiz_finish_your_score": "Wynik",
@@ -81,11 +87,16 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "quiz_finish_home": "Zakończ",
   },
   "English": {
+    "language_menu_information":"Select language you want to learn",
     "home_screen_app_bar": "Topic",
     "vocabulary_screen_app_bar": "Vocabulary",
     "vocabulary_screen_search_hint": "Search topic",
     "topic_label": ["Basic Conversation"],
     "profile_screen_app_bar": "Profile",
+    "dialog_change_native_language_to_english":
+        "This language is only available if you already know english. Do you want to swap your native language to english?",
+    "dialog_change_native_language_to_polish":
+        "This language is only available if you already know polish. Do you want to swap your native language to polish?",
     "profile_screen_courses_header": "My Courses",
     "profile_screen_statistics_header": "Statistics",
     "profile_screen_days_in_a_row": "Days in a row",
@@ -104,11 +115,11 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "quiz_settings_review": "Review",
     "finished_topic_announcement": "Congratulations you finished topic:",
     "no_words_to_review_announcement": "You have no words to review",
-    "exit_dialog_header": "Warning!",
+    "warning_dialog_header": "Warning!",
     "exit_dialog_description":
         "Are you sure you want to exit? If so, you will lose progress.",
-    "exit_dialog_yes": "Yes",
-    "exit_dialog_no": "No",
+    "dialog_yes": "Yes",
+    "dialog_no": "No",
     "quiz_next_button": "Next",
     "quiz_finish_header": "Summary",
     "quiz_finish_your_score": "Your Score",

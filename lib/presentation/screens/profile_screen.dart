@@ -22,6 +22,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,

@@ -1,0 +1,19 @@
+import 'package:flutter/material.dart';
+import 'package:wordy/data/local/local_repository_implementation.dart';
+
+class InterfaceLanguageProvider with ChangeNotifier {
+  LocalRepository _localRepository = LocalRepository();
+  String interfaceLangauge = "";
+  Future<void> getUserInterfaceLanguage() async {
+    await _localRepository.createDatabase("English","Polish").then((value) async {
+      Map<String, String> userData = await _localRepository.getUserData();
+      interfaceLangauge = userData["interfaceLanguage"]!;
+    });
+  }
+
+  void changeUserInterfaceLanguage(String language) {
+    _localRepository.updateUserProfile("interfaceLanguage", language);
+    interfaceLangauge = language;
+    notifyListeners();
+  }
+}

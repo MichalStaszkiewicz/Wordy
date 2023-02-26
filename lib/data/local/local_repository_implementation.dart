@@ -6,7 +6,6 @@ import 'package:wordy/data/local/local_database.dart';
 import 'package:wordy/domain/repositiories/local_database_interface_repository.dart';
 import 'package:wordy/shared/consts.dart';
 
-import '../../domain/models/course.dart';
 import '../../domain/models/course_entry.dart';
 import '../dto/course_dto.dart';
 import '../dto/word_dto.dart';
@@ -22,6 +21,7 @@ class LocalRepository implements LocalInterface {
     });
     return result;
   }
+
 
   Future<int> countLearnedWordies() async {
     Map<String, List<String>> avCourses = availableCourses();
@@ -96,7 +96,8 @@ class LocalRepository implements LocalInterface {
   }
 
   @override
-  Future<void> createDatabase(String userNativeLanguage,String languageToLearn) async {
+  Future<void> createDatabase(
+      String userNativeLanguage, String languageToLearn) async {
     String databasePath = await getDatabasesPath();
     String path = "$databasePath/wordyDB.db/";
     Database database =
@@ -114,11 +115,27 @@ class LocalRepository implements LocalInterface {
       await db.execute(
           'CREATE TABLE PolishToSpanish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
       await db.execute(
-          'CREATE TABLE profile (id INTEGER PRIMARY KEY,currentCourse TEXT, daysStreak INTEGER, learnedWords INTEGER, finishedTopics INTEGER, achievements INTEGER, themeMode TEXT, interfaceLanguage TEXT, EnglishPolish INTEGER,EnglishChinese INTEGER, EnglishSpanish INTEGER, PolishEnglish INTEGER, PolishChinese INTEGER, PolishSpanish INTEGER, firstOpen INTEGER)');
+          'CREATE TABLE profile (id INTEGER PRIMARY KEY,firstRun INTEGER,currentCourse TEXT, daysStreak INTEGER, learnedWords INTEGER, finishedTopics INTEGER, achievements INTEGER, themeMode TEXT, interfaceLanguage TEXT, EnglishPolish INTEGER,EnglishChinese INTEGER, EnglishSpanish INTEGER, PolishEnglish INTEGER, PolishChinese INTEGER, PolishSpanish INTEGER, firstOpen INTEGER)');
     });
     await database.execute(
-        'INSERT INTO profile (currentCourse, daysStreak, learnedWords, finishedTopics, achievements, themeMode, interfaceLanguage, EnglishPolish, EnglishChinese, EnglishSpanish, PolishEnglish, PolishChinese, PolishSpanish,firstOpen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-        [languageToLearn, 0, 0, 0, 0, 'light', userNativeLanguage, 0, 0, 0, 1, 0, 0,0]);
+        'INSERT INTO profile (currentCourse,firstRun, daysStreak, learnedWords, finishedTopics, achievements, themeMode, interfaceLanguage, EnglishPolish, EnglishChinese, EnglishSpanish, PolishEnglish, PolishChinese, PolishSpanish,firstOpen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+        [
+          languageToLearn,
+          1,
+          0,
+          0,
+          0,
+          0,
+          'light',
+          userNativeLanguage,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]);
   }
 
   @override
@@ -141,9 +158,10 @@ class LocalRepository implements LocalInterface {
     String interfaceLanguage =
         profile.elementAt(0)['interfaceLanguage'].toString();
     String themeMode = profile.elementAt(0)['themeMode'].toString();
+    String firstRun = profile.elementAt(0)['firstRun'].toString();
     Map<String, String> map =
         utility.convertCurrentCourseName(currentCourse, interfaceLanguage);
-    map.addAll({"themeMode": themeMode});
+    map.addAll({"themeMode": themeMode,"firstRun":firstRun});
 
     return map;
   }
@@ -234,22 +252,18 @@ class LocalRepository implements LocalInterface {
     LocalDatabase localDB = LocalDatabase();
     String databasePath = await getDatabasesPath();
     String path = "$databasePath/wordyDB.db/";
-    bool st = false;
 
     bool exists = await databaseExists(path);
     var connection = await localDB.connect();
     if (!exists) {
-
-    
       await connection.close();
-      print("STATE OF DB: " + st.toString());
+
       return false;
     } else {
       connection = await openDatabase(path);
-      print("Database already exists at " + path + " + loading user data...");
+
       await connection.close();
-      st = true;
-      print("STATE OF DB: " + st.toString());
+
       return true;
     }
   }

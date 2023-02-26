@@ -35,7 +35,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             ui_lang[userLanguage]!['vocabulary_screen_app_bar'].toString(),
             style: Theme.of(context)
                 .textTheme
-                .headline5!
+                .headlineSmall!
                 .copyWith(color: Colors.white),
           ),
         ),
@@ -63,8 +63,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                               .toString(),
                           hintStyle: Theme.of(context)
                               .textTheme
-                              .subtitle2!
-                              .copyWith(letterSpacing: 1),
+                              .titleSmall,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(50)),
                         ),

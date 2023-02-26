@@ -27,7 +27,7 @@ class QuizFinishButton extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall!
-                .copyWith(color: Colors.white, letterSpacing: 1),
+                .copyWith(color: Colors.white,),
           ),
         ),
       ),

@@ -17,8 +17,8 @@ class QuizNextButton extends StatelessWidget {
             ui_lang[userLanguage]!['quiz_next_button'].toString(),
             style: Theme.of(context)
                 .textTheme
-                .headline5!
-                .copyWith(letterSpacing: 1),
+                .headlineSmall!
+            
           ),
         ),
       ),

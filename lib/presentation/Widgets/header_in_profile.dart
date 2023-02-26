@@ -12,8 +12,8 @@ class HeaderInProfile extends StatelessWidget {
         label,
         style: Theme.of(context)
             .textTheme
-            .headline6!
-            .copyWith(fontWeight: FontWeight.bold, letterSpacing: 1),
+            .titleLarge!
+            .copyWith(fontWeight: FontWeight.bold, ),
       ),
     );
   }

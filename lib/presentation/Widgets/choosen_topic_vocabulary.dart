@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -20,13 +21,15 @@ class _ChoosenTopicVocabularyState extends State<ChoosenTopicVocabulary> {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-            child: Container(
-          margin: const EdgeInsets.only(right: 50),
-          child: Text(widget.topic,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall!
-                  .copyWith(color: Colors.white)),
+            child: Container(width: 300,
+          margin: const EdgeInsets.only(right: 0),
+      
+            child: AutoSizeText(widget.topic,minFontSize: 5,
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(color: Colors.white,),
+          ),
         )),
       ),
       body: BlocBuilder<VocabularyBloc, VocabularyState>(

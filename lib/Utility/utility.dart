@@ -1,19 +1,127 @@
 import 'dart:collection';
 import 'dart:math';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:wordy/domain/models/word.dart';
+import 'package:wordy/presentation/Provider/interface_language_provider.dart';
 import 'package:wordy/presentation/Widgets/quiz_options.dart';
 
 import '../domain/models/course_entry.dart';
 import '../domain/models/quiz_question.dart';
+import '../presentation/Bloc/user_progress/user_progress_bloc.dart';
+import '../presentation/Provider/interface_language_provider.dart';
+import '../presentation/Provider/interface_language_provider.dart';
+import '../presentation/Widgets/language_to_choose.dart';
+import '../shared/consts.dart';
 
 class Utility {
   Utility();
+  Widget languageChangeMenu(
+    double animationValue,
+  ) {
+  
+    return AnimatedPositioned(
+      duration: const Duration(seconds: 1),
+      curve: Curves.linear,
+      bottom: animationValue,
+      left: 0,
+      right: 0,
+      child: BlocBuilder<UserProgressBloc, UserProgressState>(
+        builder: (context, state) {
+            String interfaceLanguage =
+        Provider.of<InterfaceLanguageProvider>(context, listen: false)
+            .interfaceLangauge;
+          if (state is UserCoursesAndSettingsInformations) {
+            return Container(
+              height: MediaQuery.of(context).size.height / 2,
+              width: MediaQuery.of(context).size.width,
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              child: Column(
+                children: [
+                  Container(
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        ui_lang[interfaceLanguage]![
+                            'language_menu_information'],
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 300,
+                    child: ListView.builder(
+                        itemCount: languages.length,
+                        itemBuilder: (context, index) => LanguageToChoose(
+                              function: () {
+                                if (languages[index].label ==
+                                    state.nativeLanguage) {
+                                  languageChangeNotPossibleForUserNativeLangugae(
+                                      context,
+                                      state.nativeLanguage,
+                                      languages[index].label);
+                                } else {
+                                  context
+                                      .read<UserProgressBloc>()
+                                      .add(UpdateUserCourse(
+                                        course: languages[index].label,
+                                      ));
+                                }
+                              },
+                              index: index,
+                              language: state.currentCourse,
+                              listLangs: languages,
+                            )),
+                  )
+                ],
+              ),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+    );
+  }
 
-  List<CourseEntry> convertWordToCourse(List<Word> words, String languageToLearn,
-      String languageThatUserWillLearnFrom) {
+  void languageChangeNotPossibleForUserNativeLangugae(
+      BuildContext context, String nativeLanguage, String choosenLanguage) {
+    InterfaceLanguageProvider provider =
+        Provider.of<InterfaceLanguageProvider>(context, listen: false);
+    AwesomeDialog(
+            context: context,
+            dialogType: DialogType.warning,
+            animType: AnimType.bottomSlide,
+            title: ui_lang[nativeLanguage]!["warning_dialog_header"],
+            desc: choosenLanguage == "Polish"
+                ? ui_lang[nativeLanguage]![
+                    "dialog_change_native_language_to_english"]
+                : ui_lang[nativeLanguage]![
+                    "dialog_change_native_language_to_polish"],
+            btnOkColor: Colors.blue,
+            btnOkText: ui_lang[nativeLanguage]!["dialog_yes"],
+            btnCancelText: ui_lang[nativeLanguage]!["dialog_no"],
+            btnOkOnPress: () {
+              context.read<UserProgressBloc>().add(UpdateUserCourse(
+                    course: choosenLanguage,
+                  ));
+              provider.changeUserInterfaceLanguage(choosenLanguage);
+            },
+            btnCancelOnPress: () {})
+        .show();
+  }
+
+  List<CourseEntry> convertWordToCourse(List<Word> words,
+      String languageToLearn, String languageThatUserWillLearnFrom) {
     List<CourseEntry> result = [];
 
     for (Word word in words) {
@@ -39,6 +147,17 @@ class Utility {
     return map;
   }
 
+  String convertStepIntoTitle(int step) {
+    if (step == 1) {
+      return "Choose your native language";
+    }
+    if (step == 2) {
+      return "Choose language you want to learn";
+    } else {
+      return "Finish";
+    }
+  }
+
   List<QuizQuestion> createListOfQuestions(List<CourseEntry> words) {
     List<QuizQuestion> questions = [];
     HashSet<String> usedWords = HashSet<String>();
@@ -57,9 +176,8 @@ class Utility {
       List<String> answersList = usedWords.toList();
       var correctAnswerIndex = 0;
       var correctAnswer = words[i].word;
-     
+
       if (usedWords.contains(correctAnswer)) {
-    
         for (int i = 0; i < usedWords.length; i++) {
           if (usedWords.elementAt(i) == correctAnswer) {
             answersList[i] = correctAnswer;
@@ -83,8 +201,14 @@ class Utility {
     return questions;
   }
 
-   Positioned quizSettings(bool show, Offset localPosition,
-      Offset globalPosition, int index, String name,BuildContext context,ScrollController controller) {
+  Positioned quizSettings(
+      bool show,
+      Offset localPosition,
+      Offset globalPosition,
+      int index,
+      String name,
+      BuildContext context,
+      ScrollController controller) {
     if (show == true) {
       var deviceDimensions = MediaQuery.of(context).size;
       Offset showMenuPosition = Offset(globalPosition.dx - localPosition.dx,
@@ -99,7 +223,7 @@ class Utility {
           top: offsetAfterJump.dy + 30,
           left: offsetAfterJump.dx,
           child: QuizOptions(
-           title: name,
+            title: name,
           ),
         );
       } else if (deviceDimensions.height < showMenuPosition.dy + 180 &&
@@ -113,7 +237,6 @@ class Utility {
           left: offsetAfterJump.dx,
           child: QuizOptions(
             title: name,
-       
           ),
         );
       } else {
@@ -122,7 +245,6 @@ class Utility {
           left: showMenuPosition.dx,
           child: QuizOptions(
             title: name,
-        
           ),
         );
       }

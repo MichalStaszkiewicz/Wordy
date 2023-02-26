@@ -24,7 +24,7 @@ class _WordsLearnedChoosenLanguageState
                 "Words Learned - ${widget.choosenLanguage}",
                 style: Theme.of(context)
                     .textTheme
-                    .headline5!
+                    .headlineSmall!
                     .copyWith(color: Colors.white),
               ),
             ),

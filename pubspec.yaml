@@ -44,6 +44,9 @@ dependencies:
   dio: ^4.0.6
   mysql1: ^0.20.0
   status_change: ^2.0.0
+  persistent_bottom_nav_bar: ^5.0.2
+  awesome_dialog: ^3.0.2
+  provider: ^6.0.5
 dev_dependencies:
   flutter_test:
     sdk: flutter

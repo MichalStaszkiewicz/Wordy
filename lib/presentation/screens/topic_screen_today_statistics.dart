@@ -17,8 +17,8 @@ String image;
               image: AssetImage(image),
             ),
           ),
-          SizedBox(
-            width: 5,
+          const SizedBox(
+            width: 10,
           ),
           Text(
             label.toString(),

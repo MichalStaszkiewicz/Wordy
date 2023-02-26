@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:wordy/shared/consts.dart';
 
 class StepperConnector extends StatefulWidget {
-  StepperConnector({required this.width});
+  StepperConnector({required this.width,required this.stepFinished,required this.step});
   double width;
+  int stepFinished;
+  int step;
 
   @override
   State<StepperConnector> createState() => _StepperConnectorState();
@@ -15,7 +17,7 @@ class _StepperConnectorState extends State<StepperConnector> {
     return Container(
       height: 2,
       width: widget.width,
-      color: kdisabledcolor,
+      color: widget.step>widget.stepFinished?kactivestatuscolor:kdisabledcolor,
     );
   }
 }

@@ -25,7 +25,7 @@ class _FinishedTopicsScreenState extends State<FinishedTopicsScreen> {
                 "Finished Topics",
                 style: Theme.of(context)
                     .textTheme
-                    .headline5!
+                    .headlineSmall!
                     .copyWith(color: Colors.white),
               ),
             ),

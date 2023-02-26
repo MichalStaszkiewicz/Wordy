@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 import 'package:wordy/presentation/Widgets/confirm_button.dart';
 import 'package:wordy/presentation/Widgets/language_to_choose.dart';
-import 'package:wordy/presentation/screens/language_to_learn_screen.dart';
 import 'package:wordy/shared/consts.dart';
 
 class LanguageToLearnFromScreen extends StatelessWidget {
@@ -17,7 +16,7 @@ class LanguageToLearnFromScreen extends StatelessWidget {
         return Column(
           children: [
             Expanded(
-                flex: 4,
+                flex: 3,
                 child: Container(
                     child: ListView.builder(
                         itemCount: languages_available_for_interface.length,
@@ -32,7 +31,8 @@ class LanguageToLearnFromScreen extends StatelessWidget {
                                                     index]
                                                 .label,
                                         userLanguageToLearnSelected: false,
-                                        userNativeLanguageSelected: true));
+                                        userNativeLanguageSelected: true,
+                                        step: 1));
                               },
                               index: index,
                               language: state.userNativeLanguage,
@@ -42,20 +42,13 @@ class LanguageToLearnFromScreen extends StatelessWidget {
                 flex: 1,
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BlocProvider(
-                                  create: (context) => UserProgressBloc()
-                                    ..add(CreatingNewUserPreferencesUpdate(
-                                        userLanguageToLearn:
-                                            state.userLanguageToLearn,
-                                        userNativeLanguage:
-                                            state.userNativeLanguage,
-                                        userLanguageToLearnSelected: false,
-                                        userNativeLanguageSelected: true)),
-                                  child: const LanguageToLearnScreen(),
-                                )));
+                    context.read<UserProgressBloc>().add(
+                        CreatingNewUserPreferencesUpdate(
+                            userLanguageToLearn: state.userLanguageToLearn,
+                            userNativeLanguage: state.userNativeLanguage,
+                            userLanguageToLearnSelected: false,
+                            userNativeLanguageSelected: true,
+                            step: 2));
                   },
                   child: ConfirmButton(
                     selected: state.userNativeLanguageSelected,

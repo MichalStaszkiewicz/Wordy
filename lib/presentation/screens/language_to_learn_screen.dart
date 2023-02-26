@@ -17,7 +17,7 @@ class LanguageToLearnScreen extends StatelessWidget {
           return Column(
             children: [
               Expanded(
-                  flex: 4,
+                  flex: 3,
                   child: Container(
                       child: ListView.builder(
                           itemCount: languages.length,
@@ -33,7 +33,8 @@ class LanguageToLearnScreen extends StatelessWidget {
                                           userNativeLanguage:
                                               state.userNativeLanguage,
                                           userLanguageToLearnSelected: true,
-                                          userNativeLanguageSelected: false));
+                                          userNativeLanguageSelected: false,
+                                          step: 2));
                                 },
                                 index: index,
                                 language: state.userLanguageToLearn,
@@ -47,13 +48,13 @@ class LanguageToLearnScreen extends StatelessWidget {
                   flex: 1,
                   child: GestureDetector(
                       onTap: () {
-                        context.read<UserProgressBloc>().add(CreateNewUser(
-                            languageToLearn: state.userLanguageToLearn,
-                            nativeLanguage: state.userNativeLanguage));
-                        Navigator.pushNamed(
-                          context,
-                          '/home',
-                        );
+                        context.read<UserProgressBloc>().add(
+                            CreatingNewUserPreferencesUpdate(
+                                userLanguageToLearn: state.userLanguageToLearn,
+                                userNativeLanguage: state.userNativeLanguage,
+                                userLanguageToLearnSelected: false,
+                                userNativeLanguageSelected: true,
+                                step: 3));
                       },
                       child: ConfirmButton(
                         selected: state.userLanguageToLearnSelected,

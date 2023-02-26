@@ -5,15 +5,29 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:wordy/shared/consts.dart';
 
 class StepperEntry extends StatefulWidget {
-  StepperEntry({required this.step, required this.label});
+  StepperEntry(
+      {required this.step,
+      required this.label,
+      required this.statusEntryIndex});
   String label;
   int step;
+  int statusEntryIndex;
 
   @override
   State<StepperEntry> createState() => _StepperEntryState();
 }
 
 class _StepperEntryState extends State<StepperEntry> {
+  Color properTextColorBaseOnState() {
+    if (widget.step > widget.statusEntryIndex) {
+      return kactivestatuscolor;
+    } else if (widget.step == widget.statusEntryIndex) {
+      return ktitlecolor;
+    } else {
+      return kdisabledcolor;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,13 +41,19 @@ class _StepperEntryState extends State<StepperEntry> {
               height: 30,
               width: 30,
               decoration: BoxDecoration(
-                border: Border.all(color: kdisabledcolor),
+                border: Border.all(
+                  color: widget.step >= widget.statusEntryIndex
+                      ? kactivestatuscolor
+                      : kdisabledcolor,
+                ),
                 borderRadius: BorderRadius.circular(50),
               ),
               child: Container(
                 margin: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                    color: kactivestatuscolor,
+                    color: widget.step >= widget.statusEntryIndex
+                        ? kactivestatuscolor
+                        : null,
                     borderRadius: BorderRadius.circular(50)),
               ),
             ),
@@ -44,11 +64,12 @@ class _StepperEntryState extends State<StepperEntry> {
               width: 100,
               child: Center(
                 child: AutoSizeText(
-                  
                   widget.label,
-                  maxLines: 1,minFontSize: 10,
+                  maxLines: 1,
+                  minFontSize: 4,
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: kactivestatuscolor, fontWeight: FontWeight.bold),
+                      color: properTextColorBaseOnState(),
+                      fontWeight: FontWeight.bold),
                 ),
               ),
             )

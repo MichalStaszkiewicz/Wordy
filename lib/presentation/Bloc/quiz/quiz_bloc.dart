@@ -64,7 +64,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           questions: state.questions,
           index: state.index + 1,
           selected: false,
-          question_answer_state: [0, 0, 0, 0],
+          question_answer_state: const [0, 0, 0, 0],
           correct: state.correct,
           topic: state.topic,
         ));
@@ -89,8 +89,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           questions: questions,
           index: 0,
           selected: false,
-          question_answer_state: [0, 0, 0, 0],
-          correct: [],
+          question_answer_state: const [0, 0, 0, 0],
+          correct: const [],
           topic: event.topic));
     });
   }
@@ -104,8 +104,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           questions: questions,
           index: 0,
           selected: false,
-          question_answer_state: [0, 0, 0, 0],
-          correct: [],
+          question_answer_state: const [0, 0, 0, 0],
+          correct: const [],
           topic: event.topic));
     });
   }

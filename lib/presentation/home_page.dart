@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/Widgets/unexpected_error.dart';
@@ -14,6 +16,7 @@ import 'package:wordy/presentation/screens/vocabulary_screen.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
 
 import 'Bloc/user_progress/user_progress_bloc.dart';
+import 'Provider/interface_language_provider.dart';
 import 'screens/topic_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,34 +29,38 @@ class HomePage extends StatefulWidget {
 }
 
 int currentIndex = 0;
-List<BottomNavigationBarItem> bottom_nav_items = [
-  BottomNavigationBarItem(
-    label: "",
-    icon: Container(
-        padding: const EdgeInsets.only(top: 10), child: const Icon(Icons.home)),
-  ),
-  BottomNavigationBarItem(
-    label: "",
-    icon: Container(
-        padding: const EdgeInsets.only(top: 10), child: const Icon(Icons.book)),
-  ),
-  BottomNavigationBarItem(
-    label: "",
-    icon: Container(
-        padding: const EdgeInsets.only(top: 10),
-        child: const Icon(Icons.person)),
-  ),
-  BottomNavigationBarItem(
-    label: "",
-    icon: Container(
-        padding: const EdgeInsets.only(top: 10),
-        child: const Icon(Icons.settings)),
-  ),
-];
+List<PersistentBottomNavBarItem> navBarsItems() {
+  return [
+    PersistentBottomNavBarItem(
+      icon: Icon(Icons.home),
+      title: ("Home"),
+      activeColorPrimary: Colors.blue,
+      inactiveColorPrimary: Colors.grey,
+    ),
+    PersistentBottomNavBarItem(
+      icon: Icon(Icons.book),
+      title: ("Vocabulary"),
+      activeColorPrimary: Colors.blue,
+      inactiveColorPrimary: Colors.grey,
+    ),
+    PersistentBottomNavBarItem(
+      icon: Icon(Icons.person),
+      title: ("Profile"),
+      activeColorPrimary: Colors.blue,
+      inactiveColorPrimary: Colors.grey,
+    ),
+    PersistentBottomNavBarItem(
+      icon: Icon(Icons.settings),
+      title: ("Settings"),
+      activeColorPrimary: Colors.blue,
+      inactiveColorPrimary: Colors.grey,
+    ),
+  ];
+}
 
 List<Widget> _currentScreen = [
   BlocProvider(
-    create: (context) => TopicsBloc()..add(LoadTopics()),
+    create: (context) => UserProgressBloc()..add(LoadUserSettingsAndCourseInformations()),
     child: TopicScreen(),
   ),
   BlocProvider(
@@ -78,6 +85,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    
     return BlocProvider(
       create: (context) => UserProgressBloc(),
       child: BlocBuilder<UserProgressBloc, UserProgressState>(
@@ -94,16 +102,19 @@ class _HomePageState extends State<HomePage> {
           }
           if (state is UserProgressLoaded) {
             return Scaffold(
-              bottomNavigationBar: BottomNavigationBar(
-                  type: BottomNavigationBarType.fixed,
-                  iconSize: 24,
-                  currentIndex: currentIndex,
-                  onTap: (index) {
-                    setState(() {
-                      currentIndex = index;
-                    });
-                  },
-                  items: bottom_nav_items),
+              bottomNavigationBar: PersistentTabView(
+                context,
+                navBarHeight: 80,
+                items: navBarsItems(),
+                controller: PersistentTabController(initialIndex: currentIndex),
+                onItemSelected: (index) {
+                  setState(() {
+                    currentIndex = index;
+                  });
+                },
+                navBarStyle: NavBarStyle.style3,
+                screens: _currentScreen,
+              ),
               body: _currentScreen[currentIndex],
             );
           }

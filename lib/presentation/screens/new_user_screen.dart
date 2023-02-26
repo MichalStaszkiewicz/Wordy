@@ -5,9 +5,28 @@ import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 import 'package:wordy/presentation/Widgets/progress_of_new_user_configuration.dart';
 import 'package:wordy/presentation/Widgets/unexpected_error.dart';
 import 'package:wordy/presentation/screens/language_to_learn_from_screen.dart';
+import 'package:wordy/presentation/screens/language_to_learn_screen.dart';
+import 'package:wordy/presentation/screens/new_user_finish_screen.dart';
 
 class NewUserScreen extends StatelessWidget {
   const NewUserScreen({super.key});
+
+  Widget checkStateOfConfiguration(int step) {
+    if (step == 1) {
+      return Expanded(
+        flex: 3,
+        child: Container(child: LanguageToLearnFromScreen()),
+      );
+    }
+    if (step == 2) {
+      return Expanded(
+        flex: 3,
+        child: Container(child: LanguageToLearnScreen()),
+      );
+    } else {
+      return Expanded(flex: 3, child: NewUserFinishScreen());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +35,13 @@ class NewUserScreen extends StatelessWidget {
         if (state is CreatingNewUserPreferences) {
           return Scaffold(
             body: Container(
-              height: 1000,
               child: Column(
                 children: [
                   Expanded(
-                    flex: 2,
+                    flex: 1,
                     child: Container(child: ProgressOfNewUserConfiguration()),
                   ),
-                  Expanded(
-                    flex: 6,
-                    child: Container(child: LanguageToLearnFromScreen()),
-                  ),
+                  checkStateOfConfiguration(state.step),
                 ],
               ),
             ),

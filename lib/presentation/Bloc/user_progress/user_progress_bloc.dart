@@ -16,26 +16,75 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
     createNewUser();
     updateCreateNewUser();
     loadUserPreferencesOrCreateNewUser();
+    loadUserSettingsAndCourseInformations();
+    updateUserCourse();
   }
+
+  void loadUserSettingsAndCourseInformations() {
+    on<LoadUserSettingsAndCourseInformations>((event, emit) async {
+      LocalRepository localRepository = LocalRepository();
+      String currentCourse = "";
+      String nativeLanguage = "";
+      await localRepository.getUserData().then((value) {
+        currentCourse = value['courseName']!;
+        nativeLanguage = value['interfaceLanguage']!;
+      });
+
+      emit(UserCoursesAndSettingsInformations(
+          currentCourse: currentCourse, nativeLanguage: nativeLanguage));
+    });
+  }
+
   void loadUserPreferencesOrCreateNewUser() {
     on<LoadUserPreferencesOrCreateNewUser>((event, emit) async {
-      LocalRepository localRepository = LocalRepository();
       UserDataLogic userLogic = UserDataLogic();
       SettingsLogic settingsLogic = SettingsLogic();
-      bool databaseExists = await localRepository.setupDatabase();
-      if (databaseExists) {
-        userLanguage = await settingsLogic.getUserInterfaceLanguage();
-        emit(UserProgressLoaded(
-            achievements: 0,
-            daysStreak: 0,
-            finishedTopics: await userLogic.getFinishedTopicsCount(),
-            learnedWords: await userLogic.getLearnedWordiesCount()));
+      await userLogic.getFirstRun().then((value) async {
+        print("User first run in bloc: " + value.toString());
+        if (!value) {
+          userLanguage = await settingsLogic.getUserInterfaceLanguage();
+          emit(UserProgressLoaded(
+              achievements: 0,
+              daysStreak: 0,
+              finishedTopics: await userLogic.getFinishedTopicsCount(),
+              learnedWords: await userLogic.getLearnedWordiesCount()));
+        } else {
+          emit(CreatingNewUserPreferences(
+              userLanguageToLearn: '',
+              userNativeLanguage: '',
+              userLanguageToLearnSelected: false,
+              userNativeLanguageSelected: false,
+              step: 1));
+        }
+      });
+    });
+  }
+
+  void updateUserCourse() {
+    on<UpdateUserCourse>((event, emit) async {
+      LocalRepository localRepository = LocalRepository();
+      localRepository.updateUserProfile("currentCourse", event.course);
+      Map<String, String> userData = await localRepository.getUserData();
+      String nativeLanguage = "";
+      await localRepository.getUserData().then((value) {
+        nativeLanguage = value['interfaceLanguage']!;
+      });
+      if (nativeLanguage == event.course) {
+        String updatedNativeLanguage = "";
+        if (nativeLanguage == "Polish") {
+          updatedNativeLanguage = "English";
+        } else {
+          updatedNativeLanguage = "Polish";
+        }
+        localRepository.updateUserProfile(
+            "interfaceLanguage", updatedNativeLanguage);
+        emit(UserCoursesAndSettingsInformations(
+            currentCourse: userData["courseName"]!,
+            nativeLanguage: updatedNativeLanguage));
       } else {
-        emit(CreatingNewUserPreferences(
-            userLanguageToLearn: '',
-            userNativeLanguage: '',
-            userLanguageToLearnSelected: false,
-            userNativeLanguageSelected: false));
+        emit(UserCoursesAndSettingsInformations(
+            currentCourse: userData["courseName"]!,
+            nativeLanguage: userData["interfaceLanguage"]!));
       }
     });
   }
@@ -46,15 +95,16 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
           userLanguageToLearn: event.userLanguageToLearn,
           userNativeLanguage: event.userNativeLanguage,
           userLanguageToLearnSelected: event.userLanguageToLearnSelected,
-          userNativeLanguageSelected: event.userNativeLanguageSelected));
+          userNativeLanguageSelected: event.userNativeLanguageSelected,
+          step: event.step));
     });
   }
 
   void createNewUser() {
     on<CreateNewUser>((event, emit) async {
-      LocalRepository localRepository = LocalRepository();
-      await localRepository.createDatabase(
-          event.nativeLanguage, event.languageToLearn);
+      UserDataLogic userLogic = UserDataLogic();
+
+      await userLogic.updateDatabase('firstRun', "0");
     });
   }
 
