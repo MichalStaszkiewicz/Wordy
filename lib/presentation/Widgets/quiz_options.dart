@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Widgets/menu_button.dart';
 import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 import 'package:wordy/shared/consts.dart';
+
+import '../Provider/interface_language_provider.dart';
 
 class QuizOptions extends StatefulWidget {
 
@@ -39,52 +42,54 @@ class _QuizOptionsState extends State<QuizOptions>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      width: 200,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            offset: Offset(0, 2),
-            blurRadius: 6.0,
-          ),
-        ],
+    return Consumer<InterfaceLanguageProvider>(builder: (context, value, child) =>  Container(
+        height: 200,
+        width: 200,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              offset: Offset(0, 2),
+              blurRadius: 6.0,
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(widget.title, style: const TextStyle(fontSize: 20)),
+            const SizedBox(height: 10),
+            MenuButton(
+              label: ui_lang[value.interfaceLangauge]!['quiz_settings_review'].toString(),
+              function: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                          create: (context) => QuizBloc()
+                            ..add(
+                                LoadQuestionsForReview(topic: quizTitles[widget.title]!)),
+                          child: QuizScreen(topic: widget.title),
+                        )));
+              },
+            ),
+            MenuButton(
+              label: ui_lang[value.interfaceLangauge]!['quiz_settings_learn'].toString(),
+              function: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                          create: (context) => QuizBloc()
+                            ..add(LoadQuestionsForLearning(
+                                topic:  quizTitles[widget.title]!)),
+                          child: QuizScreen(topic: widget.title),
+                        )));
+              },
+            ),
+          ],
+        ),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(widget.title, style: const TextStyle(fontSize: 20)),
-          const SizedBox(height: 10),
-          MenuButton(
-            label: ui_lang[userLanguage]!['quiz_settings_review'].toString(),
-            function: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => BlocProvider(
-                        create: (context) => QuizBloc()
-                          ..add(
-                              LoadQuestionsForReview(topic: quizTitles[widget.title]!)),
-                        child: QuizScreen(topic: widget.title),
-                      )));
-            },
-          ),
-          MenuButton(
-            label: ui_lang[userLanguage]!['quiz_settings_learn'].toString(),
-            function: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => BlocProvider(
-                        create: (context) => QuizBloc()
-                          ..add(LoadQuestionsForLearning(
-                              topic:  quizTitles[widget.title]!)),
-                        child: QuizScreen(topic: widget.title),
-                      )));
-            },
-          ),
-        ],
-      ),
+   
     );
   }
 }

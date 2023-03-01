@@ -14,6 +14,7 @@ import 'package:wordy/presentation/screens/settings_screen.dart';
 
 import 'package:wordy/presentation/screens/vocabulary_screen.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
+import 'package:wordy/shared/consts.dart';
 
 import 'Bloc/user_progress/user_progress_bloc.dart';
 import 'Provider/interface_language_provider.dart';
@@ -29,29 +30,29 @@ class HomePage extends StatefulWidget {
 }
 
 int currentIndex = 0;
-List<PersistentBottomNavBarItem> navBarsItems() {
+List<PersistentBottomNavBarItem> navBarsItems(String language) {
   return [
     PersistentBottomNavBarItem(
       icon: Icon(Icons.home),
-      title: ("Home"),
+      title: (ui_lang[language]!['home_screen_app_bar']),
       activeColorPrimary: Colors.blue,
       inactiveColorPrimary: Colors.grey,
     ),
     PersistentBottomNavBarItem(
       icon: Icon(Icons.book),
-      title: ("Vocabulary"),
+      title: (ui_lang[language]!['vocabulary_screen_app_bar']),
       activeColorPrimary: Colors.blue,
       inactiveColorPrimary: Colors.grey,
     ),
     PersistentBottomNavBarItem(
       icon: Icon(Icons.person),
-      title: ("Profile"),
+      title: (ui_lang[language]!['profile_screen_app_bar']),
       activeColorPrimary: Colors.blue,
       inactiveColorPrimary: Colors.grey,
     ),
     PersistentBottomNavBarItem(
       icon: Icon(Icons.settings),
-      title: ("Settings"),
+      title: (ui_lang[language]!['settings_screen_app_bar']),
       activeColorPrimary: Colors.blue,
       inactiveColorPrimary: Colors.grey,
     ),
@@ -60,12 +61,15 @@ List<PersistentBottomNavBarItem> navBarsItems() {
 
 List<Widget> _currentScreen = [
   BlocProvider(
-    create: (context) => UserProgressBloc()..add(LoadUserSettingsAndCourseInformations()),
+    create: (context) =>
+        UserProgressBloc()..add(LoadUserSettingsAndCourseInformations()),
     child: TopicScreen(),
   ),
-  BlocProvider(
-    create: (context) => VocabularyBloc()..add(LoadVocabulary()),
-    child: VocabularyScreen(),
+  Consumer<InterfaceLanguageProvider>(
+    builder: (context, value, child) => BlocProvider(
+      create: (context) => VocabularyBloc()..add(LoadVocabulary(language: value.interfaceLangauge)),
+      child: VocabularyScreen(),
+    ),
   ),
   BlocProvider(
     create: (context) => UserProgressBloc()..add(LoadUserDataAndPreferences()),
@@ -85,7 +89,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    
     return BlocProvider(
       create: (context) => UserProgressBloc(),
       child: BlocBuilder<UserProgressBloc, UserProgressState>(
@@ -102,18 +105,21 @@ class _HomePageState extends State<HomePage> {
           }
           if (state is UserProgressLoaded) {
             return Scaffold(
-              bottomNavigationBar: PersistentTabView(
-                context,
-                navBarHeight: 80,
-                items: navBarsItems(),
-                controller: PersistentTabController(initialIndex: currentIndex),
-                onItemSelected: (index) {
-                  setState(() {
-                    currentIndex = index;
-                  });
-                },
-                navBarStyle: NavBarStyle.style3,
-                screens: _currentScreen,
+              bottomNavigationBar: Consumer<InterfaceLanguageProvider>(
+                builder: (context, value, child) => PersistentTabView(
+                  context,
+                  navBarHeight: 80,
+                  items: navBarsItems(value.interfaceLangauge),
+                  controller:
+                      PersistentTabController(initialIndex: currentIndex),
+                  onItemSelected: (index) {
+                    setState(() {
+                      currentIndex = index;
+                    });
+                  },
+                  navBarStyle: NavBarStyle.style3,
+                  screens: _currentScreen,
+                ),
               ),
               body: _currentScreen[currentIndex],
             );

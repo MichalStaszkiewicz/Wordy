@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:wordy/presentation/Provider/interface_language_provider.dart';
 import 'package:wordy/presentation/Widgets/select_language_dialog.dart';
 import 'package:wordy/presentation/Widgets/settings_on_off_option.dart';
 import 'package:wordy/shared/consts.dart';
@@ -21,7 +23,8 @@ class _SettingsState extends State<Settings> {
         state as SettingsLoaded;
 
         return SingleChildScrollView(
-          child: Column(
+            child: Consumer<InterfaceLanguageProvider>(
+          builder: (context, value, child) => Column(
             children: [
               const SizedBox(
                 height: 10,
@@ -30,7 +33,7 @@ class _SettingsState extends State<Settings> {
                 icon: Icons.dark_mode,
                 title: "Theme",
                 subtitle:
-                    ui_lang[userLanguage]!['settings_screen_theme_description']
+                    ui_lang[value.interfaceLangauge]!['settings_screen_theme_description']
                         .toString(),
                 stateOfSwitch: state.themeMode,
               ),
@@ -65,14 +68,14 @@ class _SettingsState extends State<Settings> {
                               Container(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
-                                    ui_lang[userLanguage]![
+                                    ui_lang[value.interfaceLangauge]![
                                             'settings_screen_interface_header']
                                         .toString(),
                                     style:
                                         Theme.of(context).textTheme.titleMedium,
                                   )),
                               Text(
-                                ui_lang[userLanguage]![
+                                ui_lang[value.interfaceLangauge]![
                                         'settings_screen_interface_description']
                                     .toString(),
                                 style: Theme.of(context)
@@ -90,7 +93,7 @@ class _SettingsState extends State<Settings> {
               ),
             ],
           ),
-        );
+        ));
       },
     );
   }

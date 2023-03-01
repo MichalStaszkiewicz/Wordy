@@ -22,7 +22,6 @@ class LocalRepository implements LocalInterface {
     return result;
   }
 
-
   Future<int> countLearnedWordies() async {
     Map<String, List<String>> avCourses = availableCourses();
     Map<String, String> userData = await getUserData();
@@ -100,42 +99,47 @@ class LocalRepository implements LocalInterface {
       String userNativeLanguage, String languageToLearn) async {
     String databasePath = await getDatabasesPath();
     String path = "$databasePath/wordyDB.db/";
-    Database database =
-        await openDatabase(path, version: 1, onCreate: (db, version) async {
-      await db.execute(
-          'CREATE TABLE EnglishToPolish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
-      await db.execute(
-          'CREATE TABLE EnglishToFrench (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
-      await db.execute(
-          'CREATE TABLE EnglishToSpanish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
-      await db.execute(
-          'CREATE TABLE PolishToEnglish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
-      await db.execute(
-          'CREATE TABLE PolishToFrench (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
-      await db.execute(
-          'CREATE TABLE PolishToSpanish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
-      await db.execute(
-          'CREATE TABLE profile (id INTEGER PRIMARY KEY,firstRun INTEGER,currentCourse TEXT, daysStreak INTEGER, learnedWords INTEGER, finishedTopics INTEGER, achievements INTEGER, themeMode TEXT, interfaceLanguage TEXT, EnglishPolish INTEGER,EnglishChinese INTEGER, EnglishSpanish INTEGER, PolishEnglish INTEGER, PolishChinese INTEGER, PolishSpanish INTEGER, firstOpen INTEGER)');
-    });
-    await database.execute(
-        'INSERT INTO profile (currentCourse,firstRun, daysStreak, learnedWords, finishedTopics, achievements, themeMode, interfaceLanguage, EnglishPolish, EnglishChinese, EnglishSpanish, PolishEnglish, PolishChinese, PolishSpanish,firstOpen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-        [
-          languageToLearn,
-          1,
-          0,
-          0,
-          0,
-          0,
-          'light',
-          userNativeLanguage,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0
-        ]);
+    bool exist = await databaseExists(path);
+    if (exist) {
+      return;
+    } else {
+      Database database =
+          await openDatabase(path, version: 1, onCreate: (db, version) async {
+        await db.execute(
+            'CREATE TABLE EnglishToPolish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
+        await db.execute(
+            'CREATE TABLE EnglishToFrench (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
+        await db.execute(
+            'CREATE TABLE EnglishToSpanish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
+        await db.execute(
+            'CREATE TABLE PolishToEnglish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
+        await db.execute(
+            'CREATE TABLE PolishToFrench (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
+        await db.execute(
+            'CREATE TABLE PolishToSpanish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
+        await db.execute(
+            'CREATE TABLE profile (id INTEGER PRIMARY KEY,firstRun INTEGER,currentCourse TEXT, daysStreak INTEGER, learnedWords INTEGER, finishedTopics INTEGER, achievements INTEGER, themeMode TEXT, interfaceLanguage TEXT, EnglishPolish INTEGER,EnglishChinese INTEGER, EnglishSpanish INTEGER, PolishEnglish INTEGER, PolishChinese INTEGER, PolishSpanish INTEGER, firstOpen INTEGER)');
+      });
+      await database.execute(
+          'INSERT INTO profile (currentCourse,firstRun, daysStreak, learnedWords, finishedTopics, achievements, themeMode, interfaceLanguage, EnglishPolish, EnglishChinese, EnglishSpanish, PolishEnglish, PolishChinese, PolishSpanish,firstOpen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+          [
+            languageToLearn,
+            1,
+            0,
+            0,
+            0,
+            0,
+            'light',
+            userNativeLanguage,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ]);
+    }
   }
 
   @override
@@ -161,7 +165,7 @@ class LocalRepository implements LocalInterface {
     String firstRun = profile.elementAt(0)['firstRun'].toString();
     Map<String, String> map =
         utility.convertCurrentCourseName(currentCourse, interfaceLanguage);
-    map.addAll({"themeMode": themeMode,"firstRun":firstRun});
+    map.addAll({"themeMode": themeMode, "firstRun": firstRun});
 
     return map;
   }

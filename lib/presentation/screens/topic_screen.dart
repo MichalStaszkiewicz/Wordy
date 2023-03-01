@@ -52,160 +52,165 @@ class _TopicScreenState extends State<TopicScreen>
 
   @override
   Widget build(BuildContext context) {
-String interfaceLanguage = Provider.of<InterfaceLanguageProvider>(context, listen: false).interfaceLangauge;
+
     return BlocBuilder<UserProgressBloc, UserProgressState>(
       builder: (context, userProgressState) {
         if (userProgressState is UserCoursesAndSettingsInformations) {
-          return BlocProvider(
-            create: (context) => TopicsBloc()..add(LoadTopics()),
-            child: BlocBuilder<TopicsBloc, TopicsState>(
-              builder: (context, topicsState) {
-                if (topicsState is TopicsInitial) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (topicsState is TopicsLoaded) {
-                  return GestureDetector(
-                    onTap: () {
-                      if (_animationController.status !=
-                          AnimationStatus.forward) {
-                        _animationController.reverse();
-                      }
-
-                      context.read<TopicsBloc>().add(ChooseSettingsForQuiz(
-                          globalPosition: topicsState.globalPosition,
-                          index: topicsState.index,
-                          localPosition: topicsState.localPosition,
-                          settingsOpen: false));
-                    },
-                    child: Stack(children: [
-                      CustomScrollView(
-                        controller: _scrollController,
-                        slivers: [
-                          SliverAppBar(
-                            automaticallyImplyLeading: false,
-                            title: Center(
-                                child: Text(
-                              ui_lang[interfaceLanguage]![
-                                      'home_screen_app_bar']
-                                  .toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall!
-                                  .copyWith(color: Colors.white),
-                            )),
-                          ),
-                          SliverAppBar(
-                            expandedHeight: 80,
-                            flexibleSpace: Center(
-                              child: Container(
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              height: 40,
-                                              width: 40,
-                                              decoration: BoxDecoration(
-                                                color: Colors.blue,
-                                                image: DecorationImage(
-                                                  fit: BoxFit.fill,
-                                                  image: AssetImage(
-                                                      'assets/${flagWays[userProgressState.currentCourse]}-circular.png'),
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                if (_animationController
-                                                            .status !=
-                                                        AnimationStatus
-                                                            .reverse &&
-                                                    _animationController
-                                                            .status !=
-                                                        AnimationStatus
-                                                            .completed) {
-                                                  _animationController
-                                                      .forward();
-                                                  context
-                                                      .read<UserProgressBloc>()
-                                                      .add(
-                                                          LoadUserSettingsAndCourseInformations());
-                                                }
-                                              },
-                                              child: Container(
-                                                margin: const EdgeInsets.only(
-                                                    left: 10),
-                                                child: const Image(
-                                                    width: 15,
-                                                    image: AssetImage(
-                                                        "assets/down-arrow.png")),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        child: TopicScreenTodayStaticstics(
-                                          image: "assets/fire.png",
-                                          label: 0,
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        child: TopicScreenTodayStaticstics(
-                                          image: "assets/open-book.png",
-                                          label: 0,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+          return Consumer<InterfaceLanguageProvider>(builder: (context,value,child)=>BlocProvider(
+              create: (context) => TopicsBloc()..add(LoadTopics(language: value.interfaceLangauge)),
+              child: BlocBuilder<TopicsBloc, TopicsState>(
+                builder: (context, topicsState) {
+                  if (topicsState is TopicsInitial) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (topicsState is TopicsLoaded) {
+                    return GestureDetector(
+                      onTap: () {
+                        if (_animationController.status !=
+                            AnimationStatus.forward) {
+                          _animationController.reverse();
+                        }
+          
+                        context.read<TopicsBloc>().add(ChooseSettingsForQuiz(
+                            globalPosition: topicsState.globalPosition,
+                            index: topicsState.index,
+                            localPosition: topicsState.localPosition,
+                            settingsOpen: false));
+                      },
+                      child: Stack(children: [
+                        Consumer<InterfaceLanguageProvider>(
+                          builder: (BuildContext context, value, Widget? child)=> CustomScrollView(
+                            
+                            controller: _scrollController,
+                            slivers: [
+                              SliverAppBar(
+                                automaticallyImplyLeading: false,
+                                title: Center(
+                                    child: Text(
+                                  ui_lang[value.interfaceLangauge]![
+                                          'home_screen_app_bar']
+                                      .toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall!
+                                      .copyWith(color: Colors.white),
+                                )),
                               ),
-                            ),
-                            backgroundColor: Colors.white,
-                            pinned: true,
-                            floating: true,
-                            automaticallyImplyLeading: false,
+                              SliverAppBar(
+                                expandedHeight: 80,
+                                flexibleSpace: Center(
+                                  child: Container(
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  height: 40,
+                                                  width: 40,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.blue,
+                                                    image: DecorationImage(
+                                                      fit: BoxFit.fill,
+                                                      image: AssetImage(
+                                                          'assets/${flagWays[userProgressState.currentCourse]}-circular.png'),
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(50),
+                                                  ),
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    if (_animationController
+                                                                .status !=
+                                                            AnimationStatus
+                                                                .reverse &&
+                                                        _animationController
+                                                                .status !=
+                                                            AnimationStatus
+                                                                .completed) {
+                                                      _animationController
+                                                          .forward();
+                                                      context
+                                                          .read<UserProgressBloc>()
+                                                          .add(
+                                                              LoadUserSettingsAndCourseInformations());
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    margin: const EdgeInsets.only(
+                                                        left: 10),
+                                                    child: const Image(
+                                                        width: 15,
+                                                        image: AssetImage(
+                                                            "assets/down-arrow.png")),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            child: TopicScreenTodayStaticstics(
+                                              image: "assets/fire.png",
+                                              label: 0,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            child: TopicScreenTodayStaticstics(
+                                              image: "assets/open-book.png",
+                                              label: 0,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                backgroundColor: Colors.white,
+                                pinned: true,
+                                floating: true,
+                                automaticallyImplyLeading: false,
+                              ),
+                              TopicGridView()
+                            ],
                           ),
-                          TopicGridView()
-                        ],
-                      ),
-                      utility.quizSettings(
-                          topicsState.selectedTopic,
-                          topicsState.localPosition,
-                          topicsState.globalPosition,
-                          topicsState.index,
-                          topicsState.topics.elementAt(topicsState.index).name,
-                          context,
-                          _scrollController),
-                      if (_animationController.status ==
-                              AnimationStatus.forward ||
-                          _animationController.status ==
-                              AnimationStatus.reverse ||
-                          _animationController.status ==
-                              AnimationStatus.completed)
-                        Container(
-                          color:
-                              Colors.black.withOpacity(barrierAnimation.value),
+                     
                         ),
-                      utility.languageChangeMenu(animation.value),
-                    ]),
-                  );
-                } else {
-                  return UnexpectedError();
-                }
-              },
+                        utility.quizSettings(
+                            topicsState.selectedTopic,
+                            topicsState.localPosition,
+                            topicsState.globalPosition,
+                            topicsState.index,
+                            topicsState.topics.elementAt(topicsState.index).name,
+                            context,
+                            _scrollController),
+                        if (_animationController.status ==
+                                AnimationStatus.forward ||
+                            _animationController.status ==
+                                AnimationStatus.reverse ||
+                            _animationController.status ==
+                                AnimationStatus.completed)
+                          Container(
+                            color:
+                                Colors.black.withOpacity(barrierAnimation.value),
+                          ),
+                        utility.languageChangeMenu(animation.value),
+                      ]),
+                    );
+                  } else {
+                    return UnexpectedError();
+                  }
+                },
+              ),
             ),
           );
         } else {

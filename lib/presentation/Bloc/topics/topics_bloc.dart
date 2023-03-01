@@ -21,7 +21,7 @@ class TopicsBloc extends Bloc<TopicsEvent, TopicsState> {
           index: 0,
           topics: [
             Topic(
-              name: ui_lang[userLanguage]!['topic_label'][0],
+              name: ui_lang[event.language]!['topic_label'][0],
               image: "assets/dailyusage.png",
             ),
           ],

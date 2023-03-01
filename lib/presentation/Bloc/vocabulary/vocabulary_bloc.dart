@@ -21,7 +21,7 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
     return on<LoadVocabulary>((event, emit) {
       List<Vocabulary> list = [
         Vocabulary(
-          topic: ui_lang[userLanguage]!['topic_label'][0],
+          topic: ui_lang[event.language]!['topic_label'][0],
           image: "assets/dailyusage.png",
         ),
       

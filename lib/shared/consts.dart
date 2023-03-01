@@ -16,7 +16,7 @@ Map<String, String> flagWays = {
   "French": "france",
   "English": "united-kingdom"
 };
-String userLanguage = "";
+
 final List<Language> languages_available_for_interface = [
   Language(
     image: "assets/poland.png",

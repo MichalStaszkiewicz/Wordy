@@ -24,11 +24,8 @@ class UserDataLogic {
   }
 
   Future<bool> getFirstRun() async {
-    int firstRun = 0;
-    _localRepository.getUserData().then((value) {
-      firstRun = int.parse(value['firstRun']!);
-      print("User first run: " + firstRun.toString());
-    });
+Map<String,String> snapshot =  await  _localRepository.getUserData();
+int firstRun = int.parse(snapshot['firstRun']!);
 
     return firstRun == 0 ? false : true;
   }

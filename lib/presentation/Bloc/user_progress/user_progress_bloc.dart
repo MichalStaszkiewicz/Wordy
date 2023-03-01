@@ -40,9 +40,9 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
       UserDataLogic userLogic = UserDataLogic();
       SettingsLogic settingsLogic = SettingsLogic();
       await userLogic.getFirstRun().then((value) async {
-        print("User first run in bloc: " + value.toString());
+       
         if (!value) {
-          userLanguage = await settingsLogic.getUserInterfaceLanguage();
+        
           emit(UserProgressLoaded(
               achievements: 0,
               daysStreak: 0,

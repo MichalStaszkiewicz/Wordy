@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:wordy/presentation/Provider/interface_language_provider.dart';
 import 'package:wordy/presentation/Widgets/quiz_finish_button.dart';
 import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/shared/consts.dart';
@@ -21,12 +23,12 @@ class QuizFinishScreen extends StatefulWidget {
 class _QuizFinishScreenState extends State<QuizFinishScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Consumer<InterfaceLanguageProvider>(builder: (context,value,child)=>Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Center(
           child: Text(
-            ui_lang[userLanguage]!['quiz_finish_header'].toString(),
+            ui_lang[value.interfaceLangauge]!['quiz_finish_header'].toString(),
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall!
@@ -87,7 +89,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                                         children: [
                                           Text(
                                             maxLines: 1,
-                                            ui_lang[userLanguage]![
+                                            ui_lang[value.interfaceLangauge]![
                                                     'quiz_finish_your_score']
                                                 .toString(),
                                             style: Theme.of(context)
@@ -109,7 +111,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                                         left: 20, right: 20),
                                     child: AutoSizeText(
                                         maxLines: 1,
-                                        "${ui_lang[userLanguage]!['quiz_finish_percentage'].toString()} ${((widget.correct / widget.maximum) * 100).toInt()}%",
+                                        "${ui_lang[value.interfaceLangauge]!['quiz_finish_percentage'].toString()} ${((widget.correct / widget.maximum) * 100).toInt()}%",
                                         style: Theme.of(context)
                                             .textTheme
                                             .headlineSmall),
@@ -136,7 +138,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                             ))));
                   },
                   label:
-                      ui_lang[userLanguage]!['quiz_finish_repeat'].toString(),
+                      ui_lang[value.interfaceLangauge]!['quiz_finish_repeat'].toString(),
                 ),
                 const SizedBox(
                   height: 20,
@@ -145,7 +147,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                   function: () {
                     Navigator.of(context).popUntil(ModalRoute.withName('/home'));
                   },
-                  label: ui_lang[userLanguage]!['quiz_finish_home'].toString(),
+                  label: ui_lang[value.interfaceLangauge]!['quiz_finish_home'].toString(),
                 ),
                 const SizedBox(
                   height: 50,
@@ -159,6 +161,6 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
           }
         },
       ),
-    );
+    ));
   }
 }

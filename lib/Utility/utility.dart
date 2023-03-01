@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/domain/models/word.dart';
+import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
 import 'package:wordy/presentation/Provider/interface_language_provider.dart';
 import 'package:wordy/presentation/Widgets/quiz_options.dart';
 
@@ -22,7 +23,6 @@ class Utility {
   Widget languageChangeMenu(
     double animationValue,
   ) {
-  
     return AnimatedPositioned(
       duration: const Duration(seconds: 1),
       curve: Curves.linear,
@@ -31,56 +31,55 @@ class Utility {
       right: 0,
       child: BlocBuilder<UserProgressBloc, UserProgressState>(
         builder: (context, state) {
-            String interfaceLanguage =
-        Provider.of<InterfaceLanguageProvider>(context, listen: false)
-            .interfaceLangauge;
           if (state is UserCoursesAndSettingsInformations) {
-            return Container(
-              height: MediaQuery.of(context).size.height / 2,
-              width: MediaQuery.of(context).size.width,
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20))),
-              child: Column(
-                children: [
-                  Container(
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        ui_lang[interfaceLanguage]![
-                            'language_menu_information'],
-                        style: Theme.of(context).textTheme.titleLarge,
+            return Consumer<InterfaceLanguageProvider>(
+              builder: (context, value, child) => Container(
+                height: MediaQuery.of(context).size.height / 2,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20))),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          ui_lang[value.interfaceLangauge]![
+                              'language_menu_information'],
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    height: 300,
-                    child: ListView.builder(
-                        itemCount: languages.length,
-                        itemBuilder: (context, index) => LanguageToChoose(
-                              function: () {
-                                if (languages[index].label ==
-                                    state.nativeLanguage) {
-                                  languageChangeNotPossibleForUserNativeLangugae(
-                                      context,
-                                      state.nativeLanguage,
-                                      languages[index].label);
-                                } else {
-                                  context
-                                      .read<UserProgressBloc>()
-                                      .add(UpdateUserCourse(
-                                        course: languages[index].label,
-                                      ));
-                                }
-                              },
-                              index: index,
-                              language: state.currentCourse,
-                              listLangs: languages,
-                            )),
-                  )
-                ],
+                    Container(
+                      height: 300,
+                      child: ListView.builder(
+                          itemCount: languages.length,
+                          itemBuilder: (context, index) => LanguageToChoose(
+                                function: () {
+                                  if (languages[index].label ==
+                                      state.nativeLanguage) {
+                                    languageChangeNotPossibleForUserNativeLangugae(
+                                        context,
+                                        state.nativeLanguage,
+                                        languages[index].label);
+                                  } else {
+                                    context
+                                        .read<UserProgressBloc>()
+                                        .add(UpdateUserCourse(
+                                          course: languages[index].label,
+                                        ));
+                                  }
+                                },
+                                index: index,
+                                language: state.currentCourse,
+                                listLangs: languages,
+                              )),
+                    )
+                  ],
+                ),
               ),
             );
           } else {
@@ -110,11 +109,17 @@ class Utility {
             btnOkColor: Colors.blue,
             btnOkText: ui_lang[nativeLanguage]!["dialog_yes"],
             btnCancelText: ui_lang[nativeLanguage]!["dialog_no"],
-            btnOkOnPress: () {
+            btnOkOnPress: () async {
               context.read<UserProgressBloc>().add(UpdateUserCourse(
                     course: choosenLanguage,
                   ));
-              provider.changeUserInterfaceLanguage(choosenLanguage);
+                
+              String updatedInterfaceLanguage =
+                  choosenLanguage == "Polish" ? "English" : "Polish";
+                     context.read<TopicsBloc>().add(LoadTopics(language: updatedInterfaceLanguage));
+              await provider
+                  .changeUserInterfaceLanguage(updatedInterfaceLanguage);
+                 
             },
             btnCancelOnPress: () {})
         .show();

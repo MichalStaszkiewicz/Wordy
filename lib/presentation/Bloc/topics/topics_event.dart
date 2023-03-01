@@ -8,7 +8,8 @@ abstract class TopicsEvent extends Equatable {
 }
 
 class LoadTopics extends TopicsEvent {
-  LoadTopics();
+  LoadTopics({required this.language});
+    final String language;
 }
 
 class ChooseSettingsForQuiz extends TopicsEvent {

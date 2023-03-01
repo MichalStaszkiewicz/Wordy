@@ -8,7 +8,8 @@ abstract class VocabularyEvent extends Equatable {
 }
 
 class LoadVocabulary extends VocabularyEvent {
-  LoadVocabulary();
+  LoadVocabulary({required this.language});
+  String language;
 }
 
 
