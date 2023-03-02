@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
@@ -52,9 +53,13 @@ class _QuizAnswearState extends State<QuizAnswear> {
               ],
             ),
             child: Center(
-              child: Text(
+              child: AutoSizeText(
                 widget.answer,
-                style: Theme.of(context).textTheme.headline5,
+                maxLines: 1,
+                minFontSize: 15,
+                maxFontSize: 20,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
           ),

@@ -9,7 +9,7 @@ class InterfaceLanguageProvider with ChangeNotifier {
 
     
     await _localRepository.createDatabase("English","Polish").then((value) async {
-      Map<String, String> userData = await _localRepository.getUserData();
+      Map<String, dynamic> userData = await _localRepository.getUserData();
       interfaceLangauge = userData["interfaceLanguage"]!;
     });
   }

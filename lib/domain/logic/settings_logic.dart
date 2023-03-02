@@ -5,7 +5,7 @@ class SettingsLogic {
   SettingsLogic();
   LocalRepository localRepository = LocalRepository();
   Future<bool> getUserTheme() async {
-    Map<String, String> userData = await localRepository.getUserData();
+    Map<String, dynamic> userData = await localRepository.getUserData();
     String theme = userData['themeMode']!;
     if (theme == "light") {
       return false;
@@ -15,7 +15,7 @@ class SettingsLogic {
   }
 
   Future<String> getUserInterfaceLanguage() async {
-    Map<String, String> userData = await localRepository.getUserData();
+    Map<String, dynamic> userData = await localRepository.getUserData();
 
     return userData['interfaceLanguage']!;
   }

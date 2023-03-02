@@ -23,144 +23,153 @@ class QuizFinishScreen extends StatefulWidget {
 class _QuizFinishScreenState extends State<QuizFinishScreen> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<InterfaceLanguageProvider>(builder: (context,value,child)=>Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Center(
-          child: Text(
-            ui_lang[value.interfaceLangauge]!['quiz_finish_header'].toString(),
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall!
-                .copyWith(color: Colors.white),
-          ),
-        ),
-      ),
-      body: BlocBuilder<QuizBloc, QuizState>(
-        builder: (context, state) {
-          if (state is QuizCompleted) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.all(30),
-                    decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            offset: Offset(0, 2),
-                            blurRadius: 6.0,
-                          ),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Column(
+    return Consumer<InterfaceLanguageProvider>(
+        builder: (context, value, child) => Scaffold(
+              appBar: AppBar(
+                automaticallyImplyLeading: false,
+                title: Center(
+                  child: Text(
+                    ui_lang[value.interfaceLangauge]!['quiz_finish_header']
+                        .toString(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(color: Colors.white),
+                  ),
+                ),
+              ),
+              body: BlocBuilder<QuizBloc, QuizState>(
+                builder: (context, state) {
+                  if (state is QuizCompleted) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const SizedBox(
-                          height: 60,
-                        ),
-                        Text(
-                          widget.topic,
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        Container(
-                            height: 100,
-                            child: Image(
-                                image: AssetImage('assets/dailyusage.png'))),
-                        const SizedBox(
-                          height: 50,
-                        ),
                         Expanded(
-                          flex: 2,
                           child: Container(
-                            child: Center(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 20, right: 20),
+                            margin: const EdgeInsets.all(30),
+                            decoration: BoxDecoration(
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    offset: Offset(0, 2),
+                                    blurRadius: 6.0,
+                                  ),
+                                ],
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 60,
+                                ),
+                                Text(
+                                  widget.topic,
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
+                                ),
+                                const SizedBox(
+                                  height: 50,
+                                ),
+                                Container(
+                                    height: 100,
+                                    child: Image(
+                                        image: AssetImage(
+                                            'assets/dailyusage.png'))),
+                                const SizedBox(
+                                  height: 50,
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: Container(
                                     child: Center(
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            maxLines: 1,
-                                            ui_lang[value.interfaceLangauge]![
-                                                    'quiz_finish_your_score']
-                                                .toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headlineSmall,
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                left: 20, right: 20),
+                                            child: Center(
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    maxLines: 1,
+                                                    ui_lang[value
+                                                                .interfaceLangauge]![
+                                                            'quiz_finish_your_score']
+                                                        .toString(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headlineSmall,
+                                                  ),
+                                                  Text(
+                                                    "${widget.correct} / ${widget.maximum}",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headlineSmall,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                           ),
-                                          Text(
-                                            "${widget.correct} / ${widget.maximum}",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headlineSmall,
-                                          )
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                left: 20, right: 20),
+                                            child: AutoSizeText(
+                                                maxLines: 1,
+                                                "${ui_lang[value.interfaceLangauge]!['quiz_finish_percentage'].toString()} ${((widget.correct / widget.maximum) * 100).toInt()}%",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headlineSmall),
+                                          ),
                                         ],
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 20, right: 20),
-                                    child: AutoSizeText(
-                                        maxLines: 1,
-                                        "${ui_lang[value.interfaceLangauge]!['quiz_finish_percentage'].toString()} ${((widget.correct / widget.maximum) * 100).toInt()}%",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineSmall),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
+                        QuizFinishButton(
+                          function: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: ((context) => BlocProvider(
+                                      create: (context) => QuizBloc()
+                                        ..add(LoadQuestionsForLearning(
+                                            topic: quizTitles[widget.topic]!)),
+                                      child: QuizScreen(
+                                        topic: widget.topic,
+                                      ),
+                                    ))));
+                          },
+                          label: ui_lang[value.interfaceLangauge]![
+                                  'quiz_finish_repeat']
+                              .toString(),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        QuizFinishButton(
+                          function: () {
+                            Navigator.of(context).popAndPushNamed('/');
+                          },
+                          label: ui_lang[value.interfaceLangauge]![
+                                  'quiz_finish_home']
+                              .toString(),
+                        ),
+                        const SizedBox(
+                          height: 50,
+                        ),
                       ],
-                    ),
-                  ),
-                ),
-                QuizFinishButton(
-                  function: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: ((context) => BlocProvider(
-                              create: (context) => QuizBloc()
-                                ..add(LoadQuestionsForLearning(
-                                    topic: quizTitles[widget.topic]!)),
-                              child: QuizScreen(
-                                topic: widget.topic,
-                              ),
-                            ))));
-                  },
-                  label:
-                      ui_lang[value.interfaceLangauge]!['quiz_finish_repeat'].toString(),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                QuizFinishButton(
-                  function: () {
-                    Navigator.of(context).popUntil(ModalRoute.withName('/home'));
-                  },
-                  label: ui_lang[value.interfaceLangauge]!['quiz_finish_home'].toString(),
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-              ],
-            );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    ));
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
+            ));
   }
 }

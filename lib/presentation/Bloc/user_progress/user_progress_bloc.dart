@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wordy/data/local/local_repository_implementation.dart';
 import 'package:wordy/domain/logic/settings_logic.dart';
+import 'package:wordy/domain/models/course_basic.dart';
 import 'package:wordy/shared/consts.dart';
 import '../../../domain/logic/user_data_logic.dart';
 import '../../../domain/models/course.dart';
@@ -38,16 +39,15 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
   void loadUserPreferencesOrCreateNewUser() {
     on<LoadUserPreferencesOrCreateNewUser>((event, emit) async {
       UserDataLogic userLogic = UserDataLogic();
-      SettingsLogic settingsLogic = SettingsLogic();
+
       await userLogic.getFirstRun().then((value) async {
-       
         if (!value) {
-        
           emit(UserProgressLoaded(
               achievements: 0,
               daysStreak: 0,
               finishedTopics: await userLogic.getFinishedTopicsCount(),
-              learnedWords: await userLogic.getLearnedWordiesCount()));
+              learnedWords: await userLogic.getLearnedWordiesCount(),
+              courses: await userLogic.getActiveCourses()));
         } else {
           emit(CreatingNewUserPreferences(
               userLanguageToLearn: '',
@@ -64,7 +64,7 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
     on<UpdateUserCourse>((event, emit) async {
       LocalRepository localRepository = LocalRepository();
       localRepository.updateUserProfile("currentCourse", event.course);
-      Map<String, String> userData = await localRepository.getUserData();
+      Map<String, dynamic> userData = await localRepository.getUserData();
       String nativeLanguage = "";
       await localRepository.getUserData().then((value) {
         nativeLanguage = value['interfaceLanguage']!;
@@ -116,7 +116,8 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
           achievements: 0,
           daysStreak: 0,
           finishedTopics: await userLogic.getFinishedTopicsCount(),
-          learnedWords: await userLogic.getLearnedWordiesCount()));
+          learnedWords: await userLogic.getLearnedWordiesCount(),
+          courses:await userLogic.getActiveCourses()));
     });
   }
 

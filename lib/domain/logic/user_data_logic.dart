@@ -1,6 +1,9 @@
+import 'package:wordy/data/dto/course_basic._dto.dart';
 import 'package:wordy/data/local/local_repository_implementation.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/course_entry.dart';
+
+import '../models/course_basic.dart';
 
 class UserDataLogic {
   UserDataLogic();
@@ -23,9 +26,19 @@ class UserDataLogic {
     _localRepository.updateUserProfile(fieldToUpdate, value);
   }
 
+  Future<List<CourseBasic>> getActiveCourses() async {
+    Map<String, dynamic> snapshot = await _localRepository.getUserData();
+List<CourseBasic> basicCourses = [];
+for(CourseBasicDto basicDto in snapshot['activeCourses']){
+
+  basicCourses.add(basicDto.toDomain());
+}
+    return basicCourses;
+  }
+
   Future<bool> getFirstRun() async {
-Map<String,String> snapshot =  await  _localRepository.getUserData();
-int firstRun = int.parse(snapshot['firstRun']!);
+    Map<String, dynamic> snapshot = await _localRepository.getUserData();
+    int firstRun = int.parse(snapshot['firstRun']!);
 
     return firstRun == 0 ? false : true;
   }

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class QuizWordToAnswear extends StatelessWidget {
@@ -19,9 +20,13 @@ class QuizWordToAnswear extends StatelessWidget {
         ],
       ),
       child: Center(
-        child: Text(
+        child: AutoSizeText(
           word,
-          style: Theme.of(context).textTheme.headline5,
+          maxLines: 1,
+          minFontSize: 15,
+          maxFontSize: 20,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
       ),
     );

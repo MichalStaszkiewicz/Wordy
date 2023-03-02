@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
@@ -11,7 +12,6 @@ import 'package:wordy/shared/consts.dart';
 import '../Provider/interface_language_provider.dart';
 
 class QuizOptions extends StatefulWidget {
-
   final String title;
 
   QuizOptions({required this.title});
@@ -42,7 +42,8 @@ class _QuizOptionsState extends State<QuizOptions>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<InterfaceLanguageProvider>(builder: (context, value, child) =>  Container(
+    return Consumer<InterfaceLanguageProvider>(
+      builder: (context, value, child) => Container(
         height: 200,
         width: 200,
         padding: const EdgeInsets.all(10),
@@ -60,28 +61,35 @@ class _QuizOptionsState extends State<QuizOptions>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(widget.title, style: const TextStyle(fontSize: 20)),
+            AutoSizeText(widget.title,
+                maxLines: 2,
+                maxFontSize: 20,
+                minFontSize: 15,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 20)),
             const SizedBox(height: 10),
             MenuButton(
-              label: ui_lang[value.interfaceLangauge]!['quiz_settings_review'].toString(),
+              label: ui_lang[value.interfaceLangauge]!['quiz_settings_review']
+                  .toString(),
               function: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => BlocProvider(
                           create: (context) => QuizBloc()
-                            ..add(
-                                LoadQuestionsForReview(topic: quizTitles[widget.title]!)),
+                            ..add(LoadQuestionsForReview(
+                                topic: quizTitles[widget.title]!)),
                           child: QuizScreen(topic: widget.title),
                         )));
               },
             ),
             MenuButton(
-              label: ui_lang[value.interfaceLangauge]!['quiz_settings_learn'].toString(),
+              label: ui_lang[value.interfaceLangauge]!['quiz_settings_learn']
+                  .toString(),
               function: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => BlocProvider(
                           create: (context) => QuizBloc()
                             ..add(LoadQuestionsForLearning(
-                                topic:  quizTitles[widget.title]!)),
+                                topic: quizTitles[widget.title]!)),
                           child: QuizScreen(topic: widget.title),
                         )));
               },
@@ -89,7 +97,6 @@ class _QuizOptionsState extends State<QuizOptions>
           ],
         ),
       ),
-   
     );
   }
 }

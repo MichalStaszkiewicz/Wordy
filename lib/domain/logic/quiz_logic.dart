@@ -25,7 +25,7 @@ class QuizLogic {
         .getWordiesByTopic(topic)
         .then((value) => value.map((element) => element.toDomain()).toList());
 
-    Map<String, String> map = await local.getUserData();
+    Map<String, dynamic> map = await local.getUserData();
 
     List<CourseEntry> filtredWords = utility.convertWordToCourse(
         allWords, map['courseName'] ?? "", map['interfaceLanguage'] ?? "");
@@ -34,12 +34,14 @@ class QuizLogic {
     for (int i = 0; i < filtredWords.length; i++) {
       if (!userLearned.contains(CourseEntry(
           translation: filtredWords[i].translation,
-          word: filtredWords[i].word, topic: filtredWords[i].topic))) {
-            print("Found word that user dont know yet its : "  + filtredWords[i].word);
+          word: filtredWords[i].word,
+          topic: filtredWords[i].topic))) {
+        assert(true,
+            "Found word that user dont know yet its : " + filtredWords[i].word);
+
         result.add(filtredWords[i]);
       }
     }
-
 
     List<QuizQuestion> questions = utility.createListOfQuestions(result);
 
@@ -50,8 +52,7 @@ class QuizLogic {
     Utility utility = Utility();
     LocalRepository localRepository = LocalRepository();
 
-    Map<String, String> map =
-        await localRepository.getUserData();
+    Map<String, dynamic> map = await localRepository.getUserData();
 
     List<CourseEntry> learnedWords = await localRepository
         .getUserLearnedWordiesWithSpecificTopic(topic)

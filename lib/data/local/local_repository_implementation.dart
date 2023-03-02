@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:wordy/Utility/utility.dart';
+import 'package:wordy/data/dto/course_basic._dto.dart';
 import 'package:wordy/data/dto/course_entry_dto.dart';
 import 'package:wordy/data/local/local_database.dart';
 
@@ -7,6 +8,7 @@ import 'package:wordy/domain/repositiories/local_database_interface_repository.d
 import 'package:wordy/shared/consts.dart';
 
 import '../../domain/models/course_entry.dart';
+import '../../domain/models/course_profile.dart';
 import '../dto/course_dto.dart';
 import '../dto/word_dto.dart';
 import '../network/network_repository_implementation.dart';
@@ -24,11 +26,11 @@ class LocalRepository implements LocalInterface {
 
   Future<int> countLearnedWordies() async {
     Map<String, List<String>> avCourses = availableCourses();
-    Map<String, String> userData = await getUserData();
+    Map<String, dynamic> userData = await getUserData();
     Utility utility = Utility();
     int sum = 0;
     for (String courseName in avCourses[userData['interfaceLanguage']]!) {
-      Map<String, String> courseData = utility.convertCurrentCourseName(
+      Map<String, dynamic> courseData = utility.convertCurrentCourseName(
           courseName, userData['interfaceLanguage']!);
 
       sum += await getLearnedWordiesCount(courseData['courseNameTable']!);
@@ -40,13 +42,13 @@ class LocalRepository implements LocalInterface {
     ServerDatabaseOperations remote = ServerDatabaseOperations();
     int result = 0;
     Map<String, List<String>> avCourses = availableCourses();
-    Map<String, String> userData = await getUserData();
+    Map<String, dynamic> userData = await getUserData();
     Utility utility = Utility();
 
     for (String topic in topics) {
       int remoteCount = await remote.getWordiesCountByTopic(topic);
       for (String courseName in avCourses[userData['interfaceLanguage']]!) {
-        Map<String, String> courseData = utility.convertCurrentCourseName(
+        Map<String, dynamic> courseData = utility.convertCurrentCourseName(
             courseName, userData['interfaceLanguage']!);
         int localCount = await getLearnedWordiesCountByTopic(
             topic, courseData['courseNameTable']!);
@@ -61,13 +63,13 @@ class LocalRepository implements LocalInterface {
   Future<List<CourseDto>> getUserWordsLearned() async {
     ServerDatabaseOperations remote = ServerDatabaseOperations();
     Map<String, List<String>> avCourses = availableCourses();
-    Map<String, String> userData = await getUserData();
+    Map<String, dynamic> userData = await getUserData();
     Utility utility = Utility();
 
     List<WordDto> allWords = await remote.getAllWordies();
     List<CourseDto> allCourses = [];
     for (String courseName in avCourses[userData['interfaceLanguage']]!) {
-      Map<String, String> courseData = utility.convertCurrentCourseName(
+      Map<String, dynamic> courseData = utility.convertCurrentCourseName(
           courseName, userData['interfaceLanguage']!);
       List<CourseEntryDto> entries =
           await getUserLearnedWordiesWithSpecificNameTable(
@@ -118,10 +120,10 @@ class LocalRepository implements LocalInterface {
         await db.execute(
             'CREATE TABLE PolishToSpanish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
         await db.execute(
-            'CREATE TABLE profile (id INTEGER PRIMARY KEY,firstRun INTEGER,currentCourse TEXT, daysStreak INTEGER, learnedWords INTEGER, finishedTopics INTEGER, achievements INTEGER, themeMode TEXT, interfaceLanguage TEXT, EnglishPolish INTEGER,EnglishChinese INTEGER, EnglishSpanish INTEGER, PolishEnglish INTEGER, PolishChinese INTEGER, PolishSpanish INTEGER, firstOpen INTEGER)');
+            'CREATE TABLE profile (id INTEGER PRIMARY KEY,firstRun INTEGER,currentCourse TEXT, daysStreak INTEGER, learnedWords INTEGER, finishedTopics INTEGER, achievements INTEGER, themeMode TEXT, interfaceLanguage TEXT, EnglishPolish INTEGER,EnglishFrench INTEGER, EnglishSpanish INTEGER, PolishEnglish INTEGER, PolishFrench INTEGER, PolishSpanish INTEGER, firstOpen INTEGER)');
       });
       await database.execute(
-          'INSERT INTO profile (currentCourse,firstRun, daysStreak, learnedWords, finishedTopics, achievements, themeMode, interfaceLanguage, EnglishPolish, EnglishChinese, EnglishSpanish, PolishEnglish, PolishChinese, PolishSpanish,firstOpen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+          'INSERT INTO profile (currentCourse,firstRun, daysStreak, learnedWords, finishedTopics, achievements, themeMode, interfaceLanguage, EnglishPolish, EnglishFrench, EnglishSpanish, PolishEnglish, PolishFrench, PolishSpanish,firstOpen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
           [
             languageToLearn,
             1,
@@ -151,21 +153,31 @@ class LocalRepository implements LocalInterface {
   }
 
   @override
-  Future<Map<String, String>> getUserData() async {
+  Future<Map<String, dynamic>> getUserData() async {
     LocalDatabase localDB = LocalDatabase();
     Utility utility = Utility();
+    List<CourseBasicDto> courses = [];
     var connection = await localDB.connect();
 
     var profile = await connection.rawQuery("SELECT * FROM profile");
+    for (CourseProfile kcourseProfile in kCourses) {
+      if (profile.elementAt(0)[kcourseProfile.dbNotation] == 1) {
+        courses.add(CourseBasicDto(
+            flag: kcourseProfile.flag,
+            language: kcourseProfile.language,
+            nativeLanguage: kcourseProfile.native));
+      }
+    }
+
     String currentCourse = profile.elementAt(0)['currentCourse'].toString();
 
     String interfaceLanguage =
         profile.elementAt(0)['interfaceLanguage'].toString();
     String themeMode = profile.elementAt(0)['themeMode'].toString();
     String firstRun = profile.elementAt(0)['firstRun'].toString();
-    Map<String, String> map =
+    Map<String, dynamic> map =
         utility.convertCurrentCourseName(currentCourse, interfaceLanguage);
-    map.addAll({"themeMode": themeMode, "firstRun": firstRun});
+    map.addAll({"themeMode": themeMode, "firstRun": firstRun,"activeCourses":courses});
 
     return map;
   }
@@ -173,7 +185,7 @@ class LocalRepository implements LocalInterface {
   @override
   void insertLearnedWordsToDatabase(List<CourseEntry> words) async {
     LocalDatabase localDB = LocalDatabase();
-    Map<String, String> userInformations = await getUserData();
+    Map<String, dynamic> userInformations = await getUserData();
     String tableName = userInformations['courseNameTable']!;
     var connection = await localDB.connect();
     for (CourseEntry word in words) {
@@ -211,7 +223,7 @@ class LocalRepository implements LocalInterface {
 
     var currentCourse = await db.rawQuery("SELECT currentCourse FROM profile");
     if (currentCourse.isNotEmpty) {
-      Map<String, String> map = await getUserData();
+      Map<String, dynamic> map = await getUserData();
 
       var learnedWords =
           await db.rawQuery("SELECT * FROM ${map['courseNameTable']}");
@@ -236,7 +248,7 @@ class LocalRepository implements LocalInterface {
 
     var currentCourse = await db.rawQuery("SELECT currentCourse FROM profile");
     if (currentCourse.isNotEmpty) {
-      Map<String, String> map = await getUserData();
+      Map<String, dynamic> map = await getUserData();
 
       var learnedWords = await db.rawQuery(
           "SELECT * FROM ${map['courseNameTable']} WHERE topic = \'$topic\'");

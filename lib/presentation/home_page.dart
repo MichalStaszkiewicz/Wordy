@@ -67,7 +67,9 @@ List<Widget> _currentScreen = [
   ),
   Consumer<InterfaceLanguageProvider>(
     builder: (context, value, child) => BlocProvider(
-      create: (context) => VocabularyBloc()..add(LoadVocabulary(language: value.interfaceLangauge)),
+      create: (context) { 
+        assert(true,"LANGUAGE INTERFACE: " + value.interfaceLangauge);
+        return VocabularyBloc()..add(LoadVocabulary(language: value.interfaceLangauge));},
       child: VocabularyScreen(),
     ),
   ),

@@ -1,10 +1,44 @@
 import 'package:flutter/material.dart';
 
+import '../domain/models/course_profile.dart';
 import '../domain/models/language.dart';
 
 const Color kdisabledcolor = Color.fromARGB(156, 212, 209, 209);
 const Color kactivestatuscolor = Color.fromARGB(255, 67, 165, 70);
 const Color ktitlecolor = Color.fromRGBO(51, 51, 51, 1.0);
+List<CourseProfile> kCourses = [
+  CourseProfile(
+      native: "English",
+      dbNotation: "EnglishPolish",
+      flag: "poland",
+      language: "Polish"),
+  CourseProfile(
+      native: "English",
+      dbNotation: "EnglishFrench",
+      flag: "france",
+      language: "French"),
+  CourseProfile(
+      native: "English",
+      dbNotation: "EnglishSpanish",
+      flag: "spain",
+      language: "Spanish"),
+  CourseProfile(
+      native: "Polish",
+      dbNotation: "PolishEnglish",
+      flag: "united-kingdom",
+      language: "English"),
+  CourseProfile(
+      native: "Polish",
+      dbNotation: "PolishFrench",
+      flag: "france",
+      language: "French"),
+  CourseProfile(
+      native: "Polish",
+      dbNotation: "PolishSpanish",
+      flag: "spain",
+      language: "Spanish"),
+];
+
 List<String> topics = ["Basic Conversation"];
 Map<String, String> quizTitles = {
   "Basic Conversation": "Basic Conversation",
@@ -46,7 +80,8 @@ final List<Language> languages = [
   ),
 ];
 Map<String, Map<String, dynamic>> ui_lang = {
-  "Polish": {"language_menu_information":"Wybierz język którego chcesz się nauczyć",
+  "Polish": {
+    "language_menu_information": "Wybierz język którego chcesz się nauczyć",
     "dialog_change_native_language_to_english":
         "Ten język jest dostępny tylko jeśli już znasz angielski. Czy chcesz zmienić swój ojczysty język na angielski?",
     "dialog_change_native_language_to_polish":
@@ -87,7 +122,7 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "quiz_finish_home": "Zakończ",
   },
   "English": {
-    "language_menu_information":"Select language you want to learn",
+    "language_menu_information": "Select language you want to learn",
     "home_screen_app_bar": "Topic",
     "vocabulary_screen_app_bar": "Vocabulary",
     "vocabulary_screen_search_hint": "Search topic",

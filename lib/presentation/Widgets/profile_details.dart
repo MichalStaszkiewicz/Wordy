@@ -91,7 +91,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       'profile_screen_courses_header']
                   .toString(),
             ),
-            const UsersCourses(),
+             UserCourses(),
             HeaderInProfile(
               label: ui_lang[value.interfaceLangauge]![
                       'profile_screen_statistics_header']

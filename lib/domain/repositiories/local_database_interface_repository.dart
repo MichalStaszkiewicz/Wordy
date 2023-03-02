@@ -12,7 +12,7 @@ abstract class LocalInterface {
   void updateUserProfile(String fieldToUpdate, String value);
   Future<List<CourseEntryDto>> getUserLearnedWordiesWithSpecificTopic(
       String topic);
-  Future<Map<String, String>> getUserData();
+  Future<Map<String, dynamic>> getUserData();
   Future<int> getLearnedWordiesCountByTopic(String topic, String tableName);
   Future<int> getLearnedWordiesCount(String tableName);
 }

@@ -18,11 +18,12 @@ class UserProgressLoaded extends UserProgressState {
       {required this.learnedWords,
       required this.achievements,
       required this.daysStreak,
-      required this.finishedTopics});
+      required this.finishedTopics,required this.courses});
   int learnedWords;
   int daysStreak;
   int finishedTopics;
   int achievements;
+  List<CourseBasic> courses;
   @override
   List<Object> get props =>
       [learnedWords, daysStreak, finishedTopics, achievements];

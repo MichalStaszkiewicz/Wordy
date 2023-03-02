@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/domain/models/word.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
+import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/Provider/interface_language_provider.dart';
 import 'package:wordy/presentation/Widgets/quiz_options.dart';
 
@@ -113,13 +114,15 @@ class Utility {
               context.read<UserProgressBloc>().add(UpdateUserCourse(
                     course: choosenLanguage,
                   ));
-                
+
               String updatedInterfaceLanguage =
                   choosenLanguage == "Polish" ? "English" : "Polish";
-                     context.read<TopicsBloc>().add(LoadTopics(language: updatedInterfaceLanguage));
+              context
+                  .read<TopicsBloc>()
+                  .add(LoadTopics(language: updatedInterfaceLanguage));
+                
               await provider
                   .changeUserInterfaceLanguage(updatedInterfaceLanguage);
-                 
             },
             btnCancelOnPress: () {})
         .show();
@@ -139,9 +142,9 @@ class Utility {
     return result;
   }
 
-  Map<String, String> convertCurrentCourseName(
+  Map<String, dynamic> convertCurrentCourseName(
       String courseName, String interfaceLanguage) {
-    Map<String, String> map = {};
+    Map<String, dynamic> map = {};
     String courseNameTable = "${interfaceLanguage}To$courseName";
 
     map.addAll({
@@ -214,6 +217,8 @@ class Utility {
       String name,
       BuildContext context,
       ScrollController controller) {
+      
+        assert(true,"QUIZ NAME:" +name);
     if (show == true) {
       var deviceDimensions = MediaQuery.of(context).size;
       Offset showMenuPosition = Offset(globalPosition.dx - localPosition.dx,

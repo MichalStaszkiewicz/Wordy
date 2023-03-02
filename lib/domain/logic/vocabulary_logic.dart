@@ -13,7 +13,7 @@ class VocabularyLogic {
     ServerDatabaseOperations server = ServerDatabaseOperations();
     LocalRepository localRepository = LocalRepository();
 
-    Map<String, String> map = await localRepository.getUserData();
+    Map<String, dynamic> map = await localRepository.getUserData();
     List<Word> words = await server
         .getWordiesByTopic(topic)
         .then((value) => value.map((element) => element.toDomain()).toList());
