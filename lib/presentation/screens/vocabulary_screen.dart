@@ -29,23 +29,26 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<InterfaceLanguageProvider>(builder: (context,value,child)=>Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Center(
-            child: Text(
-              ui_lang[value.interfaceLangauge]!['vocabulary_screen_app_bar'].toString(),
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall!
-                  .copyWith(color: Colors.white),
-            ),
-          ),
-        ),
-        body: BlocBuilder<VocabularyBloc, VocabularyState>(
-          builder: (context, state) {
-            if (state is VocabularyLoaded) {
-              return Container(
+    return BlocBuilder<VocabularyBloc, VocabularyState>(
+      builder: (context, state) {
+        if (state is VocabularyLoaded) {
+          return Consumer<InterfaceLanguageProvider>(
+            builder: (context, value, child) => Scaffold(
+              appBar: AppBar(
+                automaticallyImplyLeading: false,
+                title: Center(
+                  child: Text(
+                    ui_lang[value.interfaceLangauge]![
+                            'vocabulary_screen_app_bar']
+                        .toString(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(color: Colors.white),
+                  ),
+                ),
+              ),
+              body: Container(
                 child: Column(
                   children: [
                     Container(
@@ -63,9 +66,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                             hintText: ui_lang[value.interfaceLangauge]![
                                     'vocabulary_screen_search_hint']
                                 .toString(),
-                            hintStyle: Theme.of(context)
-                                .textTheme
-                                .titleSmall,
+                            hintStyle: Theme.of(context).textTheme.titleSmall,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50)),
                           ),
@@ -77,7 +78,11 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                         itemCount: state.vocabularyListSearched.length,
                         itemBuilder: (context, index) {
                           final topic = state.vocabularyListSearched[index];
-    
+                          if (state.language != value.interfaceLangauge) {
+                            context.read<VocabularyBloc>().add(LoadVocabulary(
+                                language: value.interfaceLangauge));
+                          }
+
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -86,7 +91,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                       builder: (context) => BlocProvider(
                                             create: (context) => VocabularyBloc()
                                               ..add(ListVocabularyWordsByTopic(
-                                                  topic: topic.topic)),
+                                                  topic: ui_lang["English"]![
+                                                      'topic_label'][index])),
                                             child: ChoosenTopicVocabulary(
                                               topic: topic.topic,
                                             ),
@@ -104,16 +110,19 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                       flex: 1,
                                       child: Container(
                                           height: 60,
-                                          child: const Center(
+                                          child: Center(
                                               child: Image(
-                                                  image: AssetImage(
-                                                      'assets/dailyusage.png')))),
+                                                  image: AssetImage(state
+                                                      .vocabularyListSearched[
+                                                          index]
+                                                      .image)))),
                                     ),
                                     Expanded(
                                       flex: 3,
                                       child: Center(
                                         child: Text(
-                                          topic.topic,
+                                          state.vocabularyListSearched[index]
+                                              .topic,
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge,
@@ -131,14 +140,15 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                     ),
                   ],
                 ),
-              );
-            }
-            // Other states
-            return Container();
-          },
-        ),
-      ),
-  
+              ),
+            ),
+          );
+        } else {
+          return Scaffold(
+            body: const Center(child: CircularProgressIndicator()),
+          );
+        }
+      },
     );
   }
 }

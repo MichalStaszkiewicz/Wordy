@@ -6,6 +6,7 @@ import 'package:wordy/shared/consts.dart';
 import '../../../domain/logic/vocabulary_logic.dart';
 import '../../../domain/models/quiz_question.dart';
 import '../../../domain/models/vocabulary.dart';
+import '../../Provider/interface_language_provider.dart';
 
 part 'vocabulary_event.dart';
 part 'vocabulary_state.dart';
@@ -24,10 +25,11 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
           topic: ui_lang[event.language]!['topic_label'][0],
           image: "assets/dailyusage.png",
         ),
-      
       ];
-      emit(
-          VocabularyLoaded(vocabularyList: list, vocabularyListSearched: list));
+      emit(VocabularyLoaded(
+          vocabularyList: list,
+          vocabularyListSearched: list,
+          language: event.language));
     });
   }
 
@@ -44,16 +46,19 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
           }
         }
         emit(VocabularyLoaded(
-            vocabularyList: state.vocabularyList,
-            vocabularyListSearched: updatedList));
+          vocabularyList: state.vocabularyList,
+          vocabularyListSearched: updatedList,
+          language: state.language,
+        ));
       }
     });
   }
 
   void showSpecificVocabularyList() {
-    on<ListVocabularyWordsByTopic>((event, emit)async {
+    on<ListVocabularyWordsByTopic>((event, emit) async {
       VocabularyLogic vocabLogic = VocabularyLogic();
-      emit(VocabularyWordiesList(questionList: await vocabLogic.getVocabularyByTopic(event.topic)));
+      emit(VocabularyWordiesList(
+          questionList: await vocabLogic.getVocabularyByTopic(event.topic)));
     });
   }
 }

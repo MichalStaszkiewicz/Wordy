@@ -39,9 +39,7 @@ class MyApp extends StatelessWidget {
       ),
       home: MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (context) => VocabularyBloc()..add(LoadVocabulary(language: '')),
-          ),
+          
           BlocProvider(create: (context) => UserProgressBloc())
         ],
         child: FutureBuilder<void>(

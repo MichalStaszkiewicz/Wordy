@@ -138,6 +138,11 @@ class Utility {
         result.add(CourseEntry(
             translation: word.english, word: word.polish, topic: word.topic));
       }
+      if (languageToLearn.toLowerCase() == "polish" &&
+          languageThatUserWillLearnFrom.toLowerCase() == "english") {
+        result.add(CourseEntry(
+            translation: word.polish, word: word.english, topic: word.topic));
+      }
     }
     return result;
   }
