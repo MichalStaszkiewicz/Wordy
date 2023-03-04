@@ -32,9 +32,14 @@ class LocalRepository implements LocalInterface {
     for (String courseName in avCourses[userData['interfaceLanguage']]!) {
       Map<String, dynamic> courseData = utility.convertCurrentCourseName(
           courseName, userData['interfaceLanguage']!);
-
-      sum += await getLearnedWordiesCount(courseData['courseNameTable']!);
+      int test = await getLearnedWordiesCount(courseData['courseNameTable']!);
+     assert(true,"COURSE NAME: " +
+          courseData['courseNameTable'] +
+          " " +
+          test.toString());
+      sum += test;
     }
+    print("learned words in overall:" + sum.toString());
     return sum;
   }
 
@@ -120,10 +125,10 @@ class LocalRepository implements LocalInterface {
         await db.execute(
             'CREATE TABLE PolishToSpanish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
         await db.execute(
-            'CREATE TABLE profile (id INTEGER PRIMARY KEY,firstRun INTEGER,currentCourse TEXT, daysStreak INTEGER, learnedWords INTEGER, finishedTopics INTEGER, achievements INTEGER, themeMode TEXT, interfaceLanguage TEXT, EnglishPolish INTEGER,EnglishFrench INTEGER, EnglishSpanish INTEGER, PolishEnglish INTEGER, PolishFrench INTEGER, PolishSpanish INTEGER, firstOpen INTEGER)');
+            'CREATE TABLE profile (id INTEGER PRIMARY KEY,firstRun INTEGER,currentCourse TEXT, daysStreak INTEGER, learnedWords INTEGER, finishedTopics INTEGER, achievements INTEGER, themeMode TEXT, interfaceLanguage TEXT, EnglishPolish INTEGER,EnglishFrench INTEGER, EnglishSpanish INTEGER, PolishEnglish INTEGER, PolishFrench INTEGER, PolishSpanish INTEGER, lastLesson TEXT,wordsLearnedToday INTEGER)');
       });
       await database.execute(
-          'INSERT INTO profile (currentCourse,firstRun, daysStreak, learnedWords, finishedTopics, achievements, themeMode, interfaceLanguage, EnglishPolish, EnglishFrench, EnglishSpanish, PolishEnglish, PolishFrench, PolishSpanish,firstOpen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+          'INSERT INTO profile (currentCourse,firstRun, daysStreak, learnedWords, finishedTopics, achievements, themeMode, interfaceLanguage, EnglishPolish, EnglishFrench, EnglishSpanish, PolishEnglish, PolishFrench, PolishSpanish,lastLesson,wordsLearnedToday) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
           [
             languageToLearn,
             1,
@@ -139,6 +144,7 @@ class LocalRepository implements LocalInterface {
             1,
             0,
             0,
+            '',
             0
           ]);
     }
@@ -168,16 +174,25 @@ class LocalRepository implements LocalInterface {
             nativeLanguage: kcourseProfile.native));
       }
     }
-
+    String daysStreak = profile.elementAt(0)['daysStreak'].toString();
     String currentCourse = profile.elementAt(0)['currentCourse'].toString();
-
+    String lastLesson = profile.elementAt(0)['lastLesson'].toString();
     String interfaceLanguage =
         profile.elementAt(0)['interfaceLanguage'].toString();
+    String wordsLearnedToday =
+        profile.elementAt(0)['wordsLearnedToday'].toString();
     String themeMode = profile.elementAt(0)['themeMode'].toString();
     String firstRun = profile.elementAt(0)['firstRun'].toString();
     Map<String, dynamic> map =
         utility.convertCurrentCourseName(currentCourse, interfaceLanguage);
-    map.addAll({"themeMode": themeMode, "firstRun": firstRun,"activeCourses":courses});
+    map.addAll({
+      "themeMode": themeMode,
+      "firstRun": firstRun,
+      "activeCourses": courses,
+      "daysStreak": daysStreak,
+      "lastLesson": lastLesson,
+      "wordsLearnedToday": wordsLearnedToday,
+    });
 
     return map;
   }

@@ -11,6 +11,7 @@ import 'package:wordy/data/local/local_repository_implementation.dart';
 import 'package:wordy/domain/models/course_entry.dart';
 
 import '../../../domain/logic/quiz_logic.dart';
+import '../../../domain/logic/user_data_logic.dart';
 import '../../../domain/models/quiz_question.dart';
 import '../../../domain/models/word.dart';
 
@@ -25,6 +26,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     selectAnswer();
     updateLearnedWords();
   }
+
   void selectAnswer() {
     on<SelectAnswer>((event, emit) {
       if (state is LearningQuizLoaded) {
@@ -36,9 +38,10 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           modifiedQuestionAnswerState[event.index] = 1;
 
           list.add(CourseEntry(
-              translation: state.questions[state.index].answer,
-              word: state.questions[state.index].question,
-              topic: state.topic));
+            translation: state.questions[state.index].answer,
+            word: state.questions[state.index].question,
+            topic: state.topic,
+          ));
         } else {
           modifiedQuestionAnswerState[
               state.questions[state.index].correct_answer_index] = 1;
@@ -73,10 +76,18 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   }
 
   void updateLearnedWords() {
-    on<UpdateLearnedWords>((event, emit) {
+    on<UpdateLearnedWords>((event, emit) async {
       LocalRepository localRepository = LocalRepository();
+      Utility utility = Utility();
       localRepository.insertLearnedWordsToDatabase(event.words);
-      emit(QuizCompleted());
+      UserDataLogic userLogic = UserDataLogic();
+      await userLogic.increaseUserHotStreak();
+      await userLogic.increaseLearnedWordsToday(event.words);
+
+
+
+      emit(QuizCompleted(
+          image: utility.getImagePathFromTopic(event.words[0].topic)));
     });
   }
 

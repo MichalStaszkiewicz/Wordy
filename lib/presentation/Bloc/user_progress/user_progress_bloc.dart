@@ -26,13 +26,20 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
       LocalRepository localRepository = LocalRepository();
       String currentCourse = "";
       String nativeLanguage = "";
-      await localRepository.getUserData().then((value) {
-        currentCourse = value['courseName']!;
-        nativeLanguage = value['interfaceLanguage']!;
+      String hotStreak = "";
+      String wordsLearnedToday = "";
+      await localRepository.getUserData().then((userDate) {
+        currentCourse = userDate['courseName']!;
+        nativeLanguage = userDate['interfaceLanguage']!;
+        hotStreak = userDate['daysStreak']!;
+        wordsLearnedToday = userDate['wordsLearnedToday']!;
       });
 
       emit(UserCoursesAndSettingsInformations(
-          currentCourse: currentCourse, nativeLanguage: nativeLanguage));
+          currentCourse: currentCourse,
+          nativeLanguage: nativeLanguage,
+          hotStreak: hotStreak,
+          wordsLearnedToday: wordsLearnedToday));
     });
   }
 
@@ -44,7 +51,7 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
         if (!value) {
           emit(UserProgressLoaded(
               achievements: 0,
-              daysStreak: 0,
+              daysStreak: await userLogic.getUserHotStreak(),
               finishedTopics: await userLogic.getFinishedTopicsCount(),
               learnedWords: await userLogic.getLearnedWordiesCount(),
               courses: await userLogic.getActiveCourses()));
@@ -80,11 +87,15 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
             "interfaceLanguage", updatedNativeLanguage);
         emit(UserCoursesAndSettingsInformations(
             currentCourse: userData["courseName"]!,
-            nativeLanguage: updatedNativeLanguage));
+            nativeLanguage: updatedNativeLanguage,
+            hotStreak: userData['daysStreak']!,
+            wordsLearnedToday: userData['wordsLearnedToday']!));
       } else {
         emit(UserCoursesAndSettingsInformations(
             currentCourse: userData["courseName"]!,
-            nativeLanguage: userData["interfaceLanguage"]!));
+            nativeLanguage: userData["interfaceLanguage"]!,
+            hotStreak: userData['daysStreak']!,
+            wordsLearnedToday: userData['wordsLearnedToday']!));
       }
     });
   }
@@ -114,10 +125,10 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
 
       emit(UserProgressLoaded(
           achievements: 0,
-          daysStreak: 0,
+          daysStreak: await userLogic.getUserHotStreak(),
           finishedTopics: await userLogic.getFinishedTopicsCount(),
           learnedWords: await userLogic.getLearnedWordiesCount(),
-          courses:await userLogic.getActiveCourses()));
+          courses: await userLogic.getActiveCourses()));
     });
   }
 
@@ -130,7 +141,7 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
 
   void loadLearnedWordsByCourse() {
     on<LoadLearnedWorsdWithSpecificCourse>((event, emit) {
-      emit(UserLearnedWordsSpecificCourse(course: event.course));
+      emit(UserLearnedWordsSpecificTopic(course: event.course));
     });
   }
 }

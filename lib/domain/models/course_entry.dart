@@ -5,6 +5,7 @@ class CourseEntry extends Equatable{
   String word;
   String translation;
   String topic;
+
   
   @override
 

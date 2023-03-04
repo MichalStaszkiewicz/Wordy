@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 import 'package:wordy/presentation/Widgets/answears_column.dart';
 import 'package:wordy/presentation/Widgets/quiz_word_to_answear.dart';
 
@@ -45,6 +46,7 @@ class QuizScreenQuestions extends StatelessWidget {
                   flex: 1,
                   child: QuizNextButton(function: () {
                     if (index == questions.length - 1) {
+               
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: ((context) => BlocProvider(
                                 create: (context) => QuizBloc()

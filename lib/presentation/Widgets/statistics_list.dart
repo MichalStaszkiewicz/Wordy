@@ -25,7 +25,7 @@ class _StatisticsListState extends State<StatisticsList> {
     return BlocBuilder<UserProgressBloc,
         UserProgressState>(
       builder: (context, state) {
-        if (state is UserLearnedWordsSpecificCourse) {
+        if (state is UserLearnedWordsSpecificTopic) {
           return ListView.builder(
               itemCount: state.course.topicsCurrent.length,
               itemBuilder: (context, index) => GestureDetector(

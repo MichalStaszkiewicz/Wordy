@@ -74,7 +74,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                                     height: 100,
                                     child: Image(
                                         image: AssetImage(
-                                            'assets/dailyusage.png'))),
+                                            state.image))),
                                 const SizedBox(
                                   height: 50,
                                 ),

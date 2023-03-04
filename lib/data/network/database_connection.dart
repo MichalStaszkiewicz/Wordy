@@ -5,11 +5,11 @@ class ServerDatabaseConnection {
       ServerDatabaseConnection._internal();
   final ConnectionSettings _settings = ConnectionSettings(
     useSSL: false,
-    host: 'wordies-server.mysql.database.azure.com',
+    host: 'database-wordies.c4lkyyakktfu.eu-central-1.rds.amazonaws.com',
     port: 3306,
-    user: 'lodomir562',
+    user: 'admin',
     password: 'Scooter255f',
-    db: 'wordies-db',
+    db: 'wordies',
   );
   late MySqlConnection _connection;
 

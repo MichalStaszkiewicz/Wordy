@@ -15,6 +15,7 @@ import 'package:wordy/shared/consts.dart';
 
 import '../Provider/interface_language_provider.dart';
 
+//TODO fixing UI. bloc is not updating profile also changing language is no showing proper data in vocabulary screen without helping statements. quiz is breaking when we skip all questions.
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -25,19 +26,19 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Consumer<InterfaceLanguageProvider>(builder: ((context, value, child) => Center(
-              child: Text(
-            ui_lang[value.interfaceLangauge]!['profile_screen_app_bar'].toString(),
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall!
-                .copyWith(color: Colors.white),
-          )))
-        ),
+        title: Consumer<InterfaceLanguageProvider>(
+            builder: ((context, value, child) => Center(
+                    child: Text(
+                  ui_lang[value.interfaceLangauge]!['profile_screen_app_bar']
+                      .toString(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(color: Colors.white),
+                )))),
       ),
       body: BlocBuilder<UserProgressBloc, UserProgressState>(
         builder: (context, state) {

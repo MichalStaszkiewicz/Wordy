@@ -92,7 +92,20 @@ class Utility {
       ),
     );
   }
+  String getImagePathFromTopic(String topic){
+    if(topic == "Basic Conversation" || topic == "Podstawowe Wyrażenia"){
 
+
+      return "assets/dailyusage.png";
+    }else{
+
+
+      return "";
+    }
+
+
+
+  }
   void languageChangeNotPossibleForUserNativeLangugae(
       BuildContext context, String nativeLanguage, String choosenLanguage) {
     InterfaceLanguageProvider provider =
@@ -136,12 +149,12 @@ class Utility {
       if (languageToLearn.toLowerCase() == "english" &&
           languageThatUserWillLearnFrom.toLowerCase() == "polish") {
         result.add(CourseEntry(
-            translation: word.english, word: word.polish, topic: word.topic));
+            translation: word.english, word: word.polish, topic: word.topic, ));
       }
       if (languageToLearn.toLowerCase() == "polish" &&
           languageThatUserWillLearnFrom.toLowerCase() == "english") {
         result.add(CourseEntry(
-            translation: word.polish, word: word.english, topic: word.topic));
+            translation: word.polish, word: word.english, topic: word.topic,));
       }
     }
     return result;

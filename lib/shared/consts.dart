@@ -44,6 +44,7 @@ Map<String, String> quizTitles = {
   "Basic Conversation": "Basic Conversation",
   "Podstawowe Wyrażenia": "Basic Conversation"
 };
+
 Map<String, String> flagWays = {
   "Polish": "poland",
   "Spanish": "spain",

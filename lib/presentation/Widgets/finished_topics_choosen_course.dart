@@ -24,14 +24,14 @@ class _FinishedTopicsChoosenCourseState
             child: Text("Finished Topics - ${widget.choosenLanguage}",
                 style: Theme.of(context)
                     .textTheme
-                    .headline5!
+                    .headlineSmall!
                     .copyWith(color: Colors.white)),
           ),
         ),
       ),
       body: StatisticsList(
         image: 'assets/dailyusage.png',
-        label: 'Basic Conversations',
+        label: 'Basic Conversation',
         navigation: null,
       ),
     );

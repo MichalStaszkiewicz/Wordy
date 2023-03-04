@@ -9,4 +9,5 @@ class Word {
   final String french;
   final String spanish;
   final String topic;
+
 }

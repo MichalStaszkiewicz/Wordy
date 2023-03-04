@@ -30,7 +30,8 @@ class LearningQuizLoaded extends QuizState {
 }
 
 class QuizCompleted extends QuizState {
-  QuizCompleted();
+  QuizCompleted({required this.image});
+  String image;
 }
 
 class ReviewQuizLoaded extends QuizState {

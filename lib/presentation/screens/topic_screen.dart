@@ -159,7 +159,7 @@ class _TopicScreenState extends State<TopicScreen>
                                           child: Container(
                                             child: TopicScreenTodayStaticstics(
                                               image: "assets/fire.png",
-                                              label: 0,
+                                              label:int.parse(userProgressState.hotStreak),
                                             ),
                                           ),
                                         ),
@@ -167,7 +167,7 @@ class _TopicScreenState extends State<TopicScreen>
                                           child: Container(
                                             child: TopicScreenTodayStaticstics(
                                               image: "assets/open-book.png",
-                                              label: 0,
+                                              label: int.parse(userProgressState.wordsLearnedToday),
                                             ),
                                           ),
                                         ),

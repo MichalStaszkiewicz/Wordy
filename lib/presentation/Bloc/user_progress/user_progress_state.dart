@@ -26,17 +26,18 @@ class UserProgressLoaded extends UserProgressState {
   List<CourseBasic> courses;
   @override
   List<Object> get props =>
-      [learnedWords, daysStreak, finishedTopics, achievements];
+      [learnedWords, daysStreak, finishedTopics, achievements,courses];
 }
 
 class UserCoursesAndSettingsInformations extends UserProgressState {
-  UserCoursesAndSettingsInformations({required this.currentCourse,required this.nativeLanguage});
-
+  UserCoursesAndSettingsInformations({required this.currentCourse,required this.nativeLanguage,required this.hotStreak,required this.wordsLearnedToday});
+  String hotStreak;
+  String wordsLearnedToday;
   String currentCourse;
   String nativeLanguage;
 
   @override
-  List<Object> get props => [currentCourse];
+  List<Object> get props => [currentCourse,hotStreak,wordsLearnedToday,nativeLanguage];
 }
 class LanguageConflict extends UserProgressState {
 LanguageConflict();
@@ -75,8 +76,8 @@ class UserLearnedWordsLoaded extends UserProgressState {
   List<Object> get props => [courses];
 }
 
-class UserLearnedWordsSpecificCourse extends UserProgressState {
-  UserLearnedWordsSpecificCourse({required this.course});
+class UserLearnedWordsSpecificTopic extends UserProgressState {
+  UserLearnedWordsSpecificTopic({required this.course});
   Course course;
   @override
   List<Object> get props => [course];
