@@ -24,7 +24,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     reviewWords();
     nextQuestion();
     selectAnswer();
-    updateLearnedWords();
+    sessionCompleted();
+    reviewCompleted();
   }
 
   void selectAnswer() {
@@ -55,6 +56,32 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           correct: list,
           topic: state.topic,
         ));
+      }if (state is ReviewQuizLoaded) {
+        final state = this.state as ReviewQuizLoaded;
+
+        List<CourseEntry> list = state.correct.toList();
+        List<int> modifiedQuestionAnswerState = [0, 0, 0, 0];
+        if (event.index == state.questions[state.index].correct_answer_index) {
+          modifiedQuestionAnswerState[event.index] = 1;
+
+          list.add(CourseEntry(
+            translation: state.questions[state.index].answer,
+            word: state.questions[state.index].question,
+            topic: state.topic,
+          ));
+        } else {
+          modifiedQuestionAnswerState[
+              state.questions[state.index].correct_answer_index] = 1;
+          modifiedQuestionAnswerState[event.index] = 2;
+        }
+        emit(ReviewQuizLoaded(
+          questions: state.questions,
+          index: state.index,
+          selected: true,
+          question_answer_state: modifiedQuestionAnswerState,
+          correct: list,
+          topic: state.topic,
+        ));
       }
     });
   }
@@ -63,7 +90,20 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     on<LoadNextQuestion>((event, emit) {
       if (state is LearningQuizLoaded) {
         final state = this.state as LearningQuizLoaded;
+
         emit(LearningQuizLoaded(
+          questions: state.questions,
+          index: state.index + 1,
+          selected: false,
+          question_answer_state: const [0, 0, 0, 0],
+          correct: state.correct,
+          topic: state.topic,
+        ));
+      }
+      if (state is ReviewQuizLoaded) {
+        final state = this.state as ReviewQuizLoaded;
+
+        emit(ReviewQuizLoaded(
           questions: state.questions,
           index: state.index + 1,
           selected: false,
@@ -75,19 +115,25 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     });
   }
 
-  void updateLearnedWords() {
-    on<UpdateLearnedWords>((event, emit) async {
+  void sessionCompleted() {
+    on<SessionCompleted>((event, emit) async {
       LocalRepository localRepository = LocalRepository();
       Utility utility = Utility();
-      localRepository.insertLearnedWordsToDatabase(event.words);
+      await  localRepository.insertLearnedWordsToDatabase(event.words);
       UserDataLogic userLogic = UserDataLogic();
       await userLogic.increaseUserHotStreak();
       await userLogic.increaseLearnedWordsToday(event.words);
 
+      emit(QuizCompleted(image: utility.getImagePathFromTopic(event.topic), quizType: 'session'));
+    });
+  }
+ void reviewCompleted() {
+    on<ReviewCompleted>((event, emit) async {
+    
+      Utility utility = Utility();
+ 
 
-
-      emit(QuizCompleted(
-          image: utility.getImagePathFromTopic(event.words[0].topic)));
+      emit(QuizCompleted(image: utility.getImagePathFromTopic(event.topic), quizType: 'review'));
     });
   }
 

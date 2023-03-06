@@ -23,7 +23,7 @@ class _TopicScreenState extends State<TopicScreen>
     with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
   late final AnimationController _animationController =
-      AnimationController(vsync: this, duration: const Duration(seconds: 1));
+      AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
   late final Animation<double> animation = Tween<double>(
           begin: -MediaQuery.of(context).size.height / 2, end: 0)
       .animate(
@@ -66,6 +66,7 @@ class _TopicScreenState extends State<TopicScreen>
                     );
                   }
                   if (topicsState is TopicsLoaded) {
+                    
                     return GestureDetector(
                       onTap: () {
                         if (_animationController.status !=

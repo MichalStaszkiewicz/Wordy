@@ -72,9 +72,8 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                                 ),
                                 Container(
                                     height: 100,
-                                    child: Image(
-                                        image: AssetImage(
-                                            state.image))),
+                                    child:
+                                        Image(image: AssetImage(state.image))),
                                 const SizedBox(
                                   height: 50,
                                 ),
@@ -133,15 +132,30 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                         ),
                         QuizFinishButton(
                           function: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: ((context) => BlocProvider(
-                                      create: (context) => QuizBloc()
-                                        ..add(LoadQuestionsForLearning(
-                                            topic: quizTitles[widget.topic]!)),
-                                      child: QuizScreen(
-                                        topic: widget.topic,
-                                      ),
-                                    ))));
+                            if (state.quizType == 'session') {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => BlocProvider(
+                                        create: (context) => QuizBloc()
+                                          ..add(LoadQuestionsForLearning(
+                                              topic:
+                                                  quizTitles[widget.topic]!)),
+                                        child: QuizScreen(
+                                          topic: widget.topic,
+                                        ),
+                                      ))));
+                            }
+                            if (state.quizType == 'review') {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => BlocProvider(
+                                        create: (context) => QuizBloc()
+                                          ..add(LoadQuestionsForReview(
+                                              topic:
+                                                  quizTitles[widget.topic]!)),
+                                        child: QuizScreen(
+                                          topic: widget.topic,
+                                        ),
+                                      ))));
+                            }
                           },
                           label: ui_lang[value.interfaceLangauge]![
                                   'quiz_finish_repeat']

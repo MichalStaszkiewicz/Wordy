@@ -41,7 +41,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         builder: (context, state) {
           state as UserProgressLoaded;
 
-          print("DATATATATAT" + state.learnedWords.toString());
+          print("DATATATATAT: " + state.learnedWords.toString());
           return StatisticsItem(
             image: 'assets/open-book.png',
             label: ui_lang[language]!['profile_screen_learned_words']
@@ -84,6 +84,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
 
   @override
   Widget build(BuildContext context) {
+   
     return SingleChildScrollView(
       child: Consumer<InterfaceLanguageProvider>(
         builder: (context, value, child) => Column(

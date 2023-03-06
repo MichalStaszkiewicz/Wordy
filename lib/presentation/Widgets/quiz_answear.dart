@@ -29,41 +29,80 @@ class _QuizAnswearState extends State<QuizAnswear> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<QuizBloc, QuizState>(
-      builder: (context, qstate) {
-        final state = qstate as LearningQuizLoaded;
-
-        return GestureDetector(
-          onTap: () {
-            if (state.selected == false) {
-              context.read<QuizBloc>().add(SelectAnswer(index: widget.index));
-            }
-          },
-          child: Container(
-            margin: const EdgeInsets.all(20),
-            height: 100,
-            decoration: BoxDecoration(
-              color: colorCheck(state.question_answer_state[widget.index]),
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(0, 2),
-                  blurRadius: 6.0,
+      builder: (context, state) {
+    
+      
+        if (state is LearningQuizLoaded) {
+          return GestureDetector(
+            onTap: () {
+              if (state.selected == false) {
+                context.read<QuizBloc>().add(SelectAnswer(index: widget.index));
+              }
+            },
+            child: Container(
+              margin: const EdgeInsets.all(20),
+              height: 100,
+              decoration: BoxDecoration(
+                color: colorCheck(state.question_answer_state[widget.index]),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(0, 2),
+                    blurRadius: 6.0,
+                  ),
+                ],
+              ),
+              child: Center(
+                child: AutoSizeText(
+                  widget.answer,
+                  maxLines: 1,
+                  minFontSize: 15,
+                  maxFontSize: 20,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
-              ],
-            ),
-            child: Center(
-              child: AutoSizeText(
-                widget.answer,
-                maxLines: 1,
-                minFontSize: 15,
-                maxFontSize: 20,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
-          ),
-        );
+          );
+        }
+        if (state is ReviewQuizLoaded) {
+          return GestureDetector(
+            onTap: () {
+              if (state.selected == false) {
+                context.read<QuizBloc>().add(SelectAnswer(index: widget.index));
+              }
+            },
+            child: Container(
+              margin: const EdgeInsets.all(20),
+              height: 100,
+              decoration: BoxDecoration(
+                color: colorCheck(state.question_answer_state[widget.index]),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(0, 2),
+                    blurRadius: 6.0,
+                  ),
+                ],
+              ),
+              child: Center(
+                child: AutoSizeText(
+                  widget.answer,
+                  maxLines: 1,
+                  minFontSize: 15,
+                  maxFontSize: 20,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+              ),
+            ),
+          );
+        }else{
+
+          return const Center(child: CircularProgressIndicator(),);
+        }
       },
     );
   }

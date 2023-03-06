@@ -9,34 +9,25 @@ const Color ktitlecolor = Color.fromRGBO(51, 51, 51, 1.0);
 List<CourseProfile> kCourses = [
   CourseProfile(
       native: "English",
-      dbNotation: "EnglishPolish",
+      dbNotation: "Polish",
       flag: "poland",
       language: "Polish"),
   CourseProfile(
       native: "English",
-      dbNotation: "EnglishFrench",
+      dbNotation: "French",
       flag: "france",
       language: "French"),
   CourseProfile(
       native: "English",
-      dbNotation: "EnglishSpanish",
+      dbNotation: "Spanish",
       flag: "spain",
       language: "Spanish"),
   CourseProfile(
       native: "Polish",
-      dbNotation: "PolishEnglish",
+      dbNotation: "English",
       flag: "united-kingdom",
       language: "English"),
-  CourseProfile(
-      native: "Polish",
-      dbNotation: "PolishFrench",
-      flag: "france",
-      language: "French"),
-  CourseProfile(
-      native: "Polish",
-      dbNotation: "PolishSpanish",
-      flag: "spain",
-      language: "Spanish"),
+
 ];
 
 List<String> topics = ["Basic Conversation"];

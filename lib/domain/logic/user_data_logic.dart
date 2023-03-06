@@ -64,7 +64,8 @@ class UserDataLogic {
       DateTime lastLessonDateFormat = DateTime.parse(lastLesson);
       if (lastLessonDateFormat == yesterday) {
         print("its user first lesson today");
-        String updatedStreak = hotStreak++ as String;
+         hotStreak++;
+        String updatedStreak = hotStreak.toString();
         _localRepository.updateUserProfile('daysStreak', updatedStreak);
         _localRepository.updateUserProfile(
             'lastLesson', todayDateCorrected.toString());

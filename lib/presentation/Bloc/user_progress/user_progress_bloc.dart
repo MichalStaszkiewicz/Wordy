@@ -4,6 +4,7 @@ import 'package:wordy/data/local/local_repository_implementation.dart';
 import 'package:wordy/domain/logic/settings_logic.dart';
 import 'package:wordy/domain/models/course_basic.dart';
 import 'package:wordy/shared/consts.dart';
+import '../../../Utility/utility.dart';
 import '../../../domain/logic/user_data_logic.dart';
 import '../../../domain/models/course.dart';
 part 'user_progress_event.dart';
@@ -70,7 +71,8 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
   void updateUserCourse() {
     on<UpdateUserCourse>((event, emit) async {
       LocalRepository localRepository = LocalRepository();
-      localRepository.updateUserProfile("currentCourse", event.course);
+      UserDataLogic userLogic = UserDataLogic();
+      await userLogic.updateDatabase("currentCourse", event.course);
       Map<String, dynamic> userData = await localRepository.getUserData();
       String nativeLanguage = "";
       await localRepository.getUserData().then((value) {
@@ -83,7 +85,10 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
         } else {
           updatedNativeLanguage = "Polish";
         }
-        localRepository.updateUserProfile(
+
+        await userLogic.updateDatabase(event.course, '1');
+
+        await userLogic.updateDatabase(
             "interfaceLanguage", updatedNativeLanguage);
         emit(UserCoursesAndSettingsInformations(
             currentCourse: userData["courseName"]!,
@@ -91,6 +96,9 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
             hotStreak: userData['daysStreak']!,
             wordsLearnedToday: userData['wordsLearnedToday']!));
       } else {
+        await userLogic.updateDatabase(event.course, '1');
+
+        await userLogic.updateDatabase("interfaceLanguage", nativeLanguage);
         emit(UserCoursesAndSettingsInformations(
             currentCourse: userData["courseName"]!,
             nativeLanguage: userData["interfaceLanguage"]!,
@@ -114,7 +122,9 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
   void createNewUser() {
     on<CreateNewUser>((event, emit) async {
       UserDataLogic userLogic = UserDataLogic();
-
+      await userLogic.updateDatabase("interfaceLanguage", event.nativeLanguage);
+      await userLogic.updateDatabase(event.languageToLearn, '1');
+      await userLogic.updateDatabase('currentCourse', event.languageToLearn);
       await userLogic.updateDatabase('firstRun', "0");
     });
   }

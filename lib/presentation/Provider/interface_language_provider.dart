@@ -4,7 +4,7 @@ import 'package:wordy/data/local/local_repository_implementation.dart';
 class InterfaceLanguageProvider with ChangeNotifier {
   LocalRepository _localRepository = LocalRepository();
   String interfaceLangauge = "";
-  Future<void> getUserInterfaceLanguage() async {
+  Future<void> getUserInterfaceLanguage(String choosenLangauge) async {
 
 
     

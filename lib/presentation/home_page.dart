@@ -72,10 +72,7 @@ List<Widget> _currentScreen = [
       child: VocabularyScreen(),
     ),
   ),
-  BlocProvider(
-    create: (context) => UserProgressBloc()..add(LoadUserDataAndPreferences()),
-    child: ProfileScreen(),
-  ),
+  ProfileScreen(),
   BlocProvider(
     create: (context) => SettingsBloc()..add(const LoadSettings()),
     child: SettingsScreen(),

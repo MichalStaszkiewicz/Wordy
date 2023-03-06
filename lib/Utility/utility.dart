@@ -92,20 +92,15 @@ class Utility {
       ),
     );
   }
-  String getImagePathFromTopic(String topic){
-    if(topic == "Basic Conversation" || topic == "Podstawowe Wyrażenia"){
 
-
+  String getImagePathFromTopic(String topic) {
+    if (topic == "Basic Conversation" || topic == "Podstawowe Wyrażenia") {
       return "assets/dailyusage.png";
-    }else{
-
-
+    } else {
       return "";
     }
-
-
-
   }
+
   void languageChangeNotPossibleForUserNativeLangugae(
       BuildContext context, String nativeLanguage, String choosenLanguage) {
     InterfaceLanguageProvider provider =
@@ -133,7 +128,7 @@ class Utility {
               context
                   .read<TopicsBloc>()
                   .add(LoadTopics(language: updatedInterfaceLanguage));
-                
+
               await provider
                   .changeUserInterfaceLanguage(updatedInterfaceLanguage);
             },
@@ -149,12 +144,51 @@ class Utility {
       if (languageToLearn.toLowerCase() == "english" &&
           languageThatUserWillLearnFrom.toLowerCase() == "polish") {
         result.add(CourseEntry(
-            translation: word.english, word: word.polish, topic: word.topic, ));
+          translation: word.english,
+          word: word.polish,
+          topic: word.topic,
+        ));
       }
+      if (languageToLearn.toLowerCase() == "french" &&
+          languageThatUserWillLearnFrom.toLowerCase() == "polish") {
+        result.add(CourseEntry(
+          translation: word.french,
+          word: word.polish,
+          topic: word.topic,
+        ));
+      }
+       if (languageToLearn.toLowerCase() == "spanish" &&
+          languageThatUserWillLearnFrom.toLowerCase() == "polish") {
+        result.add(CourseEntry(
+          translation: word.spanish,
+          word: word.polish,
+          topic: word.topic,
+        ));
+      }
+
       if (languageToLearn.toLowerCase() == "polish" &&
           languageThatUserWillLearnFrom.toLowerCase() == "english") {
         result.add(CourseEntry(
-            translation: word.polish, word: word.english, topic: word.topic,));
+          translation: word.polish,
+          word: word.english,
+          topic: word.topic,
+        ));
+      }
+      if (languageToLearn.toLowerCase() == "french" &&
+          languageThatUserWillLearnFrom.toLowerCase() == "english") {
+        result.add(CourseEntry(
+          translation: word.french,
+          word: word.english,
+          topic: word.topic,
+        ));
+      }
+      if (languageToLearn.toLowerCase() == "spanish" &&
+          languageThatUserWillLearnFrom.toLowerCase() == "english") {
+        result.add(CourseEntry(
+          translation: word.spanish,
+          word: word.english,
+          topic: word.topic,
+        ));
       }
     }
     return result;
@@ -172,7 +206,7 @@ class Utility {
     });
     return map;
   }
-
+  
   String convertStepIntoTitle(int step) {
     if (step == 1) {
       return "Choose your native language";
@@ -235,8 +269,7 @@ class Utility {
       String name,
       BuildContext context,
       ScrollController controller) {
-      
-        assert(true,"QUIZ NAME:" +name);
+    assert(true, "QUIZ NAME:" + name);
     if (show == true) {
       var deviceDimensions = MediaQuery.of(context).size;
       Offset showMenuPosition = Offset(globalPosition.dx - localPosition.dx,

@@ -57,7 +57,7 @@ class QuizLogic {
     List<CourseEntry> learnedWords = await localRepository
         .getUserLearnedWordiesWithSpecificTopic(topic)
         .then((value) => value.map((e) => e.toDomain()).toList());
-
+print("learned Words " + learnedWords.toString());
     List<QuizQuestion> questions = utility.createListOfQuestions(
       learnedWords,
     );
