@@ -24,7 +24,7 @@ class MenuButton extends StatelessWidget {
           ],
         ),
         child: Center(
-          child: Text(label, style: Theme.of(context).textTheme.button),
+          child: Text(label, style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white)),
         ),
       ),
     );

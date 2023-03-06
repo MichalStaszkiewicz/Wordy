@@ -56,7 +56,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           correct: list,
           topic: state.topic,
         ));
-      }if (state is ReviewQuizLoaded) {
+      }
+      if (state is ReviewQuizLoaded) {
         final state = this.state as ReviewQuizLoaded;
 
         List<CourseEntry> list = state.correct.toList();
@@ -119,21 +120,24 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     on<SessionCompleted>((event, emit) async {
       LocalRepository localRepository = LocalRepository();
       Utility utility = Utility();
-      await  localRepository.insertLearnedWordsToDatabase(event.words);
+      await localRepository.insertLearnedWordsToDatabase(event.words);
       UserDataLogic userLogic = UserDataLogic();
       await userLogic.increaseUserHotStreak();
       await userLogic.increaseLearnedWordsToday(event.words);
 
-      emit(QuizCompleted(image: utility.getImagePathFromTopic(event.topic), quizType: 'session'));
+      emit(QuizCompleted(
+          image: utility.getImagePathFromTopic(event.topic),
+          quizType: 'session'));
     });
   }
- void reviewCompleted() {
-    on<ReviewCompleted>((event, emit) async {
-    
-      Utility utility = Utility();
- 
 
-      emit(QuizCompleted(image: utility.getImagePathFromTopic(event.topic), quizType: 'review'));
+  void reviewCompleted() {
+    on<ReviewCompleted>((event, emit) async {
+      Utility utility = Utility();
+
+      emit(QuizCompleted(
+          image: utility.getImagePathFromTopic(event.topic),
+          quizType: 'review'));
     });
   }
 
