@@ -11,6 +11,7 @@ import 'package:wordy/shared/consts.dart';
 
 import '../Provider/interface_language_provider.dart';
 import '../Widgets/language_to_choose.dart';
+import '../Widgets/loading_data.dart';
 import '../Widgets/unexpected_error.dart';
 
 class TopicScreen extends StatefulWidget {
@@ -56,14 +57,15 @@ class _TopicScreenState extends State<TopicScreen>
     return BlocBuilder<UserProgressBloc, UserProgressState>(
       builder: (context, userProgressState) {
         if (userProgressState is UserCoursesAndSettingsInformations) {
-          return Consumer<InterfaceLanguageProvider>(builder: (context,value,child)=>BlocProvider(
+          return Consumer<InterfaceDataProvider>(builder: (context,value,child)=>BlocProvider(
               create: (context) => TopicsBloc()..add(LoadTopics(language: value.interfaceLangauge)),
               child: BlocBuilder<TopicsBloc, TopicsState>(
                 builder: (context, topicsState) {
                   if (topicsState is TopicsInitial) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return Scaffold(
+                      
+                      backgroundColor: Colors.white,
+                      body: LoadingData());
                   }
                   if (topicsState is TopicsLoaded) {
                     
@@ -81,7 +83,7 @@ class _TopicScreenState extends State<TopicScreen>
                             settingsOpen: false));
                       },
                       child: Stack(children: [
-                        Consumer<InterfaceLanguageProvider>(
+                        Consumer<InterfaceDataProvider>(
                           builder: (BuildContext context, value, Widget? child)=> CustomScrollView(
                             
                             controller: _scrollController,
@@ -215,7 +217,7 @@ class _TopicScreenState extends State<TopicScreen>
             ),
           );
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return LoadingData();
         }
       },
     );

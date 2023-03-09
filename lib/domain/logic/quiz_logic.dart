@@ -36,14 +36,13 @@ class QuizLogic {
           translation: filtredWords[i].translation,
           word: filtredWords[i].word,
           topic: filtredWords[i].topic))) {
-        assert(true,
-            "Found word that user dont know yet its : " + filtredWords[i].word);
+       
 
         result.add(filtredWords[i]);
       }
     }
 
-    List<QuizQuestion> questions = utility.createListOfQuestions(result);
+    List<QuizQuestion> questions = utility.createListOfQuestions(result,filtredWords);
 
     return questions;
   }
@@ -59,7 +58,7 @@ class QuizLogic {
         .then((value) => value.map((e) => e.toDomain()).toList());
 print("learned Words " + learnedWords.toString());
     List<QuizQuestion> questions = utility.createListOfQuestions(
-      learnedWords,
+      learnedWords,learnedWords
     );
 
     return questions;

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/Provider/interface_language_provider.dart';
 import 'package:wordy/presentation/Widgets/choosen_topic_vocabulary.dart';
+import 'package:wordy/presentation/Widgets/loading_data.dart';
 import 'package:wordy/shared/consts.dart';
 
 class VocabularyScreen extends StatefulWidget {
@@ -32,20 +33,21 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     return BlocBuilder<VocabularyBloc, VocabularyState>(
       builder: (context, state) {
         if (state is VocabularyLoaded) {
-          return Consumer<InterfaceLanguageProvider>(
+          return Consumer<InterfaceDataProvider>(
             builder: (context, value, child) => Scaffold(
               appBar: AppBar(
+                centerTitle: true,
                 automaticallyImplyLeading: false,
-                title: Center(
-                  child: Text(
-                    ui_lang[value.interfaceLangauge]![
-                            'vocabulary_screen_app_bar']
-                        .toString(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall!
-                        .copyWith(color: Colors.white),
-                  ),
+             
+              
+                title: Text(
+                  ui_lang[value.interfaceLangauge]![
+                          'vocabulary_screen_app_bar']
+                      .toString(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(color: Colors.white),
                 ),
               ),
               body: Container(
@@ -145,7 +147,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
           );
         } else {
           return Scaffold(
-            body: const Center(child: CircularProgressIndicator()),
+            body:LoadingData(),
           );
         }
       },

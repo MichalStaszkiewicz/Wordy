@@ -42,7 +42,7 @@ class _QuizOptionsState extends State<QuizOptions>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<InterfaceLanguageProvider>(
+    return Consumer<InterfaceDataProvider>(
       builder: (context, value, child) => Container(
         height: 200,
         width: 200,
@@ -71,27 +71,30 @@ class _QuizOptionsState extends State<QuizOptions>
             MenuButton(
               label: ui_lang[value.interfaceLangauge]!['quiz_settings_review']
                   .toString(),
-              function: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => BlocProvider(
-                          create: (context) => QuizBloc()
-                            ..add(LoadQuestionsForReview(
-                                topic: quizTitles[widget.title]!)),
-                          child: QuizScreen(topic: widget.title),
-                        )));
+              function: () {   
+               Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                              create: (context) => QuizBloc(),
+                              child:
+                                  QuizScreen(topic: quizTitles[widget.title]!),
+                            )));
               },
             ),
             MenuButton(
               label: ui_lang[value.interfaceLangauge]!['quiz_settings_learn']
                   .toString(),
               function: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => BlocProvider(
-                          create: (context) => QuizBloc()
-                            ..add(LoadQuestionsForLearning(
-                                topic: quizTitles[widget.title]!)),
-                          child: QuizScreen(topic: widget.title),
-                        )));
+            
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                              create: (context) => QuizBloc()..add(LoadQuestionsForLearning(topic: quizTitles[widget.title]!)),
+                              child:
+                                  QuizScreen(topic: quizTitles[widget.title]!),
+                            )));
               },
             ),
           ],

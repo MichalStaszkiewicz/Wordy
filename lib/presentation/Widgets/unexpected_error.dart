@@ -9,7 +9,7 @@ UnexpectedError();
 
   @override
   Widget build(BuildContext context) {
-    return  Consumer<InterfaceLanguageProvider>(builder: (context,value,child)=>Center(
+    return  Consumer<InterfaceDataProvider>(builder: (context,value,child)=>Center(
         child: Text(ui_lang[value.interfaceLangauge]!['unexpected_error'].toString()),
       ),
      

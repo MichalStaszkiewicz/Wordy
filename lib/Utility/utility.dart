@@ -17,6 +17,7 @@ import '../presentation/Bloc/user_progress/user_progress_bloc.dart';
 import '../presentation/Provider/interface_language_provider.dart';
 import '../presentation/Provider/interface_language_provider.dart';
 import '../presentation/Widgets/language_to_choose.dart';
+import '../presentation/Widgets/loading_data.dart';
 import '../shared/consts.dart';
 
 class Utility {
@@ -33,7 +34,7 @@ class Utility {
       child: BlocBuilder<UserProgressBloc, UserProgressState>(
         builder: (context, state) {
           if (state is UserCoursesAndSettingsInformations) {
-            return Consumer<InterfaceLanguageProvider>(
+            return Consumer<InterfaceDataProvider>(
               builder: (context, value, child) => Container(
                 height: MediaQuery.of(context).size.height / 2,
                 width: MediaQuery.of(context).size.width,
@@ -84,9 +85,7 @@ class Utility {
               ),
             );
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return LoadingData();
           }
         },
       ),
@@ -103,8 +102,8 @@ class Utility {
 
   void languageChangeNotPossibleForUserNativeLangugae(
       BuildContext context, String nativeLanguage, String choosenLanguage) {
-    InterfaceLanguageProvider provider =
-        Provider.of<InterfaceLanguageProvider>(context, listen: false);
+    InterfaceDataProvider provider =
+        Provider.of<InterfaceDataProvider>(context, listen: false);
     AwesomeDialog(
             context: context,
             dialogType: DialogType.warning,
@@ -148,41 +147,35 @@ class Utility {
           word: word.polish,
           topic: word.topic,
         ));
-      }
-      if (languageToLearn.toLowerCase() == "french" &&
+      } else if (languageToLearn.toLowerCase() == "french" &&
           languageThatUserWillLearnFrom.toLowerCase() == "polish") {
         result.add(CourseEntry(
           translation: word.french,
           word: word.polish,
           topic: word.topic,
         ));
-      }
-       if (languageToLearn.toLowerCase() == "spanish" &&
+      } else if (languageToLearn.toLowerCase() == "spanish" &&
           languageThatUserWillLearnFrom.toLowerCase() == "polish") {
         result.add(CourseEntry(
           translation: word.spanish,
           word: word.polish,
           topic: word.topic,
         ));
-      }
-
-      if (languageToLearn.toLowerCase() == "polish" &&
+      } else if (languageToLearn.toLowerCase() == "polish" &&
           languageThatUserWillLearnFrom.toLowerCase() == "english") {
         result.add(CourseEntry(
           translation: word.polish,
           word: word.english,
           topic: word.topic,
         ));
-      }
-      if (languageToLearn.toLowerCase() == "french" &&
+      } else if (languageToLearn.toLowerCase() == "french" &&
           languageThatUserWillLearnFrom.toLowerCase() == "english") {
         result.add(CourseEntry(
           translation: word.french,
           word: word.english,
           topic: word.topic,
         ));
-      }
-      if (languageToLearn.toLowerCase() == "spanish" &&
+      } else if (languageToLearn.toLowerCase() == "spanish" &&
           languageThatUserWillLearnFrom.toLowerCase() == "english") {
         result.add(CourseEntry(
           translation: word.spanish,
@@ -206,7 +199,7 @@ class Utility {
     });
     return map;
   }
-  
+
   String convertStepIntoTitle(int step) {
     if (step == 1) {
       return "Choose your native language";
@@ -218,7 +211,7 @@ class Utility {
     }
   }
 
-  List<QuizQuestion> createListOfQuestions(List<CourseEntry> words) {
+  List<QuizQuestion> createListOfQuestions(List<CourseEntry> words,List<CourseEntry> listOfRandomWords) {
     List<QuizQuestion> questions = [];
     HashSet<String> usedWords = HashSet<String>();
     for (int i = 0; i < words.length; i++) {
@@ -228,7 +221,7 @@ class Utility {
       }
 
       while (usedWords.length < 4) {
-        var randomWord = words[random.nextInt(words.length)].word;
+        var randomWord = listOfRandomWords[random.nextInt(listOfRandomWords.length)].word;
         if (!usedWords.contains(randomWord)) {
           usedWords.add(randomWord);
         }
@@ -269,7 +262,6 @@ class Utility {
       String name,
       BuildContext context,
       ScrollController controller) {
-    assert(true, "QUIZ NAME:" + name);
     if (show == true) {
       var deviceDimensions = MediaQuery.of(context).size;
       Offset showMenuPosition = Offset(globalPosition.dx - localPosition.dx,

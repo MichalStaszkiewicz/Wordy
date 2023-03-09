@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wordy/domain/models/achievement.dart';
+import 'package:wordy/domain/models/achievements_base.dart';
 
+import '../domain/models/achievements_base.dart';
 import '../domain/models/course_profile.dart';
 import '../domain/models/language.dart';
 
@@ -27,15 +30,90 @@ List<CourseProfile> kCourses = [
       dbNotation: "English",
       flag: "united-kingdom",
       language: "English"),
-
 ];
 
 List<String> topics = ["Basic Conversation"];
 Map<String, String> quizTitles = {
   "Basic Conversation": "Basic Conversation",
   "Podstawowe Wyrażenia": "Basic Conversation"
+};Map<String, Map<int, AchievementBase>> achievements = {
+  "English": <int, AchievementBase>{
+    0: AchievementBase(
+      name: 'Novice Linguist',
+      image: 'assets/wordmaster.png',
+      description: 'Learn 100 words',
+    ),
+    1: AchievementBase(
+      name: 'Word Explorer',
+      image: 'assets/wordmaster.png',
+      description: 'Learn 500 words',
+    ),
+    2: AchievementBase(
+      name: 'Lexical Connoisseur',
+      image: 'assets/wordmaster.png',
+      description: 'Learn 1000 words',
+    ),
+    3: AchievementBase(
+      name: 'Language Savant',
+      image: 'assets/wordmaster.png',
+      description: 'Learn 2500 words',
+    ),
+    4: AchievementBase(
+      name: 'Vocabulary Virtuoso',
+      image: 'assets/wordmaster.png',
+      description: 'Learn 5000 words',
+    ),
+    5: AchievementBase(
+      name: 'Polyglot',
+      image: 'assets/polyglot.png',
+      description:
+          'Successfully complete at least 75% of the language courses for three or more',
+    ),
+    6: AchievementBase(
+      name: 'Flawless Victory',
+      image: 'assets/perfect.png',
+      description: 'Achieve a perfect score on a language learning session',
+    ),
+  },
+  "Polish": <int, AchievementBase>{
+    0: AchievementBase(
+      name: 'Początkujący Lingwista',
+      image: 'assets/wordmaster.png',
+      description: 'Naucz się 100 słów',
+    ),
+    1: AchievementBase(
+      name: 'Badacz Słów',
+      image: 'assets/wordmaster.png',
+      description: 'Naucz się 500 słów',
+    ),
+    2: AchievementBase(
+      name: 'Koneser Językowy',
+      image: 'assets/wordmaster.png',
+      description: 'Naucz się 1000 słów',
+    ),
+    3: AchievementBase(
+      name: 'Eksplorator Językowy',
+      image: 'assets/wordmaster.png',
+      description: 'Naucz się 2500 słów',
+    ),
+    4: AchievementBase(
+      name: 'Wirtuoz Słownictwa',
+      image: 'assets/wordmaster.png',
+      description: 'Naucz się 5000 słów',
+    ),
+    5: AchievementBase(
+      name: 'Poliglota',
+      image: 'assets/polyglot.png',
+      description:
+          'Zdobądź przynajmniej 75% ocen w trzech lub więcej kursach językowych',
+    ),
+    6: AchievementBase(
+      name: 'Bezkresne Zwycięstwo',
+      image: 'assets/perfect.png',
+      description: 'Uzyskaj perfekcyjny wynik w sesji nauki języka',
+    ),
+  },
 };
-
 Map<String, String> flagWays = {
   "Polish": "poland",
   "Spanish": "spain",

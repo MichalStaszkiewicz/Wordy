@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 import 'package:wordy/presentation/Provider/interface_language_provider.dart';
+import 'package:wordy/presentation/Widgets/loading_data.dart';
 import 'package:wordy/presentation/Widgets/unexpected_error.dart';
 import 'package:wordy/shared/consts.dart';
 
@@ -23,7 +24,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Consumer<InterfaceLanguageProvider>(builder: (context,value,child)=>Center(
+        title: Consumer<InterfaceDataProvider>(builder: (context,value,child)=>Center(
             child: Text(ui_lang[value.interfaceLangauge]!['settings_screen_app_bar'].toString(),
                 style: Theme.of(context)
                     .textTheme
@@ -36,9 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
           if (state is SettingsInitial) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return LoadingData();
           }
           if (state is SettingsLoaded) {
             return const Settings();

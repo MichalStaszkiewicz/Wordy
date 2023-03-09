@@ -23,7 +23,7 @@ class _SettingsState extends State<Settings> {
         state as SettingsLoaded;
 
         return SingleChildScrollView(
-            child: Consumer<InterfaceLanguageProvider>(
+            child: Consumer<InterfaceDataProvider>(
           builder: (context, value, child) => Column(
             children: [
               const SizedBox(

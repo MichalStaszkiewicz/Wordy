@@ -7,6 +7,7 @@ import 'package:wordy/presentation/Widgets/words_learned_choosen_language.dart';
 import 'package:wordy/shared/consts.dart';
 
 import '../Bloc/user_progress/user_progress_bloc.dart';
+import '../Widgets/loading_data.dart';
 
 class WordsLearnedScreen extends StatefulWidget {
   const WordsLearnedScreen({super.key});
@@ -24,7 +25,7 @@ class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
           padding: const EdgeInsets.only(right: 40),
           child: Center(
             child: Container(
-              child: Consumer<InterfaceLanguageProvider>(
+              child: Consumer<InterfaceDataProvider>(
                 builder: (context, value, child) => Text(
                   ui_lang[value.interfaceLangauge]!['profile_screen_learned_words']
                       .toString(),
@@ -49,9 +50,7 @@ class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
               ),
             );
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return LoadingData();
           }
         },
       ),

@@ -13,7 +13,7 @@ class QuizNextButton extends StatelessWidget {
       onTap: () {
         function();
       },
-      child: Consumer<InterfaceLanguageProvider>(
+      child: Consumer<InterfaceDataProvider>(
         builder: (context, value, child) => Container(
           margin: EdgeInsets.only(bottom: 50),
           width: 350,

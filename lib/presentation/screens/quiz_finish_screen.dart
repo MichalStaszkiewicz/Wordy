@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Provider/interface_language_provider.dart';
+import 'package:wordy/presentation/Widgets/loading_data.dart';
 import 'package:wordy/presentation/Widgets/quiz_finish_button.dart';
 import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/shared/consts.dart';
@@ -23,7 +24,7 @@ class QuizFinishScreen extends StatefulWidget {
 class _QuizFinishScreenState extends State<QuizFinishScreen> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<InterfaceLanguageProvider>(
+    return Consumer<InterfaceDataProvider>(
         builder: (context, value, child) => Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading: false,
@@ -143,8 +144,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                                           topic: widget.topic,
                                         ),
                                       ))));
-                            }
-                            if (state.quizType == 'review') {
+                            } else if (state.quizType == 'review') {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: ((context) => BlocProvider(
                                         create: (context) => QuizBloc()
@@ -166,6 +166,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                         ),
                         QuizFinishButton(
                           function: () {
+                         
                             Navigator.of(context).popAndPushNamed('/');
                           },
                           label: ui_lang[value.interfaceLangauge]![
@@ -178,9 +179,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                       ],
                     );
                   } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return LoadingData();
                   }
                 },
               ),

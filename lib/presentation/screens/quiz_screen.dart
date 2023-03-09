@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Widgets/exit_dialog.dart';
+import 'package:wordy/presentation/Widgets/loading_data.dart';
 
 import 'package:wordy/presentation/screens/quiz_screen_questions.dart';
 import 'package:wordy/shared/consts.dart';
@@ -31,13 +32,15 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-   
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: Consumer<InterfaceLanguageProvider>(builder:(context,value,child)=>Scaffold(
+      child: Consumer<InterfaceDataProvider>(
+        
+        builder: (context, value, child) => Scaffold(
+          
           appBar: AppBar(
             title: Container(
-              padding: const EdgeInsets.only(right: 40),
+              padding: const EdgeInsets.only(right: 20),
               child: Center(
                 child: Text(widget.topic,
                     style: Theme.of(context)
@@ -47,47 +50,52 @@ class _QuizScreenState extends State<QuizScreen> {
               ),
             ),
           ),
-          body: BlocBuilder<QuizBloc, QuizState>(
-            builder: (context, state) {
-              if (state is QuizInitial) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (state is LearningQuizLoaded) {
-                if (state.questions.isEmpty) {
-                  return Center(
-                    child: Text(
-                        '${ui_lang[value.interfaceLangauge]!['finished_topic_announcement'].toString()} ${widget.topic}'),
-                  );
-                } else {
-                  return QuizScreenQuestions(
-                    questions: state.questions,
-                    index: state.index,
-                    topic: widget.topic,
-                  );
-                }
-              }
-      
-              if (state is ReviewQuizLoaded) {
-                if (state.questions.isEmpty) {
-                  return Center(
-                    child: Text(
-                        ui_lang[value.interfaceLangauge]!['no_words_to_review_announcement']
-                            .toString()),
-                  );
-                } else {
-                  return QuizScreenQuestions(
-                    questions: state.questions,
-                    index: state.index,
-                    topic: widget.topic,
-                  );
-                }
-              } else {
-                return UnexpectedError();
-              }
-            },
+          body: Container(
+            child: Consumer<InterfaceDataProvider>(
+              builder: (context, value, child) =>
+                  BlocBuilder<QuizBloc, QuizState>(
+                builder: (context, state) {
+                     
+                  if (state is QuizInitial) {
+                    return LoadingData();
+                  } else if (state is LearningQuizLoaded) {
+                    if (state.questions.isEmpty) {
+                      return Center(
+                        child: Text(
+                            textAlign: TextAlign.center,
+                            '${ui_lang[value.interfaceLangauge]!['finished_topic_announcement'].toString()} ${widget.topic}'),
+                      );
+                    } else {
+                      return QuizScreenQuestions(
+                        questions: state.questions,
+                        index: state.index,
+                        topic: widget.topic,
+                      );
+                    }
+                  } else if (state is ReviewQuizLoaded) {
+                    if (state.questions.isEmpty) {
+                      return Center(
+                        child: Text(
+                            textAlign: TextAlign.center,
+                            ui_lang[value.interfaceLangauge]![
+                                    'no_words_to_review_announcement']
+                                .toString()),
+                      );
+                    } else {
+                      return QuizScreenQuestions(
+                        questions: state.questions,
+                        index: state.index,
+                        topic: widget.topic,
+                      );
+                    }
+                  } else {
+                    return UnexpectedError();
+                  }
+                },
+              ),
+            ),
           ),
         ),
-    
       ),
     );
   }

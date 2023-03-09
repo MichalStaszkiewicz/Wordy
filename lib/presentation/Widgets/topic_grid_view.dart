@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
 import 'package:wordy/presentation/Widgets/topic_item.dart';
 
+import 'loading_data.dart';
+
 
 class TopicGridView extends StatelessWidget {
 TopicGridView();
@@ -29,10 +31,8 @@ TopicGridView();
             ),
           );
         } else {
-          return const SliverToBoxAdapter(
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
+          return  SliverToBoxAdapter(
+            child: LoadingData()
           );
         }
       },

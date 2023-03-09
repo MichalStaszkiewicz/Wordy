@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dropdown_alert/alert_controller.dart';
+import 'package:flutter_dropdown_alert/model/data_alert.dart';
+import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 import 'package:wordy/presentation/Widgets/answears_column.dart';
 import 'package:wordy/presentation/Widgets/quiz_word_to_answear.dart';
@@ -9,15 +12,22 @@ import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 
 import '../../domain/models/quiz_question.dart';
+import '../Provider/interface_language_provider.dart';
+import '../Widgets/loading_data.dart';
 import '../Widgets/quiz_next_button.dart';
 
-class QuizScreenQuestions extends StatelessWidget {
+class QuizScreenQuestions extends StatefulWidget {
   QuizScreenQuestions(
       {required this.topic, required this.questions, required this.index});
   final String topic;
   final List<QuizQuestion> questions;
   final int index;
 
+  @override
+  State<QuizScreenQuestions> createState() => _QuizScreenQuestionsState();
+}
+
+class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<QuizBloc, QuizState>(
@@ -31,36 +41,40 @@ class QuizScreenQuestions extends StatelessWidget {
                     height: 60,
                   ),
                   Expanded(
-                    flex: 2,
+                    flex: 3,
                     child: QuizWordToAnswear(
-                      word: questions[index].question,
+                      word: widget.questions[widget.index].question,
                     ),
                   ),
                   Expanded(
-                    flex: 4,
+                    flex: 8,
                     child: AnswearsColumn(
-                      answears: questions[index].questionOptions,
+                      answears: widget.questions[widget.index].questionOptions,
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: QuizNextButton(function: () {
-                      if (index == questions.length - 1) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: ((context) => BlocProvider(
-                                  create: (context) => QuizBloc()
-                                    ..add(SessionCompleted(
-                                        words: state.correct, topic: topic)),
-                                  child: QuizFinishScreen(
-                                    correct: state.correct.length,
-                                    maximum: state.questions.length,
-                                    topic: topic,
-                                  ),
-                                ))));
-                      } else {
-                        context.read<QuizBloc>().add(LoadNextQuestion());
-                      }
-                    }),
+                  Consumer<InterfaceDataProvider>(
+                    builder:(context,value,child)=> Expanded(
+                      flex: 2,
+                      child: QuizNextButton(function: () {
+                     
+                        if (widget.index == widget.questions.length - 1) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: ((context) => BlocProvider(
+                                    create: (context) => QuizBloc()
+                                      ..add(SessionCompleted(
+                                          words: state.correct,
+                                          topic: widget.topic)),
+                                    child: QuizFinishScreen(
+                                      correct: state.correct.length,
+                                      maximum: state.questions.length,
+                                      topic: widget.topic,
+                                    ),
+                                  ))));
+                        } else {
+                          context.read<QuizBloc>().add(LoadNextQuestion());
+                        }
+                      }),
+                    ),
                   )
                 ]),
           );
@@ -77,28 +91,29 @@ class QuizScreenQuestions extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: QuizWordToAnswear(
-                      word: questions[index].question,
+                      word: widget.questions[widget.index].question,
                     ),
                   ),
                   Expanded(
                     flex: 4,
                     child: AnswearsColumn(
-                      answears: questions[index].questionOptions,
+                      answears: widget.questions[widget.index].questionOptions,
                     ),
                   ),
                   Expanded(
                     flex: 1,
                     child: QuizNextButton(function: () {
-                      if (index == questions.length - 1) {
+                      if (widget.index == widget.questions.length - 1) {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: ((context) => BlocProvider(
-                                  create: (context) => QuizBloc()..add(
-                                      ReviewCompleted(
-                                          words: state.correct, topic: topic)),
+                                  create: (context) => QuizBloc()
+                                    ..add(ReviewCompleted(
+                                        words: state.correct,
+                                        topic: widget.topic)),
                                   child: QuizFinishScreen(
                                     correct: state.correct.length,
                                     maximum: state.questions.length,
-                                    topic: topic,
+                                    topic: widget.topic,
                                   ),
                                 ))));
                       } else {
@@ -109,9 +124,7 @@ class QuizScreenQuestions extends StatelessWidget {
                 ]),
           );
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return LoadingData();
         }
       },
     );

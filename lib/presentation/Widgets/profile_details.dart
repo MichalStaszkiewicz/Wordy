@@ -41,7 +41,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         builder: (context, state) {
           state as UserProgressLoaded;
 
-          print("DATATATATAT: " + state.learnedWords.toString());
+      
           return StatisticsItem(
             image: 'assets/open-book.png',
             label: ui_lang[language]!['profile_screen_learned_words']
@@ -74,7 +74,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             label: ui_lang[language]!['profile_screen_achievements']
                 .toString(),
             statisticsCount: state.achievements,
-            navigation: const AchievemetnsScreen(),
+            navigation: const AchievementsScreen(),
           );
         },
       ),
@@ -86,7 +86,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   Widget build(BuildContext context) {
    
     return SingleChildScrollView(
-      child: Consumer<InterfaceLanguageProvider>(
+      child: Consumer<InterfaceDataProvider>(
         builder: (context, value, child) => Column(
           children: [
             HeaderInProfile(

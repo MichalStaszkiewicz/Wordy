@@ -129,8 +129,14 @@ class LocalRepository implements LocalInterface {
         await db.execute(
             'CREATE TABLE PolishToSpanish (id INTEGER PRIMARY KEY, word TEXT, translation TEXT, topic TEXT)');
         await db.execute(
+            'CREATE TABLE Achievements (id INTEGER PRIMARY KEY,achievementID INTEGER)');
+            
+        await db.execute(
             'CREATE TABLE profile (id INTEGER PRIMARY KEY,firstRun INTEGER,currentCourse TEXT, daysStreak INTEGER, learnedWords INTEGER, finishedTopics INTEGER, achievements INTEGER, themeMode TEXT, interfaceLanguage TEXT,English INTEGER,French INTEGER, Polish INTEGER,Spanish INTEGER , lastLesson TEXT,wordsLearnedToday INTEGER)');
       });
+       
+
+
       await database.execute(
           'INSERT INTO profile (currentCourse,firstRun, daysStreak, learnedWords, finishedTopics, achievements, themeMode, interfaceLanguage, English,French, Polish,Spanish,lastLesson,wordsLearnedToday) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
           ['', 1, 0, 0, 0, 0, 'light', userNativeLanguage, 0, 0, 0, 0, '', 0]);
@@ -155,7 +161,7 @@ class LocalRepository implements LocalInterface {
     var profile = await connection.rawQuery("SELECT * FROM profile");
     for (CourseProfile kcourseProfile in kCourses) {
       if (profile.elementAt(0)[kcourseProfile.dbNotation] == 1) {
-        print("Found active course! : " + kcourseProfile.language);
+     
         courses.add(CourseBasicDto(
             flag: kcourseProfile.flag,
             language: kcourseProfile.language,

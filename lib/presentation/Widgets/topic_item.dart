@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
+import 'package:wordy/presentation/Widgets/loading_data.dart';
 
 
 class TopicItem extends StatefulWidget {
@@ -78,9 +79,7 @@ class _TopicItemState extends State<TopicItem> with TickerProviderStateMixin {
             ),
           );
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return LoadingData();
         }
       },
     );

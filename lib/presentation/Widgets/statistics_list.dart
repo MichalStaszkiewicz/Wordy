@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wordy/presentation/Widgets/loading_data.dart';
 import 'package:wordy/presentation/Widgets/statistics_card.dart';
 import 'package:wordy/shared/consts.dart';
 
@@ -77,9 +78,7 @@ class _StatisticsListState extends State<StatisticsList> {
                     ),
                   ));
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return LoadingData();
         }
       },
     );

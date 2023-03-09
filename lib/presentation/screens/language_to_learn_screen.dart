@@ -5,6 +5,7 @@ import 'package:wordy/shared/consts.dart';
 
 import '../Bloc/user_progress/user_progress_bloc.dart';
 import '../Widgets/language_to_choose.dart';
+import '../Widgets/loading_data.dart';
 
 class LanguageToLearnScreen extends StatelessWidget {
   const LanguageToLearnScreen({super.key});
@@ -62,9 +63,7 @@ class LanguageToLearnScreen extends StatelessWidget {
             ],
           );
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return  LoadingData();
         }
       },
     );

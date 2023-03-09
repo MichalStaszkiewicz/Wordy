@@ -13,6 +13,6 @@ void main() {
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
       (value) => runApp(ChangeNotifierProvider(
-          create: (BuildContext context) => InterfaceLanguageProvider(),
+          create: (BuildContext context) => InterfaceDataProvider(),
           child: const MyApp())));
 }

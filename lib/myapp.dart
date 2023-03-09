@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dropdown_alert/dropdown_alert.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/Provider/interface_language_provider.dart';
+import 'package:wordy/presentation/Widgets/loading_data.dart';
 import 'package:wordy/presentation/screens/language_to_learn_from_screen.dart';
 import 'package:wordy/presentation/screens/language_to_learn_screen.dart';
 import 'package:wordy/presentation/screens/quiz_screen.dart';
@@ -37,24 +39,20 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.robotoSlabTextTheme(),
         primarySwatch: Colors.blue,
       ),
-      home: MultiBlocProvider(
-        providers: [
-          
-          BlocProvider(create: (context) => UserProgressBloc())
-        ],
-        child: FutureBuilder<void>(
-          future: Provider.of<InterfaceLanguageProvider>(context, listen: false)
-              .getUserInterfaceLanguage(""),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Scaffold(body:  CircularProgressIndicator());
-            }
-            if (snapshot.hasError) {
-              return Scaffold(body: Center(child: Text('Error: ${snapshot.error}')));
-            }
-            return const HomePage();
-          },
-        ),
+      home: FutureBuilder<void>(
+        future: Provider.of<InterfaceDataProvider>(context, listen: false)
+            .getUserInterfaceLanguage(""),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Scaffold(backgroundColor: Colors.white, body: LoadingData());
+          }
+          if (snapshot.hasError) {
+            return Scaffold(
+                backgroundColor: Colors.white,
+                body: Center(child: Text('Error: ${snapshot.error}')));
+          }
+          return const HomePage();
+        },
       ),
     );
   }

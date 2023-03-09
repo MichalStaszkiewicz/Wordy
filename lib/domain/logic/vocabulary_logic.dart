@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:wordy/Utility/utility.dart';
 import 'package:wordy/data/local/local_database.dart';
 import 'package:wordy/data/local/local_repository_implementation.dart';
+import 'package:wordy/domain/models/course_entry.dart';
 import 'package:wordy/domain/models/quiz_question.dart';
 
 import '../../data/network/network_repository_implementation.dart';
@@ -17,11 +18,24 @@ class VocabularyLogic {
     List<Word> words = await server
         .getWordiesByTopic(topic)
         .then((value) => value.map((element) => element.toDomain()).toList());
-   
+    List<Word> wordsToRandomAnswers = await server
+        .getAllWordies()
+        .then((value) => value.map((e) => e.toDomain()).toList());
+
     Utility utility = Utility();
-    List<QuizQuestion> questions = utility.createListOfQuestions(utility.convertWordToCourse(words, map['courseName']??"", map['interfaceLanguage']??""),
-       );
- 
+    List<QuizQuestion> questions = utility.createListOfQuestions(
+      utility.convertWordToCourse(
+        words,
+        map['courseName'] ?? "",
+        map['interfaceLanguage'] ?? "",
+      ),
+      utility.convertWordToCourse(
+        wordsToRandomAnswers,
+        map['courseName'] ?? "",
+        map['interfaceLanguage'] ?? "",
+      ),
+    );
+
     return questions;
   }
 }

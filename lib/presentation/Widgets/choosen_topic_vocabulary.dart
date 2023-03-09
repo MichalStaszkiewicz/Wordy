@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/Widgets/flip_cards.dart';
+import 'package:wordy/presentation/Widgets/loading_data.dart';
 import 'package:wordy/presentation/Widgets/vocabulary_back_card.dart';
 import 'package:wordy/presentation/Widgets/vocabulary_front_card.dart';
 
@@ -50,9 +51,7 @@ class _ChoosenTopicVocabularyState extends State<ChoosenTopicVocabulary> {
                       )),
             );
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return LoadingData();
           }
         },
       ),

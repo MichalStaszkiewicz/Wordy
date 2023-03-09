@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
+import 'package:wordy/presentation/Widgets/loading_data.dart';
 import 'package:wordy/presentation/Widgets/settings.dart';
 import 'package:wordy/presentation/screens/settings_screen.dart';
 import 'package:wordy/shared/consts.dart';
@@ -42,7 +43,7 @@ class LanguageDialog extends StatelessWidget {
                         ]),
                     child: Column(
                       children: <Widget>[
-                        Consumer<InterfaceLanguageProvider>(builder: (context, value, child) => Container(
+                        Consumer<InterfaceDataProvider>(builder: (context, value, child) => Container(
                             width: double.infinity,
                             padding: const EdgeInsets.all(16.0),
                             decoration: const BoxDecoration(
@@ -93,9 +94,7 @@ class LanguageDialog extends StatelessWidget {
                       ],
                     )));
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return LoadingData();
           }
         },
       ),
