@@ -1,11 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:wordy/Utility/c_achievment.dart';
 import 'package:wordy/data/local/local_repository_implementation.dart';
 import 'package:wordy/domain/logic/settings_logic.dart';
 import 'package:wordy/domain/models/course_basic.dart';
 import 'package:wordy/shared/consts.dart';
 import '../../../Utility/utility.dart';
 import '../../../domain/logic/user_data_logic.dart';
+import '../../../domain/models/achievement.dart';
+import '../../../domain/models/achievements_base.dart';
 import '../../../domain/models/course.dart';
 part 'user_progress_event.dart';
 part 'user_progress_state.dart';
@@ -55,7 +58,9 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
               daysStreak: await userLogic.getUserHotStreak(),
               finishedTopics: await userLogic.getFinishedTopicsCount(),
               learnedWords: await userLogic.getLearnedWordiesCount(),
-              courses: await userLogic.getActiveCourses()));
+              courses: await userLogic.getActiveCourses(),
+              userAchievements: await userLogic.getUserAchievements(),
+              allAchievements: await userLogic.getAllAchievements()));
         } else {
           emit(CreatingNewUserPreferences(
               userLanguageToLearn: '',
@@ -138,7 +143,9 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
           daysStreak: await userLogic.getUserHotStreak(),
           finishedTopics: await userLogic.getFinishedTopicsCount(),
           learnedWords: await userLogic.getLearnedWordiesCount(),
-          courses: await userLogic.getActiveCourses()));
+          courses: await userLogic.getActiveCourses(),
+          userAchievements: await userLogic.getUserAchievements(),
+          allAchievements: await userLogic.getAllAchievements()));
     });
   }
 

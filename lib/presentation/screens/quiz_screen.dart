@@ -35,9 +35,7 @@ class _QuizScreenState extends State<QuizScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Consumer<InterfaceDataProvider>(
-        
         builder: (context, value, child) => Scaffold(
-          
           appBar: AppBar(
             title: Container(
               padding: const EdgeInsets.only(right: 20),
@@ -55,7 +53,6 @@ class _QuizScreenState extends State<QuizScreen> {
               builder: (context, value, child) =>
                   BlocBuilder<QuizBloc, QuizState>(
                 builder: (context, state) {
-                     
                   if (state is QuizInitial) {
                     return LoadingData();
                   } else if (state is LearningQuizLoaded) {
@@ -70,6 +67,7 @@ class _QuizScreenState extends State<QuizScreen> {
                         questions: state.questions,
                         index: state.index,
                         topic: widget.topic,
+                        deviceSize: MediaQuery.of(context).size,
                       );
                     }
                   } else if (state is ReviewQuizLoaded) {
@@ -83,6 +81,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       );
                     } else {
                       return QuizScreenQuestions(
+                        deviceSize: MediaQuery.of(context).size,
                         questions: state.questions,
                         index: state.index,
                         topic: widget.topic,

@@ -4,20 +4,21 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 class AchievementItemFront extends StatefulWidget {
-   AchievementItemFront({required this.image,required this.name});
+  AchievementItemFront(
+      {required this.image,
+      required this.name,
+      required this.currentProgress,
+      required this.maximum});
   String image;
   String name;
-
+  int? currentProgress;
+  int? maximum;
 
   @override
   State<AchievementItemFront> createState() => _AchievementItemFrontState();
 }
 
 class _AchievementItemFrontState extends State<AchievementItemFront> {
-
-
-
-  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,11 +39,10 @@ class _AchievementItemFrontState extends State<AchievementItemFront> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(
-              height: 50, child: Image(image: AssetImage(widget.image))),
+          Container(height: 50, child: Image(image: AssetImage(widget.image))),
           const SizedBox(height: 10.0),
           Text(
-            textAlign:TextAlign.center,
+            textAlign: TextAlign.center,
             widget.name,
             style: TextStyle(
               color: Colors.grey[700],
@@ -51,8 +51,6 @@ class _AchievementItemFrontState extends State<AchievementItemFront> {
             ),
           ),
           const SizedBox(height: 10.0),
-          //TODO ProgressBar
-
           Container(
             width: 130,
             height: 30,
@@ -60,7 +58,9 @@ class _AchievementItemFrontState extends State<AchievementItemFront> {
                 color: Colors.white, borderRadius: BorderRadius.circular(20)),
             child: Center(
               child: Text(
-                '100/1000',
+                widget.currentProgress != null && widget.maximum != null
+                    ? "${widget.currentProgress}/${widget.maximum}"
+                    : "",
                 style: TextStyle(
                   color: Colors.grey[700],
                   fontSize: 16.0,

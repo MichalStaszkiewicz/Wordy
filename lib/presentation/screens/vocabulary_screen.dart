@@ -38,11 +38,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
               appBar: AppBar(
                 centerTitle: true,
                 automaticallyImplyLeading: false,
-             
-              
                 title: Text(
-                  ui_lang[value.interfaceLangauge]![
-                          'vocabulary_screen_app_bar']
+                  ui_lang[value.interfaceLangauge]!['vocabulary_screen_app_bar']
                       .toString(),
                   style: Theme.of(context)
                       .textTheme
@@ -147,7 +144,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
           );
         } else {
           return Scaffold(
-            body:LoadingData(),
+            body: LoadingData(),
           );
         }
       },

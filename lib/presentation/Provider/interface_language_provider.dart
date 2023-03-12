@@ -3,12 +3,12 @@ import 'package:wordy/data/local/local_repository_implementation.dart';
 
 class InterfaceDataProvider with ChangeNotifier {
   LocalRepository _localRepository = LocalRepository();
-  int currentScreen = 0;
+  int currentIndex = 0;
   String interfaceLangauge = "";
 
 
   void setCurrentScreen(int index){
-    currentScreen = index;
+    currentIndex = index;
     notifyListeners();
 
   }

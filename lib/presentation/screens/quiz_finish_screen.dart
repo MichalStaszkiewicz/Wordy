@@ -42,6 +42,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
               body: BlocBuilder<QuizBloc, QuizState>(
                 builder: (context, state) {
                   if (state is QuizCompleted) {
+                  
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

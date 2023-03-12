@@ -31,8 +31,6 @@ class _QuizAnswearState extends State<QuizAnswear> {
   Widget build(BuildContext context) {
     return BlocBuilder<QuizBloc, QuizState>(
       builder: (context, state) {
-    
-      
         if (state is LearningQuizLoaded) {
           return GestureDetector(
             onTap: () {
@@ -100,8 +98,7 @@ class _QuizAnswearState extends State<QuizAnswear> {
               ),
             ),
           );
-        }else{
-
+        } else {
           return LoadingData();
         }
       },

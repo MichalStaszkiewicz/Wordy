@@ -124,6 +124,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       UserDataLogic userLogic = UserDataLogic();
       await userLogic.increaseUserHotStreak();
       await userLogic.increaseLearnedWordsToday(event.words);
+      
 
       emit(QuizCompleted(
           image: utility.getImagePathFromTopic(event.topic),

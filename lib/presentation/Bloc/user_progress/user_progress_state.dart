@@ -18,31 +18,49 @@ class UserProgressLoaded extends UserProgressState {
       {required this.learnedWords,
       required this.achievements,
       required this.daysStreak,
-      required this.finishedTopics,required this.courses});
+      required this.finishedTopics,
+      required this.courses,
+      required this.userAchievements,
+      required this.allAchievements});
   int learnedWords;
   int daysStreak;
   int finishedTopics;
   int achievements;
+  List<Achievement> userAchievements;
+  List<AchievementBase> allAchievements;
   List<CourseBasic> courses;
   @override
-  List<Object> get props =>
-      [learnedWords, daysStreak, finishedTopics, achievements,courses];
+  List<Object> get props => [
+        learnedWords,
+        daysStreak,
+        finishedTopics,
+        achievements,
+        courses,
+        userAchievements,
+        allAchievements
+      ];
 }
 
 class UserCoursesAndSettingsInformations extends UserProgressState {
-  UserCoursesAndSettingsInformations({required this.currentCourse,required this.nativeLanguage,required this.hotStreak,required this.wordsLearnedToday});
+  UserCoursesAndSettingsInformations(
+      {required this.currentCourse,
+      required this.nativeLanguage,
+      required this.hotStreak,
+      required this.wordsLearnedToday});
   String hotStreak;
   String wordsLearnedToday;
   String currentCourse;
   String nativeLanguage;
 
   @override
-  List<Object> get props => [currentCourse,hotStreak,wordsLearnedToday,nativeLanguage];
+  List<Object> get props =>
+      [currentCourse, hotStreak, wordsLearnedToday, nativeLanguage];
 }
-class LanguageConflict extends UserProgressState {
-LanguageConflict();
 
+class LanguageConflict extends UserProgressState {
+  LanguageConflict();
 }
+
 class NewUserCreating extends UserProgressState {
   NewUserCreating();
 }

@@ -19,7 +19,7 @@ class QuizLogic {
 
     List<Word> allWords = [];
     List<CourseEntry> userLearned = await local
-        .getUserLearnedWordies()
+        .getUserLearnedWordiesByCurrentNativeLanguage()
         .then((value) => value.map((element) => element.toDomain()).toList());
     allWords = await remote
         .getWordiesByTopic(topic)
@@ -56,7 +56,7 @@ class QuizLogic {
     List<CourseEntry> learnedWords = await localRepository
         .getUserLearnedWordiesWithSpecificTopic(topic)
         .then((value) => value.map((e) => e.toDomain()).toList());
-print("learned Words " + learnedWords.toString());
+
     List<QuizQuestion> questions = utility.createListOfQuestions(
       learnedWords,learnedWords
     );

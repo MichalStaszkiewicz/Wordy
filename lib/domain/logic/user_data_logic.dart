@@ -1,9 +1,12 @@
+import 'package:wordy/Utility/c_achievment.dart';
 import 'package:wordy/data/dto/course_basic._dto.dart';
 import 'package:wordy/data/dto/course_entry_dto.dart';
 import 'package:wordy/data/local/local_repository_implementation.dart';
+import 'package:wordy/domain/models/achievement.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/course_entry.dart';
 
+import '../models/achievements_base.dart';
 import '../models/course_basic.dart';
 
 class UserDataLogic {
@@ -15,6 +18,25 @@ class UserDataLogic {
     return snapshot['lastLesson'];
   }
 
+  Future<List<AchievementBase>> getAllAchievements() async {
+    CAchievement achievementHelper = CAchievement();
+
+
+    return await achievementHelper.getAllAchievementBases();
+  }
+
+  Future<List<Achievement>> getUserAchievements() async {
+    List<int> achievementIds = await _localRepository.getAchievementsIds();
+    CAchievement achievementHelper = CAchievement();
+    List<Achievement> achievements = [];
+    for (int i = 0; i < achievementIds.length; i++) {
+      achievements.add(await achievementHelper.convertIdIntoAchievemnet(
+        achievementIds[i],
+      ));
+    }
+    return achievements;
+  }
+
   Future<void> increaseLearnedWordsToday(List<CourseEntry> entries) async {
     DateTime todayDate = DateTime.now();
 
@@ -23,10 +45,11 @@ class UserDataLogic {
     String lastLesson = await getUserLastLessonDate();
 
     if (DateTime.parse(lastLesson) == todayDateCorrected) {
-      int userLearnedWordiesToday =
-          await getUserLearnedWordiesToday();
+      int userLearnedWordiesToday = await getUserLearnedWordiesToday();
       List<CourseEntry> wordiesThatUserAlreadyKnow = [];
-      await _localRepository.getUserLearnedWordies().then((words) {
+      await _localRepository
+          .getUserLearnedWordiesByCurrentNativeLanguage()
+          .then((words) {
         for (CourseEntryDto entryDto in words) {
           wordiesThatUserAlreadyKnow.add(entryDto.toDomain());
         }
@@ -64,7 +87,7 @@ class UserDataLogic {
       DateTime lastLessonDateFormat = DateTime.parse(lastLesson);
       if (lastLessonDateFormat == yesterday) {
         print("its user first lesson today");
-         hotStreak++;
+        hotStreak++;
         String updatedStreak = hotStreak.toString();
         _localRepository.updateUserProfile('daysStreak', updatedStreak);
         _localRepository.updateUserProfile(
@@ -113,7 +136,7 @@ class UserDataLogic {
 
   void insertLearnedWordsToDatabase(List<CourseEntry> wordsToInsert) async {
     List<CourseEntry> userLearnedWordsAlready = await _localRepository
-        .getUserLearnedWordies()
+        .getUserLearnedWordiesByCurrentNativeLanguage()
         .then((value) => value.map((e) => e.toDomain()).toList());
     List<CourseEntry> result = [];
 
@@ -152,7 +175,7 @@ class UserDataLogic {
   Future<int> getUserLearnedWordiesToday() async {
     Map<String, dynamic> userData = await _localRepository.getUserData();
 
-    return  int.parse(userData['wordsLearnedToday'].toString());
+    return int.parse(userData['wordsLearnedToday'].toString());
   }
 
   Future<int> getLearnedWordiesCount() async {
@@ -161,7 +184,7 @@ class UserDataLogic {
 
   Future<List<Course>> getCoursesData() async {
     List<Course> result = await _localRepository
-        .getUserWordsLearned()
+        .getUserWordsLearnedByCurrentNativeLanguage()
         .then((value) => value.map((e) => e.toDomain()).toList());
 
     return result;
