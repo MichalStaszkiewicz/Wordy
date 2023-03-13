@@ -11,16 +11,21 @@ class AchievementsFilterInitial extends AchievementsFilterState {
   AchievementsFilterInitial();
 }
 
-class UserAchievementsLoaded extends AchievementsFilterState {
-  UserAchievementsLoaded({required this.achievements});
+class AchievedAlready extends AchievementsFilterState {
+  AchievedAlready({required this.achievements});
   List<Achievement> achievements;
   @override
   List<Object> get props => [achievements];
 }
-
+class NotAchievedOnly extends AchievementsFilterState {
+  NotAchievedOnly({required this.achievements});
+  List<Achievement> achievements;
+  @override
+  List<Object> get props => [achievements];
+}
 class AllAchievements extends AchievementsFilterState {
   AllAchievements({required this.achievements});
-  List<AchievementBase> achievements;
+  List<Achievement> achievements;
   @override
   List<Object> get props => [achievements];
 }

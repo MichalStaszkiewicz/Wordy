@@ -7,22 +7,65 @@ import '../domain/models/achievements_base.dart';
 class CAchievement {
   CAchievement();
   final LocalRepository _localRepository = LocalRepository();
-  Future<List<AchievementBase>> getAllAchievementBases() async {
+  Future<List<Achievement>> getAllAchievements() async {
     Map<String, dynamic> userData = await _localRepository.getUserData();
     String language = userData['interfaceLanguage'];
-    List<AchievementBase> result = [];
-    for (int i = 0; i < achievements.length; i++) {
-      result.add(AchievementBase(
-          name: achievements[language]![i]!.name,
-          description: achievements[language]![i]!.description,
-          image: achievements[language]![i]!.image));
+    List<Achievement> userProgressInAchievements =
+        await getUserProgressInEachAchievement();
+
+    List<Achievement> result = [];
+    for (int i = 0; i < getAchievementsCount(); i++) {
+      result.add(Achievement(
+        name: _achievements[language]![i]!.name,
+        description: _achievements[language]![i]!.description,
+        image: _achievements[language]![i]!.image,
+        achieved: userProgressInAchievements[i].achieved,
+        currentProgress: userProgressInAchievements[i].currentProgress,
+        progressToAchieve: userProgressInAchievements[i].progressToAchieve,
+      ));
     }
     return result;
   }
 
-  Future<Achievement> convertIdIntoAchievemnet(
-    int id,
-  ) async {
+  Future<Map<String, dynamic>> gainAchievement(double? precision) async {
+    List<int> userAchievementIds = await _localRepository.getAchievementsIds();
+    int allAchievementCount = getAchievementsCount();
+    List<int> userNewAchievementIds = [];
+    List<Achievement> userNewAchievements = [];
+    Map<String, dynamic> userNewAchievementsData = {};
+    for (int i = 0; i < allAchievementCount; i++) {
+      if (!userAchievementIds.contains(i)) {
+        Achievement? achievement = await convertIdIntoAchievemnet(i, precision);
+        if (achievement != null) {
+          userNewAchievementIds.add(i);
+          userNewAchievements.add(achievement);
+        }
+      }
+    }
+    userNewAchievementsData.addAll({
+      "achievement_ids": userAchievementIds,
+      "achievement_data": userNewAchievements
+    });
+    return userNewAchievementsData;
+  }
+
+  int getAchievementsCount() {
+    return _achievements['English']!.length;
+  }
+
+  Future<List<Achievement>> getUserProgressInEachAchievement() async {
+    List<Achievement> achievements = [];
+    for (int i = 0; i < getAchievementsCount(); i++) {
+      Achievement? achiv = await convertIdIntoAchievemnet(i, null);
+      if (achiv != null) {
+        achievements.add(achiv);
+      }
+    }
+    return achievements;
+  }
+
+  Future<Achievement?> convertIdIntoAchievemnet(
+      int id, double? precision) async {
     Map<String, dynamic> userData = await _localRepository.getUserData();
     String language = userData['interfaceLanguage'];
     if (id == 0) {
@@ -31,93 +74,109 @@ class CAchievement {
       return Achievement(
           achieved: data['achieved'],
           currentProgress: data['progress'],
-          description: achievements[language]![id]!.description,
-          image: achievements[language]![id]!.image,
-          name: achievements[language]![id]!.name,
-          progressToAchieve: data['progress']);
+          description: _achievements[language]![id]!.description,
+          image: _achievements[language]![id]!.image,
+          name: _achievements[language]![id]!.name,
+          progressToAchieve: data['progressToAchieve']);
     } else if (id == 1) {
       int learnedWords = await _localRepository.getLearnedWordiesCount();
       Map<String, dynamic> data = wordExplorer(learnedWords);
       return Achievement(
           achieved: data['achieved'],
           currentProgress: data['progress'],
-          description: achievements[language]![id]!.description,
-          image: achievements[language]![id]!.image,
-          name: achievements[language]![id]!.name,
-          progressToAchieve: data['progress']);
+          description: _achievements[language]![id]!.description,
+          image: _achievements[language]![id]!.image,
+          name: _achievements[language]![id]!.name,
+          progressToAchieve: data['progressToAchieve']);
     } else if (id == 2) {
       int learnedWords = await _localRepository.getLearnedWordiesCount();
       Map<String, dynamic> data = lexicalConnoisseur(learnedWords);
       return Achievement(
           achieved: data['achieved'],
           currentProgress: data['progress'],
-          description: achievements[language]![id]!.description,
-          image: achievements[language]![id]!.image,
-          name: achievements[language]![id]!.name,
-          progressToAchieve: data['progress']);
+          description: _achievements[language]![id]!.description,
+          image: _achievements[language]![id]!.image,
+          name: _achievements[language]![id]!.name,
+          progressToAchieve: data['progressToAchieve']);
     } else if (id == 3) {
       int learnedWords = await _localRepository.getLearnedWordiesCount();
       Map<String, dynamic> data = languageSavant(learnedWords);
       return Achievement(
           achieved: data['achieved'],
           currentProgress: data['progress'],
-          description: achievements[language]![id]!.description,
-          image: achievements[language]![id]!.image,
-          name: achievements[language]![id]!.name,
-          progressToAchieve: data['progress']);
+          description: _achievements[language]![id]!.description,
+          image: _achievements[language]![id]!.image,
+          name: _achievements[language]![id]!.name,
+          progressToAchieve: data['progressToAchieve']);
     } else if (id == 4) {
       int learnedWords = await _localRepository.getLearnedWordiesCount();
       Map<String, dynamic> data = vocabularyVirtuoso(learnedWords);
       return Achievement(
           achieved: data['achieved'],
           currentProgress: data['progress'],
-          description: achievements[language]![id]!.description,
-          image: achievements[language]![id]!.image,
-          name: achievements[language]![id]!.name,
-          progressToAchieve: data['progress']);
+          description: _achievements[language]![id]!.description,
+          image: _achievements[language]![id]!.image,
+          name: _achievements[language]![id]!.name,
+          progressToAchieve: data['progressToAchieve']);
     } else if (id == 5) {
-      int learnedWords = await _localRepository.getLearnedWordiesCount();
       Map<String, dynamic> data =
           polygot(await _localRepository.getPercentageOfEveryCourse());
       return Achievement(
           achieved: data['achieved'],
           currentProgress: data['progress'],
-          description: achievements[language]![id]!.description,
-          image: achievements[language]![id]!.image,
-          name: achievements[language]![id]!.name,
-          progressToAchieve: data['progress']);
-    } else {
-      List<int> ids = await _localRepository.getAchievementsIds();
-      if (ids.contains(6)) {
+          description: _achievements[language]![id]!.description,
+          image: _achievements[language]![id]!.image,
+          name: _achievements[language]![id]!.name,
+          progressToAchieve: data['progressToAchieve']);
+    } else if (id == 6) {
+      if (precision != null) {
+        Map<String, dynamic> data = flawlessVictory(precision);
         return Achievement(
-            achieved: true,
-            currentProgress: 1,
-            description: achievements[language]![id]!.description,
-            image: achievements[language]![id]!.image,
-            name: achievements[language]![id]!.name,
-            progressToAchieve: 1);
+          name: _achievements[language]![id]!.name,
+          image: _achievements[language]![id]!.image,
+          description: _achievements[language]![id]!.description,
+          achieved: data['achieved'],
+          currentProgress: data['progress'],
+          progressToAchieve: data['progressToAchieve'],
+        );
       } else {
-        return Achievement(
-            achieved: false,
-            currentProgress: 0,
-            description: achievements[language]![id]!.description,
-            image: achievements[language]![id]!.image,
-            name: achievements[language]![id]!.name,
-            progressToAchieve: 0);
+        List<int> userIds = await _localRepository.getAchievementsIds();
+        if (userIds.contains(6)) {
+          return Achievement(
+              name: _achievements[language]![id]!.name,
+              image: _achievements[language]![id]!.image,
+              description: _achievements[language]![id]!.description,
+              achieved: true,
+              currentProgress: 1,
+              progressToAchieve: 1);
+        } else {
+          return Achievement(
+              name: _achievements[language]![id]!.name,
+              image: _achievements[language]![id]!.image,
+              description: _achievements[language]![id]!.description,
+              achieved: false,
+              currentProgress: 0,
+              progressToAchieve: 1);
+        }
       }
+    } else {
+      return null;
     }
   }
 
   AchievementBase convertIdIntoAchievementBase(int id, String language) {
-    return achievements[language]![id]!;
+    return _achievements[language]![id]!;
   }
 
   Map<String, dynamic> noviceLinguist(int words) {
     Map<String, dynamic> data = {};
+
     if (words >= 100) {
-      data.addAll({"achieved": true, "progress": 100});
+      data.addAll(
+          {"achieved": true, "progress": 100, "progressToAchieve": 100});
     } else if (words < 100) {
-      data.addAll({"achieved": false, "progress": words});
+      data.addAll(
+          {"achieved": false, "progress": words, "progressToAchieve": 100});
     }
 
     return data;
@@ -126,9 +185,11 @@ class CAchievement {
   Map<String, dynamic> wordExplorer(int words) {
     Map<String, dynamic> data = {};
     if (words >= 500) {
-      data.addAll({"achieved": true, "progress": 500});
+      data.addAll(
+          {"achieved": true, "progress": 500, "progressToAchieve": 500});
     } else if (words < 500) {
-      data.addAll({"achieved": false, "progress": words});
+      data.addAll(
+          {"achieved": false, "progress": words, "progressToAchieve": 500});
     }
 
     return data;
@@ -137,9 +198,11 @@ class CAchievement {
   Map<String, dynamic> lexicalConnoisseur(int words) {
     Map<String, dynamic> data = {};
     if (words >= 1000) {
-      data.addAll({"achieved": true, "progress": 500});
+      data.addAll(
+          {"achieved": true, "progress": 1000, "progressToAchieve": 1000});
     } else if (words < 1000) {
-      data.addAll({"achieved": false, "progress": words});
+      data.addAll(
+          {"achieved": false, "progress": words, "progressToAchieve": 1000});
     }
 
     return data;
@@ -148,9 +211,11 @@ class CAchievement {
   Map<String, dynamic> languageSavant(int words) {
     Map<String, dynamic> data = {};
     if (words >= 2500) {
-      data.addAll({"achieved": true, "progress": 500});
+      data.addAll(
+          {"achieved": true, "progress": 2500, "progressToAchieve": 2500});
     } else if (words < 2500) {
-      data.addAll({"achieved": false, "progress": words});
+      data.addAll(
+          {"achieved": false, "progress": words, "progressToAchieve": 2500});
     }
 
     return data;
@@ -159,9 +224,11 @@ class CAchievement {
   Map<String, dynamic> vocabularyVirtuoso(int words) {
     Map<String, dynamic> data = {};
     if (words >= 5000) {
-      data.addAll({"achieved": true, "progress": 500});
+      data.addAll(
+          {"achieved": true, "progress": 5000, "progressToAchieve": 5000});
     } else if (words < 5000) {
-      data.addAll({"achieved": false, "progress": words});
+      data.addAll(
+          {"achieved": false, "progress": words, "progressToAchieve": 5000});
     }
 
     return data;
@@ -169,31 +236,34 @@ class CAchievement {
 
   Map<String, dynamic> polygot(List<double> overallProgress) {
     Map<String, dynamic> data = {};
-    int progress = 0;
+    int p = 0;
     for (double progress in overallProgress) {
       if (progress >= 75) {
-        progress++;
+        p++;
       } else if (progress < 75) {
-        data.addAll({"achieved": false, "progress": progress});
+        data.addAll(
+            {"achieved": false, "progress": p, "progressToAchieve": 75});
         return data;
       }
     }
-    data.addAll({"achieved": true, "progress": progress});
+    data.addAll({"achieved": true, "progress": p, "progressToAchieve": 75});
     return data;
   }
 
   Map<String, dynamic> flawlessVictory(double precision) {
     Map<String, dynamic> data = {};
     if (precision == 100) {
-      data.addAll({"achieved": true, "progress": precision});
+      data.addAll(
+          {"achieved": true, "progress": precision, "progressToAchieve": 100});
     } else if (precision < 75) {
-      data.addAll({"achieved": false, "progress": precision});
+      data.addAll(
+          {"achieved": false, "progress": precision, "progressToAchieve": 100});
     }
 
     return data;
   }
 
-  Map<String, Map<int, AchievementBase>> achievements = {
+  final Map<String, Map<int, AchievementBase>> _achievements = {
     "English": <int, AchievementBase>{
       0: AchievementBase(
         name: 'Novice Linguist',

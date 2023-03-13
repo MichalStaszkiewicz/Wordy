@@ -31,17 +31,12 @@ class QuizScreenQuestions extends StatefulWidget {
   State<QuizScreenQuestions> createState() => _QuizScreenQuestionsState();
 }
 
-class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
-   {
-
-
- 
+class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<QuizBloc, QuizState>(
       builder: (context, state) {
         if (state is LearningQuizLoaded) {
-         
           return Stack(children: [
             Center(
               child: Column(
@@ -68,13 +63,16 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                         flex: 2,
                         child: QuizNextButton(function: () {
                           if (widget.index == widget.questions.length - 1) {
-                            
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: ((context) => BlocProvider(
                                       create: (context) => QuizBloc()
                                         ..add(SessionCompleted(
                                             words: state.correct,
-                                            topic: widget.topic)),
+                                            topic: widget.topic,
+                                            sessionScore: (state
+                                                        .correct.length /
+                                                    state.questions.length) *
+                                                100)),
                                       child: QuizFinishScreen(
                                         correct: state.correct.length,
                                         maximum: state.questions.length,
@@ -89,8 +87,6 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                     )
                   ]),
             ),
-          
-         
           ]);
         }
 

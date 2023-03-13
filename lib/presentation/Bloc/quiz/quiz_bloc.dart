@@ -124,7 +124,11 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       UserDataLogic userLogic = UserDataLogic();
       await userLogic.increaseUserHotStreak();
       await userLogic.increaseLearnedWordsToday(event.words);
-      
+      Map<String, dynamic> achievementsData = await userLogic
+          .sessionEndCheckIfNewAchievementAvailable(event.sessionScore);
+      for (int id in achievementsData['achievement_ids']) {
+        userLogic.updateDatabase('achievementID', id.toString(), "Achievements", "");
+      }
 
       emit(QuizCompleted(
           image: utility.getImagePathFromTopic(event.topic),

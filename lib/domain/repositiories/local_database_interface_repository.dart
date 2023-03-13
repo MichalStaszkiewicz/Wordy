@@ -6,10 +6,12 @@ import '../models/course_entry.dart';
 
 abstract class LocalInterface {
   Future<List<CourseEntryDto>> getUserLearnedWordiesByCurrentNativeLanguage();
-  void createDatabase(String userNativeLanguage,String languageToLearn);
-  void setupDatabase();
-  void insertLearnedWordsToDatabase(List<CourseEntry> words);
-  void updateUserProfile(String fieldToUpdate, String value);
+  Future<void> createDatabase(String userNativeLanguage, String languageToLearn);
+  Future<void> setupDatabase();
+  Future<void> insertLearnedWordsToDatabase(List<CourseEntry> words);
+  Future<void> updateUserProfile(String fieldToUpdate, String value);
+  Future<void> updateDatabaseTable(
+      String tableName, String fieldToUpdate, String value);
   Future<List<CourseEntryDto>> getUserLearnedWordiesWithSpecificTopic(
       String topic);
   Future<Map<String, dynamic>> getUserData();

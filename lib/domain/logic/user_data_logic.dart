@@ -18,11 +18,33 @@ class UserDataLogic {
     return snapshot['lastLesson'];
   }
 
-  Future<List<AchievementBase>> getAllAchievements() async {
+  Future<Map<String, dynamic>> sessionEndCheckIfNewAchievementAvailable(
+      double precision) {
+    CAchievement achievementHelper = CAchievement();
+    return achievementHelper.gainAchievement(precision);
+  }
+
+  Future<List<Achievement>> getNonAchievedAchievements() async {
+    List<int> achievementIds = await _localRepository.getAchievementsIds();
+    CAchievement achievementHelper = CAchievement();
+    int achievementsCount = achievementHelper.getAchievementsCount();
+    List<Achievement> result = [];
+    for (int i = 0; i < achievementsCount; i++) {
+      if (!achievementIds.contains(i)) {
+        Achievement? achiv =
+            await achievementHelper.convertIdIntoAchievemnet(i, null);
+        if (achiv != null) {
+          result.add(achiv);
+        }
+      }
+    }
+    return result;
+  }
+
+  Future<List<Achievement>> getAllAchievements() async {
     CAchievement achievementHelper = CAchievement();
 
-
-    return await achievementHelper.getAllAchievementBases();
+    return await achievementHelper.getAllAchievements();
   }
 
   Future<List<Achievement>> getUserAchievements() async {
@@ -30,11 +52,19 @@ class UserDataLogic {
     CAchievement achievementHelper = CAchievement();
     List<Achievement> achievements = [];
     for (int i = 0; i < achievementIds.length; i++) {
-      achievements.add(await achievementHelper.convertIdIntoAchievemnet(
-        achievementIds[i],
-      ));
+      Achievement? achiv =
+          await achievementHelper.convertIdIntoAchievemnet(i, null);
+      if (achiv != null) {
+        achievements.add(achiv);
+      }
     }
     return achievements;
+  }
+
+  Future<int> getUserLearnedWordiesToday() async {
+    Map<String, dynamic> userData = await _localRepository.getUserData();
+
+    return int.parse(userData['wordsLearnedToday'].toString());
   }
 
   Future<void> increaseLearnedWordsToday(List<CourseEntry> entries) async {
@@ -80,13 +110,12 @@ class UserDataLogic {
       _localRepository.updateUserProfile(
           'lastLesson', todayDateCorrected.toString());
       _localRepository.updateUserProfile('daysStreak', '1');
-      print("its user first lesson ever");
+
       return;
     } else {
       int hotStreak = int.parse(snapshot['daysStreak']);
       DateTime lastLessonDateFormat = DateTime.parse(lastLesson);
       if (lastLessonDateFormat == yesterday) {
-        print("its user first lesson today");
         hotStreak++;
         String updatedStreak = hotStreak.toString();
         _localRepository.updateUserProfile('daysStreak', updatedStreak);
@@ -94,16 +123,8 @@ class UserDataLogic {
             'lastLesson', todayDateCorrected.toString());
         return;
       } else if (lastLessonDateFormat == todayDateCorrected) {
-        print("its user second or more lesson today");
-        print("date today: " + todayDateCorrected.toString());
-        print("lastLesson: " + lastLesson.toString());
-
         return;
       } else {
-        print(
-            "user broke streak and its his first lesson since 2 days or more");
-        print("his last lesson is: " + lastLesson.toString());
-        print("date today: " + todayDateCorrected.toString());
         _localRepository.updateUserProfile('daysStreak', '1');
         _localRepository.updateUserProfile(
             'lastLesson', todayDateCorrected.toString());
@@ -148,8 +169,17 @@ class UserDataLogic {
     }
   }
 
-  Future<void> updateDatabase(String fieldToUpdate, String value) async {
-    _localRepository.updateUserProfile(fieldToUpdate, value);
+  Future<void> updateDatabase(String fieldToUpdate, String value,
+      String? tableName, String type) async {
+    if (type == "Profile") {
+      _localRepository.updateUserProfile(fieldToUpdate, value);
+    } else {
+      if (tableName != null) {
+        _localRepository.updateDatabaseTable(tableName, fieldToUpdate, value);
+      } else {
+        assert(true, "INVALID TABLE");
+      }
+    }
   }
 
   Future<List<CourseBasic>> getActiveCourses() async {
@@ -172,11 +202,7 @@ class UserDataLogic {
     return await _localRepository.countUserFinishedTopics();
   }
 
-  Future<int> getUserLearnedWordiesToday() async {
-    Map<String, dynamic> userData = await _localRepository.getUserData();
-
-    return int.parse(userData['wordsLearnedToday'].toString());
-  }
+ 
 
   Future<int> getLearnedWordiesCount() async {
     return await _localRepository.countLearnedWordies();

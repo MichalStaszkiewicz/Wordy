@@ -175,7 +175,7 @@ class LocalRepository implements LocalInterface {
   }
 
   @override
-  void updateUserProfile(String fieldToUpdate, String value) async {
+  Future<void> updateUserProfile(String fieldToUpdate, String value) async {
     LocalDatabase localDB = LocalDatabase();
     var connection = await localDB.connect();
     await connection
@@ -353,12 +353,21 @@ class LocalRepository implements LocalInterface {
   Future<int> getLearnedWordiesCountByTopic(
       String topic, String tableName) async {
     LocalDatabase localdb = LocalDatabase();
-    Database db = await localdb.connect();
+    Database database_connection = await localdb.connect();
 
-    var queryResult = await db
+    var queryResult = await database_connection
         .rawQuery("SELECT COUNT(id) FROM $tableName WHERE Topic = '$topic'");
 
-    await db.close();
+    await database_connection.close();
     return int.parse(queryResult[0]["COUNT(id)"].toString());
+  }
+
+  @override
+  Future<void> updateDatabaseTable(
+      String tableName, String fieldToUpdate, String value) async {
+    LocalDatabase localdb = LocalDatabase();
+    Database database_connection = await localdb.connect();
+    await database_connection
+        .rawQuery("UPDATE $tableName SET $fieldToUpdate = '$value' WHERE id = 1");
   }
 }

@@ -24,11 +24,12 @@ class LoadQuestionsForReview extends QuizEvent {
 }
 
 class SessionCompleted extends QuizEvent {
-  SessionCompleted({required this.words,required this.topic});
+  SessionCompleted({required this.words,required this.topic,required this.sessionScore});
   List<CourseEntry> words;
   String topic;
+  double sessionScore;
   @override
-  List<Object> get props => [words,topic];
+  List<Object> get props => [words,topic,sessionScore];
 }
 class ReviewCompleted extends QuizEvent{
   ReviewCompleted({required this.words,required this.topic});

@@ -11,8 +11,12 @@ class LoadUserAchievements extends AchievementsFilterEvent {
   LoadUserAchievements({required this.achievements});
   List<Achievement> achievements;
 }
+class LoadNoAchievedAchievements extends AchievementsFilterEvent {
+  LoadNoAchievedAchievements({required this.achievements});
+  List<Achievement> achievements;
+}
 
 class LoadAllAchievements extends AchievementsFilterEvent {
   LoadAllAchievements({required this.achievements});
-  List<AchievementBase> achievements;
+  List<Achievement> achievements;
 }

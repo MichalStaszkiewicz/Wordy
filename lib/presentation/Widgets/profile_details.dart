@@ -74,7 +74,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             label: ui_lang[language]!['profile_screen_achievements']
                 .toString(),
             statisticsCount: state.achievements,
-            navigation:  AchievementsScreen(allAchievements:state.allAchievements, userAchievements: state.userAchievements)
+            navigation:  AchievementsScreen(userState: state,)
           );
         },
       ),

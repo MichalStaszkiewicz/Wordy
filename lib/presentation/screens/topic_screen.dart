@@ -102,7 +102,7 @@ class _TopicScreenState extends State<TopicScreen>
                                 )),
                               ),
                               SliverAppBar(
-                                expandedHeight: 80,
+                                expandedHeight:10,
                                 flexibleSpace: Center(
                                   child: Container(
                                     child: Row(

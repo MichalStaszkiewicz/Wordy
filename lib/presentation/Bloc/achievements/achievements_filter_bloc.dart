@@ -12,6 +12,7 @@ class AchievementsFilterBloc
   AchievementsFilterBloc() : super(AchievementsFilterInitial()) {
     loadAllAchievements();
     loadUserAchievements();
+    loadNoAchievedAchievements();
   }
   void loadAllAchievements() {
     on<LoadAllAchievements>((event, emit) {
@@ -19,9 +20,15 @@ class AchievementsFilterBloc
     });
   }
 
+  void loadNoAchievedAchievements() {
+    on<LoadNoAchievedAchievements>((event, emit) {
+     emit(NotAchievedOnly(achievements: event.achievements));
+    });
+  }
+
   void loadUserAchievements() {
     on<LoadUserAchievements>((event, emit) {
-      emit(UserAchievementsLoaded(achievements: event.achievements));
+      emit(AchievedAlready(achievements: event.achievements));
     });
   }
 }

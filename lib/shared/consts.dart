@@ -74,7 +74,10 @@ final List<Language> languages = [
 ];
 Map<String, Map<String, dynamic>> ui_lang = {
   "Polish": {
+    "register_account_is_ready": "Twoje konto jest gotowe!",
     "language_menu_information": "Wybierz język którego chcesz się nauczyć",
+    "register_finish_text":
+        "Gratulacje! Jesteś krokiem bliżej do osiągnięcia swoich celów językowych. Razem z nami zacznij przygodę z nauką!",
     "dialog_change_native_language_to_english":
         "Ten język jest dostępny tylko jeśli już znasz angielski. Czy chcesz zmienić swój ojczysty język na angielski?",
     "dialog_change_native_language_to_polish":
@@ -113,8 +116,13 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "quiz_finish_percentage": "Procent poprawnych odpowiedzi:",
     "quiz_finish_repeat": "Powtórz quiz",
     "quiz_finish_home": "Zakończ",
+    "no_achievements":
+        "Osiągnięcia nie przychodzą łatwo, ale to właśnie sprawia, że są warte poświęcenia. Nie poddawaj się i wkrótce będziesz miał pełną półkę trofeów i dokonań!",
   },
   "English": {
+    "register_account_is_ready": "Your account is ready!",
+    "register_finish_text":
+        "Congratulations! You are one step closer to achieving your language learning goals. Let's start the language learning journey together!",
     "language_menu_information": "Select language you want to learn",
     "home_screen_app_bar": "Topic",
     "vocabulary_screen_app_bar": "Vocabulary",
@@ -154,5 +162,7 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "quiz_finish_percentage": "Percentage of the correct answers",
     "quiz_finish_repeat": "Repeat quiz",
     "quiz_finish_home": "Finish",
+    "no_achievements":
+        "Achievements don't come easy, but that's what makes them worth it. Keep up the hard work and you'll soon have a trophy case full of accomplishments!"
   }
 };

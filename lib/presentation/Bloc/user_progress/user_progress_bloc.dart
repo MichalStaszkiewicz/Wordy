@@ -60,7 +60,9 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
               learnedWords: await userLogic.getLearnedWordiesCount(),
               courses: await userLogic.getActiveCourses(),
               userAchievements: await userLogic.getUserAchievements(),
-              allAchievements: await userLogic.getAllAchievements()));
+              allAchievements: await userLogic.getAllAchievements(),
+              userAchievementsNonAchieved:
+                  await userLogic.getNonAchievedAchievements()));
         } else {
           emit(CreatingNewUserPreferences(
               userLanguageToLearn: '',
@@ -77,7 +79,7 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
     on<UpdateUserCourse>((event, emit) async {
       LocalRepository localRepository = LocalRepository();
       UserDataLogic userLogic = UserDataLogic();
-      await userLogic.updateDatabase("currentCourse", event.course);
+      await userLogic.updateDatabase("currentCourse", event.course,null,"Profile");
       Map<String, dynamic> userData = await localRepository.getUserData();
       String nativeLanguage = "";
       await localRepository.getUserData().then((value) {
@@ -91,19 +93,19 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
           updatedNativeLanguage = "Polish";
         }
 
-        await userLogic.updateDatabase(event.course, '1');
+        await userLogic.updateDatabase(event.course, '1',null,"Profile");
 
         await userLogic.updateDatabase(
-            "interfaceLanguage", updatedNativeLanguage);
+            "interfaceLanguage", updatedNativeLanguage,null,"Profile");
         emit(UserCoursesAndSettingsInformations(
             currentCourse: userData["courseName"]!,
             nativeLanguage: updatedNativeLanguage,
             hotStreak: userData['daysStreak']!,
             wordsLearnedToday: userData['wordsLearnedToday']!));
       } else {
-        await userLogic.updateDatabase(event.course, '1');
+        await userLogic.updateDatabase(event.course, '1',null,"Profile");
 
-        await userLogic.updateDatabase("interfaceLanguage", nativeLanguage);
+        await userLogic.updateDatabase("interfaceLanguage", nativeLanguage,null,"Profile");
         emit(UserCoursesAndSettingsInformations(
             currentCourse: userData["courseName"]!,
             nativeLanguage: userData["interfaceLanguage"]!,
@@ -127,10 +129,10 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
   void createNewUser() {
     on<CreateNewUser>((event, emit) async {
       UserDataLogic userLogic = UserDataLogic();
-      await userLogic.updateDatabase("interfaceLanguage", event.nativeLanguage);
-      await userLogic.updateDatabase(event.languageToLearn, '1');
-      await userLogic.updateDatabase('currentCourse', event.languageToLearn);
-      await userLogic.updateDatabase('firstRun', "0");
+      await userLogic.updateDatabase("interfaceLanguage", event.nativeLanguage,null,"Profile");
+      await userLogic.updateDatabase(event.languageToLearn, '1',null,"Profile");
+      await userLogic.updateDatabase('currentCourse', event.languageToLearn,null,"Profile");
+      await userLogic.updateDatabase('firstRun', "0",null,"Profile");
     });
   }
 
@@ -145,7 +147,9 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
           learnedWords: await userLogic.getLearnedWordiesCount(),
           courses: await userLogic.getActiveCourses(),
           userAchievements: await userLogic.getUserAchievements(),
-          allAchievements: await userLogic.getAllAchievements()));
+          allAchievements: await userLogic.getAllAchievements(),
+          userAchievementsNonAchieved:
+              await userLogic.getNonAchievedAchievements()));
     });
   }
 
