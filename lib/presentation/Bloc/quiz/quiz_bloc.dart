@@ -12,6 +12,7 @@ import 'package:wordy/domain/models/course_entry.dart';
 
 import '../../../domain/logic/quiz_logic.dart';
 import '../../../domain/logic/user_data_logic.dart';
+import '../../../domain/models/achievement.dart';
 import '../../../domain/models/quiz_question.dart';
 import '../../../domain/models/word.dart';
 
@@ -132,7 +133,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
       emit(QuizCompleted(
           image: utility.getImagePathFromTopic(event.topic),
-          quizType: 'session'));
+          quizType: 'session', gainedAchievements: achievementsData['achievement_data'], ));
     });
   }
 
@@ -142,7 +143,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
       emit(QuizCompleted(
           image: utility.getImagePathFromTopic(event.topic),
-          quizType: 'review'));
+          quizType: 'review', gainedAchievements: const []));
     });
   }
 

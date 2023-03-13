@@ -17,22 +17,30 @@ class LearningQuizLoaded extends QuizState {
       required this.index,
       required this.selected,
       required this.question_answer_state,
-      required this.correct,required this.topic});
+      required this.correct,
+      required this.topic});
   final List<QuizQuestion> questions;
   bool selected;
   int index;
   List<CourseEntry> correct;
   List<int> question_answer_state;
+
   final String topic;
   @override
   List<Object> get props =>
-      [questions, index, selected, question_answer_state, correct,topic];
+      [questions, index, selected, question_answer_state, correct, topic];
 }
 
 class QuizCompleted extends QuizState {
-  QuizCompleted({required this.image,required this.quizType});
+  QuizCompleted(
+      {required this.image,
+      required this.quizType,
+      required this.gainedAchievements});
   String quizType;
   String image;
+  List<Achievement> gainedAchievements;
+
+
 }
 
 class ReviewQuizLoaded extends QuizState {
@@ -41,7 +49,8 @@ class ReviewQuizLoaded extends QuizState {
       required this.index,
       required this.selected,
       required this.question_answer_state,
-      required this.correct,required this.topic});
+      required this.correct,
+      required this.topic});
   final List<QuizQuestion> questions;
   bool selected;
   int index;
@@ -50,5 +59,5 @@ class ReviewQuizLoaded extends QuizState {
   final String topic;
   @override
   List<Object> get props =>
-      [questions, index, selected, question_answer_state, correct,topic];
+      [questions, index, selected, question_answer_state, correct, topic];
 }

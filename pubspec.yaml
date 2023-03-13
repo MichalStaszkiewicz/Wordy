@@ -52,6 +52,7 @@ dependencies:
   flutter_animated_icons: ^1.0.1
   lottie: ^1.4.3
   simple_speed_dial: ^0.1.7
+  achievement_view: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

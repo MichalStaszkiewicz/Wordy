@@ -254,10 +254,10 @@ class CAchievement {
     Map<String, dynamic> data = {};
     if (precision == 100) {
       data.addAll(
-          {"achieved": true, "progress": precision, "progressToAchieve": 100});
+          {"achieved": true, "progress": precision.round(), "progressToAchieve": 100});
     } else if (precision < 75) {
       data.addAll(
-          {"achieved": false, "progress": precision, "progressToAchieve": 100});
+          {"achieved": false, "progress": precision.round(), "progressToAchieve": 100});
     }
 
     return data;

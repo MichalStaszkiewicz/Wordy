@@ -1,7 +1,11 @@
+import 'dart:collection';
+
+import 'package:achievement_view/achievement_view.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:wordy/domain/models/achievement.dart';
 import 'package:wordy/presentation/Provider/interface_language_provider.dart';
 import 'package:wordy/presentation/Widgets/loading_data.dart';
 import 'package:wordy/presentation/Widgets/quiz_finish_button.dart';
@@ -22,6 +26,32 @@ class QuizFinishScreen extends StatefulWidget {
 }
 
 class _QuizFinishScreenState extends State<QuizFinishScreen> {
+  void showNewAchievements(List<Achievement> achievements) {
+    if (achievements.isEmpty) {
+      return;
+    }
+
+    final queue = ListQueue<Achievement>.from(achievements);
+
+    void showNextAchievement() {
+      if (queue.isEmpty) {
+        return;
+      }
+
+      final achievement = queue.removeFirst();
+
+      AchievementView(
+        context,
+        title: achievement.name,
+        subTitle: achievement.description,
+        icon: Icon(Icons.star, color: Colors.white),
+        color: Colors.green,
+      ).show();
+    }
+
+    showNextAchievement();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<InterfaceDataProvider>(
@@ -42,7 +72,15 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
               body: BlocBuilder<QuizBloc, QuizState>(
                 builder: (context, state) {
                   if (state is QuizCompleted) {
-                  
+                    showNewAchievements([
+                      Achievement(
+                          name: "Perfect",
+                          image: 'image',
+                          description: 'get a perfect score!',
+                          achieved: true,
+                          currentProgress: 1,
+                          progressToAchieve: 1)
+                    ]);
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -167,7 +205,6 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                         ),
                         QuizFinishButton(
                           function: () {
-                         
                             Navigator.of(context).popAndPushNamed('/');
                           },
                           label: ui_lang[value.interfaceLangauge]![
