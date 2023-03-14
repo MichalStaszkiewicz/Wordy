@@ -71,14 +71,15 @@ class _QuizOptionsState extends State<QuizOptions>
             MenuButton(
               label: ui_lang[value.interfaceLangauge]!['quiz_settings_review']
                   .toString(),
-              function: () {   
-               Navigator.push(
+              function: () {
+                Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => BlocProvider(
-                              create: (context) => QuizBloc(),
-                              child:
-                                  QuizScreen(topic: quizTitles[widget.title]!),
+                              create: (context) => QuizBloc()
+                                ..add(LoadQuestionsForReview(
+                                    topic: quizTitles[widget.title]!)),
+                              child: QuizScreen(topic: widget.title),
                             )));
               },
             ),
@@ -86,14 +87,14 @@ class _QuizOptionsState extends State<QuizOptions>
               label: ui_lang[value.interfaceLangauge]!['quiz_settings_learn']
                   .toString(),
               function: () {
-            
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => BlocProvider(
-                              create: (context) => QuizBloc()..add(LoadQuestionsForLearning(topic: quizTitles[widget.title]!)),
-                              child:
-                                  QuizScreen(topic: quizTitles[widget.title]!),
+                              create: (context) => QuizBloc()
+                                ..add(LoadQuestionsForLearning(
+                                    topic: quizTitles[widget.title]!)),
+                              child: QuizScreen(topic: widget.title),
                             )));
               },
             ),

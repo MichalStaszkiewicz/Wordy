@@ -42,13 +42,15 @@ class LanguageToLearnFromScreen extends StatelessWidget {
                 flex: 1,
                 child: GestureDetector(
                   onTap: () {
-                    context.read<UserProgressBloc>().add(
-                        CreatingNewUserPreferencesUpdate(
-                            userLanguageToLearn: state.userLanguageToLearn,
-                            userNativeLanguage: state.userNativeLanguage,
-                            userLanguageToLearnSelected: false,
-                            userNativeLanguageSelected: true,
-                            step: 2));
+                    if (state.userNativeLanguageSelected) {
+                      context.read<UserProgressBloc>().add(
+                          CreatingNewUserPreferencesUpdate(
+                              userLanguageToLearn: state.userLanguageToLearn,
+                              userNativeLanguage: state.userNativeLanguage,
+                              userLanguageToLearnSelected: false,
+                              userNativeLanguageSelected: true,
+                              step: 2));
+                    }
                   },
                   child: ConfirmButton(
                     selected: state.userNativeLanguageSelected,

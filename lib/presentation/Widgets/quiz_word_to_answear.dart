@@ -20,13 +20,16 @@ class QuizWordToAnswear extends StatelessWidget {
         ],
       ),
       child: Center(
-        child: AutoSizeText(
-          word,
-          maxLines: 1,
-          minFontSize: 15,
-          maxFontSize: 20,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headlineSmall,
+        child: Container(
+          margin: const EdgeInsets.only(left: 5,right: 5),
+          child: AutoSizeText(
+            word,
+            maxLines: 1,
+            minFontSize: 15,
+            maxFontSize: 20,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
         ),
       ),
     );

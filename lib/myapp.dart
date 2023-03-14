@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       ),
       home: FutureBuilder<void>(
         future: Provider.of<InterfaceDataProvider>(context, listen: false)
-            .getUserInterfaceLanguage(""),
+            .getUserInterfaceLanguage(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(backgroundColor: Colors.white, body: LoadingData());

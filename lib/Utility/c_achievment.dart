@@ -37,13 +37,15 @@ class CAchievement {
       if (!userAchievementIds.contains(i)) {
         Achievement? achievement = await convertIdIntoAchievemnet(i, precision);
         if (achievement != null) {
-          userNewAchievementIds.add(i);
-          userNewAchievements.add(achievement);
+          if (achievement.achieved) {
+            userNewAchievementIds.add(i);
+            userNewAchievements.add(achievement);
+          }
         }
       }
     }
     userNewAchievementsData.addAll({
-      "achievement_ids": userAchievementIds,
+      "achievement_ids": userNewAchievementIds,
       "achievement_data": userNewAchievements
     });
     return userNewAchievementsData;
@@ -240,24 +242,30 @@ class CAchievement {
     for (double progress in overallProgress) {
       if (progress >= 75) {
         p++;
-      } else if (progress < 75) {
-        data.addAll(
-            {"achieved": false, "progress": p, "progressToAchieve": 75});
-        return data;
       }
     }
-    data.addAll({"achieved": true, "progress": p, "progressToAchieve": 75});
+    if (p >= 3) {
+      data.addAll({"achieved": true, "progress": p, "progressToAchieve": 3});
+    } else {
+      data.addAll({"achieved": false, "progress": p, "progressToAchieve": 3});
+    }
     return data;
   }
 
   Map<String, dynamic> flawlessVictory(double precision) {
     Map<String, dynamic> data = {};
     if (precision == 100) {
-      data.addAll(
-          {"achieved": true, "progress": precision.round(), "progressToAchieve": 100});
+      data.addAll({
+        "achieved": true,
+        "progress": precision.round(),
+        "progressToAchieve": 100
+      });
     } else if (precision < 75) {
-      data.addAll(
-          {"achieved": false, "progress": precision.round(), "progressToAchieve": 100});
+      data.addAll({
+        "achieved": false,
+        "progress": precision.round(),
+        "progressToAchieve": 100
+      });
     }
 
     return data;

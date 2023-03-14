@@ -29,6 +29,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final state = this.state as SettingsLoaded;
    
       settingsLogic.updateUserInterfaceLanguage(event.interfaceLanguage);
+      
      
       emit(SettingsLoaded(
           themeMode: state.themeMode,

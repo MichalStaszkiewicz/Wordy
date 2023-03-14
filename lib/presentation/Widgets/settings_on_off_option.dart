@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:wordy/presentation/Provider/interface_language_provider.dart';
 
 import '../Bloc/settings/settings_bloc.dart';
 
@@ -23,24 +25,26 @@ class SettingsOnOffOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SwitchListTile(
-        secondary: Icon(icon),
-        title: Text(
-          title,
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
-        subtitle: Text(
-          subtitle,
-          style: Theme.of(context)
-              .textTheme
-              .subtitle2!
-              .copyWith(color: Colors.grey),
-        ),
-        value: stateOfSwitch,
-        onChanged: (value) {
-         
-      context.read<SettingsBloc>().add(UpdateUserTheme(themeMode: value));
-   
-        });
+    return Consumer<InterfaceDataProvider>(
+      builder:(context,data,child)=> SwitchListTile(
+          secondary: Icon(icon),
+          title: Text(
+            title,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          subtitle: Text(
+            subtitle,
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall!
+                .copyWith(color: Colors.grey),
+          ),
+          value: stateOfSwitch,
+          onChanged: (value) {
+           data.setThemeMode();
+     
+       
+          }),
+    );
   }
 }

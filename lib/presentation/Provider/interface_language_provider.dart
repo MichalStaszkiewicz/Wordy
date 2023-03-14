@@ -5,14 +5,19 @@ class InterfaceDataProvider with ChangeNotifier {
   LocalRepository _localRepository = LocalRepository();
   int currentIndex = 0;
   String interfaceLangauge = "";
+  bool darkMode = false;
 
-
-  void setCurrentScreen(int index){
+  void setCurrentScreen(int index) {
     currentIndex = index;
     notifyListeners();
-
   }
-  Future<void> getUserInterfaceLanguage(String choosenLangauge) async {
+
+  void setThemeMode() {
+    darkMode = !darkMode;
+    notifyListeners();
+  }
+
+  Future<void> getUserInterfaceLanguage() async {
     await _localRepository
         .createDatabase("English", "Polish")
         .then((value) async {

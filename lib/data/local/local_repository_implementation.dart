@@ -367,7 +367,19 @@ class LocalRepository implements LocalInterface {
       String tableName, String fieldToUpdate, String value) async {
     LocalDatabase localdb = LocalDatabase();
     Database database_connection = await localdb.connect();
-    await database_connection
-        .rawQuery("UPDATE $tableName SET $fieldToUpdate = '$value' WHERE id = 1");
+
+    await database_connection.rawQuery(
+        "UPDATE $tableName SET $fieldToUpdate = '$value' WHERE id = 1");
+  }
+
+  Future<void> insertDataToAchievement(String value) async {
+    LocalDatabase localdb = LocalDatabase();
+    Database database_connection = await localdb.connect();
+
+    String query = "INSERT INTO Achievements (achievementID) VALUES ('$value')";
+
+    await database_connection.transaction((txn) async {
+      await txn.rawInsert(query);
+    });
   }
 }

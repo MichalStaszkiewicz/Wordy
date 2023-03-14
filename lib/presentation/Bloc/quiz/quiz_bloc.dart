@@ -128,7 +128,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       Map<String, dynamic> achievementsData = await userLogic
           .sessionEndCheckIfNewAchievementAvailable(event.sessionScore);
       for (int id in achievementsData['achievement_ids']) {
-        userLogic.updateDatabase('achievementID', id.toString(), "Achievements", "");
+        userLogic.insertNewAchievementID( id.toString());
       }
 
       emit(QuizCompleted(

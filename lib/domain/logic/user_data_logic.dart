@@ -18,6 +18,10 @@ class UserDataLogic {
     return snapshot['lastLesson'];
   }
 
+  Future<void> insertNewAchievementID(String achievementID) async {
+    await _localRepository.insertDataToAchievement(achievementID);
+  }
+
   Future<Map<String, dynamic>> sessionEndCheckIfNewAchievementAvailable(
       double precision) {
     CAchievement achievementHelper = CAchievement();
@@ -53,11 +57,13 @@ class UserDataLogic {
     List<Achievement> achievements = [];
     for (int i = 0; i < achievementIds.length; i++) {
       Achievement? achiv =
-          await achievementHelper.convertIdIntoAchievemnet(i, null);
+          await achievementHelper.convertIdIntoAchievemnet(achievementIds[i], null);
       if (achiv != null) {
         achievements.add(achiv);
+        
       }
     }
+ 
     return achievements;
   }
 
@@ -201,8 +207,6 @@ class UserDataLogic {
   Future<int> getFinishedTopicsCount() async {
     return await _localRepository.countUserFinishedTopics();
   }
-
- 
 
   Future<int> getLearnedWordiesCount() async {
     return await _localRepository.countLearnedWordies();

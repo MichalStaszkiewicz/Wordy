@@ -49,13 +49,16 @@ class LanguageToLearnScreen extends StatelessWidget {
                   flex: 1,
                   child: GestureDetector(
                       onTap: () {
-                        context.read<UserProgressBloc>().add(
-                            CreatingNewUserPreferencesUpdate(
-                                userLanguageToLearn: state.userLanguageToLearn,
-                                userNativeLanguage: state.userNativeLanguage,
-                                userLanguageToLearnSelected: false,
-                                userNativeLanguageSelected: true,
-                                step: 3));
+                        if (state.userLanguageToLearnSelected) {
+                          context.read<UserProgressBloc>().add(
+                              CreatingNewUserPreferencesUpdate(
+                                  userLanguageToLearn:
+                                      state.userLanguageToLearn,
+                                  userNativeLanguage: state.userNativeLanguage,
+                                  userLanguageToLearnSelected: false,
+                                  userNativeLanguageSelected: true,
+                                  step: 3));
+                        }
                       },
                       child: ConfirmButton(
                         selected: state.userLanguageToLearnSelected,
@@ -63,7 +66,7 @@ class LanguageToLearnScreen extends StatelessWidget {
             ],
           );
         } else {
-          return  LoadingData();
+          return LoadingData();
         }
       },
     );

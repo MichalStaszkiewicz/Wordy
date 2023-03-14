@@ -53,13 +53,15 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
 
       await userLogic.getFirstRun().then((value) async {
         if (!value) {
+          List<Achievement> achievements =
+              await userLogic.getUserAchievements();
           emit(UserProgressLoaded(
-              achievements: 0,
+              achievements: achievements.length,
               daysStreak: await userLogic.getUserHotStreak(),
               finishedTopics: await userLogic.getFinishedTopicsCount(),
               learnedWords: await userLogic.getLearnedWordiesCount(),
               courses: await userLogic.getActiveCourses(),
-              userAchievements: await userLogic.getUserAchievements(),
+              userAchievements: achievements,
               allAchievements: await userLogic.getAllAchievements(),
               userAchievementsNonAchieved:
                   await userLogic.getNonAchievedAchievements()));
@@ -79,7 +81,8 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
     on<UpdateUserCourse>((event, emit) async {
       LocalRepository localRepository = LocalRepository();
       UserDataLogic userLogic = UserDataLogic();
-      await userLogic.updateDatabase("currentCourse", event.course,null,"Profile");
+      await userLogic.updateDatabase(
+          "currentCourse", event.course, null, "Profile");
       Map<String, dynamic> userData = await localRepository.getUserData();
       String nativeLanguage = "";
       await localRepository.getUserData().then((value) {
@@ -93,19 +96,20 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
           updatedNativeLanguage = "Polish";
         }
 
-        await userLogic.updateDatabase(event.course, '1',null,"Profile");
+        await userLogic.updateDatabase(event.course, '1', null, "Profile");
 
         await userLogic.updateDatabase(
-            "interfaceLanguage", updatedNativeLanguage,null,"Profile");
+            "interfaceLanguage", updatedNativeLanguage, null, "Profile");
         emit(UserCoursesAndSettingsInformations(
             currentCourse: userData["courseName"]!,
             nativeLanguage: updatedNativeLanguage,
             hotStreak: userData['daysStreak']!,
             wordsLearnedToday: userData['wordsLearnedToday']!));
       } else {
-        await userLogic.updateDatabase(event.course, '1',null,"Profile");
+        await userLogic.updateDatabase(event.course, '1', null, "Profile");
 
-        await userLogic.updateDatabase("interfaceLanguage", nativeLanguage,null,"Profile");
+        await userLogic.updateDatabase(
+            "interfaceLanguage", nativeLanguage, null, "Profile");
         emit(UserCoursesAndSettingsInformations(
             currentCourse: userData["courseName"]!,
             nativeLanguage: userData["interfaceLanguage"]!,
@@ -129,24 +133,27 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
   void createNewUser() {
     on<CreateNewUser>((event, emit) async {
       UserDataLogic userLogic = UserDataLogic();
-      await userLogic.updateDatabase("interfaceLanguage", event.nativeLanguage,null,"Profile");
-      await userLogic.updateDatabase(event.languageToLearn, '1',null,"Profile");
-      await userLogic.updateDatabase('currentCourse', event.languageToLearn,null,"Profile");
-      await userLogic.updateDatabase('firstRun', "0",null,"Profile");
+      await userLogic.updateDatabase(
+          "interfaceLanguage", event.nativeLanguage, null, "Profile");
+      await userLogic.updateDatabase(
+          event.languageToLearn, '1', null, "Profile");
+      await userLogic.updateDatabase(
+          'currentCourse', event.languageToLearn, null, "Profile");
+      await userLogic.updateDatabase('firstRun', "0", null, "Profile");
     });
   }
 
   void loadUserData() {
     on<LoadUserDataAndPreferences>((event, emit) async {
       UserDataLogic userLogic = UserDataLogic();
-
+      List<Achievement> achievements = await userLogic.getUserAchievements();
       emit(UserProgressLoaded(
-          achievements: 0,
+          achievements: achievements.length,
           daysStreak: await userLogic.getUserHotStreak(),
           finishedTopics: await userLogic.getFinishedTopicsCount(),
           learnedWords: await userLogic.getLearnedWordiesCount(),
           courses: await userLogic.getActiveCourses(),
-          userAchievements: await userLogic.getUserAchievements(),
+          userAchievements: achievements,
           allAchievements: await userLogic.getAllAchievements(),
           userAchievementsNonAchieved:
               await userLogic.getNonAchievedAchievements()));

@@ -10,7 +10,6 @@ import 'package:wordy/shared/consts.dart';
 
 import '../Bloc/user_progress/user_progress_bloc.dart';
 import '../Provider/interface_language_provider.dart';
-import '../screens/finished_topics_screen.dart';
 
 class ProfileDetails extends StatefulWidget {
   ProfileDetails();
@@ -30,8 +29,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
           state as UserProgressLoaded;
           return StatisticsItem(
             image: 'assets/fire.png',
-            label: ui_lang[language]!['profile_screen_days_in_a_row']
-                .toString(),
+            label:
+                ui_lang[language]!['profile_screen_days_in_a_row'].toString(),
             statisticsCount: state.daysStreak,
             navigation: null,
           );
@@ -41,11 +40,10 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         builder: (context, state) {
           state as UserProgressLoaded;
 
-      
           return StatisticsItem(
             image: 'assets/open-book.png',
-            label: ui_lang[language]!['profile_screen_learned_words']
-                .toString(),
+            label:
+                ui_lang[language]!['profile_screen_learned_words'].toString(),
             statisticsCount: state.learnedWords,
             navigation: BlocProvider(
               create: (context) => UserProgressBloc()..add(LoadLearnedWords()),
@@ -59,10 +57,10 @@ class _ProfileDetailsState extends State<ProfileDetails> {
           state as UserProgressLoaded;
           return StatisticsItem(
             image: 'assets/medal.png',
-            label: ui_lang[language]!['profile_screen_finished_topics']
-                .toString(),
+            label:
+                ui_lang[language]!['profile_screen_finished_topics'].toString(),
             statisticsCount: state.finishedTopics,
-            navigation: const FinishedTopicsScreen(),
+            navigation: null,
           );
         },
       ),
@@ -70,12 +68,13 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         builder: (context, state) {
           state as UserProgressLoaded;
           return StatisticsItem(
-            image: 'assets/award.png',
-            label: ui_lang[language]!['profile_screen_achievements']
-                .toString(),
-            statisticsCount: state.achievements,
-            navigation:  AchievementsScreen(userState: state,)
-          );
+              image: 'assets/award.png',
+              label:
+                  ui_lang[language]!['profile_screen_achievements'].toString(),
+              statisticsCount: state.achievements,
+              navigation: AchievementsScreen(
+                userState: state,
+              ));
         },
       ),
     ];
@@ -84,7 +83,6 @@ class _ProfileDetailsState extends State<ProfileDetails> {
 
   @override
   Widget build(BuildContext context) {
-   
     return SingleChildScrollView(
       child: Consumer<InterfaceDataProvider>(
         builder: (context, value, child) => Column(
@@ -94,7 +92,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       'profile_screen_courses_header']
                   .toString(),
             ),
-             UserCourses(),
+            UserCourses(),
             HeaderInProfile(
               label: ui_lang[value.interfaceLangauge]![
                       'profile_screen_statistics_header']
@@ -107,7 +105,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                 itemCount: statItems(value.interfaceLangauge).length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
-                itemBuilder: (context, index) => statItems(value.interfaceLangauge)[index],
+                itemBuilder: (context, index) =>
+                    statItems(value.interfaceLangauge)[index],
               ),
             )
           ],

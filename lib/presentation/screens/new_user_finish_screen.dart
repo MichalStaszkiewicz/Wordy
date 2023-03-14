@@ -19,7 +19,8 @@ class _NewUserFinishScreenState extends State<NewUserFinishScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<InterfaceDataProvider>(
-      builder:(context,data,child)=> BlocBuilder<UserProgressBloc, UserProgressState>(
+      builder: (context, data, child) =>
+          BlocBuilder<UserProgressBloc, UserProgressState>(
         builder: (context, qstate) {
           final state = qstate as CreatingNewUserPreferences;
           return Container(
@@ -31,7 +32,9 @@ class _NewUserFinishScreenState extends State<NewUserFinishScreen> {
                   flex: 1,
                   child: Container(
                     child: Center(
-                      child: Text(ui_lang[data.interfaceLangauge]!['register_account_is_ready'],
+                      child: Text(
+                          ui_lang[data.interfaceLangauge]![
+                              'register_account_is_ready'],
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall!
@@ -53,7 +56,8 @@ class _NewUserFinishScreenState extends State<NewUserFinishScreen> {
                     child: Container(
                       width: 350,
                       child: Text(
-                      ui_lang[data.interfaceLangauge]!['register_finish_text'],
+                        ui_lang[data.interfaceLangauge]![
+                            'register_finish_text'],
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme

@@ -18,10 +18,14 @@ class ServerDatabaseConnection {
   }
 
   ServerDatabaseConnection._internal();
-
   Future<MySqlConnection> connect() async {
-    _connection = await MySqlConnection.connect(_settings);
-
+    try {
+ 
+        _connection = await MySqlConnection.connect(_settings);
+      
+    } catch (e) {
+      print('Error connecting to the database: $e');
+    }
     return _connection;
   }
 

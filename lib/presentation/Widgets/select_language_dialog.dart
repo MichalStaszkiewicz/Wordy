@@ -13,7 +13,7 @@ import '../Provider/interface_language_provider.dart';
 class LanguageDialog extends StatelessWidget {
   LanguageDialog({required this.ctx});
   BuildContext ctx;
- 
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -43,7 +43,8 @@ class LanguageDialog extends StatelessWidget {
                         ]),
                     child: Column(
                       children: <Widget>[
-                        Consumer<InterfaceDataProvider>(builder: (context, value, child) => Container(
+                        Consumer<InterfaceDataProvider>(
+                          builder: (context, value, child) => Container(
                             width: double.infinity,
                             padding: const EdgeInsets.all(16.0),
                             decoration: const BoxDecoration(
@@ -51,8 +52,10 @@ class LanguageDialog extends StatelessWidget {
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(10.0),
                                     topRight: Radius.circular(10.0))),
-                            child:  Text(
-                              ui_lang[value.interfaceLangauge]!['settings_screen_choose_interface_language'].toString(),
+                            child: Text(
+                              ui_lang[value.interfaceLangauge]![
+                                      'settings_screen_choose_interface_language']
+                                  .toString(),
                               style: const TextStyle(
                                   fontSize: 20.0,
                                   color: Colors.white,
@@ -64,31 +67,45 @@ class LanguageDialog extends StatelessWidget {
                         const SizedBox(
                           height: 16.0,
                         ),
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: languages_available_for_interface.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return ListTile(
-                                leading: Image(
-                                  image: AssetImage(languages_available_for_interface[index].image),
-                                ),
-                                title: Text(languages_available_for_interface[index].label),
-                                trailing: state.interfaceLanguage ==
-                                        languages_available_for_interface[index].label
-                                    ? const Icon(
-                                        Icons.check_circle,
-                                        color: Colors.green,
-                                      )
-                                    : null,
-                                onTap: () {
-                                  ctx.read<SettingsBloc>().add(
-                                      UpdateUserInterfaceLanguage(
-                                          interfaceLanguage:
-                                              languages_available_for_interface[index].label));
-                                  Navigator.of(context).pop();
-                                },
-                              );
-                            },
+                        Consumer<InterfaceDataProvider>(
+                          builder: (context, value, child) => Expanded(
+                            child: ListView.builder(
+                              itemCount:
+                                  languages_available_for_interface.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ListTile(
+                                  leading: Image(
+                                    image: AssetImage(
+                                        languages_available_for_interface[index]
+                                            .image),
+                                  ),
+                                  title: Text(
+                                      languages_available_for_interface[index]
+                                          .label),
+                                  trailing: state.interfaceLanguage ==
+                                          languages_available_for_interface[
+                                                  index]
+                                              .label
+                                      ? const Icon(
+                                          Icons.check_circle,
+                                          color: Colors.green,
+                                        )
+                                      : null,
+                                  onTap: () {
+                                    value.changeUserInterfaceLanguage(
+                                        languages_available_for_interface[index]
+                                            .label);
+                                    ctx.read<SettingsBloc>().add(
+                                        UpdateUserInterfaceLanguage(
+                                            interfaceLanguage:
+                                                languages_available_for_interface[
+                                                        index]
+                                                    .label));
+                                    Navigator.of(context).pop();
+                                  },
+                                );
+                              },
+                            ),
                           ),
                         )
                       ],

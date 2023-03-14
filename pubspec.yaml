@@ -53,6 +53,7 @@ dependencies:
   lottie: ^1.4.3
   simple_speed_dial: ^0.1.7
   achievement_view: ^1.0.0
+  flex_color_scheme: ^6.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -39,14 +39,18 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
       }
 
       final achievement = queue.removeFirst();
+      
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        AchievementView(
+          context,
+          title: achievement.name,
+          subTitle: achievement.description,
+          icon: Icon(Icons.star, color: Colors.white),
+          color: Colors.green,
+        ).show();
+      });
 
-      AchievementView(
-        context,
-        title: achievement.name,
-        subTitle: achievement.description,
-        icon: Icon(Icons.star, color: Colors.white),
-        color: Colors.green,
-      ).show();
+      showNextAchievement();
     }
 
     showNextAchievement();
@@ -72,15 +76,8 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
               body: BlocBuilder<QuizBloc, QuizState>(
                 builder: (context, state) {
                   if (state is QuizCompleted) {
-                    showNewAchievements([
-                      Achievement(
-                          name: "Perfect",
-                          image: 'image',
-                          description: 'get a perfect score!',
-                          achieved: true,
-                          currentProgress: 1,
-                          progressToAchieve: 1)
-                    ]);
+                  
+                    showNewAchievements(state.gainedAchievements);
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

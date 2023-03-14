@@ -31,11 +31,12 @@ class _SettingsState extends State<Settings> {
               ),
               SettingsOnOffOption(
                 icon: Icons.dark_mode,
-                title: "Theme",
+                title: ui_lang[value.interfaceLangauge]!['theme']
+                        .toString(),
                 subtitle:
                     ui_lang[value.interfaceLangauge]!['settings_screen_theme_description']
                         .toString(),
-                stateOfSwitch: state.themeMode,
+                stateOfSwitch: value.darkMode,
               ),
               Container(
                 height: 100,
