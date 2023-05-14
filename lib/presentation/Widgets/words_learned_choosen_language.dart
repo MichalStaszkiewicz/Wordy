@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wordy/presentation/Widgets/statistics_list.dart';
+import 'package:wordy/presentation/widgets/statistics_list.dart';
 
 class WordsLearnedChoosenLanguage extends StatefulWidget {
    WordsLearnedChoosenLanguage({super.key,required this.choosenLanguage});

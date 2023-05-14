@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
-import 'package:wordy/presentation/Widgets/unexpected_error.dart';
+import 'package:wordy/presentation/widgets/unexpected_error.dart';
 import 'package:wordy/presentation/screens/new_user_screen.dart';
 
 import 'package:wordy/presentation/screens/profile_screen.dart';
@@ -20,12 +20,12 @@ import 'package:wordy/presentation/screens/settings_screen.dart';
 
 import 'package:wordy/presentation/screens/vocabulary_screen.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/const/consts.dart';
 
 import 'Bloc/user_progress/user_progress_bloc.dart';
-import 'Provider/interface_language_provider.dart';
+import 'provider/interface_language_provider.dart';
 
-import 'Widgets/loading_data.dart';
+import 'widgets/loading_data.dart';
 import 'screens/topic_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -83,9 +83,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
-        future: Provider.of<InterfaceDataProvider>(context, listen: false)
-            .getUserInterfaceLanguage(),
+        /* future: Provider.of<InterfaceDataProvider>(context, listen: false)
+            .getUserInterfaceLanguage(),*/
         builder: (context, snapshot) {
+      /*
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(backgroundColor: Colors.white, body: LoadingData());
           }
@@ -94,81 +95,80 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 backgroundColor: Colors.white,
                 body: Center(child: Text('Error: ${snapshot.error}')));
           }
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (context) => UserProgressBloc(),
-              ),
-              BlocProvider(
-                create: (context) => QuizBloc(),
-              ),
-            ],
-            child: BlocBuilder<UserProgressBloc, UserProgressState>(
-              builder: (context, userState) => BlocBuilder<QuizBloc, QuizState>(
-                builder: (context, quizState) {
-                  if (userState is UserProgressInitial) {
-                    context
-                        .read<UserProgressBloc>()
-                        .add(LoadUserPreferencesOrCreateNewUser());
-                    return Scaffold(
-                        backgroundColor: Colors.white, body: LoadingData());
-                  } else if (userState is UserProgressLoaded) {
-                    return Consumer<InterfaceDataProvider>(
-                        builder: (context, value, child) => Scaffold(
-                              bottomNavigationBar: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 20,
-                                      color: Colors.black.withOpacity(.1),
-                                    )
-                                  ],
-                                ),
-                                child: SafeArea(
-                                  child: Padding(
+          */
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => UserProgressBloc(),
+          ),
+          BlocProvider(
+            create: (context) => QuizBloc(),
+          ),
+        ],
+        child: BlocBuilder<UserProgressBloc, UserProgressState>(
+          builder: (context, userState) => BlocBuilder<QuizBloc, QuizState>(
+            builder: (context, quizState) {
+              if (userState is UserProgressInitial) {
+                context
+                    .read<UserProgressBloc>()
+                    .add(LoadUserPreferencesOrCreateNewUser());
+                return Scaffold(
+                    backgroundColor: Colors.white, body: LoadingData());
+              } else if (userState is UserProgressLoaded) {
+                return Consumer<InterfaceDataProvider>(
+                    builder: (context, value, child) => Scaffold(
+                          bottomNavigationBar: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 20,
+                                  color: Colors.black.withOpacity(.1),
+                                )
+                              ],
+                            ),
+                            child: SafeArea(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0, vertical: 22),
+                                child: GNav(
+                                    tabActiveBorder:
+                                        Border.all(color: Colors.blueAccent),
+                                    gap: 10,
+                                    color: Colors.grey[600],
+                                    activeColor: Colors.blueAccent,
+                                    rippleColor: Colors.grey[300]!,
+                                    hoverColor: Colors.grey[100]!,
+                                    iconSize: 20,
+                                    textStyle: const TextStyle(
+                                        fontSize: 16, color: Colors.blueAccent),
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0, vertical: 22),
-                                    child: GNav(
-                                        tabActiveBorder: Border.all(
-                                            color: Colors.blueAccent),
-                                        gap: 10,
-                                        color: Colors.grey[600],
-                                        activeColor: Colors.blueAccent,
-                                        rippleColor: Colors.grey[300]!,
-                                        hoverColor: Colors.grey[100]!,
-                                        iconSize: 20,
-                                        textStyle: const TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.blueAccent),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 14.5),
-                                        duration:
-                                            const Duration(milliseconds: 800),
-                                        selectedIndex: value.currentIndex,
-                                        onTabChange: (index) {
-                                          setState(() {
-                                            if (mounted) {
-                                              value.setCurrentScreen(index);
-                                            }
-                                          });
-                                        },
-                                        tabs: navBarsItems(
-                                            value.interfaceLangauge)),
-                                  ),
-                                ),
+                                        horizontal: 20, vertical: 14.5),
+                                    duration: const Duration(milliseconds: 800),
+                                    selectedIndex: value.currentIndex,
+                                    onTabChange: (index) {
+                                      setState(() {
+                                        if (mounted) {
+                                          value.setCurrentScreen(index);
+                                        }
+                                      });
+                                    },
+                                    tabs:
+                                        navBarsItems(value.interfaceLangauge)),
                               ),
-                              body: _currentScreen[value.currentIndex],
-                            ));
-                  } else if (userState is CreatingNewUserPreferences) {
-                    return const NewUserScreen();
-                  } else {
-                    return UnexpectedError();
-                  }
-                },
-              ),
-            ),
-          );
-        });
+                            ),
+                          ),
+                          body: _currentScreen[value.currentIndex],
+                        ));
+              } else if (userState is CreatingNewUserPreferences) {
+                return const NewUserScreen();
+              } else {
+                return UnexpectedError();
+              }
+            },
+          ),
+        ),
+      );
+    });
   }
 }

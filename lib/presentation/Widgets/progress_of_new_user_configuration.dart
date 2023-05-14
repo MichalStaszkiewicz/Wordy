@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:status_change/status_change.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
-import 'package:wordy/presentation/Widgets/stepper/stepper_connector.dart';
-import 'package:wordy/presentation/Widgets/stepper/stepper_entry.dart';
-import 'package:wordy/presentation/Widgets/unexpected_error.dart';
+import 'package:wordy/presentation/widgets/stepper/stepper_connector.dart';
+import 'package:wordy/presentation/widgets/stepper/stepper_entry.dart';
+import 'package:wordy/presentation/widgets/unexpected_error.dart';
 import 'package:wordy/presentation/home_page.dart';
 
 import '../../Utility/utility.dart';
-import '../../shared/consts.dart';
+import '../../const/consts.dart';
 
 class ProgressOfNewUserConfiguration extends StatefulWidget {
   ProgressOfNewUserConfiguration();

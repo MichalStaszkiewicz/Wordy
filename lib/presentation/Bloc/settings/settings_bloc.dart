@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wordy/domain/logic/settings_logic.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/const/consts.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';

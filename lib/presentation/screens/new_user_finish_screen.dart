@@ -2,9 +2,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:wordy/presentation/Provider/interface_language_provider.dart';
-import 'package:wordy/presentation/Widgets/confirm_button.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/presentation/provider/interface_language_provider.dart';
+import 'package:wordy/presentation/widgets/confirm_button.dart';
+import 'package:wordy/const/consts.dart';
 
 import '../Bloc/user_progress/user_progress_bloc.dart';
 

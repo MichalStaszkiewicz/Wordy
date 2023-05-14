@@ -1,5 +1,5 @@
 import 'package:wordy/data/local/local_repository_implementation.dart';
-import 'package:wordy/presentation/Widgets/settings.dart';
+import 'package:wordy/presentation/widgets/settings.dart';
 
 class SettingsLogic {
   SettingsLogic();

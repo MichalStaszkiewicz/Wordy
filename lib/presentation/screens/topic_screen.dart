@@ -4,15 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:wordy/Utility/utility.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
-import 'package:wordy/presentation/Widgets/topic_grid_view.dart';
+import 'package:wordy/presentation/widgets/topic_grid_view.dart';
 
 import 'package:wordy/presentation/screens/topic_screen_today_statistics.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/const/consts.dart';
 
-import '../Provider/interface_language_provider.dart';
-import '../Widgets/language_to_choose.dart';
-import '../Widgets/loading_data.dart';
-import '../Widgets/unexpected_error.dart';
+import '../provider/interface_language_provider.dart';
+import '../widgets/language_to_choose.dart';
+import '../widgets/loading_data.dart';
+import '../widgets/unexpected_error.dart';
 
 class TopicScreen extends StatefulWidget {
   TopicScreen();

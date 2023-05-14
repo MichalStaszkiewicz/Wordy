@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:wordy/presentation/Provider/interface_language_provider.dart';
-import 'package:wordy/presentation/Widgets/select_language_dialog.dart';
-import 'package:wordy/presentation/Widgets/settings_on_off_option.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/presentation/provider/interface_language_provider.dart';
+import 'package:wordy/presentation/widgets/select_language_dialog.dart';
+import 'package:wordy/presentation/widgets/settings_on_off_option.dart';
+import 'package:wordy/const/consts.dart';
 
 import '../Bloc/settings/settings_bloc.dart';
 

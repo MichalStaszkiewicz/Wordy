@@ -4,10 +4,11 @@ import 'package:wordy/Utility/c_achievment.dart';
 import 'package:wordy/data/local/local_repository_implementation.dart';
 import 'package:wordy/domain/logic/settings_logic.dart';
 import 'package:wordy/domain/models/course_basic.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/const/consts.dart';
 import '../../../Utility/utility.dart';
 import '../../../domain/logic/user_data_logic.dart';
 import '../../../domain/models/achievement.dart';
+import '../../../domain/models/achievement_old.dart';
 import '../../../domain/models/achievements_base.dart';
 import '../../../domain/models/course.dart';
 part 'user_progress_event.dart';
@@ -51,71 +52,22 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
     on<LoadUserPreferencesOrCreateNewUser>((event, emit) async {
       UserDataLogic userLogic = UserDataLogic();
 
-      await userLogic.getFirstRun().then((value) async {
-        if (!value) {
-          List<Achievement> achievements =
-              await userLogic.getUserAchievements();
-          emit(UserProgressLoaded(
-              achievements: achievements.length,
-              daysStreak: await userLogic.getUserHotStreak(),
-              finishedTopics: await userLogic.getFinishedTopicsCount(),
-              learnedWords: await userLogic.getLearnedWordiesCount(),
-              courses: await userLogic.getActiveCourses(),
-              userAchievements: achievements,
-              allAchievements: await userLogic.getAllAchievements(),
-              userAchievementsNonAchieved:
-                  await userLogic.getNonAchievedAchievements()));
-        } else {
-          emit(CreatingNewUserPreferences(
-              userLanguageToLearn: '',
-              userNativeLanguage: '',
-              userLanguageToLearnSelected: false,
-              userNativeLanguageSelected: false,
-              step: 1));
-        }
-      });
+      // List<Achievement> achievements = await userLogic.getUserAchievements(1);
+      emit(UserProgressLoaded(
+          achievements: 1,
+          daysStreak: 3,
+          finishedTopics: 3,
+          learnedWords: 412,
+          courses: [],
+          userAchievements: [],
+          allAchievements: [],
+          userAchievementsNonAchieved: []));
     });
   }
 
   void updateUserCourse() {
     on<UpdateUserCourse>((event, emit) async {
-      LocalRepository localRepository = LocalRepository();
-      UserDataLogic userLogic = UserDataLogic();
-      await userLogic.updateDatabase(
-          "currentCourse", event.course, null, "Profile");
-      Map<String, dynamic> userData = await localRepository.getUserData();
-      String nativeLanguage = "";
-      await localRepository.getUserData().then((value) {
-        nativeLanguage = value['interfaceLanguage']!;
-      });
-      if (nativeLanguage == event.course) {
-        String updatedNativeLanguage = "";
-        if (nativeLanguage == "Polish") {
-          updatedNativeLanguage = "English";
-        } else {
-          updatedNativeLanguage = "Polish";
-        }
-
-        await userLogic.updateDatabase(event.course, '1', null, "Profile");
-
-        await userLogic.updateDatabase(
-            "interfaceLanguage", updatedNativeLanguage, null, "Profile");
-        emit(UserCoursesAndSettingsInformations(
-            currentCourse: userData["courseName"]!,
-            nativeLanguage: updatedNativeLanguage,
-            hotStreak: userData['daysStreak']!,
-            wordsLearnedToday: userData['wordsLearnedToday']!));
-      } else {
-        await userLogic.updateDatabase(event.course, '1', null, "Profile");
-
-        await userLogic.updateDatabase(
-            "interfaceLanguage", nativeLanguage, null, "Profile");
-        emit(UserCoursesAndSettingsInformations(
-            currentCourse: userData["courseName"]!,
-            nativeLanguage: userData["interfaceLanguage"]!,
-            hotStreak: userData['daysStreak']!,
-            wordsLearnedToday: userData['wordsLearnedToday']!));
-      }
+      //implement logic
     });
   }
 
@@ -132,21 +84,14 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
 
   void createNewUser() {
     on<CreateNewUser>((event, emit) async {
-      UserDataLogic userLogic = UserDataLogic();
-      await userLogic.updateDatabase(
-          "interfaceLanguage", event.nativeLanguage, null, "Profile");
-      await userLogic.updateDatabase(
-          event.languageToLearn, '1', null, "Profile");
-      await userLogic.updateDatabase(
-          'currentCourse', event.languageToLearn, null, "Profile");
-      await userLogic.updateDatabase('firstRun', "0", null, "Profile");
+      //implement logic
     });
   }
 
   void loadUserData() {
     on<LoadUserDataAndPreferences>((event, emit) async {
       UserDataLogic userLogic = UserDataLogic();
-      List<Achievement> achievements = await userLogic.getUserAchievements();
+      List<Achievement> achievements = await userLogic.getUserAchievements(1);
       emit(UserProgressLoaded(
           achievements: achievements.length,
           daysStreak: await userLogic.getUserHotStreak(),

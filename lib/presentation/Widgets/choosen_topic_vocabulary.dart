@@ -4,10 +4,10 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
-import 'package:wordy/presentation/Widgets/flip_cards.dart';
-import 'package:wordy/presentation/Widgets/loading_data.dart';
-import 'package:wordy/presentation/Widgets/vocabulary_back_card.dart';
-import 'package:wordy/presentation/Widgets/vocabulary_front_card.dart';
+import 'package:wordy/presentation/widgets/flip_cards.dart';
+import 'package:wordy/presentation/widgets/loading_data.dart';
+import 'package:wordy/presentation/widgets/vocabulary_back_card.dart';
+import 'package:wordy/presentation/widgets/vocabulary_front_card.dart';
 
 class ChoosenTopicVocabulary extends StatefulWidget {
   ChoosenTopicVocabulary({super.key, required this.topic});

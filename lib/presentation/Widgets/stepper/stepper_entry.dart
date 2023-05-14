@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/const/consts.dart';
 
 class StepperEntry extends StatefulWidget {
   StepperEntry(

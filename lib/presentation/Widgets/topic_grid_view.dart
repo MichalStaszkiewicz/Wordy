@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
-import 'package:wordy/presentation/Widgets/topic_item.dart';
+import 'package:wordy/presentation/widgets/topic_item.dart';
 
 import 'loading_data.dart';
 

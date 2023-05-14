@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
-import 'package:wordy/presentation/Widgets/loading_data.dart';
-import 'package:wordy/presentation/Widgets/settings.dart';
+import 'package:wordy/presentation/widgets/loading_data.dart';
+import 'package:wordy/presentation/widgets/settings.dart';
 import 'package:wordy/presentation/screens/settings_screen.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/const/consts.dart';
 
 import '../../domain/models/language.dart';
-import '../Provider/interface_language_provider.dart';
+import '../provider/interface_language_provider.dart';
 
 class LanguageDialog extends StatelessWidget {
   LanguageDialog({required this.ctx});

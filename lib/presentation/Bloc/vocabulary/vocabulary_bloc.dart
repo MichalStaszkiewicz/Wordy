@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wordy/domain/models/word.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/const/consts.dart';
 
 import '../../../domain/logic/vocabulary_logic.dart';
 import '../../../domain/models/quiz_question.dart';
 import '../../../domain/models/vocabulary.dart';
-import '../../Provider/interface_language_provider.dart';
+import '../../provider/interface_language_provider.dart';
 
 part 'vocabulary_event.dart';
 part 'vocabulary_state.dart';

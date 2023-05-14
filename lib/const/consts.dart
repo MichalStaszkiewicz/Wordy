@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wordy/domain/models/achievement.dart';
+import 'package:wordy/domain/models/achievement_old.dart';
 import 'package:wordy/domain/models/achievements_base.dart';
 
 import '../domain/models/achievements_base.dart';
 import '../domain/models/course_profile.dart';
 import '../domain/models/language.dart';
+
+
+
 final ColorScheme colorScheme = ColorScheme.fromSwatch(
   primarySwatch: Colors.blue,
   accentColor: Colors.green,
-  brightness: Brightness.light, 
+  brightness: Brightness.light,
 );
 final ThemeData lightTheme = ThemeData(
-  primaryColor: Colors.blue,
+    primaryColor: Colors.blue,
     brightness: Brightness.light,
-  textTheme: GoogleFonts.robotoSlabTextTheme(),
-  colorScheme:colorScheme
-);
+    textTheme: GoogleFonts.robotoSlabTextTheme(),
+    colorScheme: colorScheme);
 
 final ThemeData darkTheme = ThemeData(
-
-  primaryColor: Colors.blue[800],
-  textTheme: GoogleFonts.robotoSlabTextTheme(),
-  colorScheme: colorScheme.copyWith(brightness: Brightness.dark)
-);
+    primaryColor: Colors.blue[800],
+    textTheme: GoogleFonts.robotoSlabTextTheme(),
+    colorScheme: colorScheme.copyWith(brightness: Brightness.dark));
 const Color kdisabledcolor = Color.fromARGB(156, 212, 209, 209);
 const Color kactivestatuscolor = Color.fromARGB(255, 67, 165, 70);
 const Color ktitlecolor = Color.fromRGBO(51, 51, 51, 1.0);

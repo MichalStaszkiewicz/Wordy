@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wordy/presentation/Widgets/confirm_button.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/presentation/widgets/confirm_button.dart';
+import 'package:wordy/const/consts.dart';
 
 import '../Bloc/user_progress/user_progress_bloc.dart';
-import '../Widgets/language_to_choose.dart';
-import '../Widgets/loading_data.dart';
+import '../widgets/language_to_choose.dart';
+import '../widgets/loading_data.dart';
 
 class LanguageToLearnScreen extends StatelessWidget {
   const LanguageToLearnScreen({super.key});

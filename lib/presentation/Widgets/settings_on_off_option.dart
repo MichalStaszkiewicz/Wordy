@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:wordy/presentation/Provider/interface_language_provider.dart';
+import 'package:wordy/presentation/provider/interface_language_provider.dart';
 
 import '../Bloc/settings/settings_bloc.dart';
 

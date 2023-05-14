@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/const/consts.dart';
 
-import '../Provider/interface_language_provider.dart';
+import '../provider/interface_language_provider.dart';
 
 class QuizNextButton extends StatelessWidget {
   QuizNextButton({required this.function});

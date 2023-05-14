@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
-import 'package:wordy/presentation/Widgets/profile_details.dart';
-import 'package:wordy/presentation/Widgets/unexpected_error.dart';
+import 'package:wordy/presentation/widgets/profile_details.dart';
+import 'package:wordy/presentation/widgets/unexpected_error.dart';
 
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/const/consts.dart';
 
-import '../Provider/interface_language_provider.dart';
-import '../Widgets/loading_data.dart';
+import '../provider/interface_language_provider.dart';
+import '../widgets/loading_data.dart';
 
 //TODO fixing UI. bloc is not updating profile also changing language is no showing proper data in vocabulary screen without helping statements. quiz is breaking when we skip all questions.
 class ProfileScreen extends StatefulWidget {

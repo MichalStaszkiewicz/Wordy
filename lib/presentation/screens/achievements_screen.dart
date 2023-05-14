@@ -3,18 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/domain/models/achievements_base.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
-import 'package:wordy/presentation/Provider/interface_language_provider.dart';
-import 'package:wordy/presentation/Widgets/achievement_item_back.dart';
-import 'package:wordy/presentation/Widgets/flip_cards.dart';
-import 'package:wordy/presentation/Widgets/statistics_item.dart';
-import 'package:wordy/presentation/Widgets/unexpected_error.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/presentation/provider/interface_language_provider.dart';
+import 'package:wordy/presentation/widgets/achievement_item_back.dart';
+import 'package:wordy/presentation/widgets/flip_cards.dart';
+import 'package:wordy/presentation/widgets/statistics_item.dart';
+import 'package:wordy/presentation/widgets/unexpected_error.dart';
+import 'package:wordy/const/consts.dart';
 
-import '../../domain/models/achievement.dart';
+import '../../domain/models/achievement_old.dart';
 import '../Bloc/achievements/achievements_filter_bloc.dart';
-import '../Widgets/achievement_dial.dart';
-import '../Widgets/achievement_item_front.dart';
-import '../Widgets/loading_data.dart';
+import '../widgets/achievement_dial.dart';
+import '../widgets/achievement_item_front.dart';
+import '../widgets/loading_data.dart';
 
 class AchievementsScreen extends StatefulWidget {
   AchievementsScreen({required this.userState});
@@ -102,12 +102,13 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                             back: AchievementItemBack(
                               description: achievementsState
                                   .achievements[index].description,
-                              achieved: achievementsState
-                                  .achievements[index].achieved,
+                              achieved: /*achievementsState
+                                  .achievements[index].achieved*/
+                                  true,
                             ),
                             front: AchievementItemFront(
                               image:
-                                  achievementsState.achievements[index].image,
+                                  /* achievementsState.achievements[index].image*/ "",
                               name: achievementsState.achievements[index].name,
                               currentProgress: null,
                               maximum: null,
@@ -147,18 +148,15 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                             crossAxisCount: 2),
                     itemBuilder: (context, index) => FlipCards(
                           back: AchievementItemBack(
-                            achieved:
-                                achievementsState.achievements[index].achieved,
+                            achieved: true,
                             description: achievementsState
                                 .achievements[index].description,
                           ),
                           front: AchievementItemFront(
-                            image: achievementsState.achievements[index].image,
+                            image: '',
                             name: achievementsState.achievements[index].name,
-                            currentProgress: achievementsState
-                                .achievements[index].currentProgress,
-                            maximum: achievementsState
-                                .achievements[index].progressToAchieve,
+                            currentProgress: 0,
+                            maximum: achievementsState.achievements[index].goal,
                           ),
                         )),
               ),
@@ -194,18 +192,15 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                             crossAxisCount: 2),
                     itemBuilder: (context, index) => FlipCards(
                           back: AchievementItemBack(
-                            achieved:
-                                achievementsState.achievements[index].achieved,
+                            achieved: true,
                             description: achievementsState
                                 .achievements[index].description,
                           ),
                           front: AchievementItemFront(
-                            image: achievementsState.achievements[index].image,
+                            image: '',
                             name: achievementsState.achievements[index].name,
-                            currentProgress: achievementsState
-                                .achievements[index].currentProgress,
-                            maximum: achievementsState
-                                .achievements[index].progressToAchieve,
+                            currentProgress: 0,
+                            maximum: achievementsState.achievements[index].goal,
                           ),
                         )),
               ),

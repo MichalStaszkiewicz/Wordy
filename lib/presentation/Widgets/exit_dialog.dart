@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wordy/presentation/Provider/interface_language_provider.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/presentation/provider/interface_language_provider.dart';
+import 'package:wordy/const/consts.dart';
 
 class ExitDialog extends StatelessWidget {
   ExitDialog();

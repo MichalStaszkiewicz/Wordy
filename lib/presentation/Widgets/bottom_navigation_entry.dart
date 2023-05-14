@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../Provider/interface_language_provider.dart';
+import '../provider/interface_language_provider.dart';
 
 class BottomNavigationEntry extends StatefulWidget {
   BottomNavigationEntry(

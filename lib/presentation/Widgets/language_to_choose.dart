@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/const/consts.dart';
 
 import '../../domain/models/language.dart';
 

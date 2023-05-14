@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
-import 'package:wordy/presentation/Provider/interface_language_provider.dart';
-import 'package:wordy/presentation/Widgets/loading_data.dart';
-import 'package:wordy/presentation/Widgets/unexpected_error.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/presentation/provider/interface_language_provider.dart';
+import 'package:wordy/presentation/widgets/loading_data.dart';
+import 'package:wordy/presentation/widgets/unexpected_error.dart';
+import 'package:wordy/const/consts.dart';
 
-import '../Widgets/select_language_dialog.dart';
-import '../Widgets/settings.dart';
-import '../Widgets/settings_on_off_option.dart';
+import '../widgets/select_language_dialog.dart';
+import '../widgets/settings.dart';
+import '../widgets/settings_on_off_option.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});

@@ -13,6 +13,7 @@ import 'package:wordy/domain/models/course_entry.dart';
 import '../../../domain/logic/quiz_logic.dart';
 import '../../../domain/logic/user_data_logic.dart';
 import '../../../domain/models/achievement.dart';
+import '../../../domain/models/achievement_old.dart';
 import '../../../domain/models/quiz_question.dart';
 import '../../../domain/models/word.dart';
 
@@ -125,15 +126,17 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       UserDataLogic userLogic = UserDataLogic();
       await userLogic.increaseUserHotStreak();
       await userLogic.increaseLearnedWordsToday(event.words);
-      Map<String, dynamic> achievementsData = await userLogic
-          .sessionEndCheckIfNewAchievementAvailable(event.sessionScore);
+      // implement logic here
+      Map<String, dynamic> achievementsData = {};
       for (int id in achievementsData['achievement_ids']) {
-        userLogic.insertNewAchievementID( id.toString());
+        userLogic.insertNewAchievementID(id.toString());
       }
 
       emit(QuizCompleted(
-          image: utility.getImagePathFromTopic(event.topic),
-          quizType: 'session', gainedAchievements: achievementsData['achievement_data'], ));
+        image: utility.getImagePathFromTopic(event.topic),
+        quizType: 'session',
+        gainedAchievements: achievementsData['achievement_data'],
+      ));
     });
   }
 
@@ -143,7 +146,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
       emit(QuizCompleted(
           image: utility.getImagePathFromTopic(event.topic),
-          quizType: 'review', gainedAchievements: const []));
+          quizType: 'review',
+          gainedAchievements: const []));
     });
   }
 

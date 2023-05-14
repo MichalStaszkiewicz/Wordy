@@ -8,17 +8,17 @@ import 'package:provider/provider.dart';
 import 'package:wordy/domain/models/word.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
-import 'package:wordy/presentation/Provider/interface_language_provider.dart';
-import 'package:wordy/presentation/Widgets/quiz_options.dart';
+import 'package:wordy/presentation/provider/interface_language_provider.dart';
+import 'package:wordy/presentation/widgets/quiz_options.dart';
 
 import '../domain/models/course_entry.dart';
 import '../domain/models/quiz_question.dart';
 import '../presentation/Bloc/user_progress/user_progress_bloc.dart';
-import '../presentation/Provider/interface_language_provider.dart';
-import '../presentation/Provider/interface_language_provider.dart';
-import '../presentation/Widgets/language_to_choose.dart';
-import '../presentation/Widgets/loading_data.dart';
-import '../shared/consts.dart';
+import '../presentation/provider/interface_language_provider.dart';
+import '../presentation/provider/interface_language_provider.dart';
+import '../presentation/widgets/language_to_choose.dart';
+import '../presentation/widgets/loading_data.dart';
+import '../const/consts.dart';
 
 class Utility {
   Utility();

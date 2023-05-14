@@ -1,6 +1,6 @@
 
 import'package:flutter/material.dart';
-import 'package:wordy/presentation/Widgets/quiz_answear.dart';
+import 'package:wordy/presentation/widgets/quiz_answear.dart';
 
 class AnswearsColumn extends StatelessWidget {
   AnswearsColumn({required this.answears});

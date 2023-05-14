@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:wordy/data/local/local_database.dart';
 import 'package:wordy/data/local/local_repository_implementation.dart';
+import 'package:wordy/data/network/remote_source.dart';
 import 'package:wordy/domain/models/quiz_question.dart';
 
 import '../../Utility/utility.dart';
@@ -14,16 +15,13 @@ class QuizLogic {
   Future<List<QuizQuestion>> createLearningQuiz(String topic) async {
     Utility utility = Utility();
     LocalRepository local = LocalRepository();
-
-    ServerDatabaseOperations remote = ServerDatabaseOperations();
-
+    RemoteSource remoteSource = RemoteSource();
     List<Word> allWords = [];
     List<CourseEntry> userLearned = await local
         .getUserLearnedWordiesByCurrentNativeLanguage()
         .then((value) => value.map((element) => element.toDomain()).toList());
-    allWords = await remote
-        .getWordiesByTopic(topic)
-        .then((value) => value.map((element) => element.toDomain()).toList());
+    allWords = await remoteSource.getWordsByTopic({topic: topic}).then(
+        (value) => value!.wordList.map((e) => e.toDomain()).toList());
 
     Map<String, dynamic> map = await local.getUserData();
 
@@ -36,17 +34,16 @@ class QuizLogic {
           translation: filtredWords[i].translation,
           word: filtredWords[i].word,
           topic: filtredWords[i].topic))) {
-       
-
         result.add(filtredWords[i]);
       }
     }
 
-    List<QuizQuestion> questions = utility.createListOfQuestions(result,filtredWords);
+    List<QuizQuestion> questions =
+        utility.createListOfQuestions(result, filtredWords);
 
     return questions;
   }
-   
+
   Future<List<QuizQuestion>> createReviewQuiz(String topic) async {
     Utility utility = Utility();
     LocalRepository localRepository = LocalRepository();
@@ -57,9 +54,8 @@ class QuizLogic {
         .getUserLearnedWordiesWithSpecificTopic(topic)
         .then((value) => value.map((e) => e.toDomain()).toList());
 
-    List<QuizQuestion> questions = utility.createListOfQuestions(
-      learnedWords,learnedWords
-    );
+    List<QuizQuestion> questions =
+        utility.createListOfQuestions(learnedWords, learnedWords);
 
     return questions;
   }

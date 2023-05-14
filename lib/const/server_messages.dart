@@ -1,0 +1,4 @@
+class ServerMessages {
+  static const MESSAGE_REGISTER_SUCCESS = "REGISTER_SUCCESS";
+  static const MESSAGE_LOGIN_SUCCESSFULL = "LOGIN_SUCCESSFULL";
+}

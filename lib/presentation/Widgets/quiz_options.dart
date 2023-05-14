@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:wordy/presentation/Widgets/menu_button.dart';
+import 'package:wordy/presentation/widgets/menu_button.dart';
 import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/const/consts.dart';
 
-import '../Provider/interface_language_provider.dart';
+import '../provider/interface_language_provider.dart';
 
 class QuizOptions extends StatefulWidget {
   final String title;

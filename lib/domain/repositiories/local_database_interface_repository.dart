@@ -17,4 +17,5 @@ abstract class LocalInterface {
   Future<Map<String, dynamic>> getUserData();
   Future<int> getLearnedWordiesCountByTopic(String topic, String tableName);
   Future<int> getLearnedWordiesCountByTableName(String tableName);
+  
 }

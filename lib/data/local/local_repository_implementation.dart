@@ -3,17 +3,17 @@ import 'package:wordy/Utility/utility.dart';
 import 'package:wordy/data/dto/course_basic._dto.dart';
 import 'package:wordy/data/dto/course_entry_dto.dart';
 import 'package:wordy/data/local/local_database.dart';
-import 'package:wordy/domain/models/achievement.dart';
+import 'package:wordy/domain/models/achievement_old.dart';
 
 import 'package:wordy/domain/repositiories/local_database_interface_repository.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/const/consts.dart';
 
 import '../../domain/models/course_entry.dart';
 import '../../domain/models/course_profile.dart';
 import '../dto/course_dto.dart';
 import '../dto/word_dto.dart';
-import '../network/database_connection.dart';
 import '../network/network_repository_implementation.dart';
+import '../network/remote_source.dart';
 
 class LocalRepository implements LocalInterface {
   final List<String> _databaseCourseTables = [
@@ -46,9 +46,9 @@ class LocalRepository implements LocalInterface {
   }
 
   Future<List<double>> getPercentageOfEveryCourse() async {
-    ServerDatabaseOperations remote = ServerDatabaseOperations();
+    RemoteSource remote = RemoteSource();
     int courseMaxWordies = 0;
-    remote.getAllWordies().then((value) => courseMaxWordies = value.length);
+    remote.getAllWords().then((value) => courseMaxWordies = value.wordList.length);
     List<int> captureLearnedWordiesByCourse = [];
     for (String tableName in _databaseCourseTables) {
       captureLearnedWordiesByCourse
@@ -79,61 +79,15 @@ class LocalRepository implements LocalInterface {
   }
 
   Future<int> countUserFinishedTopics() async {
-    ServerDatabaseOperations remote = ServerDatabaseOperations();
-    int result = 0;
-    Map<String, List<String>> avCourses = availableCourses();
-    Map<String, dynamic> userData = await getUserData();
-    Utility utility = Utility();
-
-    for (String topic in topics) {
-      int remoteCount = await remote.getWordiesCountByTopic(topic);
-      for (String courseName in avCourses[userData['interfaceLanguage']]!) {
-        Map<String, dynamic> courseData = utility.convertCurrentCourseName(
-            courseName, userData['interfaceLanguage']!);
-        int localCount = await getLearnedWordiesCountByTopic(
-            topic, courseData['courseNameTable']!);
-        if (remoteCount == localCount) {
-          result++;
-        }
-      }
-    }
-    return result;
+   
+ 
+    return 4;
   }
 
   Future<List<CourseDto>> getUserWordsLearnedByCurrentNativeLanguage() async {
-    ServerDatabaseOperations remote = ServerDatabaseOperations();
-    Map<String, List<String>> avCourses = availableCourses();
-    Map<String, dynamic> userData = await getUserData();
-    Utility utility = Utility();
+  
 
-    List<WordDto> allWords = await remote.getAllWordies();
-    List<CourseDto> allCourses = [];
-    for (String courseName in avCourses[userData['interfaceLanguage']]!) {
-      Map<String, dynamic> courseData = utility.convertCurrentCourseName(
-          courseName, userData['interfaceLanguage']!);
-      List<CourseEntryDto> entries =
-          await getUserLearnedWordiesWithSpecificNameTable(
-              courseData['courseNameTable']!);
-      Map<String, int> topicsMaximum = {};
-      Map<String, int> topicsCurrent = {};
-      for (String topic in topics) {
-        topicsMaximum
-            .addAll({topic: await remote.getWordiesCountByTopic(topic)});
-        topicsCurrent.addAll({
-          topic: await getLearnedWordiesCountByTopic(
-              topic, courseData['courseNameTable']!)
-        });
-      }
-      allCourses.add(CourseDto(
-          courseName: courseName,
-          entries: entries,
-          maximum: allWords.length,
-          topicsMaximum: topicsMaximum,
-          current: entries.length,
-          topicsCurrent: topicsMaximum));
-    }
-
-    return allCourses;
+    return [];
   }
 
   @override
@@ -382,4 +336,5 @@ class LocalRepository implements LocalInterface {
       await txn.rawInsert(query);
     });
   }
+  
 }

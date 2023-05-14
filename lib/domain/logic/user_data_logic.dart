@@ -1,222 +1,146 @@
-import 'package:wordy/Utility/c_achievment.dart';
+import 'package:dio/dio.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:wordy/utility/c_achievment.dart';
 import 'package:wordy/data/dto/course_basic._dto.dart';
 import 'package:wordy/data/dto/course_entry_dto.dart';
 import 'package:wordy/data/local/local_repository_implementation.dart';
-import 'package:wordy/domain/models/achievement.dart';
+import 'package:wordy/data/network/remote_source.dart';
+import 'package:wordy/domain/models/achievement_old.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/course_entry.dart';
+import 'package:wordy/domain/repositiories/repository.dart';
 
+import '../../data/network/api_response.dart';
+import '../models/achievement.dart';
 import '../models/achievements_base.dart';
 import '../models/course_basic.dart';
+import '../models/user.dart';
+import '../result.dart';
 
 class UserDataLogic {
   UserDataLogic();
+  final Repository repository = Repository();
   final LocalRepository _localRepository = LocalRepository();
-  Future<String> getUserLastLessonDate() async {
-    Map<String, dynamic> snapshot = await _localRepository.getUserData();
+  Future<String> loginUser(User user) async {
+    try {
+      final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+      if (user.email.isEmpty || user.fullName!.isEmpty) {
+        throw Exception("Fill all fields");
+      }
 
-    return snapshot['lastLesson'];
+      if (!emailRegExp.hasMatch(user.email)) {
+        throw Exception("Bad email format");
+      }
+
+      return await repository.loginUser(user).then((value) => value.message);
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> registerUser(User user) async {
+    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+    if (user.email.isEmpty || user.fullName!.isEmpty) {
+      throw Exception("Fill all fields");
+    }
+
+    if (!emailRegExp.hasMatch(user.email)) {
+      throw Exception("Bad email format");
+    }
+    if (user.password.length < 5) {
+      throw Exception("Password is too short");
+    }
+    try {
+      String responseData =
+          await repository.registerUser(user).then((value) => value.message);
+
+      return responseData;
+    } on Exception catch (e) {
+      rethrow;
+    }
   }
 
   Future<void> insertNewAchievementID(String achievementID) async {
     await _localRepository.insertDataToAchievement(achievementID);
   }
 
-  Future<Map<String, dynamic>> sessionEndCheckIfNewAchievementAvailable(
-      double precision) {
-    CAchievement achievementHelper = CAchievement();
-    return achievementHelper.gainAchievement(precision);
-  }
-
   Future<List<Achievement>> getNonAchievedAchievements() async {
-    List<int> achievementIds = await _localRepository.getAchievementsIds();
-    CAchievement achievementHelper = CAchievement();
-    int achievementsCount = achievementHelper.getAchievementsCount();
+    List<Achievement> achievements = await repository
+        .getAllAchievements()
+        .then((value) => value.achievements.map((e) => e.toDomain()).toList());
+    List<int> achievementIds = achievements.map((e) => e.id).toList();
+
     List<Achievement> result = [];
-    for (int i = 0; i < achievementsCount; i++) {
+    for (int i = 0; i < achievements.length; i++) {
       if (!achievementIds.contains(i)) {
-        Achievement? achiv =
-            await achievementHelper.convertIdIntoAchievemnet(i, null);
-        if (achiv != null) {
-          result.add(achiv);
-        }
+        result.add(achievements[i]);
       }
     }
     return result;
   }
 
   Future<List<Achievement>> getAllAchievements() async {
-    CAchievement achievementHelper = CAchievement();
-
-    return await achievementHelper.getAllAchievements();
+    RemoteSource remoteSource = RemoteSource();
+    return await remoteSource
+        .getAllAchievements()
+        .then((value) => value.achievements.map((e) => e.toDomain()).toList());
   }
 
-  Future<List<Achievement>> getUserAchievements() async {
-    List<int> achievementIds = await _localRepository.getAchievementsIds();
-    CAchievement achievementHelper = CAchievement();
-    List<Achievement> achievements = [];
-    for (int i = 0; i < achievementIds.length; i++) {
-      Achievement? achiv =
-          await achievementHelper.convertIdIntoAchievemnet(achievementIds[i], null);
-      if (achiv != null) {
-        achievements.add(achiv);
-        
-      }
-    }
- 
+  Future<List<Achievement>> getUserAchievements(int userID) async {
+    List<Achievement> achievements = await repository
+        .getUserAchievements(userID)
+        .then((value) => value.achievements.map((e) => e.toDomain()).toList());
+
     return achievements;
   }
 
   Future<int> getUserLearnedWordiesToday() async {
-    Map<String, dynamic> userData = await _localRepository.getUserData();
-
-    return int.parse(userData['wordsLearnedToday'].toString());
+    // implement logic here
+    return 200;
   }
 
   Future<void> increaseLearnedWordsToday(List<CourseEntry> entries) async {
-    DateTime todayDate = DateTime.now();
-
-    DateTime todayDateCorrected =
-        DateTime(todayDate.year, todayDate.month, todayDate.day);
-    String lastLesson = await getUserLastLessonDate();
-
-    if (DateTime.parse(lastLesson) == todayDateCorrected) {
-      int userLearnedWordiesToday = await getUserLearnedWordiesToday();
-      List<CourseEntry> wordiesThatUserAlreadyKnow = [];
-      await _localRepository
-          .getUserLearnedWordiesByCurrentNativeLanguage()
-          .then((words) {
-        for (CourseEntryDto entryDto in words) {
-          wordiesThatUserAlreadyKnow.add(entryDto.toDomain());
-        }
-      });
-      int countNewWordies = 0;
-      for (CourseEntry entry in entries) {
-        if (!wordiesThatUserAlreadyKnow.contains(entry)) {
-          countNewWordies++;
-        }
-      }
-      int result = userLearnedWordiesToday + countNewWordies;
-      _localRepository.updateUserProfile(
-          'wordsLearnedToday', result.toString());
-    }
+    //implement logic here
   }
 
   Future<void> increaseUserHotStreak() async {
-    Map<String, dynamic> snapshot = await _localRepository.getUserData();
-    DateTime todayDate = DateTime.now();
-
-    DateTime todayDateCorrected =
-        DateTime(todayDate.year, todayDate.month, todayDate.day);
-    DateTime yesterday = DateTime(todayDateCorrected.year,
-        todayDateCorrected.month, todayDateCorrected.day - 1);
-    String lastLesson = await getUserLastLessonDate();
-
-    if (lastLesson == "") {
-      _localRepository.updateUserProfile(
-          'lastLesson', todayDateCorrected.toString());
-      _localRepository.updateUserProfile('daysStreak', '1');
-
-      return;
-    } else {
-      int hotStreak = int.parse(snapshot['daysStreak']);
-      DateTime lastLessonDateFormat = DateTime.parse(lastLesson);
-      if (lastLessonDateFormat == yesterday) {
-        hotStreak++;
-        String updatedStreak = hotStreak.toString();
-        _localRepository.updateUserProfile('daysStreak', updatedStreak);
-        _localRepository.updateUserProfile(
-            'lastLesson', todayDateCorrected.toString());
-        return;
-      } else if (lastLessonDateFormat == todayDateCorrected) {
-        return;
-      } else {
-        _localRepository.updateUserProfile('daysStreak', '1');
-        _localRepository.updateUserProfile(
-            'lastLesson', todayDateCorrected.toString());
-      }
-    }
+    // implement logic here
   }
 
   Future<int> getUserHotStreak() async {
-    Map<String, dynamic> snapshot = await _localRepository.getUserData();
-    DateTime todayDate = DateTime.now();
-    DateTime todayDateCorrected =
-        DateTime(todayDate.year, todayDate.month, todayDate.day);
-    DateTime yesterday = DateTime(todayDateCorrected.year,
-        todayDateCorrected.month, todayDateCorrected.day - 1);
-    String lastLesson = await getUserLastLessonDate();
-
-    if (lastLesson == "") {
-      return 0;
-    } else {
-      DateTime lastLessonDateFormat = DateTime.parse(lastLesson);
-      if (lastLessonDateFormat != todayDateCorrected &&
-          lastLessonDateFormat != yesterday) {
-        _localRepository.updateUserProfile('daysStreak', '0');
-        return 0;
-      } else {
-        return int.parse(snapshot['daysStreak']);
-      }
-    }
+    // implenment logic here
+    return 2;
   }
 
   void insertLearnedWordsToDatabase(List<CourseEntry> wordsToInsert) async {
-    List<CourseEntry> userLearnedWordsAlready = await _localRepository
-        .getUserLearnedWordiesByCurrentNativeLanguage()
-        .then((value) => value.map((e) => e.toDomain()).toList());
-    List<CourseEntry> result = [];
-
-    for (CourseEntry word in wordsToInsert) {
-      if (!userLearnedWordsAlready.contains(word)) {
-        result.add(word);
-      }
-      _localRepository.insertLearnedWordsToDatabase(result);
-    }
-  }
-
-  Future<void> updateDatabase(String fieldToUpdate, String value,
-      String? tableName, String type) async {
-    if (type == "Profile") {
-      _localRepository.updateUserProfile(fieldToUpdate, value);
-    } else {
-      if (tableName != null) {
-        _localRepository.updateDatabaseTable(tableName, fieldToUpdate, value);
-      } else {
-        assert(true, "INVALID TABLE");
-      }
-    }
+    // implement logic here
   }
 
   Future<List<CourseBasic>> getActiveCourses() async {
-    Map<String, dynamic> snapshot = await _localRepository.getUserData();
-    List<CourseBasic> basicCourses = [];
-    for (CourseBasicDto basicDto in snapshot['activeCourses']) {
-      basicCourses.add(basicDto.toDomain());
-    }
-    return basicCourses;
+    // implement logic here
+
+    return [];
   }
 
   Future<bool> getFirstRun() async {
-    Map<String, dynamic> snapshot = await _localRepository.getUserData();
-    int firstRun = int.parse(snapshot['firstRun']!);
-
-    return firstRun == 0 ? false : true;
+    //implement logic
+    return false;
   }
 
   Future<int> getFinishedTopicsCount() async {
-    return await _localRepository.countUserFinishedTopics();
+    //implement logic
+    return 4;
   }
 
   Future<int> getLearnedWordiesCount() async {
-    return await _localRepository.countLearnedWordies();
+    //implement logic
+    return 4;
   }
 
   Future<List<Course>> getCoursesData() async {
-    List<Course> result = await _localRepository
-        .getUserWordsLearnedByCurrentNativeLanguage()
-        .then((value) => value.map((e) => e.toDomain()).toList());
+    //implement logic
 
-    return result;
+    return [];
   }
 }

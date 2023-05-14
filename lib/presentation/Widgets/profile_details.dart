@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:wordy/presentation/Widgets/header_in_profile.dart';
-import 'package:wordy/presentation/Widgets/statistics_item.dart';
-import 'package:wordy/presentation/Widgets/users_courses.dart';
+import 'package:wordy/presentation/widgets/header_in_profile.dart';
+import 'package:wordy/presentation/widgets/statistics_item.dart';
+import 'package:wordy/presentation/widgets/users_courses.dart';
 import 'package:wordy/presentation/screens/achievements_screen.dart';
 import 'package:wordy/presentation/screens/words_learned_screen.dart';
-import 'package:wordy/shared/consts.dart';
+import 'package:wordy/const/consts.dart';
 
 import '../Bloc/user_progress/user_progress_bloc.dart';
-import '../Provider/interface_language_provider.dart';
+import '../provider/interface_language_provider.dart';
 
 class ProfileDetails extends StatefulWidget {
   ProfileDetails();

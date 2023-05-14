@@ -5,8 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
-import 'package:wordy/presentation/Provider/interface_language_provider.dart';
-import 'package:wordy/presentation/Widgets/loading_data.dart';
+import 'package:wordy/presentation/provider/interface_language_provider.dart';
+import 'package:wordy/presentation/screens/auth_screen.dart';
+import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/presentation/screens/language_to_learn_from_screen.dart';
 import 'package:wordy/presentation/screens/language_to_learn_screen.dart';
 import 'package:wordy/presentation/screens/quiz_screen.dart';
@@ -19,8 +20,8 @@ import 'package:wordy/presentation/screens/vocabulary_screen.dart';
 import 'presentation/Bloc/user_progress/user_progress_bloc.dart';
 import 'presentation/screens/profile_screen.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +41,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: FutureBuilder<void>(
-        future: Provider.of<InterfaceDataProvider>(context, listen: false)
-            .getUserInterfaceLanguage(),
         builder: (context, snapshot) {
+          /*
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(backgroundColor: Colors.white, body: LoadingData());
           }
@@ -51,7 +51,8 @@ class MyApp extends StatelessWidget {
                 backgroundColor: Colors.white,
                 body: Center(child: Text('Error: ${snapshot.error}')));
           }
-          return const HomePage();
+          */
+          return const AuthScreen();
         },
       ),
     );
