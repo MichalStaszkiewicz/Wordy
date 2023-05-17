@@ -14,3 +14,15 @@ class Register extends RegisterEvent {
   String email;
   String password;
 }
+class InitialSetupFinish extends RegisterEvent {
+  InitialSetupFinish({required this.languageToLearn, required this.nativeLanguage});
+  String nativeLanguage;
+  String languageToLearn;
+}
+
+class InitialSetupStateUpdate extends RegisterEvent {
+  InitialSetupStateUpdate(
+      {required this.languageToLearn, required this.nativeLanguage});
+  String nativeLanguage;
+  String languageToLearn;
+}

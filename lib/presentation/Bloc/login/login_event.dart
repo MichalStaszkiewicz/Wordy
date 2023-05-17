@@ -8,9 +8,9 @@ abstract class AuthFormEvent extends Equatable {
 }
 
 class Login extends AuthFormEvent {
-  const Login(
-      { required this.email, required this.password});
- 
+  const Login({required this.email, required this.password});
+
   final String email;
   final String password;
 }
+

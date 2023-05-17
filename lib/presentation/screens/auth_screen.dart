@@ -9,13 +9,12 @@ import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/widgets/login_form.dart';
 import 'package:wordy/presentation/widgets/unexpected_error.dart';
-
 import '../../Utility/dialog_manager.dart';
+import '../../const/enums.dart';
+import '../bloc/register/register_bloc.dart';
 import '../bloc/login/login_bloc.dart';
 import '../widgets/register_form.dart';
 import '../widgets/reset_password_form.dart';
-
-enum AuthFormType { register, login, resetPassword }
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -76,6 +75,9 @@ class _AuthScreenState extends State<AuthScreen> {
                     'Success',
                     context, () {
                   currentForm = AuthFormType.login;
+                  state.registerCompleted
+                      ? context.go('/home')
+                      : context.go('/initial_settings');
                 });
               } else if (state is LoginError) {
                 Navigator.pop(context);

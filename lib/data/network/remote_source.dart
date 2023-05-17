@@ -7,11 +7,8 @@ import 'package:wordy/data/dto/achievement_list.dart';
 import 'package:wordy/data/dto/word_list_response.dart';
 import 'package:wordy/data/network/api_service.dart';
 import 'package:wordy/domain/repositiories/server_interface.dart';
-
 import '../../domain/models/user.dart';
 import '../dto/achievement_dto.dart';
-import '../dto/user_dto.dart';
-import '../dto/word_dto.dart';
 import 'api_response.dart';
 
 class RemoteSource implements ServerInterface {
@@ -93,26 +90,40 @@ class RemoteSource implements ServerInterface {
   }
 
   @override
-  Future<ApiResponse<String>> loginUser(UserDto user) async {
+  Future<ApiResponse<String>> loginUser(
+      Map<String, dynamic> userAuthData) async {
     try {
-      var response = await _apiService
-          .get('/v1/user/login/${user.email}/${user.password}');
-      var data = response as Map<String, dynamic>;
-      return ApiResponse<String>(data: data['id']!, message: data['message']);
+      var response = await _apiService.get(
+          '/v1/user/login/${userAuthData['email']}/${userAuthData['password']}');
+
+      return ApiResponse<String>(
+          data: response.data['id']!, message: response.data['message']);
     } on Exception catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<ApiResponse> registerUser(UserDto user) async {
+  Future<ApiResponse> registerUser(Map<String, dynamic> userAuthData) async {
     try {
       var response = await _apiService.post(
-        '/v1/user/register/${user.fullName}/${user.email}/${user.password}'
-      );
+          '/v1/user/register/${userAuthData['fullName']}/${userAuthData['email']}/${userAuthData['password']}');
       print(response.data);
       final Map<String, dynamic> data = response.data as Map<String, dynamic>;
       return ApiResponse(data: null, message: data['message']);
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ApiResponse<bool>> registerationStatus(String userId) async {
+    try {
+      var response = await _apiService.get('/v1/user/info/{$userId}');
+
+      final Map<String, dynamic> data = response.data as Map<String, dynamic>;
+      return ApiResponse(
+          data: data['registrationStatus'] as bool, message: null);
     } on Exception catch (e) {
       rethrow;
     }

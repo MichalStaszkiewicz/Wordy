@@ -94,7 +94,7 @@ class _LoginFormState extends State<LoginForm> {
               _emailErrorText = Validator.emailValidate(_emailController.text);
               context.read<LoginBloc>().add(Login(
                   email: _emailController.text,
-                  password: _emailController.text));
+                  password: _passwordController.text));
               setState(() {});
             }),
         GestureDetector(

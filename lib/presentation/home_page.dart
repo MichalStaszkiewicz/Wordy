@@ -12,7 +12,7 @@ import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/widgets/unexpected_error.dart';
-import 'package:wordy/presentation/screens/new_user_screen.dart';
+import 'package:wordy/presentation/screens/initial_settings_screen.dart';
 
 import 'package:wordy/presentation/screens/profile_screen.dart';
 import 'package:wordy/presentation/screens/quiz_screen.dart';
@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           body: _currentScreen[value.currentIndex],
                         ));
               } else if (userState is CreatingNewUserPreferences) {
-                return const NewUserScreen();
+                return InitialSettingsScreen();
               } else {
                 return UnexpectedError();
               }

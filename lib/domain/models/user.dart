@@ -1,21 +1,19 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../data/dto/user_dto.dart';
 
 class User {
-  User(
-      {
-      required this.fullName,
-      required this.email,
-      required this.password});
+  static final User _instance = User._internal();
 
-  String? fullName;
-  String email;
-  String password;
+  factory User() {
+    return _instance;
+  }
 
-  UserDto toDto() {
-    return UserDto(
-        email: email, fullName: fullName, password: password,);
+  User._internal();
+
+  String? uuid;
+  bool registrationStatus = false;
+
+  bool isLogged() {
+    return uuid != null;
   }
 }
-

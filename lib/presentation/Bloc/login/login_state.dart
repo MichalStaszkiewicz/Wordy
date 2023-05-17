@@ -14,12 +14,14 @@ class LoggedOut extends LoginState {
   List<Object?> get props => [];
 }
 
+
 class Authenticating extends LoginState {
   Authenticating();
 }
 
 class Authenticated extends LoginState {
-  Authenticated();
+  Authenticated({required this.registerCompleted});
+  bool registerCompleted;
 }
 
 class LoginError extends LoginState {

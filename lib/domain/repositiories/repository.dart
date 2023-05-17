@@ -1,5 +1,6 @@
 import '../../data/dto/achievement_dto.dart';
 import '../../data/dto/achievement_list.dart';
+
 import '../../data/dto/word_list_response.dart';
 import '../../data/network/api_response.dart';
 import '../../data/network/remote_source.dart';
@@ -7,12 +8,17 @@ import '../models/user.dart';
 
 class Repository {
   final RemoteSource _remoteSource = RemoteSource();
-  Future<ApiResponse<String>> loginUser(User user) async {
-    return await _remoteSource.loginUser(user.toDto());
+  Future<ApiResponse<String>> loginUser(
+      Map<String, dynamic> userAuthData) async {
+    return await _remoteSource.loginUser(userAuthData);
   }
 
-  Future<ApiResponse> registerUser(User user) async {
-    return await _remoteSource.registerUser(user.toDto());
+  Future<ApiResponse> registerationStatus(String userId) async {
+    return await _remoteSource.registerationStatus(userId);
+  }
+
+  Future<ApiResponse> registerUser(Map<String, dynamic> userAuthData) async {
+    return await _remoteSource.registerUser(userAuthData);
   }
 
   Future<AchievementDto> getAchievementById(int id) async {

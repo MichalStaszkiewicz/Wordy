@@ -27,3 +27,12 @@ class RegisterError extends RegisterState {
   RegisterError({required this.exception});
   Exception exception;
 }
+
+class InitialSetupState extends RegisterState {
+  InitialSetupState(
+      {required this.languageToLearn, required this.nativeLanguage});
+  String nativeLanguage;
+  String languageToLearn;
+  @override
+  List<Object> get props => [languageToLearn, nativeLanguage];
+}

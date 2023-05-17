@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/dropdown_alert.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:wordy/const/app_router.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/provider/interface_language_provider.dart';
@@ -25,35 +26,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: "/",
-      routes: {
-        '/home': (context) => const HomePage(),
-        '/topic': (context) => TopicScreen(),
-        '/vocabulary': (context) => const VocabularyScreen(),
-        '/settings': (context) => const SettingsScreen(),
-        '/profile': (context) => const ProfileScreen(),
-      },
+    return MaterialApp.router(
+      routerConfig: AppRouter.router,
       debugShowCheckedModeBanner: false,
       title: 'Wordy',
       theme: ThemeData(
         textTheme: GoogleFonts.robotoSlabTextTheme(),
         primarySwatch: Colors.blue,
-      ),
-      home: FutureBuilder<void>(
-        builder: (context, snapshot) {
-          /*
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(backgroundColor: Colors.white, body: LoadingData());
-          }
-          if (snapshot.hasError) {
-            return Scaffold(
-                backgroundColor: Colors.white,
-                body: Center(child: Text('Error: ${snapshot.error}')));
-          }
-          */
-          return const AuthScreen();
-        },
       ),
     );
   }

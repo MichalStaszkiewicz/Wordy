@@ -9,7 +9,6 @@ import 'package:wordy/domain/models/achievement_old.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/course_entry.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
-
 import '../../data/network/api_response.dart';
 import '../models/achievement.dart';
 import '../models/achievements_base.dart';
@@ -21,39 +20,50 @@ class UserDataLogic {
   UserDataLogic();
   final Repository repository = Repository();
   final LocalRepository _localRepository = LocalRepository();
-  Future<String> loginUser(User user) async {
+  Future<String> loginUser(Map<String, dynamic> userAuthData) async {
     try {
       final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-      if (user.email.isEmpty || user.fullName!.isEmpty) {
+      if (userAuthData['email'] == null || userAuthData['password'] == null) {
         throw Exception("Fill all fields");
       }
 
-      if (!emailRegExp.hasMatch(user.email)) {
+      if (!emailRegExp.hasMatch(userAuthData['email'])) {
         throw Exception("Bad email format");
       }
-
-      return await repository.loginUser(user).then((value) => value.message);
+      ApiResponse apiResponse = await repository.loginUser(userAuthData);
+      return apiResponse.data;
     } on Exception catch (e) {
       rethrow;
     }
   }
 
-  Future<String> registerUser(User user) async {
+  Future<bool> registerationStatus(String userId) async {
+    try {
+      return await repository
+          .registerationStatus(userId)
+          .then((value) => value.data);
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> registerUser(Map<String, dynamic> userAuthData) async {
     final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
-    if (user.email.isEmpty || user.fullName!.isEmpty) {
+    if (userAuthData['email'] == null || userAuthData['password'] == null) {
       throw Exception("Fill all fields");
     }
 
-    if (!emailRegExp.hasMatch(user.email)) {
+    if (!emailRegExp.hasMatch(userAuthData['email'])) {
       throw Exception("Bad email format");
     }
-    if (user.password.length < 5) {
+    if ((userAuthData['password'] as String).length < 5) {
       throw Exception("Password is too short");
     }
     try {
-      String responseData =
-          await repository.registerUser(user).then((value) => value.message);
+      String responseData = await repository
+          .registerUser(userAuthData)
+          .then((value) => value.message!);
 
       return responseData;
     } on Exception catch (e) {
