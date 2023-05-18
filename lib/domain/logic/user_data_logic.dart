@@ -1,18 +1,17 @@
-import 'package:dio/dio.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:wordy/utility/c_achievment.dart';
-import 'package:wordy/data/dto/course_basic._dto.dart';
-import 'package:wordy/data/dto/course_entry_dto.dart';
+import 'package:wordy/data/dto/user_data_response_dto.dart';
 import 'package:wordy/data/local/local_repository_implementation.dart';
 import 'package:wordy/data/network/remote_source.dart';
 import 'package:wordy/domain/models/achievement_old.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/course_entry.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
+import '../../data/dto/language_dto.dart';
 import '../../data/network/api_response.dart';
+import '../../localizator.dart';
 import '../models/achievement.dart';
 import '../models/achievements_base.dart';
 import '../models/course_basic.dart';
+import '../models/language.dart';
 import '../models/user.dart';
 import '../result.dart';
 
@@ -20,7 +19,20 @@ class UserDataLogic {
   UserDataLogic();
   final Repository repository = Repository();
   final LocalRepository _localRepository = LocalRepository();
-  Future<String> loginUser(Map<String, dynamic> userAuthData) async {
+  final userInstance = locator.get<User>();
+
+  Future<Language> getUserInterfaceLanguage(String userId) async {
+    try {
+      ApiResponse<LanguageDto> response =
+          await repository.getUserInterfaceLanguage(userId);
+
+      return response.data!.toDomain();
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> loginUser(Map<String, dynamic> userAuthData) async {
     try {
       final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
       if (userAuthData['email'] == null || userAuthData['password'] == null) {
@@ -30,8 +42,15 @@ class UserDataLogic {
       if (!emailRegExp.hasMatch(userAuthData['email'])) {
         throw Exception("Bad email format");
       }
-      ApiResponse apiResponse = await repository.loginUser(userAuthData);
-      return apiResponse.data;
+      ApiResponse<String> apiResponse =
+          await repository.loginUser(userAuthData);
+      UserDataResponseDto userData = await repository
+          .getUserData(apiResponse.data!)
+          .then((value) => value.data!);
+      userInstance.uuid = userData.id;
+      userInstance.registrationStatus = userData.registrationStatus;
+      userInstance.interfaceLanguage =
+          userData.interfaceLanguage.toDomain().name;
     } on Exception catch (e) {
       rethrow;
     }

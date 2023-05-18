@@ -62,34 +62,7 @@ Map<String, String> flagWays = {
   "English": "united-kingdom"
 };
 
-final List<Language> languages_available_for_interface = [
-  Language(
-    image: "assets/poland.png",
-    label: "Polish",
-  ),
-  Language(
-    image: "assets/united-kingdom.png",
-    label: "English",
-  ),
-];
-final List<Language> languages = [
-  Language(
-    image: "assets/poland.png",
-    label: "Polish",
-  ),
-  Language(
-    image: "assets/spain.png",
-    label: "Spanish",
-  ),
-  Language(
-    image: "assets/france.png",
-    label: "French",
-  ),
-  Language(
-    image: "assets/united-kingdom.png",
-    label: "English",
-  ),
-];
+
 Map<String, Map<String, dynamic>> ui_lang = {
   "Polish": {
     "theme": "Motyw",

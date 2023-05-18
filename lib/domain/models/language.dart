@@ -1,6 +1,5 @@
 class Language {
-  Language({required this.image, required this.label});
+  Language({required this.image, required this.name});
   String image;
-  String label;
-  
+  String name;
 }

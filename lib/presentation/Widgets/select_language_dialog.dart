@@ -66,7 +66,7 @@ class LanguageDialog extends StatelessWidget {
                         ),
                         const SizedBox(
                           height: 16.0,
-                        ),
+                        ),/*
                         Consumer<InterfaceDataProvider>(
                           builder: (context, value, child) => Expanded(
                             child: ListView.builder(
@@ -107,7 +107,7 @@ class LanguageDialog extends StatelessWidget {
                               },
                             ),
                           ),
-                        )
+                        )*/
                       ],
                     )));
           } else {

@@ -13,9 +13,7 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<AuthFormEvent, LoginState> {
   LoginBloc() : super(LoggedOut()) {
     login();
-  
   }
-  
 
   void login() {
     on<Login>((event, emit) async {
@@ -23,11 +21,8 @@ class LoginBloc extends Bloc<AuthFormEvent, LoginState> {
       final userInstance = locator.get<User>();
       emit(Authenticating());
       try {
-        String userId = await userLogic
+        await userLogic
             .loginUser({"email": event.email, "password": event.password});
-        userInstance.uuid = userId;
-        userInstance.registrationStatus =
-            await userLogic.registerationStatus(userId);
 
         print("Authentication success");
         print("Register status: ${userInstance.registrationStatus}");

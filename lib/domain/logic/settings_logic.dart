@@ -1,9 +1,27 @@
 import 'package:wordy/data/local/local_repository_implementation.dart';
+import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/presentation/widgets/settings.dart';
+
+import '../models/language.dart';
 
 class SettingsLogic {
   SettingsLogic();
   LocalRepository localRepository = LocalRepository();
+  Repository repository = Repository();
+  Future<List<Language>> getAvailableLanguages() async {
+    return await repository.getAvailableLanguages().then(
+        (value) => value.data!.languages.map((e) => e.toDomain()).toList());
+  }
+
+  Future<List<Language>> getAvailableLanguagesExcept(String name) async {
+    List<Language> availableLanguages = await repository
+        .getAvailableLanguages()
+        .then(
+            (value) => value.data!.languages.map((e) => e.toDomain()).toList());
+    availableLanguages.removeWhere((element) => element.name.toLowerCase() == name.toLowerCase());
+    return availableLanguages;
+  }
+
   Future<bool> getUserTheme() async {
     Map<String, dynamic> userData = await localRepository.getUserData();
     String theme = userData['themeMode']!;
@@ -29,10 +47,8 @@ class SettingsLogic {
     }
     localRepository.updateUserProfile('themeMode', themeMode);
   }
-  void updateUserInterfaceLanguage(String interfaceLanguage){
-    localRepository.updateUserProfile("interfaceLanguage",interfaceLanguage);
 
-
-
+  void updateUserInterfaceLanguage(String interfaceLanguage) {
+    localRepository.updateUserProfile("interfaceLanguage", interfaceLanguage);
   }
 }

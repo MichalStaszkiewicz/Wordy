@@ -10,7 +10,7 @@ import 'package:wordy/presentation/screens/topic_screen_today_statistics.dart';
 import 'package:wordy/const/consts.dart';
 
 import '../provider/interface_language_provider.dart';
-import '../widgets/language_to_choose.dart';
+import '../widgets/language_tile.dart';
 import '../widgets/loading_data.dart';
 import '../widgets/unexpected_error.dart';
 

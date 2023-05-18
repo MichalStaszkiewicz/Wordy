@@ -26,10 +26,8 @@ class ProgressOfInitialSetupState extends State<ProgressOfInitialSetup> {
   int convertToStep() {
     if (widget.status == InitialSetupStatus.choosingNativeLanguage) {
       return 1;
-    } else if (widget.status == InitialSetupStatus.choosingCourse) {
-      return 2;
-    } else {
-      return 3;
+    }else{
+      return 0;
     }
   }
 

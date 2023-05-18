@@ -26,6 +26,22 @@ class DialogManager {
         .show();
   }
 
+  static void showQuestionDialog(
+      String message,
+      String title,
+      BuildContext context,
+      VoidCallback onOkPress,
+      VoidCallback onCancelPress) {
+    AwesomeDialog(
+            context: context,
+            title: title,
+            desc: message,
+            dialogType: DialogType.question,
+            btnCancelOnPress: onCancelPress,
+            btnOkOnPress: onOkPress)
+        .show();
+  }
+
   static void showErrorDialog(String message, String title,
       BuildContext context, VoidCallback onOkPress) {
     AwesomeDialog(

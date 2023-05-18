@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-
 class User {
   static final User _instance = User._internal();
 
@@ -12,6 +11,7 @@ class User {
 
   String? uuid;
   bool registrationStatus = false;
+  String interfaceLanguage = 'english';
 
   bool isLogged() {
     return uuid != null;

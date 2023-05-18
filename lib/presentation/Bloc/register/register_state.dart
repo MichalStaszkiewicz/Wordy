@@ -19,6 +19,10 @@ class RegisterInProgress extends RegisterState {
   String password;
 }
 
+class InitialSetupLoading extends RegisterState {
+  InitialSetupLoading();
+}
+
 class RegisterSuccess extends RegisterState {
   RegisterSuccess();
 }
@@ -28,11 +32,24 @@ class RegisterError extends RegisterState {
   Exception exception;
 }
 
+class RegisterLanguageChangeInfo extends RegisterState {
+  RegisterLanguageChangeInfo(
+      {required this.message,
+      required this.langauge,
+});
+  String message;
+  String langauge;
+
+  @override
+  List<Object> get props => [message, langauge,];
+}
+
 class InitialSetupState extends RegisterState {
-  InitialSetupState(
-      {required this.languageToLearn, required this.nativeLanguage});
-  String nativeLanguage;
+  InitialSetupState({
+    required this.languageToLearn,
+  });
+
   String languageToLearn;
   @override
-  List<Object> get props => [languageToLearn, nativeLanguage];
+  List<Object> get props => [languageToLearn];
 }
