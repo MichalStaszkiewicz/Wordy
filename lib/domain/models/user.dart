@@ -12,6 +12,7 @@ class User {
   String? uuid;
   bool registrationStatus = false;
   String interfaceLanguage = 'english';
+  String currentCourse = '';
 
   bool isLogged() {
     return uuid != null;

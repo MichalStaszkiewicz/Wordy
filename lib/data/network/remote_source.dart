@@ -3,15 +3,26 @@ import 'package:dio/src/response.dart';
 import 'package:wordy/const/urls.dart';
 
 import 'package:wordy/data/dto/achievement_list.dart';
-import 'package:wordy/data/dto/language_dto.dart';
+import 'package:wordy/data/dto/language_response.dart';
 import 'package:wordy/data/dto/language_list_response.dart';
+import 'package:wordy/data/dto/register_user_response.dart';
+import 'package:wordy/data/dto/update_register_status_response.dart';
+import 'package:wordy/data/dto/update_user_current_course_response.dart';
+import 'package:wordy/data/dto/update_user_interface_language_response.dart';
 import 'package:wordy/data/dto/word_list_response.dart';
 import 'package:wordy/data/network/api_service.dart';
+import 'package:wordy/data/network/request/login_user_request.dart';
+import 'package:wordy/data/network/request/register_user_request.dart';
+import 'package:wordy/data/network/request/update_register_status_request.dart';
+import 'package:wordy/data/network/request/update_user_current_course_request.dart';
+import 'package:wordy/data/network/request/update_user_interface_language_request.dart';
 import 'package:wordy/domain/repositiories/server_interface.dart';
 
 import '../dto/achievement_dto.dart';
-import '../dto/user_data_response_dto.dart';
-import 'api_response.dart';
+import '../dto/login_user_response.dart';
+
+import '../dto/register_status_response.dart';
+import '../dto/user_data_response.dart';
 
 class RemoteSource implements ServerInterface {
   RemoteSource();
@@ -92,80 +103,105 @@ class RemoteSource implements ServerInterface {
   }
 
   @override
-  Future<ApiResponse<String>> loginUser(
-      Map<String, dynamic> userAuthData) async {
+  Future<LoginUserResponse> loginUser(LoginUserRequest request) async {
     try {
-      var response = await _apiService.get(
-          '/v1/user/login/${userAuthData['email']}/${userAuthData['password']}');
+      var response =
+          await _apiService.post('/v1/user/login', payload: request.toJson());
 
-      return ApiResponse<String>(
-          data: response.data['id']!, message: response.data['message']);
+      return LoginUserResponse.fromJson(response.data);
     } on Exception catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<ApiResponse> registerUser(Map<String, dynamic> userAuthData) async {
+  Future<RegisterUserResponse> registerUser(RegisterUserRequest request) async {
     try {
-      var response = await _apiService.post(
-          '/v1/user/register/${userAuthData['fullName']}/${userAuthData['email']}/${userAuthData['password']}');
-      print(response.data);
-      final Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      return ApiResponse(data: null, message: data['message']);
+      var response = await _apiService.post('/v1/user/register',
+          payload: request.toJson());
+
+      return RegisterUserResponse.fromJson(response.data);
     } on Exception catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<ApiResponse<bool>> registerationStatus(String userId) async {
+  Future<RegisterStatusResponse> registerationStatus(String userId) async {
     try {
-      var response = await _apiService.get('/v1/user/info/{$userId}');
+      var response =
+          await _apiService.get('/v1/user/info/{$userId}/registerStatus');
 
-      UserDataResponseDto userData =
-          UserDataResponseDto.fromJson(response.data['user']);
+      UserDataResponse userData =
+          UserDataResponse.fromJson(response.data['user']);
 
-      return ApiResponse(
-          data: userData.registrationStatus, message: 'Success');
+      return RegisterStatusResponse.fromJson(response.data);
     } on Exception catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<ApiResponse<LanguageListResponse>> getAvailableLanguages() async {
+  Future<LanguageListResponse> getAvailableLanguages() async {
     try {
       var response = await _apiService.get('/v1/languages');
-      return ApiResponse(
-          data: LanguageListResponse.fromJson(response.data),
-          message: 'Success');
+      return LanguageListResponse.fromJson(response.data);
     } on Exception catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<ApiResponse<LanguageDto>> getUserInterfaceLanguage(
-      String userId) async {
+  Future<LanguageResponse> getUserInterfaceLanguage(String userId) async {
     try {
       var response = await _apiService.get('/v1/user/info/{$userId}');
-      return ApiResponse(
-          data: UserDataResponseDto.fromJson(response.data['user'])
-              .interfaceLanguage,
-          message: 'Success');
+      return LanguageResponse.fromJson(response.data);
     } on Exception catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<ApiResponse<UserDataResponseDto>> getUserData(String userId) async {
+  Future<UserDataResponse> getUserData(String userId) async {
     try {
       var response = await _apiService.get('/v1/user/info/{$userId}');
-      return ApiResponse(
-          data: UserDataResponseDto.fromJson(response.data['user']),
-          message: 'Success');
+      return UserDataResponse.fromJson(response.data['user']);
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UpdateUserInterfaceLanguageResponse> updateUserInterfaceLanguage(
+      UpdateUserInterfaceLanguageRequest request) async {
+    try {
+      var response = await _apiService.put('/v1/user/update/language',
+          payload: request.toJson());
+      return UpdateUserInterfaceLanguageResponse.fromJson(response.data);
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UpdateRegisterStatusResponse> updateRegisterStatus(
+      UpdateRegisterStatusRequest request) async {
+    try {
+      var response = await _apiService.put('/v1/user/update/registerStatus',
+          payload: request.toJson());
+      return UpdateRegisterStatusResponse.fromJson(response.data);
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UpdateUserCurrentCourseResponse> updateUserCurrentCourse(
+      UpdateUserCurrentCourseRequest request) async {
+    try {
+      var response = await _apiService.put('/v1/user/update/currentCourse',
+          payload: request.toJson());
+      return UpdateUserCurrentCourseResponse.fromJson(response.data);
     } on Exception catch (e) {
       rethrow;
     }

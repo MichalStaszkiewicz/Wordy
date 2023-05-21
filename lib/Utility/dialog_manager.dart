@@ -15,6 +15,17 @@ class DialogManager {
         .show();
   }
 
+  static void showInformationDialog(
+      String message, String title, BuildContext context) {
+    AwesomeDialog(
+            context: context,
+            title: title,
+            desc: message,
+            dialogType: DialogType.info,
+            dismissOnTouchOutside: true)
+        .show();
+  }
+
   static void showLoadingDialog(
       String message, String title, BuildContext context) {
     AwesomeDialog(
@@ -48,6 +59,7 @@ class DialogManager {
             context: context,
             title: title,
             desc: message,
+            dismissOnTouchOutside: false,
             dialogType: DialogType.error,
             btnOkOnPress: onOkPress)
         .show();

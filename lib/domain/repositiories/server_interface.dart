@@ -4,12 +4,21 @@ import 'package:wordy/domain/models/user.dart';
 
 import '../../data/dto/achievement_dto.dart';
 
-import '../../data/dto/language_dto.dart';
+import '../../data/dto/language_response.dart';
 import '../../data/dto/language_list_response.dart';
-import '../../data/dto/user_data_response_dto.dart';
-import '../../data/dto/word_dto.dart';
+import '../../data/dto/login_user_response.dart';
+import '../../data/dto/register_status_response.dart';
+import '../../data/dto/register_user_response.dart';
+import '../../data/dto/update_register_status_response.dart';
+import '../../data/dto/update_user_current_course_response.dart';
+import '../../data/dto/update_user_interface_language_response.dart';
+import '../../data/dto/user_data_response.dart';
 import '../../data/dto/word_list_response.dart';
-import '../../data/network/api_response.dart';
+import '../../data/network/request/login_user_request.dart';
+import '../../data/network/request/register_user_request.dart';
+import '../../data/network/request/update_register_status_request.dart';
+import '../../data/network/request/update_user_current_course_request.dart';
+import '../../data/network/request/update_user_interface_language_request.dart';
 
 abstract class ServerInterface {
   Future<WordListResponse> getAllWords();
@@ -19,12 +28,18 @@ abstract class ServerInterface {
   Future<AchievementListResponse> getAllAchievements();
   Future<AchievementDto> getAchievementById(int id);
   Future<AchievementListResponse> getUserAchievements(int userID);
-  Future<ApiResponse> registerUser(Map<String, dynamic> userAuthData);
-  Future<ApiResponse<String>> loginUser(Map<String, dynamic> userAuthData);
-  Future<ApiResponse<bool>> registerationStatus(String userId);
-  Future<ApiResponse<LanguageListResponse>> getAvailableLanguages();
-  Future<ApiResponse<LanguageDto>> getUserInterfaceLanguage(String userId);
-  Future<ApiResponse<UserDataResponseDto>> getUserData(String userId);
-
+  Future<RegisterUserResponse> registerUser(
+      RegisterUserRequest registerRequest);
+  Future<LoginUserResponse> loginUser(LoginUserRequest loginRequest);
+  Future<RegisterStatusResponse> registerationStatus(String userId);
+  Future<LanguageListResponse> getAvailableLanguages();
+  Future<LanguageResponse> getUserInterfaceLanguage(String userId);
+  Future<UserDataResponse> getUserData(String userId);
+  Future<UpdateUserInterfaceLanguageResponse> updateUserInterfaceLanguage(
+      UpdateUserInterfaceLanguageRequest userUpdateinterfaceLanguageRequest);
+  Future<UpdateRegisterStatusResponse> updateRegisterStatus(
+      UpdateRegisterStatusRequest request);
+  Future<UpdateUserCurrentCourseResponse> updateUserCurrentCourse(
+      UpdateUserCurrentCourseRequest request);
   //Future<int> getWordiesCountByTopic(String topic);
 }

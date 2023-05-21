@@ -1,41 +1,64 @@
 import 'package:wordy/data/dto/language_list_response.dart';
+import 'package:wordy/data/dto/login_user_response.dart';
+import 'package:wordy/data/dto/register_status_response.dart';
+import 'package:wordy/data/dto/register_user_response.dart';
+import 'package:wordy/data/dto/update_user_interface_language_response.dart';
+import 'package:wordy/data/network/request/register_user_request.dart';
+import 'package:wordy/data/network/request/update_user_interface_language_request.dart';
 
 import '../../data/dto/achievement_dto.dart';
 import '../../data/dto/achievement_list.dart';
 
-import '../../data/dto/language_dto.dart';
-import '../../data/dto/user_data_response_dto.dart';
+import '../../data/dto/language_response.dart';
+import '../../data/dto/update_register_status_response.dart';
+import '../../data/dto/update_user_current_course_response.dart';
+import '../../data/dto/user_data_response.dart';
 import '../../data/dto/word_list_response.dart';
-import '../../data/network/api_response.dart';
 import '../../data/network/remote_source.dart';
+import '../../data/network/request/login_user_request.dart';
+import '../../data/network/request/update_register_status_request.dart';
+import '../../data/network/request/update_user_current_course_request.dart';
 import '../models/user.dart';
 
 class Repository {
   final RemoteSource _remoteSource = RemoteSource();
-  Future<ApiResponse<UserDataResponseDto>> getUserData(String userId) async {
+  Future<UpdateUserCurrentCourseResponse> updateUserCurrentCourse(
+      UpdateUserCurrentCourseRequest request) async {
+    return await _remoteSource.updateUserCurrentCourse(request);
+  }
+
+  Future<UpdateRegisterStatusResponse> updateUserRegisterStatus(
+      UpdateRegisterStatusRequest request) async {
+    return await _remoteSource.updateRegisterStatus(request);
+  }
+
+  Future<UpdateUserInterfaceLanguageResponse> updateUserInterfaceLanguage(
+      UpdateUserInterfaceLanguageRequest request) async {
+    return await _remoteSource.updateUserInterfaceLanguage(request);
+  }
+
+  Future<UserDataResponse> getUserData(String userId) async {
     return await _remoteSource.getUserData(userId);
   }
 
-  Future<ApiResponse<LanguageDto>> getUserInterfaceLanguage(
-      String userId) async {
+  Future<LanguageResponse> getUserInterfaceLanguage(String userId) async {
     return await _remoteSource.getUserInterfaceLanguage(userId);
   }
 
-  Future<ApiResponse<LanguageListResponse>> getAvailableLanguages() async {
+  Future<LanguageListResponse> getAvailableLanguages() async {
     return await _remoteSource.getAvailableLanguages();
   }
 
-  Future<ApiResponse<String>> loginUser(
-      Map<String, dynamic> userAuthData) async {
-    return await _remoteSource.loginUser(userAuthData);
+  Future<LoginUserResponse> loginUser(LoginUserRequest request) async {
+    return await _remoteSource.loginUser(request);
   }
 
-  Future<ApiResponse> registerationStatus(String userId) async {
+  Future<RegisterStatusResponse> registerationStatus(String userId) async {
     return await _remoteSource.registerationStatus(userId);
   }
 
-  Future<ApiResponse> registerUser(Map<String, dynamic> userAuthData) async {
-    return await _remoteSource.registerUser(userAuthData);
+  Future<RegisterUserResponse> registerUser(RegisterUserRequest request) async {
+    return await _remoteSource.registerUser(request);
   }
 
   Future<AchievementDto> getAchievementById(int id) async {

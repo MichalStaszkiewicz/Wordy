@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:wordy/data/network/api_response.dart';
 import 'package:wordy/data/network/exceptions/api_error_message_exception.dart';
 import 'package:wordy/data/network/exceptions/api_errors/api_error_message.dart';
 import 'package:wordy/data/network/exceptions/api_errors/bad_network_api_error.dart';
@@ -32,9 +30,9 @@ class ApiService {
         maxWidth: 90));
   }
 
-  Future<Response> get(String endpoint) async {
+  Future<Response> get(String endpoint, {Map<String, dynamic>? payload}) async {
     try {
-      return await dio.get(endpoint);
+      return await dio.get(endpoint, queryParameters: payload);
     } on BadNetworkApiError {
       throw BadNetworkException("Check your network connection");
     } on ApiErrorMessage catch (e) {
@@ -44,11 +42,10 @@ class ApiService {
     }
   }
 
-  Future<Response> post(
-    String endpoint,
-  ) async {
+  Future<Response> post(String endpoint,
+      {Map<String, dynamic>? payload}) async {
     try {
-      return await dio.post(endpoint);
+      return await dio.post(endpoint, data: payload);
     } on BadNetworkApiError {
       throw BadNetworkException("Check your network connection");
     } on ApiErrorMessage catch (e) {
@@ -58,10 +55,10 @@ class ApiService {
     }
   }
 
-  Future<dynamic> put(String endpoint, {dynamic data}) async {
+  Future<dynamic> put(String endpoint, {Map<String, dynamic>? payload}) async {
     try {
-      final response = await dio.put(endpoint, data: data);
-      return response.data;
+      final response = await dio.put(endpoint, data: payload);
+      return response;
     } on BadNetworkApiError {
       throw BadNetworkException("Check your network connection");
     } on ApiErrorMessage catch (e) {

@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:wordy/data/dto/language_dto.dart';
-part 'user_data_response_dto.g.dart';
+import 'package:wordy/data/dto/language_response.dart';
+part 'user_data_response.g.dart';
 
 @JsonSerializable()
-class UserDataResponseDto {
-  UserDataResponseDto(
+class UserDataResponse {
+  UserDataResponse(
       {required this.email,
       required this.password,
       required this.fullName,
@@ -16,8 +16,8 @@ class UserDataResponseDto {
   String fullName;
   String email;
   String password;
-  LanguageDto interfaceLanguage;
+  LanguageResponse interfaceLanguage;
 
-  factory UserDataResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$UserDataResponseDtoFromJson(json);
+  factory UserDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$UserDataResponseFromJson(json);
 }

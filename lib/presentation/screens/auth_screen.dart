@@ -70,15 +70,9 @@ class _AuthScreenState extends State<AuthScreen> {
               } else if (state is Authenticated) {
                 Navigator.pop(context);
 
-                DialogManager.showSuccessDialog(
-                    'You successfully registered an account',
-                    'Success',
-                    context, () {
-                  currentForm = AuthFormType.login;
-                  state.registerCompleted
-                      ? context.go('/home')
-                      : context.go('/initial_settings');
-                });
+                state.registerCompleted
+                    ? context.go('/home')
+                    : context.go('/initial_settings');
               } else if (state is LoginError) {
                 Navigator.pop(context);
                 DialogManager.showErrorDialog(

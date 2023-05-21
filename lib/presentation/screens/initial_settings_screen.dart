@@ -29,11 +29,7 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
   ) {
     switch (registerStatus) {
       case InitialSetupStatus.choosingNativeLanguage:
-        return RegisterSettingCourse(
-          onNextStep: () {
-            context.go('/home');
-          },
-        );
+        return RegisterSettingCourse();
 
       default:
         return UnexpectedError();
@@ -57,12 +53,18 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
                   context
                       .read<RegisterBloc>()
                       .add(InitialSetupInterfaceLanguageChange(
-                        choosenLanguage: state.langauge,
+                        choosenLanguage: state.languageToLearn,
                       ));
                 }, () {
                   context.read<RegisterBloc>().add(
                       InitialSetupInterfaceLanguageChange(
-                          choosenLanguage: state.langauge));
+                          choosenLanguage: state.langaugeOnCancel));
+                });
+              }
+              if (state is RegisterError) {
+                DialogManager.showErrorDialog(
+                    state.exception.toString(), 'Error', context, () {
+                  context.go('/');
                 });
               }
             },
@@ -71,12 +73,13 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
                 child: Column(
                   children: [
                     Expanded(
-                      flex: 1,
-                      child: Container(
-                          child: ProgressOfInitialSetup(
-                        status: _registerationStatus,
-                      )),
-                    ),
+                        flex: 1,
+                        child: Container(
+                            child: Center(
+                                child: Text(
+                          "Choose Your Course",
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        )))),
                     _buildSettingUpProfileForm(
                       _registerationStatus,
                     ),

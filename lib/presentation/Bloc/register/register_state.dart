@@ -27,21 +27,28 @@ class RegisterSuccess extends RegisterState {
   RegisterSuccess();
 }
 
+class RegisterLoadingState extends RegisterState {
+  RegisterLoadingState();
+}
+
 class RegisterError extends RegisterState {
   RegisterError({required this.exception});
   Exception exception;
 }
 
+class InitialSetupDone extends RegisterState {}
+
 class RegisterLanguageChangeInfo extends RegisterState {
   RegisterLanguageChangeInfo(
       {required this.message,
-      required this.langauge,
-});
+      required this.languageToLearn,
+      required this.langaugeOnCancel});
   String message;
-  String langauge;
+  String languageToLearn;
+  String langaugeOnCancel;
 
   @override
-  List<Object> get props => [message, langauge,];
+  List<Object> get props => [message, languageToLearn, langaugeOnCancel];
 }
 
 class InitialSetupState extends RegisterState {

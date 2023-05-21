@@ -1,39 +1,86 @@
-import 'package:wordy/data/dto/user_data_response_dto.dart';
+import 'package:wordy/data/dto/login_user_response.dart';
+import 'package:wordy/data/dto/update_user_interface_language_response.dart';
+import 'package:wordy/data/dto/user_data_response.dart';
 import 'package:wordy/data/local/local_repository_implementation.dart';
 import 'package:wordy/data/network/remote_source.dart';
+import 'package:wordy/data/network/request/login_user_request.dart';
+import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/domain/models/achievement_old.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/course_entry.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
-import '../../data/dto/language_dto.dart';
-import '../../data/network/api_response.dart';
+import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
+import '../../data/dto/language_response.dart';
+import '../../data/dto/update_user_current_course_response.dart';
+import '../../data/network/request/models/login_user_request_model.dart';
+import '../../data/network/request/models/update_user_current_course_request_model.dart';
+import '../../data/network/request/models/update_user_interface_language_request_model.dart';
+import '../../data/network/request/update_register_status_request.dart';
+import '../../data/network/request/update_user_current_course_request.dart';
+import '../../data/network/request/update_user_interface_language_request.dart';
 import '../../localizator.dart';
 import '../models/achievement.dart';
-import '../models/achievements_base.dart';
 import '../models/course_basic.dart';
 import '../models/language.dart';
 import '../models/user.dart';
-import '../result.dart';
 
 class UserDataLogic {
   UserDataLogic();
-  final Repository repository = Repository();
+  final Repository _repository = Repository();
   final LocalRepository _localRepository = LocalRepository();
-  final userInstance = locator.get<User>();
-
-  Future<Language> getUserInterfaceLanguage(String userId) async {
+  final _userInstance = locator.get<User>();
+  Future<bool> updateUserRegisterStatus(String userId) async {
     try {
-      ApiResponse<LanguageDto> response =
-          await repository.getUserInterfaceLanguage(userId);
-
-      return response.data!.toDomain();
+      return await _repository
+          .updateUserRegisterStatus(UpdateRegisterStatusRequest(userId: userId))
+          .then((value) => value.updatedRegisterStatus);
     } on Exception catch (e) {
       rethrow;
     }
   }
 
-  Future<void> loginUser(Map<String, dynamic> userAuthData) async {
+  Future<Language> getUserInterfaceLanguage(String userId) async {
     try {
+      LanguageResponse response =
+          await _repository.getUserInterfaceLanguage(userId);
+
+      return response.toDomain();
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> updateUserCurrentCourse(
+      UpdateUserCurrentCourseModel requetModel) async {
+    try {
+      UpdateUserCurrentCourseResponse response =
+          await _repository.updateUserCurrentCourse(
+              UpdateUserCurrentCourseRequest.fromJson(requetModel.toMap()));
+
+      return response.updatedCourse;
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateUserInterfaceLanguage(
+      UpdateUserInterfaceLanguageModel requestModel) async {
+    try {
+      UpdateUserInterfaceLanguageResponse response =
+          await _repository.updateUserInterfaceLanguage(
+              UpdateUserInterfaceLanguageRequest.fromJson(
+                  requestModel.toMap()));
+      _userInstance.interfaceLanguage = response.updatedLanguageName;
+      print(response.message);
+      print('Updated interface language to: ${response.updatedLanguageName}');
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> loginUser(LoginUserModel requestModel) async {
+    try {
+      Map<String, dynamic> userAuthData = requestModel.toMap();
       final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
       if (userAuthData['email'] == null || userAuthData['password'] == null) {
         throw Exception("Fill all fields");
@@ -42,14 +89,13 @@ class UserDataLogic {
       if (!emailRegExp.hasMatch(userAuthData['email'])) {
         throw Exception("Bad email format");
       }
-      ApiResponse<String> apiResponse =
-          await repository.loginUser(userAuthData);
-      UserDataResponseDto userData = await repository
-          .getUserData(apiResponse.data!)
-          .then((value) => value.data!);
-      userInstance.uuid = userData.id;
-      userInstance.registrationStatus = userData.registrationStatus;
-      userInstance.interfaceLanguage =
+      LoginUserResponse loginResponse =
+          await _repository.loginUser(LoginUserRequest.fromJson(userAuthData));
+      UserDataResponse userData =
+          await _repository.getUserData(loginResponse.userId);
+      _userInstance.uuid = userData.id;
+      _userInstance.registrationStatus = userData.registrationStatus;
+      _userInstance.interfaceLanguage =
           userData.interfaceLanguage.toDomain().name;
     } on Exception catch (e) {
       rethrow;
@@ -58,9 +104,9 @@ class UserDataLogic {
 
   Future<bool> registerationStatus(String userId) async {
     try {
-      return await repository
+      return await _repository
           .registerationStatus(userId)
-          .then((value) => value.data);
+          .then((value) => value.registerationStatus);
     } on Exception catch (e) {
       rethrow;
     }
@@ -80,11 +126,11 @@ class UserDataLogic {
       throw Exception("Password is too short");
     }
     try {
-      String responseData = await repository
-          .registerUser(userAuthData)
-          .then((value) => value.message!);
+      String responseMessage = await _repository
+          .registerUser(RegisterUserRequest.fromJson(userAuthData))
+          .then((value) => value.message);
 
-      return responseData;
+      return responseMessage;
     } on Exception catch (e) {
       rethrow;
     }
@@ -95,7 +141,7 @@ class UserDataLogic {
   }
 
   Future<List<Achievement>> getNonAchievedAchievements() async {
-    List<Achievement> achievements = await repository
+    List<Achievement> achievements = await _repository
         .getAllAchievements()
         .then((value) => value.achievements.map((e) => e.toDomain()).toList());
     List<int> achievementIds = achievements.map((e) => e.id).toList();
@@ -117,7 +163,7 @@ class UserDataLogic {
   }
 
   Future<List<Achievement>> getUserAchievements(int userID) async {
-    List<Achievement> achievements = await repository
+    List<Achievement> achievements = await _repository
         .getUserAchievements(userID)
         .then((value) => value.achievements.map((e) => e.toDomain()).toList());
 

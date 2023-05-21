@@ -7,18 +7,19 @@ import '../models/language.dart';
 class SettingsLogic {
   SettingsLogic();
   LocalRepository localRepository = LocalRepository();
-  Repository repository = Repository();
+  Repository _repository = Repository();
   Future<List<Language>> getAvailableLanguages() async {
-    return await repository.getAvailableLanguages().then(
-        (value) => value.data!.languages.map((e) => e.toDomain()).toList());
+    return await _repository
+        .getAvailableLanguages()
+        .then((value) => value.languages.map((e) => e.toDomain()).toList());
   }
 
   Future<List<Language>> getAvailableLanguagesExcept(String name) async {
-    List<Language> availableLanguages = await repository
+    List<Language> availableLanguages = await _repository
         .getAvailableLanguages()
-        .then(
-            (value) => value.data!.languages.map((e) => e.toDomain()).toList());
-    availableLanguages.removeWhere((element) => element.name.toLowerCase() == name.toLowerCase());
+        .then((value) => value.languages.map((e) => e.toDomain()).toList());
+    availableLanguages.removeWhere(
+        (element) => element.name.toLowerCase() == name.toLowerCase());
     return availableLanguages;
   }
 

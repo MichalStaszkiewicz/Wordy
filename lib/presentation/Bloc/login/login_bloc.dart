@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wordy/domain/logic/user_data_logic.dart';
 import '../../../const/consts.dart';
+import '../../../data/network/request/models/login_user_request_model.dart';
 import '../../../domain/models/user.dart';
 import '../../../domain/result.dart';
 import '../../../localizator.dart';
@@ -21,8 +22,8 @@ class LoginBloc extends Bloc<AuthFormEvent, LoginState> {
       final userInstance = locator.get<User>();
       emit(Authenticating());
       try {
-        await userLogic
-            .loginUser({"email": event.email, "password": event.password});
+        await userLogic.loginUser(
+            LoginUserModel(email: event.email, password: event.password));
 
         print("Authentication success");
         print("Register status: ${userInstance.registrationStatus}");

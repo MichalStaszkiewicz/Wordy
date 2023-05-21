@@ -4,6 +4,11 @@ class LoadingData extends StatelessWidget {
   LoadingData();
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    return  Center(child: Container(
+      width: double.infinity,
+      height: double.infinity,
+      
+      
+      child: Container(child: Center(child: CircularProgressIndicator()))));
   }
 }

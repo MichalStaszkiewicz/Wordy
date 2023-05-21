@@ -15,6 +15,11 @@ class Register extends RegisterEvent {
   String password;
 }
 
+class FinishInitialSetup extends RegisterEvent {
+  FinishInitialSetup({required this.currentCourse});
+  String currentCourse;
+}
+
 class InitialSetupInterfaceLanguageChange extends RegisterEvent {
   InitialSetupInterfaceLanguageChange({
     required this.choosenLanguage,
