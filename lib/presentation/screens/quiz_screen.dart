@@ -8,7 +8,6 @@ import 'package:wordy/presentation/screens/quiz_screen_questions.dart';
 import 'package:wordy/const/consts.dart';
 
 import '../Bloc/quiz/quiz_bloc.dart';
-import '../provider/interface_language_provider.dart';
 import '../widgets/unexpected_error.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -34,65 +33,35 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: Consumer<InterfaceDataProvider>(
-        builder: (context, value, child) => Scaffold(
-          appBar: AppBar(
-            title: Container(
-              padding: const EdgeInsets.only(right: 20),
-              child: Center(
-                child: Text(widget.topic,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall!
-                        .copyWith(color: Colors.white)),
-              ),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Container(
+            padding: const EdgeInsets.only(right: 20),
+            child: Center(
+              child: Text(widget.topic,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(color: Colors.white)),
             ),
           ),
-          body: Container(
-            child: Consumer<InterfaceDataProvider>(
-              builder: (context, value, child) =>
-                  BlocBuilder<QuizBloc, QuizState>(
-                builder: (context, state) {
-                  if (state is QuizInitial) {
-                    return LoadingData();
-                  } else if (state is LearningQuizLoaded) {
-                    if (state.questions.isEmpty) {
-                      return Center(
-                        child: Text(
-                            textAlign: TextAlign.center,
-                            '${ui_lang[value.interfaceLangauge]!['finished_topic_announcement'].toString()} ${widget.topic}'),
-                      );
-                    } else {
-                      return QuizScreenQuestions(
-                        questions: state.questions,
-                        index: state.index,
-                        topic: widget.topic,
-                        deviceSize: MediaQuery.of(context).size,
-                      );
-                    }
-                  } else if (state is ReviewQuizLoaded) {
-                    if (state.questions.isEmpty) {
-                      return Center(
-                        child: Text(
-                            textAlign: TextAlign.center,
-                            ui_lang[value.interfaceLangauge]![
-                                    'no_words_to_review_announcement']
-                                .toString()),
-                      );
-                    } else {
-                      return QuizScreenQuestions(
-                        deviceSize: MediaQuery.of(context).size,
-                        questions: state.questions,
-                        index: state.index,
-                        topic: widget.topic,
-                      );
-                    }
-                  } else {
-                    return UnexpectedError();
-                  }
-                },
-              ),
-            ),
+        ),
+        body: Container(
+          child: BlocBuilder<QuizBloc, QuizState>(
+            builder: (context, state) {
+              if (state is QuizInitial) {
+                return LoadingData();
+              } else if (state is BegginerQuizLoaded) {
+                return QuizScreenQuestions(
+                  questions: state.questions,
+                  index: state.index,
+                  topic: widget.topic,
+             
+                );
+              } else {
+                return UnexpectedError();
+              }
+            },
           ),
         ),
       ),

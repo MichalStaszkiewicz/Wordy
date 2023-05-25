@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/rendering.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wordy/Utility/utility.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
@@ -9,7 +9,10 @@ import 'package:wordy/presentation/widgets/topic_grid_view.dart';
 import 'package:wordy/presentation/screens/topic_screen_today_statistics.dart';
 import 'package:wordy/const/consts.dart';
 
-import '../provider/interface_language_provider.dart';
+import '../widgets/circular_precentage_chart.dart';
+import '../widgets/current_course_widget.dart';
+import '../widgets/daily_challange_widget.dart';
+import '../widgets/difficulty_level_widget.dart';
 import '../widgets/language_tile.dart';
 import '../widgets/loading_data.dart';
 import '../widgets/unexpected_error.dart';
@@ -22,24 +25,6 @@ class TopicScreen extends StatefulWidget {
 
 class _TopicScreenState extends State<TopicScreen>
     with TickerProviderStateMixin {
-  final ScrollController _scrollController = ScrollController();
-  late final AnimationController _animationController =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
-  late final Animation<double> animation = Tween<double>(
-          begin: -MediaQuery.of(context).size.height / 2, end: 0)
-      .animate(
-          CurvedAnimation(parent: _animationController, curve: Curves.linear)
-            ..addListener(() {
-              setState(() {});
-            }));
-  late final Animation<double> barrierAnimation =
-      Tween<double>(begin: 0, end: 0.5).animate(
-          CurvedAnimation(parent: _animationController, curve: Curves.linear)
-            ..addListener(() {
-              setState(() {});
-            }));
-
-  Utility utility = Utility();
   @override
   void initState() {
     super.initState();
@@ -47,179 +32,167 @@ class _TopicScreenState extends State<TopicScreen>
 
   @override
   void dispose() {
-    _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    return BlocBuilder<UserProgressBloc, UserProgressState>(
-      builder: (context, userProgressState) {
-        if (userProgressState is UserCoursesAndSettingsInformations) {
-          return Consumer<InterfaceDataProvider>(builder: (context,value,child)=>BlocProvider(
-              create: (context) => TopicsBloc()..add(LoadTopics(language: value.interfaceLangauge)),
-              child: BlocBuilder<TopicsBloc, TopicsState>(
-                builder: (context, topicsState) {
-                  if (topicsState is TopicsInitial) {
-                    return Scaffold(
-                      
-                      backgroundColor: Colors.white,
-                      body: LoadingData());
-                  }
-                  if (topicsState is TopicsLoaded) {
-                    
-                    return GestureDetector(
-                      onTap: () {
-                        if (_animationController.status !=
-                            AnimationStatus.forward) {
-                          _animationController.reverse();
-                        }
-          
-                        context.read<TopicsBloc>().add(ChooseSettingsForQuiz(
-                            globalPosition: topicsState.globalPosition,
-                            index: topicsState.index,
-                            localPosition: topicsState.localPosition,
-                            settingsOpen: false));
-                      },
-                      child: Stack(children: [
-                        Consumer<InterfaceDataProvider>(
-                          builder: (BuildContext context, value, Widget? child)=> CustomScrollView(
-                            
-                            controller: _scrollController,
-                            slivers: [
-                              SliverAppBar(
-                                automaticallyImplyLeading: false,
-                                title: Center(
-                                    child: Text(
-                                  ui_lang[value.interfaceLangauge]![
-                                          'home_screen_app_bar']
-                                      .toString(),
+    return SafeArea(
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            primary: false,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+            ),
+            pinned: true,
+            title: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Icon(Icons.format_align_left_sharp,
+                      color: Colors.black),
+                  Container(
+                    width: 150,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          height: 20,
+                          child: Image.network(
+                              'https://img.freepik.com/free-vector/illustration-uk-flag_53876-18166.jpg?w=1800&t=st=1684872263~exp=1684872863~hmac=c8c2de3dad0bedeb9696406b3a212375d6e00dba7bd0c041fba6be49a21374bc'),
+                        ),
+                        Text('English',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(color: Colors.black)),
+                        Container(
+                            height: 20,
+                            alignment: Alignment.bottomCenter,
+                            child: Icon(Icons.keyboard_arrow_down_outlined,
+                                color: Colors.black))
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: CurrentCourseWidget(),
+          ),
+          SliverToBoxAdapter(
+            child: DailyChallangeWidget(),
+          ),
+          SliverToBoxAdapter(
+            child: const SizedBox(
+              height: 30,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(left: 25),
+              child: Text(
+                'Your courses',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: const SizedBox(
+              height: 20,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              height: 170,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 10,
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    context.go('/selected_course');
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(10),
+                    width: 170,
+                    decoration: BoxDecoration(
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(0, 6),
+                            blurRadius: 6.0,
+                          )
+                        ],
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Container(
+                      margin: EdgeInsets.only(left: 20, top: 20),
+                      child: Stack(
+                        children: [
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Spanish",
                                   style: Theme.of(context)
                                       .textTheme
                                       .headlineSmall!
-                                      .copyWith(color: Colors.white),
-                                )),
-                              ),
-                              SliverAppBar(
-                                expandedHeight:10,
-                                flexibleSpace: Center(
-                                  child: Container(
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  height: 40,
-                                                  width: 40,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.blue,
-                                                    image: DecorationImage(
-                                                      fit: BoxFit.fill,
-                                                      image: AssetImage(
-                                                          'assets/${flagWays[userProgressState.currentCourse]}-circular.png'),
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(50),
-                                                  ),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    if (_animationController
-                                                                .status !=
-                                                            AnimationStatus
-                                                                .reverse &&
-                                                        _animationController
-                                                                .status !=
-                                                            AnimationStatus
-                                                                .completed) {
-                                                      _animationController
-                                                          .forward();
-                                                      context
-                                                          .read<UserProgressBloc>()
-                                                          .add(
-                                                              LoadUserSettingsAndCourseInformations());
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                    margin: const EdgeInsets.only(
-                                                        left: 10),
-                                                    child: const Image(
-                                                        width: 15,
-                                                        image: AssetImage(
-                                                            "assets/down-arrow.png")),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            child: TopicScreenTodayStaticstics(
-                                              image: "assets/fire.png",
-                                              label:int.parse(userProgressState.hotStreak),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            child: TopicScreenTodayStaticstics(
-                                              image: "assets/open-book.png",
-                                              label: int.parse(userProgressState.wordsLearnedToday),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                      .copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 1.5),
                                 ),
-                                backgroundColor: Colors.white,
-                                pinned: true,
-                                floating: true,
-                                automaticallyImplyLeading: false,
+                                Text(
+                                  "Begginer",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          letterSpacing: 1.5),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            top: 60,
+                            left: 60,
+                            child: Container(
+                              width: 100,
+                              height: 60,
+                              child: CircularPercentageChart(
+                                progress: 75.0,
+                                progressColor: Colors.white,
+                                backgroundColor: Colors.white54,
+                                strokeWidth: 2.0,
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(color: Colors.white),
+                                optionalWidget: null,
                               ),
-                              TopicGridView()
-                            ],
-                          ),
-                     
-                        ),
-                        utility.quizSettings(
-                            topicsState.selectedTopic,
-                            topicsState.localPosition,
-                            topicsState.globalPosition,
-                            topicsState.index,
-                            topicsState.topics.elementAt(topicsState.index).name,
-                            context,
-                            _scrollController),
-                        if (_animationController.status ==
-                                AnimationStatus.forward ||
-                            _animationController.status ==
-                                AnimationStatus.reverse ||
-                            _animationController.status ==
-                                AnimationStatus.completed)
-                          Container(
-                            color:
-                                Colors.black.withOpacity(barrierAnimation.value),
-                          ),
-                        utility.languageChangeMenu(animation.value),
-                      ]),
-                    );
-                  } else {
-                    return UnexpectedError();
-                  }
-                },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
-          );
-        } else {
-          return LoadingData();
-        }
-      },
+          ),
+        ],
+      ),
     );
   }
 }

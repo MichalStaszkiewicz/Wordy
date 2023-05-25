@@ -9,7 +9,6 @@ import 'package:wordy/presentation/screens/words_learned_screen.dart';
 import 'package:wordy/const/consts.dart';
 
 import '../Bloc/user_progress/user_progress_bloc.dart';
-import '../provider/interface_language_provider.dart';
 
 class ProfileDetails extends StatefulWidget {
   ProfileDetails();
@@ -84,33 +83,28 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Consumer<InterfaceDataProvider>(
-        builder: (context, value, child) => Column(
-          children: [
-            HeaderInProfile(
-              label: ui_lang[value.interfaceLangauge]![
-                      'profile_screen_courses_header']
-                  .toString(),
+      child: Column(
+        children: [
+          HeaderInProfile(
+            label:
+                ui_lang['English']!['profile_screen_courses_header'].toString(),
+          ),
+          UserCourses(),
+          HeaderInProfile(
+            label: ui_lang['English']!['profile_screen_statistics_header']
+                .toString(),
+          ),
+          Container(
+            height: 400,
+            child: GridView.builder(
+              controller: _scrollStatisticsController,
+              itemCount: statItems('English').length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2),
+              itemBuilder: (context, index) => statItems('English')[index],
             ),
-            UserCourses(),
-            HeaderInProfile(
-              label: ui_lang[value.interfaceLangauge]![
-                      'profile_screen_statistics_header']
-                  .toString(),
-            ),
-            Container(
-              height: 400,
-              child: GridView.builder(
-                controller: _scrollStatisticsController,
-                itemCount: statItems(value.interfaceLangauge).length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                itemBuilder: (context, index) =>
-                    statItems(value.interfaceLangauge)[index],
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

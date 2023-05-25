@@ -3,12 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
-import 'package:wordy/presentation/widgets/settings.dart';
-import 'package:wordy/presentation/screens/settings_screen.dart';
-import 'package:wordy/const/consts.dart';
 
-import '../../domain/models/language.dart';
-import '../provider/interface_language_provider.dart';
+import 'package:wordy/const/consts.dart';
 
 class LanguageDialog extends StatelessWidget {
   LanguageDialog({required this.ctx});
@@ -43,30 +39,28 @@ class LanguageDialog extends StatelessWidget {
                         ]),
                     child: Column(
                       children: <Widget>[
-                        Consumer<InterfaceDataProvider>(
-                          builder: (context, value, child) => Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(16.0),
-                            decoration: const BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10.0),
-                                    topRight: Radius.circular(10.0))),
-                            child: Text(
-                              ui_lang[value.interfaceLangauge]![
-                                      'settings_screen_choose_interface_language']
-                                  .toString(),
-                              style: const TextStyle(
-                                  fontSize: 20.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                            ),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(16.0),
+                          decoration: const BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10.0),
+                                  topRight: Radius.circular(10.0))),
+                          child: Text(
+                            ui_lang['English']![
+                                    'settings_screen_choose_interface_language']
+                                .toString(),
+                            style: const TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                         const SizedBox(
                           height: 16.0,
-                        ),/*
+                        ), /*
                         Consumer<InterfaceDataProvider>(
                           builder: (context, value, child) => Expanded(
                             child: ListView.builder(

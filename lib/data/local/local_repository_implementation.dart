@@ -14,7 +14,7 @@ import '../dto/course_dto.dart';
 import '../dto/word_dto.dart';
 import '../network/network_repository_implementation.dart';
 import '../network/remote_source.dart';
-
+/*
 class LocalRepository implements LocalInterface {
   final List<String> _databaseCourseTables = [
     "EnglishToPolish",
@@ -338,3 +338,4 @@ class LocalRepository implements LocalInterface {
   }
   
 }
+*/

@@ -4,9 +4,9 @@ import 'package:wordy/domain/models/word.dart';
 import 'package:wordy/const/consts.dart';
 
 import '../../../domain/logic/vocabulary_logic.dart';
+import '../../../domain/models/flash_card_data.dart';
 import '../../../domain/models/quiz_question.dart';
 import '../../../domain/models/vocabulary.dart';
-import '../../provider/interface_language_provider.dart';
 
 part 'vocabulary_event.dart';
 part 'vocabulary_state.dart';
@@ -57,8 +57,8 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
   void showSpecificVocabularyList() {
     on<ListVocabularyWordsByTopic>((event, emit) async {
       VocabularyLogic vocabLogic = VocabularyLogic();
-      emit(VocabularyWordiesList(
-          questionList: await vocabLogic.getVocabularyByTopic(event.topic)));
+      emit(VocabularyFlashCards(
+          flashCards: await vocabLogic.getVocabularyByTopic(event.topic)));
     });
   }
 }

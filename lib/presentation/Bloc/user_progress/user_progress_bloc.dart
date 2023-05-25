@@ -28,17 +28,12 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
 
   void loadUserSettingsAndCourseInformations() {
     on<LoadUserSettingsAndCourseInformations>((event, emit) async {
-      LocalRepository localRepository = LocalRepository();
+
       String currentCourse = "";
       String nativeLanguage = "";
       String hotStreak = "";
       String wordsLearnedToday = "";
-      await localRepository.getUserData().then((userDate) {
-        currentCourse = userDate['courseName']!;
-        nativeLanguage = userDate['interfaceLanguage']!;
-        hotStreak = userDate['daysStreak']!;
-        wordsLearnedToday = userDate['wordsLearnedToday']!;
-      });
+ 
 
       emit(UserCoursesAndSettingsInformations(
           currentCourse: currentCourse,

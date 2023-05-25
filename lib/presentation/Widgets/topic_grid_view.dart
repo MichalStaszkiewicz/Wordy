@@ -5,35 +5,34 @@ import 'package:wordy/presentation/widgets/topic_item.dart';
 
 import 'loading_data.dart';
 
-
 class TopicGridView extends StatelessWidget {
-TopicGridView();
+  TopicGridView();
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TopicsBloc, TopicsState>(
       builder: (context, state) {
         if (state is TopicsLoaded) {
-          return SliverGrid(
-            
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return TopicItem(
-                  image: state.topics[index].image,
-                  color: Colors.white,
-                  label: state.topics[index].name, index: index,
-                );
-              },
-              childCount: state.topics.length,
+          return Container(
+            child: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return TopicItem(
+                    image: state.topics[index].image,
+                    color: Colors.white,
+                    label: state.topics[index].name,
+                    index: index,
+                  );
+                },
+                childCount: state.topics.length,
+              ),
             ),
           );
         } else {
-          return  SliverToBoxAdapter(
-            child: LoadingData()
-          );
+          return SliverToBoxAdapter(child: LoadingData());
         }
       },
     );

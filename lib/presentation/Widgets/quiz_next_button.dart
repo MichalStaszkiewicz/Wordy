@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/const/consts.dart';
 
-import '../provider/interface_language_provider.dart';
-
 class QuizNextButton extends StatelessWidget {
   QuizNextButton({required this.function});
   Function function;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        function();
-      },
-      child: Consumer<InterfaceDataProvider>(
-        builder: (context, value, child) => Container(
+        onTap: () {
+          function();
+        },
+        child: Container(
           margin: EdgeInsets.only(bottom: 50),
           width: 350,
           decoration: BoxDecoration(
@@ -29,16 +26,12 @@ class QuizNextButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
           child: Center(
-            child: Text(
-                ui_lang[value.interfaceLangauge]!['quiz_next_button']
-                    .toString(),
+            child: Text(ui_lang['English']!['quiz_next_button'].toString(),
                 style: Theme.of(context)
                     .textTheme
                     .headlineSmall!
                     .copyWith(color: Colors.white)),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:wordy/presentation/provider/interface_language_provider.dart';
+
 import 'package:wordy/presentation/widgets/select_language_dialog.dart';
 import 'package:wordy/presentation/widgets/settings_on_off_option.dart';
 import 'package:wordy/const/consts.dart';
@@ -23,20 +23,18 @@ class _SettingsState extends State<Settings> {
         state as SettingsLoaded;
 
         return SingleChildScrollView(
-            child: Consumer<InterfaceDataProvider>(
-          builder: (context, value, child) => Column(
+          child: Column(
             children: [
               const SizedBox(
                 height: 10,
               ),
               SettingsOnOffOption(
                 icon: Icons.dark_mode,
-                title: ui_lang[value.interfaceLangauge]!['theme']
-                        .toString(),
+                title: ui_lang['English']!['theme'].toString(),
                 subtitle:
-                    ui_lang[value.interfaceLangauge]!['settings_screen_theme_description']
+                    ui_lang['English']!['settings_screen_theme_description']
                         .toString(),
-                stateOfSwitch: value.darkMode,
+                stateOfSwitch: true,
               ),
               Container(
                 height: 100,
@@ -69,14 +67,14 @@ class _SettingsState extends State<Settings> {
                               Container(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
-                                    ui_lang[value.interfaceLangauge]![
+                                    ui_lang['English']![
                                             'settings_screen_interface_header']
                                         .toString(),
                                     style:
                                         Theme.of(context).textTheme.titleMedium,
                                   )),
                               Text(
-                                ui_lang[value.interfaceLangauge]![
+                                ui_lang['English']![
                                         'settings_screen_interface_description']
                                     .toString(),
                                 style: Theme.of(context)
@@ -94,7 +92,7 @@ class _SettingsState extends State<Settings> {
               ),
             ],
           ),
-        ));
+        );
       },
     );
   }

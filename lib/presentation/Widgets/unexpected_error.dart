@@ -1,18 +1,15 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:wordy/presentation/provider/interface_language_provider.dart';
+
 import 'package:wordy/const/consts.dart';
 
 class UnexpectedError extends StatelessWidget {
-UnexpectedError();
+  UnexpectedError();
 
   @override
   Widget build(BuildContext context) {
-    return  Consumer<InterfaceDataProvider>(builder: (context,value,child)=>Center(
-        child: Text(ui_lang[value.interfaceLangauge]!['unexpected_error'].toString()),
-      ),
-     
+    return Center(
+      child: Text(ui_lang['English']!['unexpected_error'].toString()),
     );
   }
 }

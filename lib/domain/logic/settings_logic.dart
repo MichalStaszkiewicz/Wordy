@@ -6,7 +6,7 @@ import '../models/language.dart';
 
 class SettingsLogic {
   SettingsLogic();
-  LocalRepository localRepository = LocalRepository();
+
   Repository _repository = Repository();
   Future<List<Language>> getAvailableLanguages() async {
     return await _repository
@@ -24,32 +24,38 @@ class SettingsLogic {
   }
 
   Future<bool> getUserTheme() async {
+    /*
     Map<String, dynamic> userData = await localRepository.getUserData();
     String theme = userData['themeMode']!;
     if (theme == "light") {
       return false;
     } else {
       return true;
-    }
+    }*/
+    return false;
   }
 
   Future<String> getUserInterfaceLanguage() async {
+    /*
     Map<String, dynamic> userData = await localRepository.getUserData();
 
     return userData['interfaceLanguage']!;
+    */
+    return "English";
   }
 
   void updateUserTheme(bool theme) {
+    /*
     String themeMode;
     if (theme == false) {
       themeMode = "light";
     } else {
       themeMode = "dark";
     }
-    localRepository.updateUserProfile('themeMode', themeMode);
+    localRepository.updateUserProfile('themeMode', themeMode);*/
   }
 
   void updateUserInterfaceLanguage(String interfaceLanguage) {
-    localRepository.updateUserProfile("interfaceLanguage", interfaceLanguage);
+    //   localRepository.updateUserProfile("interfaceLanguage", interfaceLanguage);
   }
 }

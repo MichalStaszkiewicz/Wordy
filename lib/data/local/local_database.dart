@@ -1,5 +1,5 @@
 import 'package:sqflite/sqflite.dart';
-
+/*
 class LocalDatabase {
   static final LocalDatabase _instance = LocalDatabase._internal();
   late Database _db;
@@ -22,3 +22,4 @@ class LocalDatabase {
     await _db.close();
   }
 }
+*/

@@ -35,18 +35,18 @@ class _ChoosenTopicVocabularyState extends State<ChoosenTopicVocabulary> {
       ),
       body: BlocBuilder<VocabularyBloc, VocabularyState>(
         builder: (context, state) {
-          if (state is VocabularyWordiesList) {
+          if (state is VocabularyFlashCards) {
             return Container(
               child: GridView.builder(
-                  itemCount: state.questionList.length,
+                  itemCount: state.flashCards.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2),
                   itemBuilder: (context, index) => FlipCards(
                         front: VocabularyFrontCard(
-                          label: state.questionList[index].answer,
+                          label: state.flashCards[index].answer,
                         ),
                         back: VocabularyBackCard(
-                          label: state.questionList[index].question,
+                          label: state.flashCards[index].question,
                         ),
                       )),
             );

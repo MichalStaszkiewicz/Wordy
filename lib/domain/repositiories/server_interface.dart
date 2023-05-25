@@ -4,6 +4,8 @@ import 'package:wordy/domain/models/user.dart';
 
 import '../../data/dto/achievement_dto.dart';
 
+import '../../data/dto/begginer_quiz_word_list_response.dart';
+import '../../data/dto/flash_card_list_response.dart';
 import '../../data/dto/language_response.dart';
 import '../../data/dto/language_list_response.dart';
 import '../../data/dto/login_user_response.dart';
@@ -15,6 +17,9 @@ import '../../data/dto/update_user_interface_language_response.dart';
 import '../../data/dto/user_data_response.dart';
 import '../../data/dto/word_list_response.dart';
 import '../../data/network/request/login_user_request.dart';
+import '../../data/network/request/models/begginer_quiz_request_model.dart';
+import '../../data/network/request/models/flash_card_list_request_model.dart';
+import '../../data/network/request/models/words_by_topic_request_model.dart';
 import '../../data/network/request/register_user_request.dart';
 import '../../data/network/request/update_register_status_request.dart';
 import '../../data/network/request/update_user_current_course_request.dart';
@@ -22,7 +27,7 @@ import '../../data/network/request/update_user_interface_language_request.dart';
 
 abstract class ServerInterface {
   Future<WordListResponse> getAllWords();
-  Future<WordListResponse> getWordsByTopic(Map<String, dynamic> topic);
+  Future<WordListResponse> getWordsByTopic(WordsByTopicModel request);
   Future<WordListResponse> getAllLearnedWords(int userID);
   Future<WordListResponse> getLearnedWordsByTopic(String topic, int userID);
   Future<AchievementListResponse> getAllAchievements();
@@ -41,5 +46,9 @@ abstract class ServerInterface {
       UpdateRegisterStatusRequest request);
   Future<UpdateUserCurrentCourseResponse> updateUserCurrentCourse(
       UpdateUserCurrentCourseRequest request);
+  Future<FlashCardListResponse> createFlashCardList(FlashCardListModel request);
+
+  Future<BegginerQuizWordListResponse> getBegginerQuizWordList(
+      BegginerQuizModel request);
   //Future<int> getWordiesCountByTopic(String topic);
 }

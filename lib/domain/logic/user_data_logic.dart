@@ -27,7 +27,7 @@ import '../models/user.dart';
 class UserDataLogic {
   UserDataLogic();
   final Repository _repository = Repository();
-  final LocalRepository _localRepository = LocalRepository();
+
   final _userInstance = locator.get<User>();
   Future<bool> updateUserRegisterStatus(String userId) async {
     try {
@@ -137,7 +137,7 @@ class UserDataLogic {
   }
 
   Future<void> insertNewAchievementID(String achievementID) async {
-    await _localRepository.insertDataToAchievement(achievementID);
+   // await _localRepository.insertDataToAchievement(achievementID);
   }
 
   Future<List<Achievement>> getNonAchievedAchievements() async {

@@ -8,14 +8,13 @@ import 'package:provider/provider.dart';
 import 'package:wordy/domain/models/word.dart';
 import 'package:wordy/presentation/Bloc/topics/topics_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
-import 'package:wordy/presentation/provider/interface_language_provider.dart';
+
 import 'package:wordy/presentation/widgets/quiz_options.dart';
 
 import '../domain/models/course_entry.dart';
 import '../domain/models/quiz_question.dart';
 import '../presentation/Bloc/user_progress/user_progress_bloc.dart';
-import '../presentation/provider/interface_language_provider.dart';
-import '../presentation/provider/interface_language_provider.dart';
+
 import '../presentation/widgets/language_to_choose.dart';
 import '../presentation/widgets/loading_data.dart';
 import '../const/consts.dart';
@@ -34,8 +33,7 @@ class Utility {
       child: BlocBuilder<UserProgressBloc, UserProgressState>(
         builder: (context, state) {
           if (state is UserCoursesAndSettingsInformations) {
-            return Consumer<InterfaceDataProvider>(
-              builder: (context, value, child) => Container(
+            return Container(
                 height: MediaQuery.of(context).size.height / 2,
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
@@ -49,12 +47,11 @@ class Utility {
                       height: 50,
                       child: Center(
                         child: Text(
-                          ui_lang[value.interfaceLangauge]![
-                              'language_menu_information'],
+                          ui_lang['English']!['language_menu_information'],
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
-                    ),/*
+                    ), /*
                     Container(
                       height: 300,
                       child: ListView.builder(
@@ -82,11 +79,7 @@ class Utility {
                     )
                 */
                   ],
-                  
-                )
-                
-              ),
-            );
+                ));
           } else {
             return LoadingData();
           }
@@ -105,8 +98,6 @@ class Utility {
 
   void languageChangeNotPossibleForUserNativeLangugae(
       BuildContext context, String nativeLanguage, String choosenLanguage) {
-    InterfaceDataProvider provider =
-        Provider.of<InterfaceDataProvider>(context, listen: false);
     AwesomeDialog(
             context: context,
             dialogType: DialogType.warning,
@@ -130,9 +121,10 @@ class Utility {
               context
                   .read<TopicsBloc>()
                   .add(LoadTopics(language: updatedInterfaceLanguage));
-
+/*
               await provider
                   .changeUserInterfaceLanguage(updatedInterfaceLanguage);
+  */
             },
             btnCancelOnPress: () {})
         .show();
@@ -214,7 +206,8 @@ class Utility {
     }
   }
 
-  List<QuizQuestion> createListOfQuestions(List<CourseEntry> words,List<CourseEntry> listOfRandomWords) {
+  List<QuizQuestion> createListOfQuestions(
+      List<CourseEntry> words, List<CourseEntry> listOfRandomWords) {
     List<QuizQuestion> questions = [];
     HashSet<String> usedWords = HashSet<String>();
     for (int i = 0; i < words.length; i++) {
@@ -224,7 +217,8 @@ class Utility {
       }
 
       while (usedWords.length < 4) {
-        var randomWord = listOfRandomWords[random.nextInt(listOfRandomWords.length)].word;
+        var randomWord =
+            listOfRandomWords[random.nextInt(listOfRandomWords.length)].word;
         if (!usedWords.contains(randomWord)) {
           usedWords.add(randomWord);
         }

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/domain/models/achievements_base.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
-import 'package:wordy/presentation/provider/interface_language_provider.dart';
+
 import 'package:wordy/presentation/widgets/achievement_item_back.dart';
 import 'package:wordy/presentation/widgets/flip_cards.dart';
 import 'package:wordy/presentation/widgets/statistics_item.dart';
@@ -35,44 +35,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
         builder: (context, achievementsState) {
           if (achievementsState is AchievedAlready) {
             if (achievementsState.achievements.isEmpty) {
-              return Consumer<InterfaceDataProvider>(
-                builder: (context, value, child) => Scaffold(
-                    floatingActionButton: AchievementDial(
-                      userState: widget.userState,
-                    ),
-                    appBar: AppBar(
-                      title: Container(
-                        padding: const EdgeInsets.only(right: 40),
-                        child: Center(
-                          child: Container(
-                            child: Text(
-                              ui_lang[value.interfaceLangauge]![
-                                  'profile_screen_achievements'],
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall!
-                                  .copyWith(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    body: Center(
-                      child: Container(
-                        child: Text(
-                          ui_lang[value.interfaceLangauge]!['no_achievements'],
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(color: Color(0xFFA2A2A2)),
-                        ),
-                      ),
-                    )),
-              );
-            } else {
-              return Consumer<InterfaceDataProvider>(
-                builder: (context, value, child) => Scaffold(
+              return Scaffold(
                   floatingActionButton: AchievementDial(
                     userState: widget.userState,
                   ),
@@ -82,8 +45,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                       child: Center(
                         child: Container(
                           child: Text(
-                            ui_lang[value.interfaceLangauge]![
-                                'profile_screen_achievements'],
+                            ui_lang['English']!['profile_screen_achievements'],
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineSmall!
@@ -93,117 +55,142 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                       ),
                     ),
                   ),
-                  body: GridView.builder(
-                      itemCount: achievementsState.achievements.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2),
-                      itemBuilder: (context, index) => FlipCards(
-                            back: AchievementItemBack(
-                              description: achievementsState
-                                  .achievements[index].description,
-                              achieved: /*achievementsState
-                                  .achievements[index].achieved*/
-                                  true,
-                            ),
-                            front: AchievementItemFront(
-                              image:
-                                  /* achievementsState.achievements[index].image*/ "",
-                              name: achievementsState.achievements[index].name,
-                              currentProgress: null,
-                              maximum: null,
-                            ),
-                          )),
+                  body: Center(
+                    child: Container(
+                      child: Text(
+                        ui_lang['English']!['no_achievements'],
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(color: Color(0xFFA2A2A2)),
+                      ),
+                    ),
+                  ));
+            } else {
+              Scaffold(
+                floatingActionButton: AchievementDial(
+                  userState: widget.userState,
                 ),
+                appBar: AppBar(
+                  title: Container(
+                    padding: const EdgeInsets.only(right: 40),
+                    child: Center(
+                      child: Container(
+                        child: Text(
+                          ui_lang['English']!['profile_screen_achievements'],
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                body: GridView.builder(
+                    itemCount: achievementsState.achievements.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                    itemBuilder: (context, index) => FlipCards(
+                          back: AchievementItemBack(
+                            description: achievementsState
+                                .achievements[index].description,
+                            achieved: /*achievementsState
+                                  .achievements[index].achieved*/
+                                true,
+                          ),
+                          front: AchievementItemFront(
+                            image:
+                                /* achievementsState.achievements[index].image*/ "",
+                            name: achievementsState.achievements[index].name,
+                            currentProgress: null,
+                            maximum: null,
+                          ),
+                        )),
               );
             }
           }
           if (achievementsState is NotAchievedOnly) {
-            return Consumer<InterfaceDataProvider>(
-              builder: (context, value, child) => Scaffold(
-                floatingActionButton: AchievementDial(
-                  userState: widget.userState,
-                ),
-                appBar: AppBar(
-                  title: Container(
-                    padding: const EdgeInsets.only(right: 40),
-                    child: Center(
-                      child: Container(
-                        child: Text(
-                          ui_lang[value.interfaceLangauge]![
-                              'profile_screen_achievements'],
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(color: Colors.white),
-                        ),
+            return Scaffold(
+              floatingActionButton: AchievementDial(
+                userState: widget.userState,
+              ),
+              appBar: AppBar(
+                title: Container(
+                  padding: const EdgeInsets.only(right: 40),
+                  child: Center(
+                    child: Container(
+                      child: Text(
+                        ui_lang['English']!['profile_screen_achievements'],
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(color: Colors.white),
                       ),
                     ),
                   ),
                 ),
-                body: GridView.builder(
-                    itemCount: achievementsState.achievements.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                    itemBuilder: (context, index) => FlipCards(
-                          back: AchievementItemBack(
-                            achieved: true,
-                            description: achievementsState
-                                .achievements[index].description,
-                          ),
-                          front: AchievementItemFront(
-                            image: '',
-                            name: achievementsState.achievements[index].name,
-                            currentProgress: 0,
-                            maximum: achievementsState.achievements[index].goal,
-                          ),
-                        )),
               ),
+              body: GridView.builder(
+                  itemCount: achievementsState.achievements.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  itemBuilder: (context, index) => FlipCards(
+                        back: AchievementItemBack(
+                          achieved: true,
+                          description:
+                              achievementsState.achievements[index].description,
+                        ),
+                        front: AchievementItemFront(
+                          image: '',
+                          name: achievementsState.achievements[index].name,
+                          currentProgress: 0,
+                          maximum: achievementsState.achievements[index].goal,
+                        ),
+                      )),
             );
           }
           if (achievementsState is AllAchievements) {
-            return Consumer<InterfaceDataProvider>(
-              builder: (context, value, child) => Scaffold(
-                floatingActionButton: AchievementDial(
-                  userState: widget.userState,
-                ),
-                appBar: AppBar(
-                  title: Container(
-                    padding: const EdgeInsets.only(right: 40),
-                    child: Center(
-                      child: Container(
-                        child: Text(
-                          ui_lang[value.interfaceLangauge]![
-                              'profile_screen_achievements'],
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(color: Colors.white),
-                        ),
+            return Scaffold(
+              floatingActionButton: AchievementDial(
+                userState: widget.userState,
+              ),
+              appBar: AppBar(
+                title: Container(
+                  padding: const EdgeInsets.only(right: 40),
+                  child: Center(
+                    child: Container(
+                      child: Text(
+                         ui_lang['English']![
+                            'profile_screen_achievements'],
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(color: Colors.white),
                       ),
                     ),
                   ),
                 ),
-                body: GridView.builder(
-                    itemCount: achievementsState.achievements.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                    itemBuilder: (context, index) => FlipCards(
-                          back: AchievementItemBack(
-                            achieved: true,
-                            description: achievementsState
-                                .achievements[index].description,
-                          ),
-                          front: AchievementItemFront(
-                            image: '',
-                            name: achievementsState.achievements[index].name,
-                            currentProgress: 0,
-                            maximum: achievementsState.achievements[index].goal,
-                          ),
-                        )),
               ),
+              body: GridView.builder(
+                  itemCount: achievementsState.achievements.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  itemBuilder: (context, index) => FlipCards(
+                        back: AchievementItemBack(
+                          achieved: true,
+                          description:
+                              achievementsState.achievements[index].description,
+                        ),
+                        front: AchievementItemFront(
+                          image: '',
+                          name: achievementsState.achievements[index].name,
+                          currentProgress: 0,
+                          maximum: achievementsState.achievements[index].goal,
+                        ),
+                      )),
             );
           } else {
             return LoadingData();

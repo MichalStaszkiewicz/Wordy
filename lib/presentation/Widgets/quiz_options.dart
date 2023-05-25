@@ -9,8 +9,6 @@ import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 import 'package:wordy/const/consts.dart';
 
-import '../provider/interface_language_provider.dart';
-
 class QuizOptions extends StatefulWidget {
   final String title;
 
@@ -42,64 +40,60 @@ class _QuizOptionsState extends State<QuizOptions>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<InterfaceDataProvider>(
-      builder: (context, value, child) => Container(
-        height: 200,
-        width: 200,
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black12,
-              offset: Offset(0, 2),
-              blurRadius: 6.0,
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            AutoSizeText(widget.title,
-                maxLines: 2,
-                maxFontSize: 20,
-                minFontSize: 15,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 20)),
-            const SizedBox(height: 10),
-            MenuButton(
-              label: ui_lang[value.interfaceLangauge]!['quiz_settings_review']
-                  .toString(),
-              function: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => BlocProvider(
-                              create: (context) => QuizBloc()
-                                ..add(LoadQuestionsForReview(
-                                    topic: quizTitles[widget.title]!)),
-                              child: QuizScreen(topic: widget.title),
-                            )));
-              },
-            ),
-            MenuButton(
-              label: ui_lang[value.interfaceLangauge]!['quiz_settings_learn']
-                  .toString(),
-              function: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => BlocProvider(
-                              create: (context) => QuizBloc()
-                                ..add(LoadQuestionsForLearning(
-                                    topic: quizTitles[widget.title]!)),
-                              child: QuizScreen(topic: widget.title),
-                            )));
-              },
-            ),
-          ],
-        ),
+    return Container(
+      height: 200,
+      width: 200,
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            offset: Offset(0, 2),
+            blurRadius: 6.0,
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          AutoSizeText(widget.title,
+              maxLines: 2,
+              maxFontSize: 20,
+              minFontSize: 15,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 20)),
+          const SizedBox(height: 10),
+          MenuButton(
+            label: ui_lang['English']!['quiz_settings_review'].toString(),
+            function: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BlocProvider(
+                            create: (context) => QuizBloc()
+                              ..add(LoadQuestionsForReview(
+                                  topic: quizTitles[widget.title]!)),
+                            child: QuizScreen(topic: widget.title),
+                          )));
+            },
+          ),
+          MenuButton(
+            label: ui_lang['English']!['quiz_settings_learn'].toString(),
+            function: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BlocProvider(
+                            create: (context) => QuizBloc()
+                              ..add(LoadQuestionsForLearning(
+                                  topic: quizTitles[widget.title]!)),
+                            child: QuizScreen(topic: widget.title),
+                          )));
+            },
+          ),
+        ],
       ),
     );
   }

@@ -12,20 +12,18 @@ import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 
 import '../../domain/models/quiz_question.dart';
-import '../provider/interface_language_provider.dart';
 import '../widgets/loading_data.dart';
 import '../widgets/quiz_next_button.dart';
 
 class QuizScreenQuestions extends StatefulWidget {
-  QuizScreenQuestions(
-      {required this.topic,
-      required this.questions,
-      required this.index,
-      required this.deviceSize});
+  QuizScreenQuestions({
+    required this.topic,
+    required this.questions,
+    required this.index,
+  });
   final String topic;
   final List<QuizQuestion> questions;
   final int index;
-  final Size deviceSize;
 
   @override
   State<QuizScreenQuestions> createState() => _QuizScreenQuestionsState();
@@ -36,7 +34,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
   Widget build(BuildContext context) {
     return BlocBuilder<QuizBloc, QuizState>(
       builder: (context, state) {
-        if (state is LearningQuizLoaded) {
+        if (state is BegginerQuizLoaded) {
           return Stack(children: [
             Center(
               child: Column(
@@ -58,33 +56,30 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
                             widget.questions[widget.index].questionOptions,
                       ),
                     ),
-                    Consumer<InterfaceDataProvider>(
-                      builder: (context, value, child) => Expanded(
-                        flex: 2,
-                        child: QuizNextButton(function: () {
-                          if (widget.index == widget.questions.length - 1) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: ((context) => BlocProvider(
-                                      create: (context) => QuizBloc()
-                                        ..add(SessionCompleted(
-                                            words: state.correct,
-                                            topic: widget.topic,
-                                            sessionScore: (state
-                                                        .correct.length /
-                                                    state.questions.length) *
-                                                100)),
-                                      child: QuizFinishScreen(
-                                        correct: state.correct.length,
-                                        maximum: state.questions.length,
-                                        topic: widget.topic,
-                                      ),
-                                    ))));
-                          } else {
-                            context.read<QuizBloc>().add(LoadNextQuestion());
-                          }
-                        }),
-                      ),
-                    )
+                    Expanded(
+                      flex: 2,
+                      child: QuizNextButton(function: () {
+                        if (widget.index == widget.questions.length - 1) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: ((context) => BlocProvider(
+                                    create: (context) => QuizBloc()
+                                      ..add(SessionCompleted(
+                                          words: state.correct,
+                                          topic: widget.topic,
+                                          sessionScore: (state.correct.length /
+                                                  state.questions.length) *
+                                              100)),
+                                    child: QuizFinishScreen(
+                                      correct: state.correct.length,
+                                      maximum: state.questions.length,
+                                      topic: widget.topic,
+                                    ),
+                                  ))));
+                        } else {
+                          context.read<QuizBloc>().add(LoadNextQuestion());
+                        }
+                      }),
+                    ),
                   ]),
             ),
           ]);

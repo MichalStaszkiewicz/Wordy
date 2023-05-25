@@ -1,3 +1,4 @@
+import 'package:wordy/data/dto/begginer_quiz_word_list_response.dart';
 import 'package:wordy/data/dto/language_list_response.dart';
 import 'package:wordy/data/dto/login_user_response.dart';
 import 'package:wordy/data/dto/register_status_response.dart';
@@ -9,6 +10,7 @@ import 'package:wordy/data/network/request/update_user_interface_language_reques
 import '../../data/dto/achievement_dto.dart';
 import '../../data/dto/achievement_list.dart';
 
+import '../../data/dto/flash_card_list_response.dart';
 import '../../data/dto/language_response.dart';
 import '../../data/dto/update_register_status_response.dart';
 import '../../data/dto/update_user_current_course_response.dart';
@@ -16,12 +18,25 @@ import '../../data/dto/user_data_response.dart';
 import '../../data/dto/word_list_response.dart';
 import '../../data/network/remote_source.dart';
 import '../../data/network/request/login_user_request.dart';
+import '../../data/network/request/models/begginer_quiz_request_model.dart';
+import '../../data/network/request/models/flash_card_list_request_model.dart';
+import '../../data/network/request/models/words_by_topic_request_model.dart';
 import '../../data/network/request/update_register_status_request.dart';
 import '../../data/network/request/update_user_current_course_request.dart';
 import '../models/user.dart';
 
 class Repository {
   final RemoteSource _remoteSource = RemoteSource();
+  Future<BegginerQuizWordListResponse> getBegginerQuizWordList(
+      BegginerQuizModel request) async {
+    return await _remoteSource.getBegginerQuizWordList(request);
+  }
+
+  Future<FlashCardListResponse> createFlashCardList(
+      FlashCardListModel request) async {
+    return await _remoteSource.createFlashCardList(request);
+  }
+
   Future<UpdateUserCurrentCourseResponse> updateUserCurrentCourse(
       UpdateUserCurrentCourseRequest request) async {
     return await _remoteSource.updateUserCurrentCourse(request);
@@ -86,7 +101,7 @@ class Repository {
     return await _remoteSource.getLearnedWordsByTopic(topic, userID);
   }
 
-  Future<WordListResponse?> getWordsByTopic(String topic) async {
-    return await _remoteSource.getWordsByTopic({topic: topic});
+  Future<WordListResponse?> getWordsByTopic(WordsByTopicModel request) async {
+    return await _remoteSource.getWordsByTopic(request);
   }
 }
