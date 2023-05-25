@@ -3,10 +3,11 @@ import 'package:dio/src/response.dart';
 import 'package:wordy/const/urls.dart';
 
 import 'package:wordy/data/dto/achievement_list.dart';
-import 'package:wordy/data/dto/begginer_quiz_word_list_response.dart';
+import 'package:wordy/data/dto/beginner_quiz_word_list_response.dart';
 import 'package:wordy/data/dto/flash_card_list_response.dart';
 import 'package:wordy/data/dto/language_response.dart';
 import 'package:wordy/data/dto/language_list_response.dart';
+import 'package:wordy/data/dto/learned_word_list_response.dart';
 import 'package:wordy/data/dto/register_user_response.dart';
 import 'package:wordy/data/dto/update_register_status_response.dart';
 import 'package:wordy/data/dto/update_user_current_course_response.dart';
@@ -226,12 +227,23 @@ class RemoteSource implements ServerInterface {
   }
 
   @override
-  Future<BegginerQuizWordListResponse> getBegginerQuizWordList(
-      BegginerQuizModel request) async {
+  Future<BeginnerQuizWordListResponse> getBeginerQuizWordList(
+      BeginnerQuizModel request) async {
     try {
       var response = await _apiService.get(
-          '/v1/words/quiz/begginer/${request.topic}/${request.interfaceLanguage}/${'polish'}');
-      return BegginerQuizWordListResponse.fromJson(response.data);
+          '/v1/words/quiz/beginner/${request.topic}/${request.interfaceLanguage}/${'polish'}');
+      return BeginnerQuizWordListResponse.fromJson(response.data);
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<LearnedWordListResponse> getLearnedWordList(String userId) async {
+    try {
+      var response = await _apiService.get('/v1/user/learnedWords/$userId');
+
+      return LearnedWordListResponse.fromJson(response.data);
     } on Exception catch (e) {
       rethrow;
     }

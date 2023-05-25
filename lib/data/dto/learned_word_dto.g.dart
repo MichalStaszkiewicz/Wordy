@@ -1,20 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'begginer_quiz_question_word_dto.dart';
+part of 'learned_word_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-BegginerQuizQuestionWordDto _$BegginerQuizQuestionWordDtoFromJson(
-        Map<String, dynamic> json) =>
-    BegginerQuizQuestionWordDto(
-      answer: json['answer'] as String,
+LearnedWordDto _$LearnedWordDtoFromJson(Map<String, dynamic> json) =>
+    LearnedWordDto(
       question: json['question'] as String,
+      answer: json['answer'] as String,
     );
 
-Map<String, dynamic> _$BegginerQuizQuestionWordDtoToJson(
-        BegginerQuizQuestionWordDto instance) =>
+Map<String, dynamic> _$LearnedWordDtoToJson(LearnedWordDto instance) =>
     <String, dynamic>{
       'question': instance.question,
       'answer': instance.answer,

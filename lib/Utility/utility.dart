@@ -205,7 +205,7 @@ class Utility {
       return "Finish";
     }
   }
-
+/*
   List<QuizQuestion> createListOfQuestions(
       List<CourseEntry> words, List<CourseEntry> listOfRandomWords) {
     List<QuizQuestion> questions = [];
@@ -250,6 +250,7 @@ class Utility {
 
     return questions;
   }
+  */
 
   Positioned quizSettings(
       bool show,

@@ -67,31 +67,11 @@ class _QuizOptionsState extends State<QuizOptions>
           const SizedBox(height: 10),
           MenuButton(
             label: ui_lang['English']!['quiz_settings_review'].toString(),
-            function: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => BlocProvider(
-                            create: (context) => QuizBloc()
-                              ..add(LoadQuestionsForReview(
-                                  topic: quizTitles[widget.title]!)),
-                            child: QuizScreen(topic: widget.title),
-                          )));
-            },
+            function: () {},
           ),
           MenuButton(
             label: ui_lang['English']!['quiz_settings_learn'].toString(),
-            function: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => BlocProvider(
-                            create: (context) => QuizBloc()
-                              ..add(LoadQuestionsForLearning(
-                                  topic: quizTitles[widget.title]!)),
-                            child: QuizScreen(topic: widget.title),
-                          )));
-            },
+            function: () {},
           ),
         ],
       ),

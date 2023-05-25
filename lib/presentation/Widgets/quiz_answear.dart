@@ -16,14 +16,15 @@ class QuizAnswear extends StatefulWidget {
 }
 
 class _QuizAnswearState extends State<QuizAnswear> {
-  Color colorCheck(int indicator) {
-    if (indicator == 0) {
-      return Colors.white;
+  Color colorCheck(int? selectedIndex, int correctIndex) {
+    if (selectedIndex != correctIndex && selectedIndex == widget.index) {
+      return Colors.red;
     }
-    if (indicator == 1) {
+    if ((selectedIndex == correctIndex && selectedIndex == widget.index) ||
+        widget.index == correctIndex && selectedIndex != null) {
       return Colors.green;
     } else {
-      return Colors.red;
+      return Colors.white;
     }
   }
 
@@ -31,18 +32,23 @@ class _QuizAnswearState extends State<QuizAnswear> {
   Widget build(BuildContext context) {
     return BlocBuilder<QuizBloc, QuizState>(
       builder: (context, state) {
-        if (state is LearningQuizLoaded) {
+        if (state is BeginnerQuizLoaded) {
           return GestureDetector(
             onTap: () {
-              if (state.selected == false) {
-                context.read<QuizBloc>().add(SelectAnswer(index: widget.index));
+              if (state.selectedIndex == null) {
+                context
+                    .read<QuizBloc>()
+                    .add(SelectAnswer(selectedIndex: widget.index));
               }
             },
             child: Container(
               margin: const EdgeInsets.all(20),
               height: 100,
               decoration: BoxDecoration(
-                color: colorCheck(state.question_answer_state[widget.index]),
+                color: colorCheck(
+                    state.selectedIndex,
+                    state.questions[state.currentQuestionIndex]
+                        .correctAnswerIndex),
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: const [
                   BoxShadow(
@@ -53,47 +59,16 @@ class _QuizAnswearState extends State<QuizAnswear> {
                 ],
               ),
               child: Center(
-                child: AutoSizeText(
-                  widget.answer,
-                  maxLines: 1,
-                  minFontSize: 15,
-                  maxFontSize: 20,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-              ),
-            ),
-          );
-        }
-        if (state is ReviewQuizLoaded) {
-          return GestureDetector(
-            onTap: () {
-              if (state.selected == false) {
-                context.read<QuizBloc>().add(SelectAnswer(index: widget.index));
-              }
-            },
-            child: Container(
-              margin: const EdgeInsets.all(20),
-              height: 100,
-              decoration: BoxDecoration(
-                color: colorCheck(state.question_answer_state[widget.index]),
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(0, 2),
-                    blurRadius: 6.0,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                  child: AutoSizeText(
+                    widget.answer,
+                    maxLines: 1,
+                    minFontSize: 15,
+                    maxFontSize: 20,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
-                ],
-              ),
-              child: Center(
-                child: AutoSizeText(
-                  widget.answer,
-                  maxLines: 1,
-                  minFontSize: 15,
-                  maxFontSize: 20,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
             ),

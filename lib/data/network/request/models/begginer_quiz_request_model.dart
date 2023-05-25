@@ -1,5 +1,5 @@
-class BegginerQuizModel {
-  BegginerQuizModel(
+class BeginnerQuizModel {
+  BeginnerQuizModel(
       {required this.topic,
       required this.interfaceLanguage,
       required this.course});

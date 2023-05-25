@@ -14,6 +14,7 @@ class CurrentCourseWidget extends StatelessWidget {
     return Container(
         height: 230,
         width: 380,
+        margin: EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
             color: Colors.orangeAccent,
             boxShadow: const [

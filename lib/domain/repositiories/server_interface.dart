@@ -4,10 +4,11 @@ import 'package:wordy/domain/models/user.dart';
 
 import '../../data/dto/achievement_dto.dart';
 
-import '../../data/dto/begginer_quiz_word_list_response.dart';
+import '../../data/dto/beginner_quiz_word_list_response.dart';
 import '../../data/dto/flash_card_list_response.dart';
 import '../../data/dto/language_response.dart';
 import '../../data/dto/language_list_response.dart';
+import '../../data/dto/learned_word_list_response.dart';
 import '../../data/dto/login_user_response.dart';
 import '../../data/dto/register_status_response.dart';
 import '../../data/dto/register_user_response.dart';
@@ -48,7 +49,8 @@ abstract class ServerInterface {
       UpdateUserCurrentCourseRequest request);
   Future<FlashCardListResponse> createFlashCardList(FlashCardListModel request);
 
-  Future<BegginerQuizWordListResponse> getBegginerQuizWordList(
-      BegginerQuizModel request);
+  Future<BeginnerQuizWordListResponse> getBeginerQuizWordList(
+      BeginnerQuizModel request);
+  Future<LearnedWordListResponse> getLearnedWordList(String userId);
   //Future<int> getWordiesCountByTopic(String topic);
 }

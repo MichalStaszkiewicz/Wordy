@@ -7,43 +7,20 @@ abstract class QuizEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadQuestionsForLearning extends QuizEvent {
-  LoadQuestionsForLearning({required this.topic});
-
-  final String topic;
-  @override
-  List<Object> get props => [topic];
-}
-
-class LoadQuestionsForReview extends QuizEvent {
-  LoadQuestionsForReview({required this.topic});
-
-  final String topic;
-  @override
-  List<Object> get props => [topic];
-}
-
-class SessionCompleted extends QuizEvent {
-  SessionCompleted({required this.words,required this.topic,required this.sessionScore});
-  List<CourseEntry> words;
+class LoadBeginnerQuiz extends QuizEvent {
+  LoadBeginnerQuiz({required this.topic});
   String topic;
-  double sessionScore;
-  @override
-  List<Object> get props => [words,topic,sessionScore];
 }
-class ReviewCompleted extends QuizEvent{
-  ReviewCompleted({required this.words,required this.topic});
-  List<CourseEntry> words;
-  String topic;
-  @override
-  List<Object> get props => [words,topic];
-}
-class SelectAnswer extends QuizEvent{
-SelectAnswer({required this.index});
-int index;
 
-
-}
 class LoadNextQuestion extends QuizEvent {
   LoadNextQuestion();
+}
+
+class SelectAnswer extends QuizEvent {
+  SelectAnswer({required this.selectedIndex});
+  int selectedIndex;
+}
+
+class FinishQuiz extends QuizEvent {
+  FinishQuiz();
 }

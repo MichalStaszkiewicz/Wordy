@@ -31,37 +31,38 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Container(
-            padding: const EdgeInsets.only(right: 20),
-            child: Center(
-              child: Text(widget.topic,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall!
-                      .copyWith(color: Colors.white)),
+    return BlocProvider(
+      create: (context) =>
+          QuizBloc()..add(LoadBeginnerQuiz(topic: widget.topic)),
+      child: WillPopScope(
+        onWillPop: _onWillPop,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Container(
+              padding: const EdgeInsets.only(right: 20),
+              child: Center(
+                child: Text(widget.topic,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(color: Colors.white)),
+              ),
             ),
           ),
-        ),
-        body: Container(
-          child: BlocBuilder<QuizBloc, QuizState>(
-            builder: (context, state) {
-              if (state is QuizInitial) {
-                return LoadingData();
-              } else if (state is BegginerQuizLoaded) {
-                return QuizScreenQuestions(
-                  questions: state.questions,
-                  index: state.index,
-                  topic: widget.topic,
-             
-                );
-              } else {
-                return UnexpectedError();
-              }
-            },
+          body: Container(
+            child: BlocBuilder<QuizBloc, QuizState>(
+              builder: (context, state) {
+                if (state is InProgress || state is QuizInitial) {
+                  return LoadingData();
+                } else if (state is BeginnerQuizLoaded) {
+                  return QuizScreenQuestions(
+                    topic: widget.topic,
+                  );
+                } else {
+                  return UnexpectedError();
+                }
+              },
+            ),
           ),
         ),
       ),

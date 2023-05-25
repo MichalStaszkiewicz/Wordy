@@ -1,4 +1,4 @@
-import 'package:wordy/data/dto/begginer_quiz_word_list_response.dart';
+import 'package:wordy/data/dto/beginner_quiz_word_list_response.dart';
 import 'package:wordy/data/dto/language_list_response.dart';
 import 'package:wordy/data/dto/login_user_response.dart';
 import 'package:wordy/data/dto/register_status_response.dart';
@@ -12,6 +12,7 @@ import '../../data/dto/achievement_list.dart';
 
 import '../../data/dto/flash_card_list_response.dart';
 import '../../data/dto/language_response.dart';
+import '../../data/dto/learned_word_list_response.dart';
 import '../../data/dto/update_register_status_response.dart';
 import '../../data/dto/update_user_current_course_response.dart';
 import '../../data/dto/user_data_response.dart';
@@ -27,9 +28,13 @@ import '../models/user.dart';
 
 class Repository {
   final RemoteSource _remoteSource = RemoteSource();
-  Future<BegginerQuizWordListResponse> getBegginerQuizWordList(
-      BegginerQuizModel request) async {
-    return await _remoteSource.getBegginerQuizWordList(request);
+  Future<LearnedWordListResponse> getLearnedWordList(String userId) async {
+    return await _remoteSource.getLearnedWordList(userId);
+  }
+
+  Future<BeginnerQuizWordListResponse> getBeginnerQuizWordList(
+      BeginnerQuizModel request) async {
+    return await _remoteSource.getBeginerQuizWordList(request);
   }
 
   Future<FlashCardListResponse> createFlashCardList(
