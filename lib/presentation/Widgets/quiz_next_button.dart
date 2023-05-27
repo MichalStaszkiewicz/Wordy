@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/const/consts.dart';
 
-class QuizNextButton extends StatelessWidget {
-  QuizNextButton({required this.function});
+class QuizButton extends StatelessWidget {
+  QuizButton(
+      {required this.function,
+      required this.height,
+      required this.width,
+      required this.margin,
+      required this.label});
   Function function;
+  double height;
+  double width;
+  String label;
+  EdgeInsets margin;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -12,8 +21,9 @@ class QuizNextButton extends StatelessWidget {
           function();
         },
         child: Container(
-          margin: EdgeInsets.only(bottom: 50),
-          width: 350,
+          margin: margin,
+          width: width,
+          height: height,
           decoration: BoxDecoration(
             color: Colors.blueAccent,
             boxShadow: [
@@ -23,10 +33,10 @@ class QuizNextButton extends StatelessWidget {
                 blurRadius: 6.0,
               ),
             ],
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(5),
           ),
           child: Center(
-            child: Text(ui_lang['English']!['quiz_next_button'].toString(),
+            child: Text(label,
                 style: Theme.of(context)
                     .textTheme
                     .headlineSmall!

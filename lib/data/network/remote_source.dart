@@ -17,6 +17,7 @@ import 'package:wordy/data/network/api_service.dart';
 import 'package:wordy/data/network/request/login_user_request.dart';
 import 'package:wordy/data/network/request/models/begginer_quiz_request_model.dart';
 import 'package:wordy/data/network/request/models/flash_card_list_request_model.dart';
+import 'package:wordy/data/network/request/models/insert_learned_words.request.model.dart';
 import 'package:wordy/data/network/request/models/words_by_topic_request_model.dart';
 import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/data/network/request/update_register_status_request.dart';
@@ -241,9 +242,19 @@ class RemoteSource implements ServerInterface {
   @override
   Future<LearnedWordListResponse> getLearnedWordList(String userId) async {
     try {
-      var response = await _apiService.get('/v1/user/learnedWords/$userId');
-
+      var response = await _apiService.get('/v1/user/learnedWords/$userId/get');
+      print(response.data);
       return LearnedWordListResponse.fromJson(response.data);
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> insertLearnedWordList(InsertLearnedWordsModel request) async {
+    try {
+      await _apiService.post("/v1/user/learnedWords/insert",
+          payload: request.toMap());
     } on Exception catch (e) {
       rethrow;
     }

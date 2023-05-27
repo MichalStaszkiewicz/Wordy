@@ -11,11 +11,13 @@ BeginnerQuizQuestionDto _$BeginnerQuizQuestionDtoFromJson(
     BeginnerQuizQuestionDto(
       answer: json['answer'] as String,
       question: json['question'] as String,
+      wordId: json['wordId'] as int,
     );
 
 Map<String, dynamic> _$BeginnerQuizQuestionDtoToJson(
         BeginnerQuizQuestionDto instance) =>
     <String, dynamic>{
+      'wordId': instance.wordId,
       'question': instance.question,
       'answer': instance.answer,
     };

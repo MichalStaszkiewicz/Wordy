@@ -18,12 +18,15 @@ class AppRouter {
   static Widget _quizScreenCompletedRouteBuilder(
           BuildContext context, GoRouterState state) =>
       QuizFinishScreen(
-          topic: state.queryParameters['topic']!,
-          correct: int.parse(state.queryParameters['correct']!),
-          maximum: int.parse(state.queryParameters['maximum']!));
+        topic: state.queryParameters['topic']!,
+        correctAnswers: int.parse(state.queryParameters['correctAnswers']!),
+        maximumPoints: int.parse(state.queryParameters['maximumPoints']!),
+      );
   static Widget _quizScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
-      QuizScreen(topic: state.queryParameters['topic']!);
+      QuizScreen(
+        topic: state.queryParameters['topic']!,
+      );
   static Widget _selectedCourseScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
       SelectedCourseScreen();

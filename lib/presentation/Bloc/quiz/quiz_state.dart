@@ -19,14 +19,23 @@ class BeginnerQuizLoaded extends QuizState {
   BeginnerQuizLoaded(
       {required this.questions,
       required this.currentQuestionIndex,
-      required this.selectedIndex});
+      required this.selectedIndex,
+      required this.correctAnswersWordIndexes});
   List<BeginnerQuestion> questions;
   int currentQuestionIndex;
   int? selectedIndex;
+  List<int> correctAnswersWordIndexes;
   @override
-  List<Object?> get props => [questions, currentQuestionIndex, selectedIndex];
+  List<Object?> get props => [
+        questions,
+        currentQuestionIndex,
+        selectedIndex,
+        correctAnswersWordIndexes
+      ];
 }
 
 class QuizCompleted extends QuizState {
-  QuizCompleted();
+  QuizCompleted({required this.correctAnswers, required this.maximumPoints});
+  int maximumPoints;
+  int correctAnswers;
 }

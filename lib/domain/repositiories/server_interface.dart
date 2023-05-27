@@ -20,6 +20,7 @@ import '../../data/dto/word_list_response.dart';
 import '../../data/network/request/login_user_request.dart';
 import '../../data/network/request/models/begginer_quiz_request_model.dart';
 import '../../data/network/request/models/flash_card_list_request_model.dart';
+import '../../data/network/request/models/insert_learned_words.request.model.dart';
 import '../../data/network/request/models/words_by_topic_request_model.dart';
 import '../../data/network/request/register_user_request.dart';
 import '../../data/network/request/update_register_status_request.dart';
@@ -52,5 +53,7 @@ abstract class ServerInterface {
   Future<BeginnerQuizWordListResponse> getBeginerQuizWordList(
       BeginnerQuizModel request);
   Future<LearnedWordListResponse> getLearnedWordList(String userId);
+  Future<void> insertLearnedWordList(InsertLearnedWordsModel request);
+
   //Future<int> getWordiesCountByTopic(String topic);
 }

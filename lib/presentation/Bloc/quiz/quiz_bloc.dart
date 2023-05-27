@@ -35,17 +35,26 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       List<BeginnerQuestion> questions =
           await quizLogic.createBeginnerQuiz(event.topic);
       emit(BeginnerQuizLoaded(
-          questions: questions, currentQuestionIndex: 0, selectedIndex: null));
+          questions: questions,
+          currentQuestionIndex: 0,
+          selectedIndex: null,
+          correctAnswersWordIndexes: []));
     });
   }
 
   void selectAnswer() {
     on<SelectAnswer>((event, emit) {
       final state = this.state as BeginnerQuizLoaded;
+      List<int> correctIndexes = state.correctAnswersWordIndexes;
+      if (state.questions[state.currentQuestionIndex].correctAnswerIndex ==
+          event.selectedIndex) {
+        correctIndexes.add(state.questions[state.currentQuestionIndex].wordId);
+      }
       emit(BeginnerQuizLoaded(
           questions: state.questions,
           currentQuestionIndex: state.currentQuestionIndex,
-          selectedIndex: event.selectedIndex));
+          selectedIndex: event.selectedIndex,
+          correctAnswersWordIndexes: correctIndexes));
     });
   }
 
@@ -55,13 +64,16 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       emit(BeginnerQuizLoaded(
           questions: state.questions,
           currentQuestionIndex: state.currentQuestionIndex + 1,
+          correctAnswersWordIndexes: state.correctAnswersWordIndexes,
           selectedIndex: null));
     });
   }
 
   void finishQuiz() {
-    on<FinishQuiz>((event, emit) {
-      emit(QuizCompleted());
+    on<FinishQuiz>((event, emit) async {
+      QuizLogic quizLogic = QuizLogic();
+
+      await quizLogic.insertLearnedWords(event.wordIds);
     });
   }
 }

@@ -4,6 +4,7 @@ import 'package:wordy/data/dto/login_user_response.dart';
 import 'package:wordy/data/dto/register_status_response.dart';
 import 'package:wordy/data/dto/register_user_response.dart';
 import 'package:wordy/data/dto/update_user_interface_language_response.dart';
+import 'package:wordy/data/network/request/models/insert_learned_words.request.model.dart';
 import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/data/network/request/update_user_interface_language_request.dart';
 
@@ -24,10 +25,16 @@ import '../../data/network/request/models/flash_card_list_request_model.dart';
 import '../../data/network/request/models/words_by_topic_request_model.dart';
 import '../../data/network/request/update_register_status_request.dart';
 import '../../data/network/request/update_user_current_course_request.dart';
+import '../models/learned_word.dart';
 import '../models/user.dart';
 
 class Repository {
   final RemoteSource _remoteSource = RemoteSource();
+  Future<void> insertLearnedWordList(String userId, List<int> wordIds) async {
+    return await _remoteSource.insertLearnedWordList(
+        InsertLearnedWordsModel(userId: userId, wordIdList: wordIds));
+  }
+
   Future<LearnedWordListResponse> getLearnedWordList(String userId) async {
     return await _remoteSource.getLearnedWordList(userId);
   }

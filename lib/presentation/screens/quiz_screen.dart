@@ -37,18 +37,6 @@ class _QuizScreenState extends State<QuizScreen> {
       child: WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(
-          appBar: AppBar(
-            title: Container(
-              padding: const EdgeInsets.only(right: 20),
-              child: Center(
-                child: Text(widget.topic,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall!
-                        .copyWith(color: Colors.white)),
-              ),
-            ),
-          ),
           body: Container(
             child: BlocBuilder<QuizBloc, QuizState>(
               builder: (context, state) {

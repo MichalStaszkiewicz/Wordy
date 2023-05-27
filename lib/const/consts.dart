@@ -7,8 +7,6 @@ import '../domain/models/achievements_base.dart';
 import '../domain/models/course_profile.dart';
 import '../domain/models/language.dart';
 
-
-
 final ColorScheme colorScheme = ColorScheme.fromSwatch(
   primarySwatch: Colors.blue,
   accentColor: Colors.green,
@@ -62,7 +60,6 @@ Map<String, String> flagWays = {
   "English": "united-kingdom"
 };
 
-
 Map<String, Map<String, dynamic>> ui_lang = {
   "Polish": {
     "theme": "Motyw",
@@ -102,7 +99,7 @@ Map<String, Map<String, dynamic>> ui_lang = {
         "Czy na pewno chcesz wyjść? Jeśli tak, utracisz postęp.",
     "dialog_yes": "Tak",
     "dialog_no": "Nie",
-    "quiz_next_button": "Dalej",
+    "quiz_next_button": "Następne pytanie",
     "quiz_finish_header": "Podsumowanie",
     "quiz_finish_your_score": "Wynik",
     "quiz_finish_percentage": "Procent poprawnych odpowiedzi:",
@@ -149,7 +146,7 @@ Map<String, Map<String, dynamic>> ui_lang = {
         "Are you sure you want to exit? If so, you will lose progress.",
     "dialog_yes": "Yes",
     "dialog_no": "No",
-    "quiz_next_button": "Next",
+    "quiz_next_button": "Next Question",
     "quiz_finish_header": "Summary",
     "quiz_finish_your_score": "Your Score",
     "quiz_finish_percentage": "Percentage of the correct answers",

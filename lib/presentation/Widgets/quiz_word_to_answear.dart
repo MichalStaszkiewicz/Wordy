@@ -7,6 +7,7 @@ class QuizWordToAnswear extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 200,
       width: 200,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -21,7 +22,7 @@ class QuizWordToAnswear extends StatelessWidget {
       ),
       child: Center(
         child: Container(
-          margin: const EdgeInsets.only(left: 5,right: 5),
+          margin: const EdgeInsets.only(left: 5, right: 5),
           child: AutoSizeText(
             word,
             maxLines: 1,

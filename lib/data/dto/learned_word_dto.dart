@@ -5,7 +5,10 @@ part 'learned_word_dto.g.dart';
 
 @JsonSerializable()
 class LearnedWordDto {
-  LearnedWordDto({required this.question, required this.answer});
+  LearnedWordDto(
+      {required this.question, required this.answer, required this.wordId});
+
+  int wordId;
   String question;
   String answer;
 
@@ -13,6 +16,6 @@ class LearnedWordDto {
       _$LearnedWordDtoFromJson(json);
 
   LearnedWord toDomain() {
-    return LearnedWord(question: question, answer: answer);
+    return LearnedWord(question: question, answer: answer, wordId: wordId);
   }
 }

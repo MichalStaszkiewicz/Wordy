@@ -23,10 +23,22 @@ import '../models/word.dart';
 class QuizLogic {
   Repository _repository = Repository();
   final _user = locator<User>();
+
+  Future<void> insertLearnedWords(List<int> wordIds) async {
+    try {
+      final user = locator<User>();
+
+      await _repository.insertLearnedWordList(user.uuid!, wordIds);
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<BeginnerQuestion>> createBeginnerQuiz(String topic) async {
     List<LearnedWord> learnedWords = await _repository
         .getLearnedWordList(_user.uuid!)
         .then((value) => value.learnedWords.map((e) => e.toDomain()).toList());
+
     List<BeginnerQuizQuestion> questions = await _repository
         .getBeginnerQuizWordList(BeginnerQuizModel(
             topic: topic,
@@ -38,11 +50,14 @@ class QuizLogic {
     List<BeginnerQuestion> quizQuestions = [];
     List<BeginnerQuizQuestion> filteredQuestions = [];
     for (BeginnerQuizQuestion question in questions) {
-      if (!learnedWords.contains(
-          LearnedWord(question: question.question, answer: question.answer))) {
+      if (!learnedWords.contains(LearnedWord(
+          question: question.question,
+          answer: question.answer,
+          wordId: question.wordId))) {
         filteredQuestions.add(question);
       }
     }
+
     for (BeginnerQuizQuestion question in questions) {
       possibleAnswers.add(question.answer);
     }
@@ -78,17 +93,19 @@ class QuizLogic {
           quizQuestions.add(BeginnerQuestion(
               filteredQuestions[randomQuestionIndex].question,
               answers,
-              correctAnswerIndex));
+              correctAnswerIndex,
+              filteredQuestions[randomQuestionIndex].wordId));
         }
       }
     } else {
+      print('Executed' + filteredQuestions.length.toString());
       for (int i = 0; i < filteredQuestions.length; i++) {
         BeginnerQuizQuestion question = filteredQuestions[i];
         List<String> answers = [];
 
         while (answers.length < 4) {
-          int randomAnswerIndex = Random().nextInt(filteredQuestions.length);
-          String randomAnswer = filteredQuestions[randomAnswerIndex].answer;
+          int randomAnswerIndex = Random().nextInt(questions.length);
+          String randomAnswer = questions[randomAnswerIndex].answer;
           if (!answers.contains(randomAnswer)) {
             answers.add(randomAnswer);
           }
@@ -103,7 +120,8 @@ class QuizLogic {
         }
 
         quizQuestions.add(
-          BeginnerQuestion(question.question, answers, correctAnswerIndex),
+          BeginnerQuestion(
+              question.question, answers, correctAnswerIndex, question.wordId),
         );
       }
     }

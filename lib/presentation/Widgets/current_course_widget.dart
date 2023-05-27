@@ -16,7 +16,11 @@ class CurrentCourseWidget extends StatelessWidget {
         width: 380,
         margin: EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
-            color: Colors.orangeAccent,
+            gradient: LinearGradient(
+              colors: [Colors.blue, Colors.purple],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
             boxShadow: const [
               BoxShadow(
                 color: Colors.black12,
