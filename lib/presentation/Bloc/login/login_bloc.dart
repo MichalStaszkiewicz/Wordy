@@ -26,10 +26,14 @@ class LoginBloc extends Bloc<AuthFormEvent, LoginState> {
             LoginUserModel(email: event.email, password: event.password));
 
         print("Authentication success");
-        print("Register status: ${userInstance.registrationStatus}");
-        print("Logging user with id: ${userInstance.uuid}");
-        emit(Authenticated(registerCompleted: userInstance.registrationStatus));
+        print("Register status: ${userInstance.registersationStatus}");
+        print("Logging user with id: ${userInstance.id}");
+
+        emit(Authenticated(
+            registerCompleted:
+                userInstance.registersationStatus!.registerationCompleted));
       } on Exception catch (e) {
+        print(e);
         emit(LoginError(exception: e));
       }
     });

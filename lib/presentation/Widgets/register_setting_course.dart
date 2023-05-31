@@ -15,7 +15,7 @@ import 'package:wordy/presentation/widgets/register_course_list.dart';
 import 'package:wordy/presentation/widgets/unexpected_error.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 
-import '../../domain/models/language.dart';
+import '../../domain/models/interface_language.dart';
 import '../../domain/repositiories/repository.dart';
 import '../bloc/register/register_bloc.dart';
 
@@ -29,7 +29,7 @@ class RegisterSettingCourse extends StatefulWidget {
 class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Language>>(
+    return FutureBuilder<List<InterfaceLanguage>>(
         future: RepositoryProvider.of<SettingsLogic>(context)
             .getAvailableLanguages(),
         builder: (context, snapshot) {
@@ -57,8 +57,8 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                         if (state.languageToLearn != '') {
                           context.read<RegisterBloc>().add(FinishInitialSetup(
                               currentCourse: state.languageToLearn));
-                        }else{
-                           DialogManager.showInformationDialog(
+                        } else {
+                          DialogManager.showInformationDialog(
                               'You have to select your language you want to learn',
                               'woops',
                               context);

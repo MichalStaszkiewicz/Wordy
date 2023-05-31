@@ -38,13 +38,14 @@ class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
       body: BlocBuilder<UserProgressBloc, UserProgressState>(
         builder: (context, state) {
           if (state is UserLearnedWordsLoaded) {
-            return StatisticsList(
+            return Container(); /*
+            StatisticsList(
               image: 'assets/poland.png',
               label: 'Polish',
               navigation: WordsLearnedChoosenLanguage(
                 choosenLanguage: 'Polish',
               ),
-            );
+            );*/
           } else {
             return LoadingData();
           }

@@ -6,7 +6,7 @@ import 'package:wordy/domain/logic/settings_logic.dart';
 import '../../../data/network/request/models/update_user_current_course_request_model.dart';
 import '../../../data/network/request/models/update_user_interface_language_request_model.dart';
 import '../../../domain/logic/user_data_logic.dart';
-import '../../../domain/models/language.dart';
+
 import '../../../domain/models/user.dart';
 import '../../../localizator.dart';
 
@@ -30,10 +30,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
         final userInstance = locator.get<User>();
 
-        userInstance.currentCourse = await userLogic.updateUserCurrentCourse(
-            UpdateUserCurrentCourseModel(
-                courseName: event.currentCourse, userId: userInstance.uuid!));
-        await userLogic.updateUserRegisterStatus(userInstance.uuid!);
+        userInstance.profile!.course!.course = await userLogic
+            .updateUserCurrentCourse(UpdateUserCurrentCourseModel(
+                courseName: event.currentCourse, userId: userInstance.id!));
+        await userLogic.updateUserRegisterStatus(userInstance.id!);
 
         emit(InitialSetupDone());
       } on Exception catch (e) {
@@ -50,11 +50,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         if (event.choosenLanguage.toLowerCase() == 'polish') {
           await userLogic.updateUserInterfaceLanguage(
               UpdateUserInterfaceLanguageModel(
-                  userId: userInstance.uuid!, languageName: "english"));
+                  userId: userInstance.id!, languageName: "english"));
         } else {
           await userLogic.updateUserInterfaceLanguage(
               UpdateUserInterfaceLanguageModel(
-                  userId: userInstance.uuid!, languageName: "polish"));
+                  userId: userInstance.id!, languageName: "polish"));
         }
 
         emit(InitialSetupState(
@@ -81,7 +81,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       if (state is InitialSetupState) {
         final state = this.state as InitialSetupState;
 
-        if (event.languageToLearn == userInstance.interfaceLanguage) {
+        if (event.languageToLearn == userInstance.userSettings!.language.name) {
           emit(RegisterLanguageChangeInfo(
               message:
                   'Choosing this language will change your interface language.',

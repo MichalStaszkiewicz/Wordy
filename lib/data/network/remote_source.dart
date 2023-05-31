@@ -5,13 +5,14 @@ import 'package:wordy/const/urls.dart';
 import 'package:wordy/data/dto/achievement_list.dart';
 import 'package:wordy/data/dto/beginner_quiz_word_list_response.dart';
 import 'package:wordy/data/dto/flash_card_list_response.dart';
-import 'package:wordy/data/dto/language_response.dart';
+import 'package:wordy/data/dto/interface_language_response.dart';
 import 'package:wordy/data/dto/language_list_response.dart';
 import 'package:wordy/data/dto/learned_word_list_response.dart';
 import 'package:wordy/data/dto/register_user_response.dart';
 import 'package:wordy/data/dto/update_register_status_response.dart';
 import 'package:wordy/data/dto/update_user_current_course_response.dart';
 import 'package:wordy/data/dto/update_user_interface_language_response.dart';
+import 'package:wordy/data/dto/user_settings_response.dart';
 import 'package:wordy/data/dto/word_list_response.dart';
 import 'package:wordy/data/network/api_service.dart';
 import 'package:wordy/data/network/request/login_user_request.dart';
@@ -23,13 +24,14 @@ import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/data/network/request/update_register_status_request.dart';
 import 'package:wordy/data/network/request/update_user_current_course_request.dart';
 import 'package:wordy/data/network/request/update_user_interface_language_request.dart';
+import 'package:wordy/data/network/request/user_settings_request.dart';
 import 'package:wordy/domain/repositiories/server_interface.dart';
 
 import '../dto/achievement_dto.dart';
 import '../dto/login_user_response.dart';
 
-import '../dto/register_status_response.dart';
-import '../dto/user_data_response.dart';
+import '../dto/registeration_response.dart';
+import '../dto/user_response.dart';
 
 class RemoteSource implements ServerInterface {
   RemoteSource();
@@ -134,15 +136,12 @@ class RemoteSource implements ServerInterface {
   }
 
   @override
-  Future<RegisterStatusResponse> registerationStatus(String userId) async {
+  Future<RegisterationResponse> registerationStatus(String userId) async {
     try {
       var response =
           await _apiService.get('/v1/user/info/{$userId}/registerStatus');
 
-      UserDataResponse userData =
-          UserDataResponse.fromJson(response.data['user']);
-
-      return RegisterStatusResponse.fromJson(response.data);
+      return RegisterationResponse.fromJson(response.data);
     } on Exception catch (e) {
       rethrow;
     }
@@ -159,20 +158,21 @@ class RemoteSource implements ServerInterface {
   }
 
   @override
-  Future<LanguageResponse> getUserInterfaceLanguage(String userId) async {
+  Future<InterfaceLanguageResponse> getUserInterfaceLanguage(
+      String userId) async {
     try {
       var response = await _apiService.get('/v1/user/info/{$userId}');
-      return LanguageResponse.fromJson(response.data);
+      return InterfaceLanguageResponse.fromJson(response.data);
     } on Exception catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<UserDataResponse> getUserData(String userId) async {
+  Future<UserResponse> getUserData(String userId) async {
     try {
       var response = await _apiService.get('/v1/user/info/{$userId}');
-      return UserDataResponse.fromJson(response.data['user']);
+      return UserResponse.fromJson(response.data['user']);
     } on Exception catch (e) {
       rethrow;
     }
@@ -255,6 +255,18 @@ class RemoteSource implements ServerInterface {
     try {
       await _apiService.post("/v1/user/learnedWords/insert",
           payload: request.toMap());
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UserSettingsResponse> getUserSettings(
+      UserSettingsRequest request) async {
+    try {
+      var response =
+          await _apiService.get('/v1/user/settings/${request.userId}/get');
+      return UserSettingsResponse.fromJson(response.data['userSettings']);
     } on Exception catch (e) {
       rethrow;
     }

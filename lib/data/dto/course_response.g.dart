@@ -1,21 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'language_response.dart';
+part of 'course_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-LanguageResponse _$LanguageResponseFromJson(Map<String, dynamic> json) =>
-    LanguageResponse(
+CourseResponse _$CourseResponseFromJson(Map<String, dynamic> json) =>
+    CourseResponse(
+      id: json['id'] as int,
       name: json['name'] as String,
       image: json['image'] as String,
-      id: json['id'] as int,
     );
 
-Map<String, dynamic> _$LanguageResponseToJson(LanguageResponse instance) =>
+Map<String, dynamic> _$CourseResponseToJson(CourseResponse instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'image': instance.image,
-      'id': instance.id,
     };

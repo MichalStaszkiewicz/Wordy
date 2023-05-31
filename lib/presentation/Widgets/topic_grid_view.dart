@@ -21,10 +21,10 @@ class TopicGridView extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   return TopicItem(
-                    image: state.topics[index].image,
                     color: Colors.white,
                     label: state.topics[index].name,
                     index: index,
+                    image: '',
                   );
                 },
                 childCount: state.topics.length,

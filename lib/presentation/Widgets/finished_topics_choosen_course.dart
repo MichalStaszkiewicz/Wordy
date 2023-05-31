@@ -4,7 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:wordy/presentation/widgets/statistics_list.dart';
 
 class FinishedTopicsChoosenCourse extends StatefulWidget {
-   FinishedTopicsChoosenCourse({super.key, required this.choosenLanguage});
+  FinishedTopicsChoosenCourse({super.key, required this.choosenLanguage});
   String choosenLanguage;
 
   @override
@@ -17,23 +17,25 @@ class _FinishedTopicsChoosenCourseState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Container(
-          padding: const EdgeInsets.only(right: 40),
-          child: Center(
-            child: Text("Finished Topics - ${widget.choosenLanguage}",
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall!
-                    .copyWith(color: Colors.white)),
+        appBar: AppBar(
+          title: Container(
+            padding: const EdgeInsets.only(right: 40),
+            child: Center(
+              child: Text("Finished Topics - ${widget.choosenLanguage}",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(color: Colors.white)),
+            ),
           ),
         ),
-      ),
-      body: StatisticsList(
+        body:
+            Container() /*StatisticsList(
         image: 'assets/dailyusage.png',
         label: 'Basic Conversation',
         navigation: null,
       ),
-    );
+      */
+        );
   }
 }

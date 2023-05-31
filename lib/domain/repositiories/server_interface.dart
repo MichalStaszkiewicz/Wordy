@@ -6,16 +6,17 @@ import '../../data/dto/achievement_dto.dart';
 
 import '../../data/dto/beginner_quiz_word_list_response.dart';
 import '../../data/dto/flash_card_list_response.dart';
-import '../../data/dto/language_response.dart';
+import '../../data/dto/interface_language_response.dart';
 import '../../data/dto/language_list_response.dart';
 import '../../data/dto/learned_word_list_response.dart';
 import '../../data/dto/login_user_response.dart';
-import '../../data/dto/register_status_response.dart';
 import '../../data/dto/register_user_response.dart';
+import '../../data/dto/registeration_response.dart';
 import '../../data/dto/update_register_status_response.dart';
 import '../../data/dto/update_user_current_course_response.dart';
 import '../../data/dto/update_user_interface_language_response.dart';
-import '../../data/dto/user_data_response.dart';
+import '../../data/dto/user_response.dart';
+import '../../data/dto/user_settings_response.dart';
 import '../../data/dto/word_list_response.dart';
 import '../../data/network/request/login_user_request.dart';
 import '../../data/network/request/models/begginer_quiz_request_model.dart';
@@ -26,6 +27,7 @@ import '../../data/network/request/register_user_request.dart';
 import '../../data/network/request/update_register_status_request.dart';
 import '../../data/network/request/update_user_current_course_request.dart';
 import '../../data/network/request/update_user_interface_language_request.dart';
+import '../../data/network/request/user_settings_request.dart';
 
 abstract class ServerInterface {
   Future<WordListResponse> getAllWords();
@@ -38,10 +40,10 @@ abstract class ServerInterface {
   Future<RegisterUserResponse> registerUser(
       RegisterUserRequest registerRequest);
   Future<LoginUserResponse> loginUser(LoginUserRequest loginRequest);
-  Future<RegisterStatusResponse> registerationStatus(String userId);
+  Future<RegisterationResponse> registerationStatus(String userId);
   Future<LanguageListResponse> getAvailableLanguages();
-  Future<LanguageResponse> getUserInterfaceLanguage(String userId);
-  Future<UserDataResponse> getUserData(String userId);
+  Future<InterfaceLanguageResponse> getUserInterfaceLanguage(String userId);
+  Future<UserResponse> getUserData(String userId);
   Future<UpdateUserInterfaceLanguageResponse> updateUserInterfaceLanguage(
       UpdateUserInterfaceLanguageRequest userUpdateinterfaceLanguageRequest);
   Future<UpdateRegisterStatusResponse> updateRegisterStatus(
@@ -54,6 +56,7 @@ abstract class ServerInterface {
       BeginnerQuizModel request);
   Future<LearnedWordListResponse> getLearnedWordList(String userId);
   Future<void> insertLearnedWordList(InsertLearnedWordsModel request);
+  Future<UserSettingsResponse> getUserSettings(UserSettingsRequest request);
 
   //Future<int> getWordiesCountByTopic(String topic);
 }

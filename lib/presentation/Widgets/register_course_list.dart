@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 
-import '../../domain/models/language.dart';
+import '../../domain/models/interface_language.dart';
 import 'confirm_button.dart';
 import 'language_tile.dart';
 
@@ -10,7 +10,7 @@ class RegisterCourseList extends StatefulWidget {
       {required this.languages,
       required this.onNextStep,
       required this.currentLanguage});
-  List<Language> languages;
+  List<InterfaceLanguage> languages;
   VoidCallBack onNextStep;
   String currentLanguage;
 
@@ -22,7 +22,7 @@ class _RegisterCourseListState extends State<RegisterCourseList> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex:8,
+      flex: 8,
       child: Container(
         child: Column(
           children: [

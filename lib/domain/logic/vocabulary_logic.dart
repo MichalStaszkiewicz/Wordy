@@ -25,8 +25,8 @@ class VocabularyLogic {
     try {
       return await _repository
           .createFlashCardList(FlashCardListModel(
-              course: user.currentCourse,
-              interfaceLanguage: user.interfaceLanguage,
+              course: user.profile!.course!.course.name,
+              interfaceLanguage: user.userSettings!.language.name,
               topic: topic))
           .then((value) => value.flashcards.map((e) => e.toDomain()).toList());
     } on Exception catch (e) {

@@ -1,16 +1,18 @@
 import 'package:wordy/data/dto/login_user_response.dart';
 import 'package:wordy/data/dto/update_user_interface_language_response.dart';
-import 'package:wordy/data/dto/user_data_response.dart';
+import 'package:wordy/data/dto/user_response.dart';
 import 'package:wordy/data/local/local_repository_implementation.dart';
 import 'package:wordy/data/network/remote_source.dart';
 import 'package:wordy/data/network/request/login_user_request.dart';
+import 'package:wordy/data/network/request/models/user_settings_request_model.dart';
 import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/domain/models/achievement_old.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/course_entry.dart';
+import 'package:wordy/domain/models/registeration_status.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
-import '../../data/dto/language_response.dart';
+import '../../data/dto/interface_language_response.dart';
 import '../../data/dto/update_user_current_course_response.dart';
 import '../../data/network/request/models/login_user_request_model.dart';
 import '../../data/network/request/models/update_user_current_course_request_model.dart';
@@ -21,14 +23,14 @@ import '../../data/network/request/update_user_interface_language_request.dart';
 import '../../localizator.dart';
 import '../models/achievement.dart';
 import '../models/course_basic.dart';
-import '../models/language.dart';
+import '../models/interface_language.dart';
 import '../models/user.dart';
 
 class UserDataLogic {
   UserDataLogic();
   final Repository _repository = Repository();
 
-  final _userInstance = locator.get<User>();
+  User _userInstance = locator.get<User>();
   Future<bool> updateUserRegisterStatus(String userId) async {
     try {
       return await _repository
@@ -39,9 +41,9 @@ class UserDataLogic {
     }
   }
 
-  Future<Language> getUserInterfaceLanguage(String userId) async {
+  Future<InterfaceLanguage> getUserInterfaceLanguage(String userId) async {
     try {
-      LanguageResponse response =
+      InterfaceLanguageResponse response =
           await _repository.getUserInterfaceLanguage(userId);
 
       return response.toDomain();
@@ -50,14 +52,13 @@ class UserDataLogic {
     }
   }
 
-  Future<String> updateUserCurrentCourse(
+  Future<Course> updateUserCurrentCourse(
       UpdateUserCurrentCourseModel requetModel) async {
     try {
-      UpdateUserCurrentCourseResponse response =
-          await _repository.updateUserCurrentCourse(
-              UpdateUserCurrentCourseRequest.fromJson(requetModel.toMap()));
+      Course updateCourse = await _repository.updateUserCurrentCourse(
+          UpdateUserCurrentCourseRequest.fromJson(requetModel.toMap()));
 
-      return response.updatedCourse;
+      return updateCourse;
     } on Exception catch (e) {
       rethrow;
     }
@@ -70,7 +71,7 @@ class UserDataLogic {
           await _repository.updateUserInterfaceLanguage(
               UpdateUserInterfaceLanguageRequest.fromJson(
                   requestModel.toMap()));
-      _userInstance.interfaceLanguage = response.updatedLanguageName;
+      _userInstance.userSettings!.language.name = response.updatedLanguageName;
       print(response.message);
       print('Updated interface language to: ${response.updatedLanguageName}');
     } on Exception catch (e) {
@@ -89,14 +90,16 @@ class UserDataLogic {
       if (!emailRegExp.hasMatch(userAuthData['email'])) {
         throw Exception("Bad email format");
       }
-      LoginUserResponse loginResponse =
-          await _repository.loginUser(LoginUserRequest.fromJson(userAuthData));
-      UserDataResponse userData =
-          await _repository.getUserData(loginResponse.userId);
-      _userInstance.uuid = userData.id;
-      _userInstance.registrationStatus = userData.registrationStatus;
-      _userInstance.interfaceLanguage =
-          userData.interfaceLanguage.toDomain().name;
+
+      _userInstance = await _repository
+          .loginUser(LoginUserRequest.fromJson(userAuthData))
+          .then((value) => value.user.toDomain());
+      if (_userInstance.id != null) {
+        _userInstance.registersationStatus =
+            await _repository.registerationStatus(_userInstance.id!);
+        _userInstance.userSettings = await _repository.getUserSettings(
+            UserSettingsRequestModel(userId: _userInstance.id!));
+      }
     } on Exception catch (e) {
       rethrow;
     }
@@ -106,7 +109,7 @@ class UserDataLogic {
     try {
       return await _repository
           .registerationStatus(userId)
-          .then((value) => value.registerationStatus);
+          .then((value) => value.registerationCompleted);
     } on Exception catch (e) {
       rethrow;
     }
@@ -137,7 +140,7 @@ class UserDataLogic {
   }
 
   Future<void> insertNewAchievementID(String achievementID) async {
-   // await _localRepository.insertDataToAchievement(achievementID);
+    // await _localRepository.insertDataToAchievement(achievementID);
   }
 
   Future<List<Achievement>> getNonAchievedAchievements() async {

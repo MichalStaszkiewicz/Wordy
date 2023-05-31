@@ -5,7 +5,7 @@ import 'package:wordy/presentation/widgets/statistics_card.dart';
 import 'package:wordy/const/consts.dart';
 
 import '../Bloc/user_progress/user_progress_bloc.dart';
-
+/*
 class StatisticsList extends StatefulWidget {
   StatisticsList(
       {required this.navigation, required this.image, required this.label});
@@ -84,3 +84,5 @@ class _StatisticsListState extends State<StatisticsList> {
     );
   }
 }
+
+*/

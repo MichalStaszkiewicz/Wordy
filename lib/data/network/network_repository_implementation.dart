@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
-import 'package:wordy/data/dto/word_dto.dart';
+import 'package:wordy/data/dto/word_response.dart';
 import 'package:wordy/data/dto/word_list_response.dart';
 import 'package:wordy/data/network/remote_source.dart';
 
 import '../../domain/repositiories/server_interface.dart';
 
 class NetworkRepository {
-RemoteSource _remoteSource = RemoteSource();
-  Future<List<WordDto>> getWordiesByTopic(String topic) async {
-    List<WordDto> words = [];
+  RemoteSource _remoteSource = RemoteSource();
+  Future<List<WordResponse>> getWordiesByTopic(String topic) async {
+    List<WordResponse> words = [];
     try {
       Dio dio = Dio(BaseOptions());
 
@@ -26,7 +26,7 @@ RemoteSource _remoteSource = RemoteSource();
   }
 
   Future<WordListResponse> getAllWordies() async {
-    List<WordDto> words = [];
+    List<WordResponse> words = [];
 
     return await _remoteSource.getAllWords();
   }

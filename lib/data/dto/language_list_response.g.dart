@@ -10,7 +10,8 @@ LanguageListResponse _$LanguageListResponseFromJson(
         Map<String, dynamic> json) =>
     LanguageListResponse(
       languages: (json['languages'] as List<dynamic>)
-          .map((e) => LanguageResponse.fromJson(e as Map<String, dynamic>))
+          .map((e) =>
+              InterfaceLanguageResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

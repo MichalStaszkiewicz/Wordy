@@ -9,11 +9,11 @@ part of 'login_user_response.dart';
 LoginUserResponse _$LoginUserResponseFromJson(Map<String, dynamic> json) =>
     LoginUserResponse(
       message: json['message'] as String,
-      userId: json['userId'] as String,
+      user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$LoginUserResponseToJson(LoginUserResponse instance) =>
     <String, dynamic>{
       'message': instance.message,
-      'userId': instance.userId,
+      'user': instance.user,
     };

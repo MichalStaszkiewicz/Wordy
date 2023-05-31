@@ -5,7 +5,6 @@ import 'package:wordy/domain/models/achievements_base.dart';
 
 import '../domain/models/achievements_base.dart';
 import '../domain/models/course_profile.dart';
-import '../domain/models/language.dart';
 
 final ColorScheme colorScheme = ColorScheme.fromSwatch(
   primarySwatch: Colors.blue,

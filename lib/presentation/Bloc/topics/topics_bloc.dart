@@ -22,7 +22,6 @@ class TopicsBloc extends Bloc<TopicsEvent, TopicsState> {
           topics: [
             Topic(
               name: ui_lang[event.language]!['topic_label'][0],
-              image: "assets/dailyusage.png",
             ),
           ],
           topicsToReadFromDatabase: ["Basic Conversation"],

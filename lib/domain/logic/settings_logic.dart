@@ -2,20 +2,21 @@ import 'package:wordy/data/local/local_repository_implementation.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/presentation/widgets/settings.dart';
 
-import '../models/language.dart';
+import '../models/interface_language.dart';
 
 class SettingsLogic {
   SettingsLogic();
 
   Repository _repository = Repository();
-  Future<List<Language>> getAvailableLanguages() async {
+  Future<List<InterfaceLanguage>> getAvailableLanguages() async {
     return await _repository
         .getAvailableLanguages()
         .then((value) => value.languages.map((e) => e.toDomain()).toList());
   }
 
-  Future<List<Language>> getAvailableLanguagesExcept(String name) async {
-    List<Language> availableLanguages = await _repository
+  Future<List<InterfaceLanguage>> getAvailableLanguagesExcept(
+      String name) async {
+    List<InterfaceLanguage> availableLanguages = await _repository
         .getAvailableLanguages()
         .then((value) => value.languages.map((e) => e.toDomain()).toList());
     availableLanguages.removeWhere(

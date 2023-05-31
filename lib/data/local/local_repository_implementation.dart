@@ -10,8 +10,7 @@ import 'package:wordy/const/consts.dart';
 
 import '../../domain/models/course_entry.dart';
 import '../../domain/models/course_profile.dart';
-import '../dto/course_dto.dart';
-import '../dto/word_dto.dart';
+import '../dto/word_response.dart';
 import '../network/network_repository_implementation.dart';
 import '../network/remote_source.dart';
 /*

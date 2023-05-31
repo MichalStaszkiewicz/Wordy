@@ -5,7 +5,6 @@ import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/widgets/unexpected_error.dart';
 
 import '../../const/urls.dart';
-import '../../domain/models/language.dart';
 
 class LanguageTile extends StatelessWidget {
   LanguageTile({required this.language, required this.imagePath});

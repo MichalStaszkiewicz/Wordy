@@ -9,7 +9,7 @@ part of 'word_list_response.dart';
 WordListResponse _$WordListResponseFromJson(Map<String, dynamic> json) =>
     WordListResponse(
       wordList: (json['wordList'] as List<dynamic>)
-          .map((e) => WordDto.fromJson(e as Map<String, dynamic>))
+          .map((e) => WordResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

@@ -140,42 +140,42 @@ class Utility {
         result.add(CourseEntry(
           translation: word.english,
           word: word.polish,
-          topic: word.topic,
+          topic: 'word.topic',
         ));
       } else if (languageToLearn.toLowerCase() == "french" &&
           languageThatUserWillLearnFrom.toLowerCase() == "polish") {
         result.add(CourseEntry(
           translation: word.french,
           word: word.polish,
-          topic: word.topic,
+          topic: 'word.topic',
         ));
       } else if (languageToLearn.toLowerCase() == "spanish" &&
           languageThatUserWillLearnFrom.toLowerCase() == "polish") {
         result.add(CourseEntry(
           translation: word.spanish,
           word: word.polish,
-          topic: word.topic,
+          topic: 'word.topic',
         ));
       } else if (languageToLearn.toLowerCase() == "polish" &&
           languageThatUserWillLearnFrom.toLowerCase() == "english") {
         result.add(CourseEntry(
           translation: word.polish,
           word: word.english,
-          topic: word.topic,
+          topic: 'word.topic',
         ));
       } else if (languageToLearn.toLowerCase() == "french" &&
           languageThatUserWillLearnFrom.toLowerCase() == "english") {
         result.add(CourseEntry(
           translation: word.french,
           word: word.english,
-          topic: word.topic,
+          topic: 'word.topic',
         ));
       } else if (languageToLearn.toLowerCase() == "spanish" &&
           languageThatUserWillLearnFrom.toLowerCase() == "english") {
         result.add(CourseEntry(
           translation: word.spanish,
           word: word.english,
-          topic: word.topic,
+          topic: 'word.topic',
         ));
       }
     }

@@ -28,7 +28,7 @@ class QuizLogic {
     try {
       final user = locator<User>();
 
-      await _repository.insertLearnedWordList(user.uuid!, wordIds);
+      await _repository.insertLearnedWordList(user.id!, wordIds);
     } on Exception catch (e) {
       rethrow;
     }
@@ -36,14 +36,14 @@ class QuizLogic {
 
   Future<List<BeginnerQuestion>> createBeginnerQuiz(String topic) async {
     List<LearnedWord> learnedWords = await _repository
-        .getLearnedWordList(_user.uuid!)
+        .getLearnedWordList(_user.id!)
         .then((value) => value.learnedWords.map((e) => e.toDomain()).toList());
 
     List<BeginnerQuizQuestion> questions = await _repository
         .getBeginnerQuizWordList(BeginnerQuizModel(
             topic: topic,
-            interfaceLanguage: _user.interfaceLanguage,
-            course: _user.currentCourse))
+            interfaceLanguage: _user.userSettings!.language.name,
+            course: _user.profile!.course!.course.name))
         .then((value) =>
             value.beginnerQuizWordList.map((e) => e.toDomain()).toList());
     List<String> possibleAnswers = [];
