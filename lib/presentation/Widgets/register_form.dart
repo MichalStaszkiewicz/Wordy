@@ -116,7 +116,7 @@ class _RegisterFormState extends State<RegisterForm> {
         LoginButton(
           label: 'Register',
           onPressed: () {
-            context.read<RegisterBloc>().add((Register(
+            context.read<RegisterBloc>().add((RegisterUser(
                 fullName: _fullNameController.text,
                 email: _emailController.text,
                 password: _passwordController.text)));

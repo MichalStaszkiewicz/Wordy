@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wordy/Utility/c_achievment.dart';
-import 'package:wordy/data/local/local_repository_implementation.dart';
 import 'package:wordy/domain/logic/settings_logic.dart';
 import 'package:wordy/domain/models/course_basic.dart';
 import 'package:wordy/const/consts.dart';
@@ -11,6 +10,7 @@ import '../../../domain/models/achievement.dart';
 import '../../../domain/models/achievement_old.dart';
 import '../../../domain/models/achievements_base.dart';
 import '../../../domain/models/course.dart';
+import '../../../utility/locator/api_locator.dart';
 part 'user_progress_event.dart';
 part 'user_progress_state.dart';
 
@@ -28,12 +28,10 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
 
   void loadUserSettingsAndCourseInformations() {
     on<LoadUserSettingsAndCourseInformations>((event, emit) async {
-
       String currentCourse = "";
       String nativeLanguage = "";
       String hotStreak = "";
       String wordsLearnedToday = "";
- 
 
       emit(UserCoursesAndSettingsInformations(
           currentCourse: currentCourse,
@@ -45,8 +43,6 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
 
   void loadUserPreferencesOrCreateNewUser() {
     on<LoadUserPreferencesOrCreateNewUser>((event, emit) async {
-      UserDataLogic userLogic = UserDataLogic();
-
       // List<Achievement> achievements = await userLogic.getUserAchievements(1);
       emit(UserProgressLoaded(
           achievements: 1,
@@ -85,8 +81,8 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
 
   void loadUserData() {
     on<LoadUserDataAndPreferences>((event, emit) async {
-      UserDataLogic userLogic = UserDataLogic();
-      List<Achievement> achievements = await userLogic.getUserAchievements(1);
+      final userLogic = locator<UserDataLogic>();
+      List<Achievement> achievements = [];
       emit(UserProgressLoaded(
           achievements: achievements.length,
           daysStreak: await userLogic.getUserHotStreak(),
@@ -94,7 +90,7 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
           learnedWords: await userLogic.getLearnedWordiesCount(),
           courses: await userLogic.getActiveCourses(),
           userAchievements: achievements,
-          allAchievements: await userLogic.getAllAchievements(),
+          allAchievements: [],
           userAchievementsNonAchieved:
               await userLogic.getNonAchievedAchievements()));
     });
@@ -102,7 +98,7 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
 
   void loadLearnedWords() {
     on<LoadLearnedWords>((event, emit) async {
-      UserDataLogic userLogic = UserDataLogic();
+      final userLogic = locator<UserDataLogic>();
       emit(UserLearnedWordsLoaded(courses: await userLogic.getCoursesData()));
     });
   }

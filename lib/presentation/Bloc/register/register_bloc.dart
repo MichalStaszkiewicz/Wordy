@@ -3,12 +3,14 @@ import 'package:equatable/equatable.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wordy/data/network/request/update_user_interface_language_request.dart';
 import 'package:wordy/domain/logic/settings_logic.dart';
+import 'package:wordy/domain/models/interface_language.dart';
+import 'package:wordy/domain/repositiories/repository.dart';
 import '../../../data/network/request/models/update_user_current_course_request_model.dart';
 import '../../../data/network/request/models/update_user_interface_language_request_model.dart';
 import '../../../domain/logic/user_data_logic.dart';
 
-import '../../../domain/models/user.dart';
-import '../../../localizator.dart';
+import '../../../utility/locator/storage_locator.dart';
+import '../../../utility/validator.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
@@ -18,23 +20,32 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     register();
     settingUpProfileUpdate();
     settingUpProfileBegin();
-    interfaceLanguageChange();
+    switchInterfaceLanguage();
     finishInitialSetup();
+    cancelLanguageChange();
+  }
+  void cancelLanguageChange() {
+    on<CancelLanguageChange>((event, emit) {
+      emit(InitialSetupState(
+        languageToLearn: event.choosenLanguage,
+      ));
+    });
   }
 
   void finishInitialSetup() {
     on<FinishInitialSetup>((event, emit) async {
+      emit(RegisterLoadingState());
       try {
-        emit(RegisterLoadingState());
-        UserDataLogic userLogic = UserDataLogic();
+        final userLogic = locator<UserDataLogic>();
 
-        final userInstance = locator.get<User>();
-
-        userInstance.profile!.course!.course = await userLogic
-            .updateUserCurrentCourse(UpdateUserCurrentCourseModel(
-                courseName: event.currentCourse, userId: userInstance.id!));
-        await userLogic.updateUserRegisterStatus(userInstance.id!);
-
+        final userId = await locator.get<Repository>().getUserId();
+        if (userId != null) {
+          await userLogic.updateUserCurrentCourse(UpdateUserCurrentCourseModel(
+              courseName: event.currentCourse, userId: userId));
+          await userLogic.updateRegisterationStatus(true, userId);
+        } else {
+          emit(RegisterError(exception: Exception('Storage Error')));
+        }
         emit(InitialSetupDone());
       } on Exception catch (e) {
         emit(RegisterError(exception: e));
@@ -42,24 +53,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     });
   }
 
-  void interfaceLanguageChange() {
-    on<InitialSetupInterfaceLanguageChange>((event, emit) async {
-      final userInstance = locator.get<User>();
-      UserDataLogic userLogic = UserDataLogic();
+  void switchInterfaceLanguage() {
+    on<InterfaceLanguageChange>((event, emit) async {
       try {
-        if (event.choosenLanguage.toLowerCase() == 'polish') {
-          await userLogic.updateUserInterfaceLanguage(
-              UpdateUserInterfaceLanguageModel(
-                  userId: userInstance.id!, languageName: "english"));
-        } else {
-          await userLogic.updateUserInterfaceLanguage(
-              UpdateUserInterfaceLanguageModel(
-                  userId: userInstance.id!, languageName: "polish"));
-        }
-
-        emit(InitialSetupState(
-          languageToLearn: event.choosenLanguage,
-        ));
+        String choosenLanguage =
+            await Validator.interfaceLanguageChange(event.choosenLanguage);
+        emit(InitialSetupState(languageToLearn: choosenLanguage));
       } on Exception catch (e) {
         emit(RegisterError(exception: e));
       }
@@ -67,7 +66,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   void settingUpProfileBegin() {
-    on<InitialSetupStateBegin>((event, emit) async {
+    on<InitialSetupBegin>((event, emit) async {
       emit(InitialSetupLoading());
       emit(InitialSetupState(
         languageToLearn: '',
@@ -76,12 +75,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   void settingUpProfileUpdate() {
-    on<InitialSetupStateUpdate>((event, emit) {
-      final userInstance = locator.get<User>();
+    on<InitialSetupStateUpdate>((event, emit) async {
       if (state is InitialSetupState) {
         final state = this.state as InitialSetupState;
-
-        if (event.languageToLearn == userInstance.userSettings!.language.name) {
+        final userInterfaceLanguage =
+            await locator<Repository>().getUserInterfaceLanguage();
+        if (event.languageToLearn == userInterfaceLanguage) {
           emit(RegisterLanguageChangeInfo(
               message:
                   'Choosing this language will change your interface language.',
@@ -97,12 +96,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   void register() {
-    on<Register>((event, emit) async {
+    on<RegisterUser>((event, emit) async {
       emit(RegisterInProgress(
           email: event.email,
           fullName: event.fullName,
           password: event.password));
-      UserDataLogic userLogic = UserDataLogic();
+      final userLogic = locator<UserDataLogic>();
 
       try {
         String result = await userLogic.registerUser({

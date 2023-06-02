@@ -2,8 +2,8 @@ class BeginnerQuizModel {
   BeginnerQuizModel(
       {required this.topic,
       required this.interfaceLanguage,
-      required this.course});
+      required this.userId});
   String topic;
   String interfaceLanguage;
-  String course;
+  String userId;
 }

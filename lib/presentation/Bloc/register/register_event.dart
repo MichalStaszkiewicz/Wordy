@@ -7,8 +7,8 @@ abstract class RegisterEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class Register extends RegisterEvent {
-  Register(
+class RegisterUser extends RegisterEvent {
+  RegisterUser(
       {required this.fullName, required this.email, required this.password});
   String fullName;
   String email;
@@ -20,15 +20,20 @@ class FinishInitialSetup extends RegisterEvent {
   String currentCourse;
 }
 
-class InitialSetupInterfaceLanguageChange extends RegisterEvent {
-  InitialSetupInterfaceLanguageChange({
+class InterfaceLanguageChange extends RegisterEvent {
+  InterfaceLanguageChange({
     required this.choosenLanguage,
   });
   String choosenLanguage;
 }
 
-class InitialSetupStateBegin extends RegisterEvent {
-  InitialSetupStateBegin();
+class CancelLanguageChange extends RegisterEvent {
+  CancelLanguageChange({required this.choosenLanguage});
+  String choosenLanguage;
+}
+
+class InitialSetupBegin extends RegisterEvent {
+  InitialSetupBegin();
 }
 
 class InitialSetupStateUpdate extends RegisterEvent {

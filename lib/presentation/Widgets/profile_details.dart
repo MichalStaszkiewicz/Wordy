@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/presentation/widgets/header_in_profile.dart';
 import 'package:wordy/presentation/widgets/statistics_item.dart';
-import 'package:wordy/presentation/widgets/users_courses.dart';
+import 'package:wordy/presentation/widgets/user_courses.dart';
 import 'package:wordy/presentation/screens/achievements_screen.dart';
 import 'package:wordy/presentation/screens/words_learned_screen.dart';
 import 'package:wordy/const/consts.dart';

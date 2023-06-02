@@ -7,13 +7,13 @@ part 'registeration_response.g.dart';
 
 @JsonSerializable()
 class RegisterationResponse {
-  RegisterationResponse(
-      {required this.id,
-      required this.registerationCompleted,
-      required this.user});
+  RegisterationResponse({
+    required this.id,
+    required this.registerationCompleted,
+  });
   int id;
   bool registerationCompleted;
-  UserResponse user;
+
   factory RegisterationResponse.fromJson(Map<String, dynamic> json) =>
       _$RegisterationResponseFromJson(json);
 

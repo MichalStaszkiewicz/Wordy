@@ -11,7 +11,6 @@ RegisterationResponse _$RegisterationResponseFromJson(
     RegisterationResponse(
       id: json['id'] as int,
       registerationCompleted: json['registerationCompleted'] as bool,
-      user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$RegisterationResponseToJson(
@@ -19,5 +18,4 @@ Map<String, dynamic> _$RegisterationResponseToJson(
     <String, dynamic>{
       'id': instance.id,
       'registerationCompleted': instance.registerationCompleted,
-      'user': instance.user,
     };

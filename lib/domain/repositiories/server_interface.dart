@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:wordy/data/dto/achievement_list.dart';
-import 'package:wordy/domain/models/user.dart';
 
 import '../../data/dto/achievement_dto.dart';
 
 import '../../data/dto/beginner_quiz_word_list_response.dart';
+import '../../data/dto/current_course_response.dart';
 import '../../data/dto/flash_card_list_response.dart';
 import '../../data/dto/interface_language_response.dart';
 import '../../data/dto/language_list_response.dart';
@@ -40,19 +40,19 @@ abstract class ServerInterface {
   Future<RegisterUserResponse> registerUser(
       RegisterUserRequest registerRequest);
   Future<LoginUserResponse> loginUser(LoginUserRequest loginRequest);
-  Future<RegisterationResponse> registerationStatus(String userId);
+  Future<RegisterationResponse> getRegisterationStatus(String userId);
+
   Future<LanguageListResponse> getAvailableLanguages();
-  Future<InterfaceLanguageResponse> getUserInterfaceLanguage(String userId);
-  Future<UserResponse> getUserData(String userId);
-  Future<UpdateUserInterfaceLanguageResponse> updateUserInterfaceLanguage(
+  Future<UpdateUserInterfaceLanguageResponse> switchInterfaceLanguage(
       UpdateUserInterfaceLanguageRequest userUpdateinterfaceLanguageRequest);
-  Future<UpdateRegisterStatusResponse> updateRegisterStatus(
+  Future<UpdateRegisterationStatusResponse> updateRegisterationStatus(
       UpdateRegisterStatusRequest request);
-  Future<UpdateUserCurrentCourseResponse> updateUserCurrentCourse(
+  Future<UpdateUserCurrentCourseResponse> switchCurrentCourse(
       UpdateUserCurrentCourseRequest request);
+  Future<CurrentCourseResponse> getUserCurrentCourse(String userId);
   Future<FlashCardListResponse> createFlashCardList(FlashCardListModel request);
 
-  Future<BeginnerQuizWordListResponse> getBeginerQuizWordList(
+  Future<BeginnerQuizWordListResponse> getBeginnerQuizWordList(
       BeginnerQuizModel request);
   Future<LearnedWordListResponse> getLearnedWordList(String userId);
   Future<void> insertLearnedWordList(InsertLearnedWordsModel request);

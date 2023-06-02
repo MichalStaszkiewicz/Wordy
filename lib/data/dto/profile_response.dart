@@ -16,6 +16,6 @@ class ProfileResponse {
   factory ProfileResponse.fromJson(Map<String, dynamic> json) =>
       _$ProfileResponseFromJson(json);
   Profile toDomain() {
-    return Profile(fullName: fullName, course: course?.toDomain());
+    return Profile(fullName: fullName, userCourse: course?.toDomain());
   }
 }

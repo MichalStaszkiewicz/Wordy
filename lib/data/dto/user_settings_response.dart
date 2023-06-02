@@ -7,10 +7,12 @@ part 'user_settings_response.g.dart';
 
 @JsonSerializable()
 class UserSettingsResponse {
-  UserSettingsResponse(
-      {required this.id, required this.interfaceLanguage, required this.user});
+  UserSettingsResponse({
+    required this.id,
+    required this.interfaceLanguage,
+  });
   int id;
-  UserResponse user;
+
   InterfaceLanguageResponse interfaceLanguage;
 
   factory UserSettingsResponse.fromJson(Map<String, dynamic> json) =>

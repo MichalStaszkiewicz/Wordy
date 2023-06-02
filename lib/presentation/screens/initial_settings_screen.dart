@@ -11,6 +11,7 @@ import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/presentation/widgets/unexpected_error.dart';
 import 'package:wordy/presentation/widgets/register_setting_course.dart';
 import 'package:wordy/presentation/screens/register_finish.dart';
+import 'package:wordy/utility/locator/storage_locator.dart';
 
 import '../../const/consts.dart';
 import '../../const/enums.dart';
@@ -42,23 +43,20 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider(
-      create: (context) => SettingsLogic(),
+      create: (context) => locator<SettingsLogic>(),
       child: BlocProvider(
-        create: (context) => RegisterBloc()..add(InitialSetupStateBegin()),
+        create: (context) => RegisterBloc()..add(InitialSetupBegin()),
         child: BlocListener<RegisterBloc, RegisterState>(
             listener: (context, state) {
               if (state is RegisterLanguageChangeInfo) {
                 DialogManager.showQuestionDialog(
                     state.message, 'Are you sure ?', context, () {
-                  context
-                      .read<RegisterBloc>()
-                      .add(InitialSetupInterfaceLanguageChange(
+                  context.read<RegisterBloc>().add(InterfaceLanguageChange(
                         choosenLanguage: state.languageToLearn,
                       ));
                 }, () {
-                  context.read<RegisterBloc>().add(
-                      InitialSetupInterfaceLanguageChange(
-                          choosenLanguage: state.langaugeOnCancel));
+                  context.read<RegisterBloc>().add(CancelLanguageChange(
+                      choosenLanguage: state.langaugeOnCancel));
                 });
               }
               if (state is RegisterError) {

@@ -7,6 +7,7 @@ import '../../../domain/logic/vocabulary_logic.dart';
 import '../../../domain/models/flash_card_data.dart';
 import '../../../domain/models/quiz_question.dart';
 import '../../../domain/models/vocabulary.dart';
+import '../../../utility/locator/api_locator.dart';
 
 part 'vocabulary_event.dart';
 part 'vocabulary_state.dart';
@@ -56,7 +57,7 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
 
   void showSpecificVocabularyList() {
     on<ListVocabularyWordsByTopic>((event, emit) async {
-      VocabularyLogic vocabLogic = VocabularyLogic();
+      final vocabLogic = locator<VocabularyLogic>();
       emit(VocabularyFlashCards(
           flashCards: await vocabLogic.getVocabularyByTopic(event.topic)));
     });

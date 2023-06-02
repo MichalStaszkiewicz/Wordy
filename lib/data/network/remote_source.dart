@@ -28,15 +28,15 @@ import 'package:wordy/data/network/request/user_settings_request.dart';
 import 'package:wordy/domain/repositiories/server_interface.dart';
 
 import '../dto/achievement_dto.dart';
+import '../dto/current_course_response.dart';
 import '../dto/login_user_response.dart';
 
 import '../dto/registeration_response.dart';
 import '../dto/user_response.dart';
 
 class RemoteSource implements ServerInterface {
-  RemoteSource();
-  ApiService _apiService = ApiService(baseUrl: Urls.kBaseUrl);
-
+  RemoteSource(this._apiService);
+  final ApiService _apiService;
   @override
   Future<AchievementDto> getAchievementById(int id) async {
     try {
@@ -136,7 +136,7 @@ class RemoteSource implements ServerInterface {
   }
 
   @override
-  Future<RegisterationResponse> registerationStatus(String userId) async {
+  Future<RegisterationResponse> getRegisterationStatus(String userId) async {
     try {
       var response =
           await _apiService.get('/v1/user/info/{$userId}/registerStatus');
@@ -158,28 +158,7 @@ class RemoteSource implements ServerInterface {
   }
 
   @override
-  Future<InterfaceLanguageResponse> getUserInterfaceLanguage(
-      String userId) async {
-    try {
-      var response = await _apiService.get('/v1/user/info/{$userId}');
-      return InterfaceLanguageResponse.fromJson(response.data);
-    } on Exception catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<UserResponse> getUserData(String userId) async {
-    try {
-      var response = await _apiService.get('/v1/user/info/{$userId}');
-      return UserResponse.fromJson(response.data['user']);
-    } on Exception catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<UpdateUserInterfaceLanguageResponse> updateUserInterfaceLanguage(
+  Future<UpdateUserInterfaceLanguageResponse> switchInterfaceLanguage(
       UpdateUserInterfaceLanguageRequest request) async {
     try {
       var response = await _apiService.put('/v1/user/update/language',
@@ -191,19 +170,19 @@ class RemoteSource implements ServerInterface {
   }
 
   @override
-  Future<UpdateRegisterStatusResponse> updateRegisterStatus(
+  Future<UpdateRegisterationStatusResponse> updateRegisterationStatus(
       UpdateRegisterStatusRequest request) async {
     try {
       var response = await _apiService.put('/v1/user/update/registerStatus',
           payload: request.toJson());
-      return UpdateRegisterStatusResponse.fromJson(response.data);
+      return UpdateRegisterationStatusResponse.fromJson(response.data);
     } on Exception catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<UpdateUserCurrentCourseResponse> updateUserCurrentCourse(
+  Future<UpdateUserCurrentCourseResponse> switchCurrentCourse(
       UpdateUserCurrentCourseRequest request) async {
     try {
       var response = await _apiService.put('/v1/user/update/currentCourse',
@@ -228,11 +207,11 @@ class RemoteSource implements ServerInterface {
   }
 
   @override
-  Future<BeginnerQuizWordListResponse> getBeginerQuizWordList(
+  Future<BeginnerQuizWordListResponse> getBeginnerQuizWordList(
       BeginnerQuizModel request) async {
     try {
       var response = await _apiService.get(
-          '/v1/words/quiz/beginner/${request.topic}/${request.interfaceLanguage}/${'polish'}');
+          '/v1/words/quiz/beginner/${request.topic}/${request.interfaceLanguage}/${request.userId}');
       return BeginnerQuizWordListResponse.fromJson(response.data);
     } on Exception catch (e) {
       rethrow;
@@ -266,7 +245,17 @@ class RemoteSource implements ServerInterface {
     try {
       var response =
           await _apiService.get('/v1/user/settings/${request.userId}/get');
-      return UserSettingsResponse.fromJson(response.data['userSettings']);
+      return UserSettingsResponse.fromJson(response.data['userSettings'][0]);
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<CurrentCourseResponse> getUserCurrentCourse(String userId) async {
+    try {
+      var response = await _apiService.get('/v1/profile/$userId/course');
+      return CurrentCourseResponse.fromJson(response.data);
     } on Exception catch (e) {
       rethrow;
     }

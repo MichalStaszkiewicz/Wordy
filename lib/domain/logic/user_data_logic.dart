@@ -1,7 +1,6 @@
 import 'package:wordy/data/dto/login_user_response.dart';
 import 'package:wordy/data/dto/update_user_interface_language_response.dart';
 import 'package:wordy/data/dto/user_response.dart';
-import 'package:wordy/data/local/local_repository_implementation.dart';
 import 'package:wordy/data/network/remote_source.dart';
 import 'package:wordy/data/network/request/login_user_request.dart';
 import 'package:wordy/data/network/request/models/user_settings_request_model.dart';
@@ -20,42 +19,26 @@ import '../../data/network/request/models/update_user_interface_language_request
 import '../../data/network/request/update_register_status_request.dart';
 import '../../data/network/request/update_user_current_course_request.dart';
 import '../../data/network/request/update_user_interface_language_request.dart';
-import '../../localizator.dart';
+import '../../utility/locator/storage_locator.dart';
 import '../models/achievement.dart';
 import '../models/course_basic.dart';
 import '../models/interface_language.dart';
-import '../models/user.dart';
+
+import '../models/user_course.dart';
 
 class UserDataLogic {
-  UserDataLogic();
-  final Repository _repository = Repository();
-
-  User _userInstance = locator.get<User>();
-  Future<bool> updateUserRegisterStatus(String userId) async {
-    try {
-      return await _repository
-          .updateUserRegisterStatus(UpdateRegisterStatusRequest(userId: userId))
-          .then((value) => value.updatedRegisterStatus);
-    } on Exception catch (e) {
-      rethrow;
-    }
+  UserDataLogic(this._repository);
+  final Repository _repository;
+  Future<void> updateRegisterationStatus(bool status, String userId) async {
+    await _repository.updateUserRegisterStatus(UpdateRegisterStatusRequest(
+      userId: userId,
+    ));
   }
 
-  Future<InterfaceLanguage> getUserInterfaceLanguage(String userId) async {
-    try {
-      InterfaceLanguageResponse response =
-          await _repository.getUserInterfaceLanguage(userId);
-
-      return response.toDomain();
-    } on Exception catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<Course> updateUserCurrentCourse(
+  Future<UserCourse> updateUserCurrentCourse(
       UpdateUserCurrentCourseModel requetModel) async {
     try {
-      Course updateCourse = await _repository.updateUserCurrentCourse(
+      UserCourse updateCourse = await _repository.updateUserCurrentCourse(
           UpdateUserCurrentCourseRequest.fromJson(requetModel.toMap()));
 
       return updateCourse;
@@ -64,16 +47,17 @@ class UserDataLogic {
     }
   }
 
-  Future<void> updateUserInterfaceLanguage(
-      UpdateUserInterfaceLanguageModel requestModel) async {
+  Future<UserCourse> getUserCurrentCourse() async {
     try {
-      UpdateUserInterfaceLanguageResponse response =
-          await _repository.updateUserInterfaceLanguage(
-              UpdateUserInterfaceLanguageRequest.fromJson(
-                  requestModel.toMap()));
-      _userInstance.userSettings!.language.name = response.updatedLanguageName;
-      print(response.message);
-      print('Updated interface language to: ${response.updatedLanguageName}');
+      final userId = await locator<Repository>().getUserId();
+      if (userId != null) {
+        UserCourse userCurrentCourse =
+            await _repository.getUserCurrentCourse(userId);
+
+        return userCurrentCourse;
+      } else {
+        throw Exception('Something went wrong');
+      }
     } on Exception catch (e) {
       rethrow;
     }
@@ -91,25 +75,12 @@ class UserDataLogic {
         throw Exception("Bad email format");
       }
 
-      _userInstance = await _repository
+      String userId = await _repository
           .loginUser(LoginUserRequest.fromJson(userAuthData))
-          .then((value) => value.user.toDomain());
-      if (_userInstance.id != null) {
-        _userInstance.registersationStatus =
-            await _repository.registerationStatus(_userInstance.id!);
-        _userInstance.userSettings = await _repository.getUserSettings(
-            UserSettingsRequestModel(userId: _userInstance.id!));
-      }
-    } on Exception catch (e) {
-      rethrow;
-    }
-  }
+          .then((value) => value.user.id);
+      _repository.setUserId(userId);
 
-  Future<bool> registerationStatus(String userId) async {
-    try {
-      return await _repository
-          .registerationStatus(userId)
-          .then((value) => value.registerationCompleted);
+      await _repository.synchronizeUserInterfaceLanguage();
     } on Exception catch (e) {
       rethrow;
     }
@@ -158,6 +129,7 @@ class UserDataLogic {
     return result;
   }
 
+/*
   Future<List<Achievement>> getAllAchievements() async {
     RemoteSource remoteSource = RemoteSource();
     return await remoteSource
@@ -172,7 +144,7 @@ class UserDataLogic {
 
     return achievements;
   }
-
+*/
   Future<int> getUserLearnedWordiesToday() async {
     // implement logic here
     return 200;

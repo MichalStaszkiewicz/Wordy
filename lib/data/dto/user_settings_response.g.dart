@@ -12,13 +12,11 @@ UserSettingsResponse _$UserSettingsResponseFromJson(
       id: json['id'] as int,
       interfaceLanguage: InterfaceLanguageResponse.fromJson(
           json['interfaceLanguage'] as Map<String, dynamic>),
-      user: UserResponse.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserSettingsResponseToJson(
         UserSettingsResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'user': instance.user,
       'interfaceLanguage': instance.interfaceLanguage,
     };

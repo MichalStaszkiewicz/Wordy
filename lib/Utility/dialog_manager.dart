@@ -38,17 +38,19 @@ class DialogManager {
   }
 
   static void showQuestionDialog(
-      String message,
-      String title,
-      BuildContext context,
-      VoidCallback onOkPress,
-      VoidCallback onCancelPress) {
+    String message,
+    String title,
+    BuildContext context,
+    VoidCallback onOkPress,
+    VoidCallback onCancelPress,
+  ) {
     AwesomeDialog(
             context: context,
             title: title,
             desc: message,
             dialogType: DialogType.question,
             btnCancelOnPress: onCancelPress,
+            dismissOnTouchOutside: false,
             btnOkOnPress: onOkPress)
         .show();
   }

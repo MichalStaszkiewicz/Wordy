@@ -10,7 +10,7 @@ UpdateUserCurrentCourseResponse _$UpdateUserCurrentCourseResponseFromJson(
         Map<String, dynamic> json) =>
     UpdateUserCurrentCourseResponse(
       message: json['message'] as String,
-      updatedCourse: CourseResponse.fromJson(
+      updatedCourse: UserCourseResponse.fromJson(
           json['updatedCourse'] as Map<String, dynamic>),
     );
 

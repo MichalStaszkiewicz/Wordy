@@ -1,13 +1,12 @@
-import 'package:wordy/data/local/local_repository_implementation.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/presentation/widgets/settings.dart';
 
 import '../models/interface_language.dart';
 
 class SettingsLogic {
-  SettingsLogic();
+  SettingsLogic(this._repository);
 
-  Repository _repository = Repository();
+  final Repository _repository;
   Future<List<InterfaceLanguage>> getAvailableLanguages() async {
     return await _repository
         .getAvailableLanguages()

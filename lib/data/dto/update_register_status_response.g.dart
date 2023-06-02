@@ -6,15 +6,15 @@ part of 'update_register_status_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UpdateRegisterStatusResponse _$UpdateRegisterStatusResponseFromJson(
+UpdateRegisterationStatusResponse _$UpdateRegisterationStatusResponseFromJson(
         Map<String, dynamic> json) =>
-    UpdateRegisterStatusResponse(
+    UpdateRegisterationStatusResponse(
       message: json['message'] as String,
       updatedRegisterStatus: json['updatedRegisterStatus'] as bool,
     );
 
-Map<String, dynamic> _$UpdateRegisterStatusResponseToJson(
-        UpdateRegisterStatusResponse instance) =>
+Map<String, dynamic> _$UpdateRegisterationStatusResponseToJson(
+        UpdateRegisterationStatusResponse instance) =>
     <String, dynamic>{
       'message': instance.message,
       'updatedRegisterStatus': instance.updatedRegisterStatus,
