@@ -15,6 +15,8 @@ class RegisterUser extends RegisterEvent {
   String password;
 }
 
+
+
 class FinishInitialSetup extends RegisterEvent {
   FinishInitialSetup({required this.currentCourse});
   String currentCourse;

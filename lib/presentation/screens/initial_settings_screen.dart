@@ -60,8 +60,8 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
                 });
               }
               if (state is RegisterError) {
-                DialogManager.showErrorDialog(
-                    state.exception.toString(), 'Error', context, () {
+                DialogManager.showErrorDialog(state.error, context,
+                    () {
                   context.go('/');
                 });
               }

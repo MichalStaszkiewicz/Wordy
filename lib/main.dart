@@ -9,7 +9,7 @@ import 'package:wordy/utility/locator/storage_locator.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  Bloc.observer = SimpleBlocObserver();
+  Bloc.observer = CustomBlocObserver();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) => runApp(const App()));

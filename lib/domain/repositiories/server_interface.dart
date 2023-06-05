@@ -28,35 +28,49 @@ import '../../data/network/request/update_register_status_request.dart';
 import '../../data/network/request/update_user_current_course_request.dart';
 import '../../data/network/request/update_user_interface_language_request.dart';
 import '../../data/network/request/user_settings_request.dart';
+import '../../utility/either.dart';
 
 abstract class ServerInterface {
-  Future<WordListResponse> getAllWords();
-  Future<WordListResponse> getWordsByTopic(WordsByTopicModel request);
-  Future<WordListResponse> getAllLearnedWords(int userID);
-  Future<WordListResponse> getLearnedWordsByTopic(String topic, int userID);
-  Future<AchievementListResponse> getAllAchievements();
-  Future<AchievementDto> getAchievementById(int id);
-  Future<AchievementListResponse> getUserAchievements(int userID);
-  Future<RegisterUserResponse> registerUser(
+  Future<Either<DioError, WordListResponse>> getAllWords();
+  Future<Either<DioError, WordListResponse>> getWordsByTopic(
+      WordsByTopicModel request);
+  Future<Either<DioError, WordListResponse>> getAllLearnedWords(int userID);
+  Future<Either<DioError, WordListResponse>> getLearnedWordsByTopic(
+      String topic, String userId);
+  Future<Either<DioError, AchievementListResponse>> getAllAchievements();
+  Future<Either<DioError, AchievementDto>> getAchievementById(int id);
+  Future<Either<DioError, AchievementListResponse>> getUserAchievements(
+      int userID);
+  Future<Either<DioError, RegisterUserResponse>> registerUser(
       RegisterUserRequest registerRequest);
-  Future<LoginUserResponse> loginUser(LoginUserRequest loginRequest);
-  Future<RegisterationResponse> getRegisterationStatus(String userId);
+  Future<Either<DioError, LoginUserResponse>> loginUser(
+      LoginUserRequest loginRequest);
+  Future<Either<DioError, RegisterationResponse>> getRegisterationStatus(
+      String userId);
 
-  Future<LanguageListResponse> getAvailableLanguages();
-  Future<UpdateUserInterfaceLanguageResponse> switchInterfaceLanguage(
-      UpdateUserInterfaceLanguageRequest userUpdateinterfaceLanguageRequest);
-  Future<UpdateRegisterationStatusResponse> updateRegisterationStatus(
-      UpdateRegisterStatusRequest request);
-  Future<UpdateUserCurrentCourseResponse> switchCurrentCourse(
+  Future<Either<DioError, LanguageListResponse>> getAvailableLanguages();
+  Future<Either<DioError, UpdateUserInterfaceLanguageResponse>>
+      switchInterfaceLanguage(
+          UpdateUserInterfaceLanguageRequest
+              userUpdateinterfaceLanguageRequest);
+  Future<Either<DioError, UpdateRegisterationStatusResponse>>
+      updateRegisterationStatus(UpdateRegisterStatusRequest request);
+  Future<Either<DioError, UpdateUserCurrentCourseResponse>> switchCurrentCourse(
       UpdateUserCurrentCourseRequest request);
-  Future<CurrentCourseResponse> getUserCurrentCourse(String userId);
-  Future<FlashCardListResponse> createFlashCardList(FlashCardListModel request);
+  Future<Either<DioError, CurrentCourseResponse>> getUserCurrentCourse(
+      String userId);
+  Future<Either<DioError, FlashCardListResponse>> createFlashCardList(
+      FlashCardListModel request);
 
-  Future<BeginnerQuizWordListResponse> getBeginnerQuizWordList(
-      BeginnerQuizModel request);
-  Future<LearnedWordListResponse> getLearnedWordList(String userId);
-  Future<void> insertLearnedWordList(InsertLearnedWordsModel request);
-  Future<UserSettingsResponse> getUserSettings(UserSettingsRequest request);
+  Future<Either<DioError, BeginnerQuizWordListResponse>>
+      getBeginnerQuizWordList(BeginnerQuizModel request);
+  Future<Either<DioError, LearnedWordListResponse>> getLearnedWordList(
+      String userId);
+  Future<Either<DioError, void>> insertLearnedWordList(
+      InsertLearnedWordsModel request);
+  Future<Either<DioError, UserSettingsResponse>> getUserSettings(
+      UserSettingsRequest request);
+  Future<Either<DioError, void>> cancelRequest();
 
   //Future<int> getWordiesCountByTopic(String topic);
 }

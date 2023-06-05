@@ -2,10 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wordy/Utility/c_achievment.dart';
 import 'package:wordy/domain/logic/settings_logic.dart';
+import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/course_basic.dart';
 import 'package:wordy/const/consts.dart';
 import '../../../Utility/utility.dart';
-import '../../../domain/logic/user_data_logic.dart';
+
 import '../../../domain/models/achievement.dart';
 import '../../../domain/models/achievement_old.dart';
 import '../../../domain/models/achievements_base.dart';
@@ -81,25 +82,24 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
 
   void loadUserData() {
     on<LoadUserDataAndPreferences>((event, emit) async {
-      final userLogic = locator<UserDataLogic>();
+      final userLogic = locator<UserService>();
       List<Achievement> achievements = [];
       emit(UserProgressLoaded(
           achievements: achievements.length,
-          daysStreak: await userLogic.getUserHotStreak(),
-          finishedTopics: await userLogic.getFinishedTopicsCount(),
-          learnedWords: await userLogic.getLearnedWordiesCount(),
-          courses: await userLogic.getActiveCourses(),
+          daysStreak: 0,
+          finishedTopics: 0,
+          learnedWords: 0,
+          courses: [],
           userAchievements: achievements,
           allAchievements: [],
-          userAchievementsNonAchieved:
-              await userLogic.getNonAchievedAchievements()));
+          userAchievementsNonAchieved: []));
     });
   }
 
   void loadLearnedWords() {
     on<LoadLearnedWords>((event, emit) async {
-      final userLogic = locator<UserDataLogic>();
-      emit(UserLearnedWordsLoaded(courses: await userLogic.getCoursesData()));
+      final userLogic = locator<UserService>();
+      emit(UserLearnedWordsLoaded(courses: []));
     });
   }
 

@@ -7,7 +7,7 @@ class InternalServerInterceptor extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     if (err.response!.statusCode != null && err.response!.statusCode! >= 500) {
-      handler.reject(
+      return handler.reject(
           InternalServerApiError(requestOptions: err.response!.requestOptions));
     }
 

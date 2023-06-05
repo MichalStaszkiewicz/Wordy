@@ -17,15 +17,6 @@ class VocabularyLogic {
   final Repository _repository;
   VocabularyLogic(this._repository);
   Future<List<FlashCardData>> getVocabularyByTopic(String topic) async {
-    try {
-      return await _repository
-          .createFlashCardList(FlashCardListModel(
-              course: 'user.profile!.userCourse!.course.name',
-              interfaceLanguage: 'user.userSettings!.language.name',
-              topic: topic))
-          .then((value) => value.flashcards.map((e) => e.toDomain()).toList());
-    } on Exception catch (e) {
-      rethrow;
-    }
+    return [];
   }
 }

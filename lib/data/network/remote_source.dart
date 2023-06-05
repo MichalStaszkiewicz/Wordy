@@ -27,6 +27,7 @@ import 'package:wordy/data/network/request/update_user_interface_language_reques
 import 'package:wordy/data/network/request/user_settings_request.dart';
 import 'package:wordy/domain/repositiories/server_interface.dart';
 
+import '../../utility/either.dart';
 import '../dto/achievement_dto.dart';
 import '../dto/current_course_response.dart';
 import '../dto/login_user_response.dart';
@@ -38,226 +39,251 @@ class RemoteSource implements ServerInterface {
   RemoteSource(this._apiService);
   final ApiService _apiService;
   @override
-  Future<AchievementDto> getAchievementById(int id) async {
+  Future<Either<DioError, AchievementDto>> getAchievementById(int id) async {
     try {
       Response response = await _apiService.get('/achievements');
-      return AchievementDto.fromJson(response.data);
-    } on Exception catch (exception) {
-      rethrow;
+      return Either.right(AchievementDto.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<AchievementListResponse> getAllAchievements() async {
+  Future<Either<DioError, AchievementListResponse>> getAllAchievements() async {
     try {
       Response response = await _apiService.get('/achievements');
-      return AchievementListResponse.fromJson(response.data);
-    } on Exception catch (exception) {
-      rethrow;
+      return Either.right(AchievementListResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<AchievementListResponse> getUserAchievements(int userID) async {
+  Future<Either<DioError, AchievementListResponse>> getUserAchievements(
+      int userID) async {
     try {
       Response response = await _apiService.get('/achievements/');
-      return AchievementListResponse.fromJson(response.data);
-    } on Exception catch (exception) {
-      rethrow;
+      return Either.right(AchievementListResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<WordListResponse> getAllLearnedWords(int userID) async {
+  Future<Either<DioError, WordListResponse>> getAllLearnedWords(
+      int userID) async {
     try {
       var response = await _apiService.get('/learnedWords');
-      return WordListResponse.fromJson(response.data);
-    } on Exception catch (exception) {
-      rethrow;
+      return Either.right(WordListResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<WordListResponse> getAllWords() async {
+  Future<Either<DioError, WordListResponse>> getAllWords() async {
     try {
       var response = await _apiService.get('/words');
 
-      return WordListResponse.fromJson(response.data);
-    } on Exception catch (exception) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<WordListResponse> getLearnedWordsByTopic(
-      String topic, int userID) async {
-    try {
-      var response = await _apiService.get('/learnedWords/byTopic');
-
-      return WordListResponse.fromJson(response.data);
+      return Either.right(WordListResponse.fromJson(response.data));
     } on DioError catch (exception) {
-      rethrow;
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<WordListResponse> getWordsByTopic(WordsByTopicModel request) async {
+  Future<Either<DioError, WordListResponse>> getLearnedWordsByTopic(
+      String topic, String userId) async {
+    try {
+      var response =
+          await _apiService.get('/v1/learnedWords/byTopic/${topic}/${userId}');
+
+      return Either.right(WordListResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
+    }
+  }
+
+  @override
+  Future<Either<DioError, WordListResponse>> getWordsByTopic(
+      WordsByTopicModel request) async {
     try {
       var response = await _apiService.get('v1/words/${request.topic}');
 
-      return WordListResponse.fromJson(response.data);
+      return Either.right(WordListResponse.fromJson(response.data));
     } on DioError catch (exception) {
-      rethrow;
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<LoginUserResponse> loginUser(LoginUserRequest request) async {
+  Future<Either<DioError, LoginUserResponse>> loginUser(
+      LoginUserRequest request) async {
     try {
       var response =
           await _apiService.post('/v1/user/login', payload: request.toJson());
 
-      return LoginUserResponse.fromJson(response.data);
-    } on Exception catch (e) {
-      rethrow;
+      return Either.right(LoginUserResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<RegisterUserResponse> registerUser(RegisterUserRequest request) async {
+  Future<Either<DioError, RegisterUserResponse>> registerUser(
+      RegisterUserRequest request) async {
     try {
       var response = await _apiService.post('/v1/user/register',
           payload: request.toJson());
 
-      return RegisterUserResponse.fromJson(response.data);
-    } on Exception catch (e) {
-      rethrow;
+      return Either.right(RegisterUserResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<RegisterationResponse> getRegisterationStatus(String userId) async {
+  Future<Either<DioError, RegisterationResponse>> getRegisterationStatus(
+      String userId) async {
     try {
       var response =
-          await _apiService.get('/v1/user/info/{$userId}/registerStatus');
+          await _apiService.get('/v1/user/info/$userId/registerStatus');
 
-      return RegisterationResponse.fromJson(response.data);
-    } on Exception catch (e) {
-      rethrow;
+      return Either.right(RegisterationResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<LanguageListResponse> getAvailableLanguages() async {
+  Future<Either<DioError, LanguageListResponse>> getAvailableLanguages() async {
     try {
       var response = await _apiService.get('/v1/languages');
-      return LanguageListResponse.fromJson(response.data);
-    } on Exception catch (e) {
-      rethrow;
+      return Either.right(LanguageListResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<UpdateUserInterfaceLanguageResponse> switchInterfaceLanguage(
-      UpdateUserInterfaceLanguageRequest request) async {
+  Future<Either<DioError, UpdateUserInterfaceLanguageResponse>>
+      switchInterfaceLanguage(
+          UpdateUserInterfaceLanguageRequest request) async {
     try {
       var response = await _apiService.put('/v1/user/update/language',
           payload: request.toJson());
-      return UpdateUserInterfaceLanguageResponse.fromJson(response.data);
-    } on Exception catch (e) {
-      rethrow;
+      return Either.right(
+          UpdateUserInterfaceLanguageResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<UpdateRegisterationStatusResponse> updateRegisterationStatus(
-      UpdateRegisterStatusRequest request) async {
+  Future<Either<DioError, UpdateRegisterationStatusResponse>>
+      updateRegisterationStatus(UpdateRegisterStatusRequest request) async {
     try {
       var response = await _apiService.put('/v1/user/update/registerStatus',
           payload: request.toJson());
-      return UpdateRegisterationStatusResponse.fromJson(response.data);
-    } on Exception catch (e) {
-      rethrow;
+      return Either.right(
+          UpdateRegisterationStatusResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<UpdateUserCurrentCourseResponse> switchCurrentCourse(
+  Future<Either<DioError, UpdateUserCurrentCourseResponse>> switchCurrentCourse(
       UpdateUserCurrentCourseRequest request) async {
     try {
       var response = await _apiService.put('/v1/user/update/currentCourse',
           payload: request.toJson());
-      return UpdateUserCurrentCourseResponse.fromJson(response.data);
-    } on Exception catch (e) {
-      rethrow;
+      return Either.right(
+          UpdateUserCurrentCourseResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<FlashCardListResponse> createFlashCardList(
+  Future<Either<DioError, FlashCardListResponse>> createFlashCardList(
       FlashCardListModel request) async {
     try {
       var response = await _apiService.get(
           '/v1/words/flashCards/${request.topic}/${request.interfaceLanguage}/${'polish'}');
-
-      return FlashCardListResponse.fromJson(response.data);
-    } on Exception catch (e) {
-      rethrow;
+      return Either.right(FlashCardListResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<BeginnerQuizWordListResponse> getBeginnerQuizWordList(
-      BeginnerQuizModel request) async {
+  Future<Either<DioError, BeginnerQuizWordListResponse>>
+      getBeginnerQuizWordList(BeginnerQuizModel request) async {
     try {
       var response = await _apiService.get(
           '/v1/words/quiz/beginner/${request.topic}/${request.interfaceLanguage}/${request.userId}');
-      return BeginnerQuizWordListResponse.fromJson(response.data);
-    } on Exception catch (e) {
-      rethrow;
+      return Either.right(BeginnerQuizWordListResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<LearnedWordListResponse> getLearnedWordList(String userId) async {
+  Future<Either<DioError, LearnedWordListResponse>> getLearnedWordList(
+      String userId) async {
     try {
       var response = await _apiService.get('/v1/user/learnedWords/$userId/get');
       print(response.data);
-      return LearnedWordListResponse.fromJson(response.data);
-    } on Exception catch (e) {
-      rethrow;
+      return Either.right(LearnedWordListResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<void> insertLearnedWordList(InsertLearnedWordsModel request) async {
+  Future<Either<DioError, void>> insertLearnedWordList(
+      InsertLearnedWordsModel request) async {
     try {
       await _apiService.post("/v1/user/learnedWords/insert",
           payload: request.toMap());
-    } on Exception catch (e) {
-      rethrow;
+      return Either.right('inserted words');
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<UserSettingsResponse> getUserSettings(
+  Future<Either<DioError, UserSettingsResponse>> getUserSettings(
       UserSettingsRequest request) async {
     try {
       var response =
           await _apiService.get('/v1/user/settings/${request.userId}/get');
-      return UserSettingsResponse.fromJson(response.data['userSettings'][0]);
-    } on Exception catch (e) {
-      rethrow;
+      return Either.right(
+          UserSettingsResponse.fromJson(response.data['user_settigns']));
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 
   @override
-  Future<CurrentCourseResponse> getUserCurrentCourse(String userId) async {
+  Future<Either<DioError, CurrentCourseResponse>> getUserCurrentCourse(
+      String userId) async {
     try {
       var response = await _apiService.get('/v1/profile/$userId/course');
-      return CurrentCourseResponse.fromJson(response.data);
-    } on Exception catch (e) {
-      rethrow;
+      return Either.right(CurrentCourseResponse.fromJson(response.data));
+    } on DioError catch (exception) {
+      return Either.left(exception);
+    }
+  }
+
+  @override
+  Future<Either<DioError, bool>> cancelRequest() async {
+    try {
+      await _apiService.cancelRequests();
+      return Either.right(true);
+    } on DioError catch (exception) {
+      return Either.left(exception);
     }
   }
 }

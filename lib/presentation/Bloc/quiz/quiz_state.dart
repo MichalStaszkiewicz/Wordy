@@ -15,6 +15,11 @@ class InProgress extends QuizState {
   InProgress();
 }
 
+class QuizError extends QuizState {
+  QuizError({required this.error});
+  CustomError error;
+}
+
 class BeginnerQuizLoaded extends QuizState {
   BeginnerQuizLoaded(
       {required this.questions,

@@ -3,7 +3,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_speed_dial/simple_speed_dial.dart';
-import 'package:wordy/domain/logic/user_data_logic.dart';
 import 'package:wordy/presentation/Bloc/achievements/achievements_filter_bloc.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 

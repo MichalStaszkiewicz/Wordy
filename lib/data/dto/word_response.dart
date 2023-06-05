@@ -10,11 +10,15 @@ class WordResponse {
     required this.english,
     required this.french,
     required this.spanish,
+    required this.id,
+    required this.topic,
   });
   final String polish;
   final String english;
   final String french;
   final String spanish;
+  final int id;
+  final TopicResponse topic;
 
   factory WordResponse.fromJson(Map<String, dynamic> json) =>
       _$WordResponseFromJson(json);

@@ -11,7 +11,7 @@ class UserSettingsResponse {
     required this.id,
     required this.interfaceLanguage,
   });
-  int id;
+  String id;
 
   InterfaceLanguageResponse interfaceLanguage;
 

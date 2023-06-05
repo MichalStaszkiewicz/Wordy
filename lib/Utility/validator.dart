@@ -1,3 +1,7 @@
+import 'package:dio/src/dio_error.dart';
+import 'package:wordy/domain/repositiories/user_repository.dart';
+import 'package:wordy/utility/either.dart';
+
 import '../data/network/request/models/update_user_interface_language_request_model.dart';
 import '../domain/repositiories/repository.dart';
 import 'locator/api_locator.dart';
@@ -34,25 +38,26 @@ class Validator {
 
   static Future<String> interfaceLanguageChange(String choosenLanguage) async {
     final userId = await locator.get<Repository>().getUserId();
-    final userInterfaceLanguage =
+    var userInterfaceLanguage =
         await locator.get<Repository>().getUserInterfaceLanguage();
-    if (userId != null) {
+    if (userId.isRight && userInterfaceLanguage.isRight) {
       try {
-        if (choosenLanguage.toLowerCase() == userInterfaceLanguage &&
-            userInterfaceLanguage == 'polish') {
-          String message = await locator
-              .get<Repository>()
+        if (choosenLanguage.toLowerCase() ==
+                userInterfaceLanguage.right!.toLowerCase() &&
+            userInterfaceLanguage.right!.toLowerCase() == 'polish') {
+          var message = await locator
+              .get<UserRepository>()
               .switchInterfaceLangauge(UpdateUserInterfaceLanguageModel(
-                  userId: userId, languageName: 'english'));
-          if (message == "SUCCESS") {
+                  userId: userId.right!, languageName: 'english'));
+
+          if (message.isRight) {
             locator.get<Repository>().synchronizeUserInterfaceLanguage();
           }
         } else {
-          String message = await locator
-              .get<Repository>()
-              .switchInterfaceLangauge(UpdateUserInterfaceLanguageModel(
-                  userId: userId, languageName: 'polish'));
-          if (message == "SUCCESS") {
+          var message = await locator.get<Repository>().switchInterfaceLangauge(
+              UpdateUserInterfaceLanguageModel(
+                  userId: userId.right!, languageName: 'polish'));
+          if (message.isRight) {
             locator.get<Repository>().synchronizeUserInterfaceLanguage();
           }
         }

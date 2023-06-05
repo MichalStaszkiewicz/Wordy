@@ -8,9 +8,10 @@ import 'package:mysql1/mysql1.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:wordy/Utility/utility.dart';
 import 'package:wordy/domain/models/course_entry.dart';
+import 'package:wordy/domain/models/custom_error.dart';
 
+import '../../../data/network/exceptions/exception_helper.dart';
 import '../../../domain/logic/quiz_logic.dart';
-import '../../../domain/logic/user_data_logic.dart';
 import '../../../domain/models/achievement.dart';
 import '../../../domain/models/achievement_old.dart';
 import '../../../domain/models/beginner_question.dart';
@@ -32,13 +33,17 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     on<LoadBeginnerQuiz>((event, emit) async {
       final quizLogic = locator<QuizLogic>();
       emit(InProgress());
-      List<BeginnerQuestion> questions =
-          await quizLogic.createBeginnerQuiz(event.topic);
-      emit(BeginnerQuizLoaded(
-          questions: questions,
-          currentQuestionIndex: 0,
-          selectedIndex: null,
-          correctAnswersWordIndexes: []));
+      var questions = await quizLogic.createBeginnerQuiz(event.topic);
+      if (questions.isRight) {
+        emit(BeginnerQuizLoaded(
+            questions: questions.right!,
+            currentQuestionIndex: 0,
+            selectedIndex: null,
+            correctAnswersWordIndexes: []));
+      } else {
+        emit(
+            QuizError(error: ExceptionHelper.getErrorMessage(questions.left!)));
+      }
     });
   }
 

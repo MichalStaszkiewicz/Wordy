@@ -9,7 +9,7 @@ part of 'registeration_response.dart';
 RegisterationResponse _$RegisterationResponseFromJson(
         Map<String, dynamic> json) =>
     RegisterationResponse(
-      id: json['id'] as int,
+      id: json['id'] as String,
       registerationCompleted: json['registerationCompleted'] as bool,
     );
 

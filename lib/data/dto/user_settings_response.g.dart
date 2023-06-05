@@ -9,7 +9,7 @@ part of 'user_settings_response.dart';
 UserSettingsResponse _$UserSettingsResponseFromJson(
         Map<String, dynamic> json) =>
     UserSettingsResponse(
-      id: json['id'] as int,
+      id: json['id'] as String,
       interfaceLanguage: InterfaceLanguageResponse.fromJson(
           json['interfaceLanguage'] as Map<String, dynamic>),
     );

@@ -6,11 +6,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/const/consts.dart';
+import 'package:wordy/data/network/exceptions/exception_helper.dart';
+import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/widgets/login_form.dart';
 import 'package:wordy/presentation/widgets/unexpected_error.dart';
+
 import '../../Utility/dialog_manager.dart';
 import '../../const/enums.dart';
+import '../../utility/locator/api_locator.dart';
 import '../bloc/register/register_bloc.dart';
 import '../bloc/login/login_bloc.dart';
 import '../widgets/register_form.dart';
@@ -25,6 +29,7 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   AuthFormType currentForm = AuthFormType.login;
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -43,11 +48,13 @@ class _AuthScreenState extends State<AuthScreen> {
             BlocListener<RegisterBloc, RegisterState>(
               listener: (context, state) {
                 if (state is RegisterInProgress) {
-                  DialogManager.showLoadingDialog(
-                      "loading in progress", '', context);
+                  DialogManager.showLoadingDialogWithCancelButton(
+                      "Creating your account please Wait",
+                      'Loading in progress',
+                      context, () {
+                    locator.get<Repository>().cancelRequest();
+                  });
                 } else if (state is RegisterSuccess) {
-                  Navigator.pop(context);
-
                   DialogManager.showSuccessDialog(
                       'You successfully registered an account',
                       'Success',
@@ -55,28 +62,35 @@ class _AuthScreenState extends State<AuthScreen> {
                     currentForm = AuthFormType.login;
                   });
                 } else if (state is RegisterError) {
-                  Navigator.pop(context);
-                  DialogManager.showErrorDialog(
-                      state.exception.toString(), 'Error', context, () {
+                  DialogManager.showErrorDialog(state.error, context, () {
                     currentForm = AuthFormType.register;
                   });
                 } else {}
               },
             ),
             BlocListener<LoginBloc, LoginState>(listener: (context, state) {
+              if (state is LoggedOut) {}
               if (state is Authenticating) {
-                DialogManager.showLoadingDialog(
-                    "loading in progress", '', context);
+                DialogManager.showLoadingDialogWithCancelButton(
+                    "loading in progress", '', context, () {
+                  locator<Repository>().cancelRequest().then((value) => context
+                      .read<
+                          LoginBloc>() // TODO : when canceling request we are in the logout state but then we recieving an error coming into login error and we poping non existing page
+                      .add(LogOut(errorMessage: 'Request Failed')));
+                });
               } else if (state is Authenticated) {
-                Navigator.pop(context);
-
                 state.registerCompleted
                     ? context.go('/home')
                     : context.go('/initial_settings');
               } else if (state is LoginError) {
-                Navigator.pop(context);
-                DialogManager.showErrorDialog(
-                    state.exception.toString(), 'Error', context, () {
+                if (DialogManager.isDialogShowing) {
+                  DialogManager.dismissDialog(context);
+                }
+                DialogManager.showErrorDialog(state.error, context, () {
+                  context
+                      .read<LoginBloc>()
+                      .add(LogOut(errorMessage: 'errorMessage'));
+
                   currentForm = AuthFormType.login;
                 });
               } else {}

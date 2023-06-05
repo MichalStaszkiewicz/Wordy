@@ -14,7 +14,6 @@ class LoggedOut extends LoginState {
   List<Object?> get props => [];
 }
 
-
 class Authenticating extends LoginState {
   Authenticating();
 }
@@ -25,6 +24,6 @@ class Authenticated extends LoginState {
 }
 
 class LoginError extends LoginState {
-  LoginError({required this.exception});
-  Exception exception;
+  LoginError({required this.error});
+  CustomError error;
 }

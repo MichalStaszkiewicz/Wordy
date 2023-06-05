@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/domain/logic/settings_logic.dart';
-import 'package:wordy/domain/logic/user_data_logic.dart';
+import 'package:wordy/domain/models/custom_error.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 import 'package:wordy/presentation/bloc/login/login_bloc.dart';
 import 'package:wordy/presentation/widgets/confirm_button.dart';
@@ -17,6 +17,7 @@ import 'package:wordy/utility/dialog_manager.dart';
 
 import '../../domain/models/interface_language.dart';
 import '../../domain/repositiories/repository.dart';
+import '../../utility/locator/api_locator.dart';
 import '../bloc/register/register_bloc.dart';
 
 class RegisterSettingCourse extends StatefulWidget {
@@ -31,7 +32,14 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
   Widget build(BuildContext context) {
     return FutureBuilder<List<InterfaceLanguage>>(
         future: RepositoryProvider.of<SettingsLogic>(context)
-            .getAvailableLanguages(),
+            .getAvailableLanguages()
+            .then((value) {
+          if (value.isLeft) {
+            throw Exception(
+                "There was some server issue. Please try again later");
+          }
+          return value.right!;
+        }),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Expanded(flex: 8, child: LoadingData());
@@ -39,10 +47,12 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
             return BlocListener<RegisterBloc, RegisterState>(
               listener: (context, state) {
                 if (state is RegisterLoadingState) {
-                  DialogManager.showLoadingDialog(
+                  DialogManager.showLoadingDialogWithCancelButton(
                       'We are preparing app to work for you ! Thank you for patience',
                       'Loading',
-                      context);
+                      context, () {
+                    locator.get<Repository>().cancelRequest();
+                  });
                 } else if (state is InitialSetupDone) {
                   context.go('/home');
                 }
@@ -98,8 +108,10 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
             );
           }
           DialogManager.showErrorDialog(
-              "The error occurred when trying to load data from the server.",
-              "Error",
+              CustomError(
+                  title: "Error",
+                  message:
+                      "The error occurred when trying to load data from the server."),
               context, () {
             context.go('/');
           });

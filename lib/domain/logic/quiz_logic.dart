@@ -5,9 +5,12 @@ import 'package:wordy/data/network/remote_source.dart';
 import 'package:wordy/data/network/request/models/begginer_quiz_request_model.dart';
 import 'package:wordy/domain/models/quiz_question.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
+import 'package:wordy/domain/repositiories/user_repository.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
+import 'package:wordy/utility/either.dart';
 
 import '../../Utility/utility.dart';
+import '../../data/network/request/models/insert_learned_words.request.model.dart';
 import '../../data/network/request/models/words_by_topic_request_model.dart';
 import '../../utility/locator/storage_locator.dart';
 import '../models/beginner_question.dart';
@@ -20,127 +23,136 @@ import '../models/word.dart';
 
 class QuizLogic {
   final Repository _repository;
-  QuizLogic(this._repository);
+  final UserRepository _userRepository;
+  QuizLogic(this._repository, this._userRepository);
 
-  Future<void> insertLearnedWords(List<int> wordIds) async {
-    try {
-      final userId = await _repository.getUserId();
-      if (userId != null) {
-        await _repository.insertLearnedWordList(userId, wordIds);
+  Future<Either<Exception, String>> insertLearnedWords(
+      List<int> wordIds) async {
+    final userId = await _repository.getUserId();
+    if (userId.isRight) {
+      var insertedWords = await _repository.insertLearnedWordList(
+          InsertLearnedWordsModel(userId: userId.right!, wordIdList: wordIds));
+      if (insertedWords.isRight) {
+        return Either.right(insertedWords.right);
       } else {
-        throw Exception('Storage error');
+        return Either.left(insertedWords.left!);
       }
-    } on Exception catch (e) {
-      rethrow;
+    } else {
+      return Either.left(userId.left);
     }
   }
 
-  Future<List<BeginnerQuestion>> createBeginnerQuiz(String topic) async {
+  Future<Either<Exception, List<BeginnerQuestion>>> createBeginnerQuiz(
+      String topic) async {
     List<BeginnerQuestion> quizQuestions = [];
-    final userId = await _repository.getUserId();
+    final userId = await _userRepository.getUserId();
+    if (userId.isLeft) {
+      return Either.left(userId.left);
+    }
     final userInterfaceLanguage = await _repository.getUserInterfaceLanguage();
-    final Course course = await _repository
-        .getUserCurrentCourse(
-            await locator<Repository>().getUserId().then((value) => value!))
-        .then((value) => value.course);
-    if (userId != null && userInterfaceLanguage != null) {
-      List<LearnedWord> learnedWords = await _repository
-          .getLearnedWordList(userId)
-          .then(
-              (value) => value.learnedWords.map((e) => e.toDomain()).toList());
+    if (userInterfaceLanguage.isLeft) {
+      return Either.left(userInterfaceLanguage.left);
+    }
+    var course = await _repository.getUserCurrentCourse(userId.right!);
+    if (course.isLeft) {
+      return Either.left(course.left!);
+    }
 
-      List<BeginnerQuizQuestion> questions = await _repository
-          .getBeginnerQuizWordList(BeginnerQuizModel(
-              topic: topic,
-              interfaceLanguage: userInterfaceLanguage,
-              userId: userId))
-          .then((value) =>
-              value.beginnerQuizWordList.map((e) => e.toDomain()).toList());
-      List<String> possibleAnswers = [];
+    var learnedWords = await _repository.getLearnedWordList(userId.right!);
+    if (learnedWords.isLeft) {
+      return Either.left(learnedWords.left!);
+    }
 
-      List<BeginnerQuizQuestion> filteredQuestions = [];
-      for (BeginnerQuizQuestion question in questions) {
-        if (!learnedWords.contains(LearnedWord(
-            question: question.question,
-            answer: question.answer,
-            wordId: question.wordId))) {
-          filteredQuestions.add(question);
-        }
+    var questions = await _repository.getBeginnerQuizWordList(BeginnerQuizModel(
+        topic: topic,
+        interfaceLanguage: userInterfaceLanguage.right!,
+        userId: userId.right!));
+    if (questions.isLeft) {
+      return Either.left(questions.left!);
+    }
+    List<BeginnerQuizQuestion> validatedQuestions = questions.right!;
+    List<LearnedWord> validatedLearnedWords = learnedWords.right!;
+    List<String> possibleAnswers = [];
+
+    List<BeginnerQuizQuestion> filteredQuestions = [];
+    for (BeginnerQuizQuestion question in validatedQuestions) {
+      if (!validatedLearnedWords.contains(LearnedWord(
+          question: question.question,
+          answer: question.answer,
+          wordId: question.wordId))) {
+        filteredQuestions.add(question);
       }
+    }
 
-      for (BeginnerQuizQuestion question in questions) {
-        possibleAnswers.add(question.answer);
-      }
-      if (filteredQuestions.length >= 10) {
-        List<int> questionIndexes = [];
-        for (int i = 0; i < 10;) {
-          Random random = Random();
+    for (BeginnerQuizQuestion question in validatedQuestions) {
+      possibleAnswers.add(question.answer);
+    }
+    if (filteredQuestions.length >= 10) {
+      List<int> questionIndexes = [];
+      for (int i = 0; i < 10;) {
+        Random random = Random();
 
-          int randomQuestionIndex = random.nextInt(filteredQuestions.length);
-          List<String> answers = [];
-          int correctAnswerIndex = 0;
-          if (!questionIndexes.contains(randomQuestionIndex) &&
-              !learnedWords.any((word) =>
-                  word.question == questions[randomQuestionIndex].question)) {
-            questionIndexes.add(randomQuestionIndex);
-            while (answers.length < 4) {
-              int randomAnswerIndex = random.nextInt(questions.length);
-              if (!answers
-                  .contains(filteredQuestions[randomAnswerIndex].answer)) {
-                answers.add(filteredQuestions[randomAnswerIndex].answer);
-              }
-            }
-            if (answers
-                .contains(filteredQuestions[randomQuestionIndex].answer)) {
-              correctAnswerIndex = answers.indexWhere((element) =>
-                  element == filteredQuestions[randomQuestionIndex].answer);
-            } else {
-              correctAnswerIndex = random.nextInt(3);
-              answers[correctAnswerIndex] =
-                  filteredQuestions[randomQuestionIndex].answer;
-            }
-
-            i++;
-            quizQuestions.add(BeginnerQuestion(
-                filteredQuestions[randomQuestionIndex].question,
-                answers,
-                correctAnswerIndex,
-                filteredQuestions[randomQuestionIndex].wordId));
-          }
-        }
-      } else {
-        print('Executed' + filteredQuestions.length.toString());
-        for (int i = 0; i < filteredQuestions.length; i++) {
-          BeginnerQuizQuestion question = filteredQuestions[i];
-          List<String> answers = [];
-
+        int randomQuestionIndex = random.nextInt(filteredQuestions.length);
+        List<String> answers = [];
+        int correctAnswerIndex = 0;
+        if (!questionIndexes.contains(randomQuestionIndex) &&
+            !validatedLearnedWords.any((word) =>
+                word.question ==
+                validatedQuestions[randomQuestionIndex].question)) {
+          questionIndexes.add(randomQuestionIndex);
           while (answers.length < 4) {
-            int randomAnswerIndex = Random().nextInt(questions.length);
-            String randomAnswer = questions[randomAnswerIndex].answer;
-            if (!answers.contains(randomAnswer)) {
-              answers.add(randomAnswer);
+            int randomAnswerIndex = random.nextInt(validatedQuestions.length);
+            if (!answers
+                .contains(filteredQuestions[randomAnswerIndex].answer)) {
+              answers.add(filteredQuestions[randomAnswerIndex].answer);
             }
           }
-
-          int correctAnswerIndex;
-          if (answers.contains(question.answer)) {
-            correctAnswerIndex = answers.indexOf(question.answer);
+          if (answers.contains(filteredQuestions[randomQuestionIndex].answer)) {
+            correctAnswerIndex = answers.indexWhere((element) =>
+                element == filteredQuestions[randomQuestionIndex].answer);
           } else {
-            correctAnswerIndex = Random().nextInt(4);
-            answers[correctAnswerIndex] = question.answer;
+            correctAnswerIndex = random.nextInt(3);
+            answers[correctAnswerIndex] =
+                filteredQuestions[randomQuestionIndex].answer;
           }
 
-          quizQuestions.add(
-            BeginnerQuestion(question.question, answers, correctAnswerIndex,
-                question.wordId),
-          );
+          i++;
+          quizQuestions.add(BeginnerQuestion(
+              filteredQuestions[randomQuestionIndex].question,
+              answers,
+              correctAnswerIndex,
+              filteredQuestions[randomQuestionIndex].wordId));
         }
       }
     } else {
-      throw Exception('Storage error');
+      for (int i = 0; i < filteredQuestions.length; i++) {
+        BeginnerQuizQuestion question = filteredQuestions[i];
+        List<String> answers = [];
+
+        while (answers.length < 4) {
+          int randomAnswerIndex = Random().nextInt(validatedQuestions.length);
+          String randomAnswer = validatedQuestions[randomAnswerIndex].answer;
+          if (!answers.contains(randomAnswer)) {
+            answers.add(randomAnswer);
+          }
+        }
+
+        int correctAnswerIndex;
+        if (answers.contains(question.answer)) {
+          correctAnswerIndex = answers.indexOf(question.answer);
+        } else {
+          correctAnswerIndex = Random().nextInt(4);
+          answers[correctAnswerIndex] = question.answer;
+        }
+
+        quizQuestions.add(
+          BeginnerQuestion(
+              question.question, answers, correctAnswerIndex, question.wordId),
+        );
+      }
     }
 
-    return quizQuestions;
+    return Either.right(quizQuestions);
   }
 
   Future<List<QuizQuestion>> createLearningQuiz(String topic) async {

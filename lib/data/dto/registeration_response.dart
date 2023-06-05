@@ -11,7 +11,7 @@ class RegisterationResponse {
     required this.id,
     required this.registerationCompleted,
   });
-  int id;
+  String id;
   bool registerationCompleted;
 
   factory RegisterationResponse.fromJson(Map<String, dynamic> json) =>

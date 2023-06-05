@@ -1,26 +1,33 @@
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/presentation/widgets/settings.dart';
 
+import '../../utility/either.dart';
 import '../models/interface_language.dart';
 
 class SettingsLogic {
   SettingsLogic(this._repository);
 
   final Repository _repository;
-  Future<List<InterfaceLanguage>> getAvailableLanguages() async {
-    return await _repository
-        .getAvailableLanguages()
-        .then((value) => value.languages.map((e) => e.toDomain()).toList());
+  Future<Either<Exception, List<InterfaceLanguage>>>
+      getAvailableLanguages() async {
+    var languages = await _repository.getAvailableLanguages();
+    if (languages.isLeft) {
+      
+      return Either.left(languages.left!);
+    }
+    return Either.right(languages.right);
   }
 
-  Future<List<InterfaceLanguage>> getAvailableLanguagesExcept(
-      String name) async {
-    List<InterfaceLanguage> availableLanguages = await _repository
-        .getAvailableLanguages()
-        .then((value) => value.languages.map((e) => e.toDomain()).toList());
-    availableLanguages.removeWhere(
+  Future<Either<Exception, List<InterfaceLanguage>>>
+      getAvailableLanguagesExcept(String name) async {
+    var availableLanguages = await _repository.getAvailableLanguages();
+    if (availableLanguages.isLeft) {
+      return Either.left(availableLanguages.left!);
+    }
+
+    availableLanguages.right!.removeWhere(
         (element) => element.name.toLowerCase() == name.toLowerCase());
-    return availableLanguages;
+    return Either.right(availableLanguages.right);
   }
 
   Future<bool> getUserTheme() async {

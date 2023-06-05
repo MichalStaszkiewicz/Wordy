@@ -32,8 +32,8 @@ class RegisterLoadingState extends RegisterState {
 }
 
 class RegisterError extends RegisterState {
-  RegisterError({required this.exception});
-  Exception exception;
+  RegisterError({required this.error});
+  CustomError error;
 }
 
 class InitialSetupDone extends RegisterState {}
