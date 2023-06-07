@@ -12,9 +12,10 @@ import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/widgets/language_to_choose.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/presentation/widgets/register_course_list.dart';
-import 'package:wordy/presentation/widgets/unexpected_error.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 
+import '../../data/network/exceptions/exception_helper.dart';
+import '../../data/network/exceptions/unexpected_error.dart';
 import '../../domain/models/interface_language.dart';
 import '../../domain/repositiories/repository.dart';
 import '../../utility/locator/api_locator.dart';
@@ -68,10 +69,13 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                           context.read<RegisterBloc>().add(FinishInitialSetup(
                               currentCourse: state.languageToLearn));
                         } else {
-                          DialogManager.showInformationDialog(
-                              'You have to select your language you want to learn',
-                              'woops',
-                              context);
+                          DialogManager.showErrorDialog(
+                              CustomError(
+                                  title: 'Error',
+                                  message:
+                                      'You have to select a language you want to learn'),
+                              context,
+                              () {});
                         }
                       },
                     );
@@ -101,7 +105,12 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                   if (state is InitialSetupLoading) {
                     return Expanded(flex: 8, child: LoadingData());
                   } else {
-                    return UnexpectedError();
+                    DialogManager.showErrorDialog(
+                        ExceptionHelper.getErrorMessage(UnexpectedError()),
+                        context, () {
+                      context.go('/');
+                    });
+                    return Container();
                   }
                 },
               ),

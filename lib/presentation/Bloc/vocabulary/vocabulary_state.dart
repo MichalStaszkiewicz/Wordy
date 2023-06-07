@@ -22,6 +22,11 @@ class VocabularyLoaded extends VocabularyState {
   List<Object> get props => [vocabularyList, vocabularyListSearched, language];
 }
 
+class VocabularyError extends VocabularyState {
+  VocabularyError({required this.error});
+  CustomError error;
+}
+
 class VocabularyFlashCards extends VocabularyState {
   VocabularyFlashCards({required this.flashCards});
   List<FlashCardData> flashCards;

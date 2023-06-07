@@ -60,7 +60,7 @@ Map<String, String> flagWays = {
 };
 
 Map<String, Map<String, dynamic>> ui_lang = {
-  "Polish": {
+  "polish": {
     "theme": "Motyw",
     "register_account_is_ready": "Twoje konto jest gotowe!",
     "language_menu_information": "Wybierz język którego chcesz się nauczyć",
@@ -107,7 +107,7 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "no_achievements":
         "Osiągnięcia nie przychodzą łatwo, ale to właśnie sprawia, że są warte poświęcenia. Nie poddawaj się i wkrótce będziesz miał pełną półkę trofeów i dokonań!",
   },
-  "English": {
+  "english": {
     "theme": "Theme",
     "register_account_is_ready": "Your account is ready!",
     "register_finish_text":

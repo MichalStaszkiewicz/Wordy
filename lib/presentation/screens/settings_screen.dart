@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 
 import 'package:wordy/presentation/widgets/loading_data.dart';
-import 'package:wordy/presentation/widgets/unexpected_error.dart';
 import 'package:wordy/const/consts.dart';
 
+import '../../Utility/dialog_manager.dart';
+import '../../data/network/exceptions/exception_helper.dart';
+import '../../data/network/exceptions/unexpected_error.dart';
 import '../widgets/select_language_dialog.dart';
 import '../widgets/settings.dart';
 import '../widgets/settings_on_off_option.dart';
@@ -25,9 +28,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Center(
-          child: Text(
-               ui_lang['English']!['settings_screen_app_bar']
-                  .toString(),
+          child: Text(ui_lang['English']!['settings_screen_app_bar'].toString(),
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall!
@@ -42,7 +43,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
           if (state is SettingsLoaded) {
             return const Settings();
           } else {
-            return UnexpectedError();
+            DialogManager.showErrorDialog(
+                ExceptionHelper.getErrorMessage(UnexpectedError()),
+                context, () {
+              context.go('/');
+            });
+            return Container();
           }
         },
       ),

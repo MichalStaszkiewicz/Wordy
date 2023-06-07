@@ -11,6 +11,7 @@ CourseResponse _$CourseResponseFromJson(Map<String, dynamic> json) =>
       id: json['id'] as int,
       name: json['name'] as String,
       image: json['image'] as String,
+      circularImage: json['circularImage'] as String,
     );
 
 Map<String, dynamic> _$CourseResponseToJson(CourseResponse instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$CourseResponseToJson(CourseResponse instance) =>
       'id': instance.id,
       'name': instance.name,
       'image': instance.image,
+      'circularImage': instance.circularImage,
     };

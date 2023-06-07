@@ -10,7 +10,6 @@ import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/widgets/login_form.dart';
-import 'package:wordy/presentation/widgets/unexpected_error.dart';
 
 import '../../Utility/dialog_manager.dart';
 import '../../const/enums.dart';
@@ -37,9 +36,7 @@ class _AuthScreenState extends State<AuthScreen> {
         BlocProvider(
           create: (context) => RegisterBloc(),
         ),
-        BlocProvider(
-          create: (context) => LoginBloc(),
-        ),
+        BlocProvider(create: (context) => LoginBloc()),
       ],
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -48,6 +45,9 @@ class _AuthScreenState extends State<AuthScreen> {
             BlocListener<RegisterBloc, RegisterState>(
               listener: (context, state) {
                 if (state is RegisterInProgress) {
+                  if (context.canPop()) {
+                    Navigator.pop(context);
+                  }
                   DialogManager.showLoadingDialogWithCancelButton(
                       "Creating your account please Wait",
                       'Loading in progress',
@@ -55,13 +55,20 @@ class _AuthScreenState extends State<AuthScreen> {
                     locator.get<Repository>().cancelRequest();
                   });
                 } else if (state is RegisterSuccess) {
+                  if (context.canPop()) {
+                    Navigator.pop(context);
+                  }
                   DialogManager.showSuccessDialog(
                       'You successfully registered an account',
                       'Success',
                       context, () {
                     currentForm = AuthFormType.login;
+                    setState(() {});
                   });
                 } else if (state is RegisterError) {
+                  if (context.canPop()) {
+                    Navigator.pop(context);
+                  }
                   DialogManager.showErrorDialog(state.error, context, () {
                     currentForm = AuthFormType.register;
                   });
@@ -74,8 +81,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 DialogManager.showLoadingDialogWithCancelButton(
                     "loading in progress", '', context, () {
                   locator<Repository>().cancelRequest().then((value) => context
-                      .read<
-                          LoginBloc>() // TODO : when canceling request we are in the logout state but then we recieving an error coming into login error and we poping non existing page
+                      .read<LoginBloc>()
                       .add(LogOut(errorMessage: 'Request Failed')));
                 });
               } else if (state is Authenticated) {
@@ -83,9 +89,10 @@ class _AuthScreenState extends State<AuthScreen> {
                     ? context.go('/home')
                     : context.go('/initial_settings');
               } else if (state is LoginError) {
-                if (DialogManager.isDialogShowing) {
-                  DialogManager.dismissDialog(context);
+                if (context.canPop()) {
+                  Navigator.pop(context);
                 }
+
                 DialogManager.showErrorDialog(state.error, context, () {
                   context
                       .read<LoginBloc>()

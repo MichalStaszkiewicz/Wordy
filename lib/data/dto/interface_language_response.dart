@@ -6,9 +6,13 @@ part 'interface_language_response.g.dart';
 @JsonSerializable()
 class InterfaceLanguageResponse {
   InterfaceLanguageResponse(
-      {required this.name, required this.image, required this.id});
+      {required this.name,
+      required this.image,
+      required this.id,
+      required this.circularImage});
   String name;
   String image;
+  String circularImage;
   int id;
   factory InterfaceLanguageResponse.fromJson(Map<String, dynamic> json) =>
       _$InterfaceLanguageResponseFromJson(json);
@@ -16,6 +20,7 @@ class InterfaceLanguageResponse {
     return InterfaceLanguage(
       image: image,
       name: name,
+      circularImage: circularImage,
     );
   }
 }

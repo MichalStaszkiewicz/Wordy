@@ -7,6 +7,7 @@ import 'package:wordy/domain/logic/vocabulary_logic.dart';
 import 'package:wordy/domain/models/vocabulary.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/domain/repositiories/user_repository.dart';
+import 'package:wordy/domain/repositiories/vocabulary_repository.dart';
 
 import '../../domain/logic/quiz_logic.dart';
 import '../../domain/logic/user_service.dart';
@@ -16,7 +17,8 @@ GetIt locator = GetIt.instance;
 Future<void> logicLocator() async {
   locator.registerLazySingleton(
       () => QuizLogic(locator<Repository>(), locator<UserRepository>()));
-  locator.registerLazySingleton(() => VocabularyLogic(locator<Repository>()));
+  locator.registerLazySingleton(
+      () => VocabularyService(locator<VocabularyRepository>()));
   locator.registerLazySingleton(() => UserService(locator<Repository>()));
   locator.registerLazySingleton(() => SettingsLogic(locator<Repository>()));
 }

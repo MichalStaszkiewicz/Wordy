@@ -20,6 +20,7 @@ class UpdateUserCurrentCourseResponse {
   UserCourse toDomain() {
     return UserCourse(
         course: updatedCourse.course.toDomain(),
-        interfaceLanguage: updatedCourse.interfaceLanguage.toDomain());
+        interfaceLanguage: updatedCourse.interfaceLanguage.toDomain(),
+        difficulty: updatedCourse.difficulty.toDomain());
   }
 }

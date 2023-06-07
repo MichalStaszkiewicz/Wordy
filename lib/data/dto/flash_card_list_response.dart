@@ -4,8 +4,8 @@ part 'flash_card_list_response.g.dart';
 
 @JsonSerializable()
 class FlashCardListResponse {
-  FlashCardListResponse({required this.flashcards});
-  List<FlashCardDto> flashcards;
+  FlashCardListResponse({required this.wordList});
+  List<FlashCardDto> wordList;
 
   factory FlashCardListResponse.fromJson(Map<String, dynamic> json) =>
       _$FlashCardListResponseFromJson(json);

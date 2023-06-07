@@ -12,6 +12,8 @@ UserCourseResponse _$UserCourseResponseFromJson(Map<String, dynamic> json) =>
       course: CourseResponse.fromJson(json['course'] as Map<String, dynamic>),
       interfaceLanguage: InterfaceLanguageResponse.fromJson(
           json['interfaceLanguage'] as Map<String, dynamic>),
+      difficulty: DifficultyResponse.fromJson(
+          json['difficulty'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserCourseResponseToJson(UserCourseResponse instance) =>
@@ -19,4 +21,5 @@ Map<String, dynamic> _$UserCourseResponseToJson(UserCourseResponse instance) =>
       'id': instance.id,
       'course': instance.course,
       'interfaceLanguage': instance.interfaceLanguage,
+      'difficulty': instance.difficulty,
     };

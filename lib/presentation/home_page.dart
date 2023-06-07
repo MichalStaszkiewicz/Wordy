@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
-import 'package:wordy/presentation/widgets/unexpected_error.dart';
+
 import 'package:wordy/presentation/screens/initial_settings_screen.dart';
 
 import 'package:wordy/presentation/screens/profile_screen.dart';
@@ -40,13 +40,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _currentScreenIndex = 0;
   final List<Widget> _currentScreen = [
     BlocProvider(
-      create: (context) =>
-          UserProgressBloc()..add(LoadUserSettingsAndCourseInformations()),
+      create: (context) => UserProgressBloc(),
       child: TopicScreen(),
     ),
     BlocProvider(
-      create: (context) =>
-          VocabularyBloc()..add(LoadVocabulary(language: 'English')),
+      create: (context) => VocabularyBloc(),
       child: VocabularyScreen(),
     ),
     ProfileScreen(),
@@ -116,7 +114,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       }
                     });
                   },
-                  tabs: navBarsItems('English')),
+                  tabs: navBarsItems('english')),
             ),
           ),
         ),

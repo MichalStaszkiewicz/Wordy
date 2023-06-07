@@ -12,6 +12,7 @@ import 'package:wordy/data/dto/register_user_response.dart';
 import 'package:wordy/data/dto/update_register_status_response.dart';
 import 'package:wordy/data/dto/update_user_current_course_response.dart';
 import 'package:wordy/data/dto/update_user_interface_language_response.dart';
+import 'package:wordy/data/dto/user_active_courses_progress_response.dart';
 import 'package:wordy/data/dto/user_settings_response.dart';
 import 'package:wordy/data/dto/word_list_response.dart';
 import 'package:wordy/data/network/api_service.dart';
@@ -33,6 +34,7 @@ import '../dto/current_course_response.dart';
 import '../dto/login_user_response.dart';
 
 import '../dto/registeration_response.dart';
+import '../dto/user_course_response.dart';
 import '../dto/user_response.dart';
 
 class RemoteSource implements ServerInterface {
@@ -210,7 +212,7 @@ class RemoteSource implements ServerInterface {
       FlashCardListModel request) async {
     try {
       var response = await _apiService.get(
-          '/v1/words/flashCards/${request.topic}/${request.interfaceLanguage}/${'polish'}');
+          '/v1/words/flashCards/by/topic/${request.topic}/${request.userId}');
       return Either.right(FlashCardListResponse.fromJson(response.data));
     } on DioError catch (exception) {
       return Either.left(exception);
@@ -222,7 +224,8 @@ class RemoteSource implements ServerInterface {
       getBeginnerQuizWordList(BeginnerQuizModel request) async {
     try {
       var response = await _apiService.get(
-          '/v1/words/quiz/beginner/${request.topic}/${request.interfaceLanguage}/${request.userId}');
+        '/v1/words/flashCards/${request.userId}/${request.topic}',
+      );
       return Either.right(BeginnerQuizWordListResponse.fromJson(response.data));
     } on DioError catch (exception) {
       return Either.left(exception);
@@ -260,18 +263,19 @@ class RemoteSource implements ServerInterface {
       var response =
           await _apiService.get('/v1/user/settings/${request.userId}/get');
       return Either.right(
-          UserSettingsResponse.fromJson(response.data['user_settigns']));
+          UserSettingsResponse.fromJson(response.data['userSettings']));
     } on DioError catch (exception) {
       return Either.left(exception);
     }
   }
 
   @override
-  Future<Either<DioError, CurrentCourseResponse>> getUserCurrentCourse(
+  Future<Either<DioError, UserCourseResponse>> getUserCurrentCourse(
       String userId) async {
     try {
       var response = await _apiService.get('/v1/profile/$userId/course');
-      return Either.right(CurrentCourseResponse.fromJson(response.data));
+      return Either.right(
+          UserCourseResponse.fromJson(response.data['userCourse']));
     } on DioError catch (exception) {
       return Either.left(exception);
     }
@@ -284,6 +288,19 @@ class RemoteSource implements ServerInterface {
       return Either.right(true);
     } on DioError catch (exception) {
       return Either.left(exception);
+    }
+  }
+
+  @override
+  Future<Either<DioError, UserActiveCoursesProgressResponse>>
+      getUserActiveCoursesProgress(String userId) async {
+    try {
+      var response = await _apiService.get('/v1/user/$userId/course/progress/');
+
+      return Either.right(
+          UserActiveCoursesProgressResponse.fromJson(response.data));
+    } on DioError catch (e) {
+      return Either.left(e);
     }
   }
 }

@@ -108,7 +108,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
                                 context.read<QuizBloc>().add(FinishQuiz(
                                     wordIds: state.correctAnswersWordIndexes,
                                     maximumPoints: state.questions.length));
-                                context.goNamed('quiz_screen_completed',
+                                context.pushNamed('quiz_screen_completed',
                                     queryParameters: {
                                       'topic': widget.topic,
                                       'maximumPoints':

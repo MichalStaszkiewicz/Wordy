@@ -12,6 +12,7 @@ InterfaceLanguageResponse _$InterfaceLanguageResponseFromJson(
       name: json['name'] as String,
       image: json['image'] as String,
       id: json['id'] as int,
+      circularImage: json['circularImage'] as String,
     );
 
 Map<String, dynamic> _$InterfaceLanguageResponseToJson(
@@ -19,5 +20,6 @@ Map<String, dynamic> _$InterfaceLanguageResponseToJson(
     <String, dynamic>{
       'name': instance.name,
       'image': instance.image,
+      'circularImage': instance.circularImage,
       'id': instance.id,
     };

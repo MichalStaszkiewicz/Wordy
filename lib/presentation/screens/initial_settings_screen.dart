@@ -7,14 +7,15 @@ import 'package:wordy/domain/logic/settings_logic.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 import 'package:wordy/presentation/bloc/login/login_bloc.dart';
 import 'package:wordy/presentation/screens/progress_of_register_screen.dart';
-import 'package:wordy/presentation/widgets/loading_data.dart';
-import 'package:wordy/presentation/widgets/unexpected_error.dart';
+
 import 'package:wordy/presentation/widgets/register_setting_course.dart';
 import 'package:wordy/presentation/screens/register_finish.dart';
 import 'package:wordy/utility/locator/storage_locator.dart';
 
 import '../../const/consts.dart';
 import '../../const/enums.dart';
+import '../../data/network/exceptions/exception_helper.dart';
+import '../../data/network/exceptions/unexpected_error.dart';
 import '../bloc/register/register_bloc.dart';
 
 class InitialSettingsScreen extends StatefulWidget {
@@ -33,7 +34,7 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
         return RegisterSettingCourse();
 
       default:
-        return UnexpectedError();
+        return Container();
     }
   }
 
@@ -60,8 +61,7 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
                 });
               }
               if (state is RegisterError) {
-                DialogManager.showErrorDialog(state.error, context,
-                    () {
+                DialogManager.showErrorDialog(state.error, context, () {
                   context.go('/');
                 });
               }

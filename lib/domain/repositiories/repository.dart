@@ -38,11 +38,13 @@ import '../../data/network/request/user_settings_request.dart';
 
 import '../../utility/either.dart';
 import '../models/achievement.dart';
+import '../models/active_course.dart';
 import '../models/beginner_quiz_question.dart';
 import '../models/flash_card_data.dart';
 import '../models/interface_language.dart';
 import '../models/registeration_status.dart';
 
+import '../models/user_active_courses_progress.dart';
 import '../models/user_course.dart';
 import '../models/user_settings.dart';
 import '../models/word.dart';
@@ -54,6 +56,18 @@ class Repository {
   );
   final LocalStorage _localSource;
   final RemoteSource _remoteSource;
+  Future<Either<DioError, UserActiveCoursesProgress>>
+      getUserActiveCoursesProgress(String userId) async {
+    var response = await _remoteSource.getUserActiveCoursesProgress(userId);
+    ;
+
+    if (response.isRight) {
+      return Either.right(response.right!.toDomain());
+    } else {
+      return Either.left(response.left);
+    }
+  }
+
   Future<Either<DioError, String>> switchInterfaceLangauge(
       UpdateUserInterfaceLanguageModel model) async {
     var response = await _remoteSource.switchInterfaceLanguage(
@@ -122,9 +136,9 @@ class Repository {
   Future<Either<DioError, List<FlashCardData>>> createFlashCardList(
       FlashCardListModel request) async {
     var response = await _remoteSource.createFlashCardList(request);
-    if (response.right != null) {
+    if (response.isRight) {
       return Either.right(
-          response.right!.flashcards.map((e) => e.toDomain()).toList());
+          response.right!.wordList.map((e) => e.toDomain()).toList());
     } else {
       return Either.left(response.left);
     }
@@ -144,7 +158,7 @@ class Repository {
       String userId) async {
     var response = await _remoteSource.getUserCurrentCourse(userId);
     if (response.isRight) {
-      return Either.right(response.right!.userCourse.toDomain());
+      return Either.right(response.right!.toDomain());
     } else {
       return Either.left(response.left);
     }

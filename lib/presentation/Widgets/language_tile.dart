@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
-import 'package:wordy/presentation/widgets/unexpected_error.dart';
 
 import '../../const/urls.dart';
+import '../../data/network/exceptions/exception_helper.dart';
+import '../../data/network/exceptions/unexpected_error.dart';
+import '../../utility/dialog_manager.dart';
 
 class LanguageTile extends StatelessWidget {
   LanguageTile({required this.language, required this.imagePath});
@@ -56,7 +59,12 @@ class LanguageTile extends StatelessWidget {
                     .add(InitialSetupStateUpdate(languageToLearn: ''));
               });
         } else {
-          return UnexpectedError();
+          DialogManager.showErrorDialog(
+              ExceptionHelper.getErrorMessage(UnexpectedError()),
+              context, () {
+            context.go('/');
+          });
+          return Container();
         }
       },
     );

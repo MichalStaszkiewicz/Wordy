@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/const/consts.dart';
-import 'package:wordy/presentation/widgets/unexpected_error.dart';
 
 import '../../domain/models/achievement.dart';
 import '../Bloc/quiz/quiz_bloc.dart';
@@ -124,7 +123,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                                     children: [
                                       Text(
                                         maxLines: 1,
-                                        ui_lang['English']![
+                                        ui_lang['english']![
                                                 'quiz_finish_your_score']
                                             .toString(),
                                         style: Theme.of(context)
@@ -146,7 +145,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                                     const EdgeInsets.only(left: 20, right: 20),
                                 child: AutoSizeText(
                                     maxLines: 1,
-                                    "${ui_lang['English']!['quiz_finish_percentage'].toString()} ${((widget.correctAnswers / widget.maximumPoints) * 100).toInt()}%",
+                                    "${ui_lang['english']!['quiz_finish_percentage'].toString()} ${((widget.correctAnswers / widget.maximumPoints) * 100).toInt()}%",
                                     style: Theme.of(context)
                                         .textTheme
                                         .headlineSmall),
@@ -173,7 +172,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                           context.goNamed('quiz_screen',
                               queryParameters: {'topic': widget.topic});
                         },
-                        label: ui_lang['English']!['quiz_finish_repeat']
+                        label: ui_lang['english']!['quiz_finish_repeat']
                             .toString(),
                         height: 50,
                         width: 350,
@@ -184,7 +183,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                           context.go('/home');
                         },
                         label:
-                            ui_lang['English']!['quiz_finish_home'].toString(),
+                            ui_lang['english']!['quiz_finish_home'].toString(),
                         height: 50,
                         width: 350,
                         margin: EdgeInsets.only(bottom: 20),

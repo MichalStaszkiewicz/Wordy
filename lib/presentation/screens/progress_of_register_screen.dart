@@ -6,7 +6,6 @@ import 'package:status_change/status_change.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 import 'package:wordy/presentation/widgets/stepper/stepper_connector.dart';
 import 'package:wordy/presentation/widgets/stepper/stepper_entry.dart';
-import 'package:wordy/presentation/widgets/unexpected_error.dart';
 import 'package:wordy/presentation/home_page.dart';
 
 import '../../Utility/utility.dart';

@@ -9,7 +9,7 @@ part of 'flash_card_list_response.dart';
 FlashCardListResponse _$FlashCardListResponseFromJson(
         Map<String, dynamic> json) =>
     FlashCardListResponse(
-      flashcards: (json['flashcards'] as List<dynamic>)
+      wordList: (json['wordList'] as List<dynamic>)
           .map((e) => FlashCardDto.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -17,5 +17,5 @@ FlashCardListResponse _$FlashCardListResponseFromJson(
 Map<String, dynamic> _$FlashCardListResponseToJson(
         FlashCardListResponse instance) =>
     <String, dynamic>{
-      'flashcards': instance.flashcards,
+      'wordList': instance.wordList,
     };

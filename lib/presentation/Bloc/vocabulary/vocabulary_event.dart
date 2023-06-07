@@ -8,17 +8,14 @@ abstract class VocabularyEvent extends Equatable {
 }
 
 class LoadVocabulary extends VocabularyEvent {
-  LoadVocabulary({required this.language});
-  String language;
+  LoadVocabulary();
 }
 
-
-
-class ListVocabularyWordsByTopic extends VocabularyEvent{
-ListVocabularyWordsByTopic({required this.topic});
-String topic;
-
+class ListVocabularyWordsByTopic extends VocabularyEvent {
+  ListVocabularyWordsByTopic({required this.topic});
+  String topic;
 }
+
 class SearchForSpecificVocabulary extends VocabularyEvent {
   SearchForSpecificVocabulary({required this.text});
   String text;

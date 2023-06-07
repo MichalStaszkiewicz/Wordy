@@ -7,7 +7,7 @@ import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 import 'package:wordy/presentation/widgets/achievement_item_back.dart';
 import 'package:wordy/presentation/widgets/flip_cards.dart';
 import 'package:wordy/presentation/widgets/statistics_item.dart';
-import 'package:wordy/presentation/widgets/unexpected_error.dart';
+
 import 'package:wordy/const/consts.dart';
 
 import '../../domain/models/achievement_old.dart';

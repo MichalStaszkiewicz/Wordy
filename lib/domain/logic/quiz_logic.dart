@@ -103,8 +103,8 @@ class QuizLogic {
           while (answers.length < 4) {
             int randomAnswerIndex = random.nextInt(validatedQuestions.length);
             if (!answers
-                .contains(filteredQuestions[randomAnswerIndex].answer)) {
-              answers.add(filteredQuestions[randomAnswerIndex].answer);
+                .contains(validatedQuestions[randomAnswerIndex].answer)) {
+              answers.add(validatedQuestions[randomAnswerIndex].answer);
             }
           }
           if (answers.contains(filteredQuestions[randomQuestionIndex].answer)) {

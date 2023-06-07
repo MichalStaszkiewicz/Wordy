@@ -78,7 +78,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         final state = this.state as InitialSetupState;
         final userInterfaceLanguage =
             await locator<Repository>().getUserInterfaceLanguage();
-        if (event.languageToLearn == userInterfaceLanguage) {
+        if (event.languageToLearn.toLowerCase() ==
+            userInterfaceLanguage.right!.toLowerCase()) {
           emit(RegisterLanguageChangeInfo(
               message:
                   'Choosing this language will change your interface language.',
@@ -108,8 +109,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       });
       if (result.isRight) {
         emit(RegisterSuccess());
+      } else {
+        emit(RegisterError(
+            error: ExceptionHelper.getErrorMessage(result.left!)));
       }
-      emit(RegisterError(error: ExceptionHelper.getErrorMessage(result.left!)));
     });
   }
 }

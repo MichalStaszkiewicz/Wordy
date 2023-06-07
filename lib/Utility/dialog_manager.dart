@@ -7,14 +7,6 @@ import 'package:go_router/go_router.dart';
 import '../domain/models/custom_error.dart';
 
 class DialogManager {
-  static bool isDialogShowing = false;
-  static void dismissDialog(BuildContext context) {
-    if (isDialogShowing) {
-      Navigator.pop(context);
-      isDialogShowing = false;
-    }
-  }
-
   static void showSuccessDialog(String message, String title,
       BuildContext context, VoidCallback onOkPress) {
     AwesomeDialog(
@@ -24,7 +16,6 @@ class DialogManager {
             dialogType: DialogType.success,
             btnOkOnPress: onOkPress)
         .show();
-    isDialogShowing = true;
   }
 
   static void showInformationDialog(
@@ -36,7 +27,6 @@ class DialogManager {
             dialogType: DialogType.info,
             dismissOnTouchOutside: true)
         .show();
-    isDialogShowing = true;
   }
 
   static void showLoadingDialogWithCancelButton(String message, String title,
@@ -62,7 +52,6 @@ class DialogManager {
       dismissOnBackKeyPress: false,
       dismissOnTouchOutside: false,
     ).show();
-    isDialogShowing = true;
   }
 
   static void showQuestionDialog(
@@ -81,7 +70,6 @@ class DialogManager {
             dismissOnTouchOutside: false,
             btnOkOnPress: onOkPress)
         .show();
-    isDialogShowing = true;
   }
 
   static void showErrorDialog(
@@ -94,6 +82,5 @@ class DialogManager {
             dialogType: DialogType.error,
             btnOkOnPress: onOkPress)
         .show();
-    isDialogShowing = true;
   }
 }

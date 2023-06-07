@@ -7,6 +7,7 @@ import 'package:wordy/data/network/remote_source.dart';
 import 'package:wordy/domain/repositiories/user_repository.dart';
 
 import '../../domain/repositiories/repository.dart';
+import '../../domain/repositiories/vocabulary_repository.dart';
 
 GetIt locator = GetIt.instance;
 Future<void> storageLocator() async {
@@ -17,4 +18,6 @@ Future<void> storageLocator() async {
   locator.registerLazySingleton(
       () => Repository(locator<LocalStorage>(), locator<RemoteSource>()));
   locator.registerLazySingleton(() => UserRepository(locator<Repository>()));
+  locator
+      .registerLazySingleton(() => VocabularyRepository(locator<Repository>()));
 }

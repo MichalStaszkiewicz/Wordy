@@ -15,6 +15,8 @@ import '../../data/dto/registeration_response.dart';
 import '../../data/dto/update_register_status_response.dart';
 import '../../data/dto/update_user_current_course_response.dart';
 import '../../data/dto/update_user_interface_language_response.dart';
+import '../../data/dto/user_active_courses_progress_response.dart';
+import '../../data/dto/user_course_response.dart';
 import '../../data/dto/user_response.dart';
 import '../../data/dto/user_settings_response.dart';
 import '../../data/dto/word_list_response.dart';
@@ -57,7 +59,7 @@ abstract class ServerInterface {
       updateRegisterationStatus(UpdateRegisterStatusRequest request);
   Future<Either<DioError, UpdateUserCurrentCourseResponse>> switchCurrentCourse(
       UpdateUserCurrentCourseRequest request);
-  Future<Either<DioError, CurrentCourseResponse>> getUserCurrentCourse(
+  Future<Either<DioError, UserCourseResponse>> getUserCurrentCourse(
       String userId);
   Future<Either<DioError, FlashCardListResponse>> createFlashCardList(
       FlashCardListModel request);
@@ -71,6 +73,8 @@ abstract class ServerInterface {
   Future<Either<DioError, UserSettingsResponse>> getUserSettings(
       UserSettingsRequest request);
   Future<Either<DioError, void>> cancelRequest();
+  Future<Either<DioError, UserActiveCoursesProgressResponse>>
+      getUserActiveCoursesProgress(String userId);
 
   //Future<int> getWordiesCountByTopic(String topic);
 }

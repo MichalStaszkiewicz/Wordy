@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
 class DifficultyLevelWidget extends StatelessWidget {
-  DifficultyLevelWidget({required this.textColor, required this.widgetColor});
+  DifficultyLevelWidget(
+      {required this.textColor,
+      required this.widgetColor,
+      required this.label});
   Color widgetColor;
   Color textColor;
+  String label;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +17,7 @@ class DifficultyLevelWidget extends StatelessWidget {
       width: 100,
       child: Center(
         child: Text(
-          "Advanced",
+          label,
           style: Theme.of(context)
               .textTheme
               .titleSmall!

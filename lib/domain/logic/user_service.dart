@@ -4,6 +4,7 @@ import 'package:wordy/data/dto/update_user_interface_language_response.dart';
 import 'package:wordy/data/dto/user_response.dart';
 import 'package:wordy/data/network/exceptions/api_errors/api_error_message.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
+import 'package:wordy/data/network/exceptions/session_verification_error.dart';
 import 'package:wordy/data/network/remote_source.dart';
 import 'package:wordy/data/network/request/login_user_request.dart';
 import 'package:wordy/data/network/request/models/user_settings_request_model.dart';
@@ -27,14 +28,35 @@ import '../../data/network/request/update_user_interface_language_request.dart';
 import '../../utility/either.dart';
 import '../../utility/locator/storage_locator.dart';
 import '../models/achievement.dart';
+import '../models/active_course.dart';
 import '../models/course_basic.dart';
 import '../models/interface_language.dart';
 
+import '../models/user_active_courses_progress.dart';
 import '../models/user_course.dart';
 
 class UserService {
   UserService(this._repository);
   final Repository _repository;
+
+  Future<Either<Exception, UserActiveCoursesProgress>>
+      getUserActiveCoursesProgress() async {
+    var userId = await _repository.getUserId();
+    if (userId.isLeft) {
+      return Either.left(SessionVerificationError(
+          title: 'Session Error',
+          message:
+              "We couldn't verify your session. You will be logged out now. Sorry for the difficulties."));
+    }
+    var activeCourses =
+        await _repository.getUserActiveCoursesProgress(userId.right!);
+    if (activeCourses.isRight) {
+      return Either.right(activeCourses.right);
+    } else {
+      return Either.left(activeCourses.left);
+    }
+  }
+
   Future<void> updateRegisterationStatus(bool status, String userId) async {
     await _repository.updateUserRegisterStatus(UpdateRegisterStatusRequest(
       userId: userId,
@@ -91,7 +113,7 @@ class UserService {
     }
 
     await _repository.synchronizeUserInterfaceLanguage();
-    return Either.right('Success');
+    return Either.right(userId.right);
   }
 
   Future<Either<Exception, String>> registerUser(

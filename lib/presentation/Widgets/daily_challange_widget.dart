@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'difficulty_level_widget.dart';
 
 class DailyChallangeWidget extends StatelessWidget {
-  const DailyChallangeWidget({
-    super.key,
-  });
+  DailyChallangeWidget({required this.difficultyLevel});
+  String difficultyLevel;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +42,7 @@ class DailyChallangeWidget extends StatelessWidget {
                 DifficultyLevelWidget(
                   textColor: Colors.blue,
                   widgetColor: Colors.blue.withOpacity(0.3),
+                  label: difficultyLevel,
                 ),
                 Column(
                   children: [
