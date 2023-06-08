@@ -3,7 +3,9 @@ import 'package:dio/src/response.dart';
 import 'package:wordy/const/urls.dart';
 
 import 'package:wordy/data/dto/achievement_list.dart';
+import 'package:wordy/data/dto/active_course_response.dart';
 import 'package:wordy/data/dto/beginner_quiz_word_list_response.dart';
+import 'package:wordy/data/dto/course_response.dart';
 import 'package:wordy/data/dto/flash_card_list_response.dart';
 import 'package:wordy/data/dto/interface_language_response.dart';
 import 'package:wordy/data/dto/language_list_response.dart';
@@ -30,12 +32,12 @@ import 'package:wordy/domain/repositiories/server_interface.dart';
 
 import '../../utility/either.dart';
 import '../dto/achievement_dto.dart';
-import '../dto/current_course_response.dart';
 import '../dto/login_user_response.dart';
 
 import '../dto/registeration_response.dart';
 import '../dto/user_course_response.dart';
 import '../dto/user_response.dart';
+import '../../data/dto/course_list_response.dart';
 
 class RemoteSource implements ServerInterface {
   RemoteSource(this._apiService);
@@ -295,10 +297,36 @@ class RemoteSource implements ServerInterface {
   Future<Either<DioError, UserActiveCoursesProgressResponse>>
       getUserActiveCoursesProgress(String userId) async {
     try {
-      var response = await _apiService.get('/v1/user/$userId/course/progress/');
+      var response = await _apiService.get('/v1/user/$userId/course/progress');
 
       return Either.right(
           UserActiveCoursesProgressResponse.fromJson(response.data));
+    } on DioError catch (e) {
+      return Either.left(e);
+    }
+  }
+
+  @override
+  Future<Either<DioError, CourseListResponse>> getAvailableCourses(
+      String userId) async {
+    try {
+      var response =
+          await _apiService.get('/v1/user/$userId/course/availableCourses');
+
+      return Either.right(CourseListResponse.fromJson(response.data));
+    } on DioError catch (e) {
+      return Either.left(e);
+    }
+  }
+
+  @override
+  Future<Either<DioError, ActiveCourseResponse>> getUserCurrentCourseProgress(
+      String userId) async {
+    try {
+      var response =
+          await _apiService.get('/v1/user/$userId/course/current/progress');
+
+      return Either.right(ActiveCourseResponse.fromJson(response.data[0]));
     } on DioError catch (e) {
       return Either.left(e);
     }

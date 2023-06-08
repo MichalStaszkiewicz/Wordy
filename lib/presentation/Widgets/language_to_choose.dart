@@ -21,7 +21,7 @@ class LanguageToChoose extends StatelessWidget {
                   itemCount: languages.length,
                   itemBuilder: (context, index) => LanguageTile(
                       language: languages[index].name,
-                      imagePath: languages[index].image)),
+                      imagePath: languages[index].image, onSelect: () {  },  selectedLangauge: '',)),
             ),
           )
         ],

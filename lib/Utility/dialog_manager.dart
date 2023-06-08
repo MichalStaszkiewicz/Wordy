@@ -3,10 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wordy/data/network/exceptions/exception_helper.dart';
+import 'package:wordy/data/network/exceptions/unexpected_error.dart';
+import 'package:wordy/domain/logic/settings_logic.dart';
+import 'package:wordy/presentation/widgets/loading_data.dart';
 
 import '../domain/models/custom_error.dart';
+import '../domain/repositiories/user_repository.dart';
+import '../presentation/widgets/language_tile.dart';
+import '../presentation/widgets/select_course_dialog.dart';
+import 'locator/api_locator.dart';
 
 class DialogManager {
+  static void showSelectNewCourseDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SelectCourseDialog();
+      },
+    );
+  }
+
   static void showSuccessDialog(String message, String title,
       BuildContext context, VoidCallback onOkPress) {
     AwesomeDialog(

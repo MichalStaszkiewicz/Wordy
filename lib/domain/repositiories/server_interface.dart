@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:wordy/data/dto/achievement_list.dart';
+import 'package:wordy/data/dto/course_response.dart';
 
 import '../../data/dto/achievement_dto.dart';
 
+import '../../data/dto/active_course_response.dart';
 import '../../data/dto/beginner_quiz_word_list_response.dart';
-import '../../data/dto/current_course_response.dart';
+import '../../data/dto/course_list_response.dart';
 import '../../data/dto/flash_card_list_response.dart';
 import '../../data/dto/interface_language_response.dart';
 import '../../data/dto/language_list_response.dart';
@@ -75,6 +77,8 @@ abstract class ServerInterface {
   Future<Either<DioError, void>> cancelRequest();
   Future<Either<DioError, UserActiveCoursesProgressResponse>>
       getUserActiveCoursesProgress(String userId);
-
-  //Future<int> getWordiesCountByTopic(String topic);
+  Future<Either<DioError, CourseListResponse>> getAvailableCourses(
+      String userId);
+  Future<Either<DioError, ActiveCourseResponse>> getUserCurrentCourseProgress(
+      String userId);
 }

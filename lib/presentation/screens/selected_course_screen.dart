@@ -2,17 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wordy/data/network/exceptions/exception_helper.dart';
+
 import 'package:wordy/presentation/widgets/circular_precentage_chart.dart';
+import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
+import 'package:wordy/utility/dialog_manager.dart';
 
 import '../../domain/models/active_course.dart';
-import '../../domain/models/current_course_progress.dart';
-import '../Bloc/quiz/quiz_bloc.dart';
+
+import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/selected_course_background.dart';
 
 class SelectedCourseScreen extends StatefulWidget {
-  SelectedCourseScreen({required this.currentCourse});
-  CurrentCourseProgress currentCourse;
+  SelectedCourseScreen();
+
   @override
   State<SelectedCourseScreen> createState() => _SelectedCourseScreenState();
 }
@@ -21,75 +25,89 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => QuizBloc(),
-        child: CustomPaint(
-          painter: SelectedCourseBackground(backgroundColor: Colors.amber),
-          child: Container(
-            height: 1000,
-            padding: EdgeInsets.only(top: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: BlocProvider(
+      create: (context) => CoursesUpdateBloc()..add(LoadCurrentCourse()),
+      child: BlocBuilder<CoursesUpdateBloc, CoursesUpdateState>(
+        builder: (context, state) {
+          if (state is CourseTopicsLoaded) {
+            return CustomPaint(
+              painter: SelectedCourseBackground(backgroundColor: Colors.amber),
+              child: Container(
+                height: 1000,
+                padding: EdgeInsets.only(top: 20),
+                child: SingleChildScrollView(
+                  child: Column(
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          context.go('/home');
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(left: 10),
-                          child: Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: Colors.white,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              context.go('/home');
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Icon(
+                                Icons.arrow_back_ios_new_rounded,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
-                        ),
+                          Text(
+                            'Course',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(color: Colors.white),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: 10),
+                            height: 50,
+                            width: 50,
+                          )
+                        ],
                       ),
-                      Text(
-                        'Course',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(color: Colors.white),
-                      ),
+                      _buildCurrentCourseInformations(context, state.course),
                       Container(
-                        margin: EdgeInsets.only(right: 10),
-                        height: 50,
-                        width: 50,
+                        height: 2000,
+                        child: GridView.builder(
+                            itemCount: state.course.topicProgress.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    mainAxisSpacing: 20, crossAxisCount: 2),
+                            itemBuilder: (context, index) => GestureDetector(
+                                  onTap: () {
+                                    context.goNamed('quiz_screen',
+                                        queryParameters: {
+                                          'topic': state
+                                              .course.topicProgress[index].name
+                                        });
+                                  },
+                                  child: _buildTopicItem(
+                                      context,
+                                      state.course.topicProgress[index].name,
+                                      state.course.topicProgress[index]
+                                          .knownWords,
+                                      state.course.topicProgress[index]
+                                          .wordsCount),
+                                )),
                       )
                     ],
                   ),
-                  _buildCurrentCourseInformations(context),
-                  Container(
-                    height: 2000,
-                    child: GridView.builder(
-                        itemCount: widget.currentCourse.topics.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                mainAxisSpacing: 20, crossAxisCount: 2),
-                        itemBuilder: (context, index) => GestureDetector(
-                              onTap: () {
-                                context.goNamed('quiz_screen',
-                                    queryParameters: {
-                                      'topic': 'Basic Conversation'
-                                    });
-                              },
-                              child: _buildTopicItem(
-                                  context,
-                                  widget.currentCourse.topics[index].name,
-                                  widget.currentCourse.topics[index].knownWords,
-                                  widget
-                                      .currentCourse.topics[index].wordsCount),
-                            )),
-                  )
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
+            );
+          } else if (state is CourseUpdateError) {
+            DialogManager.showErrorDialog(state.error, context, () {
+              context.go('/home');
+            });
+            return Container();
+          } else {
+            return LoadingData();
+          }
+        },
       ),
-    );
+    ));
   }
 
   Container _buildTopicItem(
@@ -169,7 +187,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
     );
   }
 
-  Container _buildCurrentCourseInformations(BuildContext context) {
+  Container _buildCurrentCourseInformations(
+      BuildContext context, ActiveCourse course) {
     return Container(
       height: 180,
       child: Row(
@@ -180,7 +199,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  widget.currentCourse.userCourse.course.name.capitalize!,
+                  course.userCourse.course.name.capitalize!,
                   style: Theme.of(context)
                       .textTheme
                       .headlineMedium!
@@ -196,8 +215,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
                     child: Row(
                       children: [
                         Text(
-                          widget.currentCourse.userCourse.difficulty.beginner
-                              .name.capitalize!,
+                          course
+                              .userCourse.difficulty.beginner.name.capitalize!,
                           style: Theme.of(context)
                               .textTheme
                               .titleLarge!
@@ -249,7 +268,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
               strokeWidth: 2,
               progressColor: Colors.white,
               backgroundColor: Colors.white60,
-              progress: widget.currentCourse.totalProgress,
+              progress: course.totalProgress,
               textStyle: Theme.of(context)
                   .textTheme
                   .headlineMedium!

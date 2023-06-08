@@ -12,7 +12,7 @@ UserActiveCoursesProgressResponse _$UserActiveCoursesProgressResponseFromJson(
       activeCourses: (json['activeCourses'] as List<dynamic>)
           .map((e) => ActiveCourseResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
-      currentCourse: CurrentCourseResponse.fromJson(
+      currentCourse: ActiveCourseResponse.fromJson(
           json['currentCourse'] as Map<String, dynamic>),
     );
 

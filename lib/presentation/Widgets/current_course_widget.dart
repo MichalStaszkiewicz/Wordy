@@ -5,12 +5,11 @@ import 'package:wordy/const/urls.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 
 import '../../domain/models/active_course.dart';
-import '../../domain/models/current_course_progress.dart';
 import 'difficulty_level_widget.dart';
 
 class CurrentCourseWidget extends StatelessWidget {
   CurrentCourseWidget({required this.currentCourse, required this.label});
-  CurrentCourseProgress currentCourse;
+  ActiveCourse currentCourse;
   String label;
   @override
   Widget build(BuildContext context) {
@@ -95,8 +94,9 @@ class CurrentCourseWidget extends StatelessWidget {
                               alignment: Alignment.bottomLeft,
                               child: GestureDetector(
                                   onTap: () {
-                                    context.go('/selected_course',
-                                        extra: currentCourse);
+                                    context.go(
+                                      '/selected_course',
+                                    );
                                   },
                                   child: _buildContinueButton(context))),
                         ),

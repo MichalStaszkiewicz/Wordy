@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:math';
 
@@ -12,6 +13,7 @@ import 'package:wordy/data/dto/update_user_interface_language_response.dart';
 import 'package:wordy/data/network/request/models/insert_learned_words.request.model.dart';
 import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/data/network/request/update_user_interface_language_request.dart';
+import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/learned_word.dart';
 
 import '../../data/dto/achievement_dto.dart';
@@ -56,10 +58,30 @@ class Repository {
   );
   final LocalStorage _localSource;
   final RemoteSource _remoteSource;
+  Future<Either<DioError, ActiveCourse>> getUserCurrentCourseProgress(
+      String userId) async {
+    var course = await _remoteSource.getUserCurrentCourseProgress(userId);
+    if (course.isRight) {
+      return Either.right(course.right!.toDomain());
+    } else {
+      return Either.left(course.left);
+    }
+  }
+
+  Future<Either<DioError, List<Course>>> getAvailableCourses(
+      String userId) async {
+    var courses = await _remoteSource.getAvailableCourses(userId);
+    if (courses.isRight) {
+      return Either.right(
+          courses.right!.courses.map((e) => e.toDomain()).toList());
+    } else {
+      return Either.left(courses.left);
+    }
+  }
+
   Future<Either<DioError, UserActiveCoursesProgress>>
       getUserActiveCoursesProgress(String userId) async {
     var response = await _remoteSource.getUserActiveCoursesProgress(userId);
-    ;
 
     if (response.isRight) {
       return Either.right(response.right!.toDomain());

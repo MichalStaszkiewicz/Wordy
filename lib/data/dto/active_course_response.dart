@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:wordy/data/dto/progress_in_topic_response.dart';
 import 'package:wordy/data/dto/user_course_response.dart';
 
 import '../../domain/models/active_course.dart';
@@ -12,8 +13,10 @@ class ActiveCourseResponse {
       required this.finishedTopics,
       required this.wordsLearned,
       required this.totalProgress,
-      required this.topicsCount});
+      required this.topicsCount,
+      required this.topicProgress});
   UserCourseResponse userCourse;
+  List<ProgressInTopicResponse> topicProgress;
   int finishedTopics;
   int wordsLearned;
   double totalProgress;
@@ -27,6 +30,7 @@ class ActiveCourseResponse {
         finishedTopics: finishedTopics,
         wordsLearned: wordsLearned,
         totalProgress: totalProgress,
-        topicsCount: topicsCount);
+        topicsCount: topicsCount,
+        topicProgress: topicProgress.map((e) => e.toDomain()).toList());
   }
 }

@@ -12,7 +12,7 @@ class ProgressInTopicResponse {
   int wordsCount;
 
   factory ProgressInTopicResponse.fromJson(Map<String, dynamic> json) =>
-      _$ProgressInTopicResponseFromJson(json['topic']);
+      _$ProgressInTopicResponseFromJson(json);
 
   ProgressInTopic toDomain() {
     return ProgressInTopic(

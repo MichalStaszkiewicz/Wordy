@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/domain/models/active_course.dart';
-import 'package:wordy/domain/models/current_course_progress.dart';
+
 import 'package:wordy/presentation/home_page.dart';
 import 'package:wordy/presentation/screens/auth_screen.dart';
 import 'package:wordy/presentation/screens/quiz_finish_screen.dart';
@@ -20,6 +20,7 @@ class AppRouter {
   static const quizScreen = '/home/quiz_screen';
   static const quizCompleted = '/home/quiz_screen/completed';
   static const vocabularyTopicScreen = '/home/vocabulary_topic_screen';
+  static const selectedCourseScreenNamed = '/selected_course_named';
   static const vocabularyTopicSelectedScreen =
       '/home/vocabulary_topic_selected_screen';
   static const vocabularyTopicSelectedScreenNamed =
@@ -48,9 +49,7 @@ class AppRouter {
       );
   static Widget _selectedCourseScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
-      SelectedCourseScreen(
-        currentCourse: state.extra as CurrentCourseProgress,
-      );
+      SelectedCourseScreen();
   static Widget _authScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
       AuthScreen();
@@ -64,7 +63,10 @@ class AppRouter {
     GoRoute(path: authScreen, builder: _authScreenRouteBuilder),
     GoRoute(path: initialSettings, builder: _initialSettingsScreenRouteBuilder),
     GoRoute(path: home, builder: _homeScreenRouteBuilder),
-    GoRoute(path: selectedCourse, builder: _selectedCourseScreenRouteBuilder),
+    GoRoute(
+        name: selectedCourseScreenNamed,
+        path: selectedCourse,
+        builder: _selectedCourseScreenRouteBuilder),
     GoRoute(
         name: 'quiz_screen',
         path: quizScreen,

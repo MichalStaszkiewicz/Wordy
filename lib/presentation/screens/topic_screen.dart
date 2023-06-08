@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
@@ -9,7 +10,10 @@ import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 
+import '../../data/network/request/models/update_user_current_course_request_model.dart';
 import '../../utility/locator/api_locator.dart';
+
+import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/add_new_course_item.dart';
 import '../widgets/circular_precentage_chart.dart';
 import '../widgets/course_item.dart';
@@ -28,29 +32,16 @@ class TopicScreen extends StatefulWidget {
 
 class _TopicScreenState extends State<TopicScreen>
     with TickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation animation;
-
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 500),
-    );
-    animation = Tween<double>(
-      begin: -context.height,
-      end: context.height / 2,
-    ).animate(_controller);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
-  var backgroundBarrier = false;
   var dialogShowed = false;
   @override
   Widget build(BuildContext context) {
@@ -58,11 +49,11 @@ class _TopicScreenState extends State<TopicScreen>
       child: Stack(
         children: [
           Container(
-            child: FutureBuilder(
-                future: locator<UserService>().getUserActiveCoursesProgress(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.isRight) {
+            child: BlocProvider<CoursesUpdateBloc>(
+                create: (context) => CoursesUpdateBloc()..add(LoadCourses()),
+                child: BlocBuilder<CoursesUpdateBloc, CoursesUpdateState>(
+                  builder: (context, state) {
+                    if (state is CoursesLoaded) {
                       return CustomScrollView(
                         slivers: [
                           SliverAppBar(
@@ -92,18 +83,16 @@ class _TopicScreenState extends State<TopicScreen>
                                         Container(
                                           height: 35,
                                           child: Image.network(Urls.kImageUrl +
-                                              snapshot
-                                                  .data!
-                                                  .right!
+                                              state
+                                                  .courses
                                                   .currentCourse
                                                   .userCourse
                                                   .interfaceLanguage
                                                   .image),
                                         ),
                                         Text(
-                                            snapshot
-                                                .data!
-                                                .right!
+                                            state
+                                                .courses
                                                 .currentCourse
                                                 .userCourse
                                                 .interfaceLanguage
@@ -129,17 +118,9 @@ class _TopicScreenState extends State<TopicScreen>
                           ),
                           SliverToBoxAdapter(
                             child: CurrentCourseWidget(
-                              currentCourse:
-                                  snapshot.data!.right!.currentCourse,
-                              label: snapshot
-                                  .data!
-                                  .right!
-                                  .currentCourse
-                                  .userCourse
-                                  .difficulty
-                                  .beginner
-                                  .name
-                                  .capitalize!,
+                              currentCourse: state.courses.currentCourse,
+                              label: state.courses.currentCourse.userCourse
+                                  .difficulty.beginner.name.capitalize!,
                             ),
                           ),
                           SliverToBoxAdapter(
@@ -162,54 +143,65 @@ class _TopicScreenState extends State<TopicScreen>
                               ),
                             ),
                           ),
-                          SliverToBoxAdapter(
-                            child: const SizedBox(
+                          const SliverToBoxAdapter(
+                            child: SizedBox(
                               height: 20,
                             ),
                           ),
                           SliverToBoxAdapter(
                             child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 height: 170,
                                 child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: snapshot
-                                            .data!.right!.activeCourses.length +
-                                        1,
+                                    itemCount: state.availablCoursesCount > 0
+                                        ? state.courses.activeCourses.length + 1
+                                        : 0,
                                     itemBuilder: (context, index) {
                                       if (index ==
-                                          snapshot.data!.right!.activeCourses
-                                              .length) {
+                                          state.courses.activeCourses.length) {
                                         return GestureDetector(
                                             onTap: () {
-                                              _controller.forward();
-                                              backgroundBarrier = true;
+                                              DialogManager
+                                                  .showSelectNewCourseDialog(
+                                                      context);
                                             },
                                             child: AddNewCourseItem());
                                       } else {
                                         return GestureDetector(
-                                            onTap: () {
-                                              context.go('/selected_course');
+                                            onTap: () async {
+                                              await locator<UserService>()
+                                                  .updateUserCurrentCourse(
+                                                      UpdateUserCurrentCourseModel(
+                                                          userId: '',
+                                                          courseName: state
+                                                              .courses
+                                                              .activeCourses[
+                                                                  index]
+                                                              .userCourse
+                                                              .course
+                                                              .name))
+                                                  .then((value) {
+                                                context.go('/selected_course');
+                                              });
                                             },
                                             child: CourseItem(
-                                              courseLevel: snapshot
-                                                  .data!
-                                                  .right!
+                                              courseLevel: state
+                                                  .courses
                                                   .activeCourses[index]
                                                   .userCourse
                                                   .difficulty
                                                   .beginner
                                                   .name,
-                                              courseName: snapshot
-                                                  .data!
-                                                  .right!
+                                              courseName: state
+                                                  .courses
                                                   .activeCourses[index]
                                                   .userCourse
                                                   .course
                                                   .name,
-                                              progress: snapshot
-                                                  .data!
-                                                  .right!
+                                              progress: state
+                                                  .courses
                                                   .activeCourses[index]
                                                   .totalProgress,
                                             ));
@@ -218,65 +210,23 @@ class _TopicScreenState extends State<TopicScreen>
                           ),
                         ],
                       );
-                    } else {
-                      if (!dialogShowed) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          DialogManager.showErrorDialog(
-                              ExceptionHelper.getErrorMessage(
-                                  UnexpectedError()),
-                              context, () {
-                            context.go('/');
-                          });
-                        });
-                        dialogShowed = true;
-                      }
-
-                      return Container();
-                    }
-                  } else if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return LoadingData();
-                  } else if (snapshot.hasError) {
-                    if (!dialogShowed) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        DialogManager.showErrorDialog(
-                            ExceptionHelper.getErrorMessage(UnexpectedError()),
-                            context, () {
+                    } else if (state is CourseUpdateError) {
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                        DialogManager.showErrorDialog(state.error, context, () {
                           context.go('/');
                         });
                       });
-                      dialogShowed = true;
-                    }
 
-                    return Container();
-                  } else {
-                    return Container();
-                  }
-                }),
-          ),
-          backgroundBarrier == true
-              ? GestureDetector(
-                  onTap: () {
-                    _controller.reverse();
+                      return Container();
+                    } else {
+                      return LoadingData();
+                    }
                   },
-                  child: Container(
-                    color: Colors.black87.withOpacity(0.3),
-                  ),
-                )
-              : Container(),
-          Positioned(
-              top: animation.value,
-              child: Container(
-                height: context.height / 2,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10))),
-              ))
+                )),
+          ),
         ],
       ),
     );
   }
 }
+//TODO rename ExceptionHelper to ExceptionHandler

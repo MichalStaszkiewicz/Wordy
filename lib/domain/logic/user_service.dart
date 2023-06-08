@@ -1,4 +1,5 @@
 import 'package:dio/src/dio_error.dart';
+import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:wordy/data/dto/login_user_response.dart';
 import 'package:wordy/data/dto/update_user_interface_language_response.dart';
 import 'package:wordy/data/dto/user_response.dart';
@@ -38,6 +39,60 @@ import '../models/user_course.dart';
 class UserService {
   UserService(this._repository);
   final Repository _repository;
+  Future<Either<Exception, String>> switchInterfaceLangauge(
+      String languageName, String userId) async {
+    var interfaceLanguage = await _repository.switchInterfaceLangauge(
+        UpdateUserInterfaceLanguageModel(
+            userId: userId, languageName: languageName));
+    if (interfaceLanguage.isLeft) {
+      return Either.left(interfaceLanguage.left);
+    } else {
+      return Either.right(interfaceLanguage.right);
+    }
+  }
+
+  Future<Either<Exception, String>> getUserInterfaceLanguage() async {
+    var interfaceLanguage = await _repository.getUserInterfaceLanguage();
+    if (interfaceLanguage.isLeft) {
+      return Either.left(interfaceLanguage.left);
+    } else {
+      return Either.right(interfaceLanguage.right);
+    }
+  }
+
+  Future<Either<Exception, ActiveCourse>> getUserCurrentCourseProgress() async {
+    var userId = await _repository.getUserId();
+    if (userId.isLeft) {
+      return Either.left(userId.left);
+    }
+    var course = await _repository.getUserCurrentCourseProgress(userId.right!);
+    if (course.isRight) {
+      return Either.right(course.right!);
+    } else {
+      return Either.left(course.left);
+    }
+  }
+
+  Future<Either<Exception, List<Course>>> getAvailableCourses() async {
+    var userId = await _repository.getUserId();
+    var userInterfaceLanguage = await getUserInterfaceLanguage();
+    if (userId.isLeft) {
+      return Either.left(userId.left);
+    }
+    if (userInterfaceLanguage.isLeft) {
+      return Either.left(userInterfaceLanguage.left);
+    }
+
+    var courses = await _repository.getAvailableCourses(userId.right!);
+    if (courses.isRight) {
+      courses.right!.removeWhere((element) =>
+          element.name.toLowerCase() ==
+          userInterfaceLanguage.right!.toLowerCase());
+      return Either.right(courses.right!);
+    } else {
+      return Either.left(courses.left);
+    }
+  }
 
   Future<Either<Exception, UserActiveCoursesProgress>>
       getUserActiveCoursesProgress() async {
@@ -63,14 +118,24 @@ class UserService {
     ));
   }
 
-  Future<Either<String, UserCourse>> updateUserCurrentCourse(
+  Future<Either<Exception, UserCourse>> updateUserCurrentCourse(
       UpdateUserCurrentCourseModel requetModel) async {
+    var userId = await _repository.getUserId();
+    var userInterfaceLanguage = await _repository.getUserInterfaceLanguage();
+    if (userInterfaceLanguage.isLeft) {
+      return Either.left(userInterfaceLanguage.left);
+    }
+    if (userId.isLeft) {
+      return Either.left(userId.left);
+    }
+
+    requetModel.userId = userId.right!;
     var updateCourse = await _repository.updateUserCurrentCourse(
         UpdateUserCurrentCourseRequest.fromJson(requetModel.toMap()));
     if (updateCourse.isRight) {
       return Either.right(updateCourse.right);
     } else {
-      return Either.left(updateCourse.left!.message);
+      return Either.left(updateCourse.left!);
     }
   }
 

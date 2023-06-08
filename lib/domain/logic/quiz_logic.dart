@@ -54,6 +54,7 @@ class QuizLogic {
       return Either.left(userInterfaceLanguage.left);
     }
     var course = await _repository.getUserCurrentCourse(userId.right!);
+
     if (course.isLeft) {
       return Either.left(course.left!);
     }
@@ -75,6 +76,7 @@ class QuizLogic {
     List<String> possibleAnswers = [];
 
     List<BeginnerQuizQuestion> filteredQuestions = [];
+
     for (BeginnerQuizQuestion question in validatedQuestions) {
       if (!validatedLearnedWords.contains(LearnedWord(
           question: question.question,
@@ -88,41 +90,28 @@ class QuizLogic {
       possibleAnswers.add(question.answer);
     }
     if (filteredQuestions.length >= 10) {
-      List<int> questionIndexes = [];
       for (int i = 0; i < 10;) {
         Random random = Random();
 
-        int randomQuestionIndex = random.nextInt(filteredQuestions.length);
         List<String> answers = [];
         int correctAnswerIndex = 0;
-        if (!questionIndexes.contains(randomQuestionIndex) &&
-            !validatedLearnedWords.any((word) =>
-                word.question ==
-                validatedQuestions[randomQuestionIndex].question)) {
-          questionIndexes.add(randomQuestionIndex);
-          while (answers.length < 4) {
-            int randomAnswerIndex = random.nextInt(validatedQuestions.length);
-            if (!answers
-                .contains(validatedQuestions[randomAnswerIndex].answer)) {
-              answers.add(validatedQuestions[randomAnswerIndex].answer);
-            }
-          }
-          if (answers.contains(filteredQuestions[randomQuestionIndex].answer)) {
-            correctAnswerIndex = answers.indexWhere((element) =>
-                element == filteredQuestions[randomQuestionIndex].answer);
-          } else {
-            correctAnswerIndex = random.nextInt(3);
-            answers[correctAnswerIndex] =
-                filteredQuestions[randomQuestionIndex].answer;
-          }
 
-          i++;
-          quizQuestions.add(BeginnerQuestion(
-              filteredQuestions[randomQuestionIndex].question,
-              answers,
-              correctAnswerIndex,
-              filteredQuestions[randomQuestionIndex].wordId));
+        while (answers.length < 4) {
+          int randomAnswerIndex = random.nextInt(validatedQuestions.length);
+          if (!answers.contains(validatedQuestions[randomAnswerIndex].answer)) {
+            answers.add(validatedQuestions[randomAnswerIndex].answer);
+          }
         }
+        if (answers.contains(filteredQuestions[i].answer)) {
+          correctAnswerIndex = answers
+              .indexWhere((element) => element == filteredQuestions[i].answer);
+        } else {
+          correctAnswerIndex = random.nextInt(3);
+          answers[correctAnswerIndex] = filteredQuestions[i].answer;
+        }
+        quizQuestions.add(BeginnerQuestion(filteredQuestions[i].question,
+            answers, correctAnswerIndex, filteredQuestions[i].wordId));
+        i++;
       }
     } else {
       for (int i = 0; i < filteredQuestions.length; i++) {
