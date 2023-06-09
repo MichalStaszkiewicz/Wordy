@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_speed_dial/simple_speed_dial.dart';
 import 'package:wordy/presentation/Bloc/achievements/achievements_filter_bloc.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 
 class AchievementDial extends StatefulWidget {
-  AchievementDial({required this.userState});
+  AchievementDial({super.key, required this.userState});
   UserProgressLoaded userState;
 
   @override
@@ -22,7 +20,7 @@ class _AchievementDialState extends State<AchievementDial> {
         return SpeedDial(
           speedDialChildren: [
             SpeedDialChild(
-              child: Icon(Icons.star),
+              child: const Icon(Icons.star),
               foregroundColor: Colors.white,
               backgroundColor: Colors.blueAccent,
               label: 'Only achieved already',
@@ -32,7 +30,7 @@ class _AchievementDialState extends State<AchievementDial> {
               },
             ),
             SpeedDialChild(
-              child: Icon(Icons.lock),
+              child: const Icon(Icons.lock),
               foregroundColor: Colors.white,
               backgroundColor: Colors.blueAccent,
               label: 'Only no achieved',
@@ -44,7 +42,7 @@ class _AchievementDialState extends State<AchievementDial> {
               },
             ),
             SpeedDialChild(
-              child: Icon(Icons.folder),
+              child: const Icon(Icons.folder),
               foregroundColor: Colors.white,
               backgroundColor: Colors.blueAccent,
               label: 'All achievements',
@@ -54,7 +52,7 @@ class _AchievementDialState extends State<AchievementDial> {
               },
             ),
           ],
-          child: Icon(Icons.sort),
+          child: const Icon(Icons.sort),
         );
       },
     );

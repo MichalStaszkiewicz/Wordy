@@ -50,5 +50,6 @@
         "xstring": "cpp",
         "xtr1common": "cpp",
         "xutility": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "C:/Users/Mich/Desktop/Wordy/wordy/linux"
 }

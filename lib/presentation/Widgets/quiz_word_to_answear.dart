@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class QuizWordToAnswear extends StatelessWidget {
-  QuizWordToAnswear({required this.word});
+  QuizWordToAnswear({super.key, required this.word});
   String word;
   @override
   Widget build(BuildContext context) {

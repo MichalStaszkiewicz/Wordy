@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 class TopicScreenTodayStaticstics extends StatelessWidget {
   TopicScreenTodayStaticstics(
-      {required this.label, required this.image});
+      {super.key, required this.label, required this.image});
 String image;
   int label;
  
@@ -11,7 +11,7 @@ String image;
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
+          SizedBox(
             height: 30,
             child: Image(
               image: AssetImage(image),
@@ -22,7 +22,7 @@ String image;
           ),
           Text(
             label.toString(),
-            style: Theme.of(context).textTheme.subtitle2,
+            style: Theme.of(context).textTheme.titleSmall,
           )
         ],
       ),

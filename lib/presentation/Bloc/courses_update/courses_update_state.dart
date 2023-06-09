@@ -17,24 +17,22 @@ class CourseUpdateError extends CoursesUpdateState {
 }
 
 class CoursesLoaded extends CoursesUpdateState {
-  CoursesLoaded({required this.courses, required this.availablCoursesCount});
+  CoursesLoaded({required this.courses, required this.availableCoursesCount});
   UserActiveCoursesProgress courses;
-  int availablCoursesCount;
+  List<Course> availableCoursesCount;
 
   @override
-  List<Object> get props => [courses, availablCoursesCount];
+  List<Object> get props => [courses, availableCoursesCount];
 }
 
 class AvailableCoursesLoaded extends CoursesUpdateState {
   AvailableCoursesLoaded(
-      {required this.courses,
-      required this.selectedCourse,
-      required this.userInterfaceLanguage});
-  List<Course> courses;
+      {required this.selectedCourse, required this.userInterfaceLanguage});
+
   String selectedCourse;
   String userInterfaceLanguage;
   @override
-  List<Object> get props => [courses, selectedCourse, userInterfaceLanguage];
+  List<Object> get props => [selectedCourse, userInterfaceLanguage];
 }
 
 class CourseTopicsLoaded extends CoursesUpdateState {

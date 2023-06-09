@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 
 import 'package:wordy/presentation/widgets/loading_data.dart';
@@ -10,9 +9,7 @@ import 'package:wordy/const/consts.dart';
 import '../../Utility/dialog_manager.dart';
 import '../../data/network/exceptions/exception_helper.dart';
 import '../../data/network/exceptions/unexpected_error.dart';
-import '../widgets/select_language_dialog.dart';
 import '../widgets/settings.dart';
-import '../widgets/settings_on_off_option.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -38,7 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
           if (state is SettingsInitial) {
-            return LoadingData();
+            return const LoadingData();
           }
           if (state is SettingsLoaded) {
             return const Settings();

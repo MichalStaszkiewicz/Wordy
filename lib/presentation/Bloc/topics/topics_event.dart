@@ -8,12 +8,12 @@ abstract class TopicsEvent extends Equatable {
 }
 
 class LoadTopics extends TopicsEvent {
-  LoadTopics({required this.language});
+  const LoadTopics({required this.language});
     final String language;
 }
 
 class ChooseSettingsForQuiz extends TopicsEvent {
-  ChooseSettingsForQuiz(
+  const ChooseSettingsForQuiz(
       {required this.settingsOpen, required this.localPosition,required this.globalPosition,required this.index});
   final bool settingsOpen;
   final Offset localPosition;

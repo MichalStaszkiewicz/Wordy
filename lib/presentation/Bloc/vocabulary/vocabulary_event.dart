@@ -8,7 +8,7 @@ abstract class VocabularyEvent extends Equatable {
 }
 
 class LoadVocabulary extends VocabularyEvent {
-  LoadVocabulary();
+  const LoadVocabulary();
 }
 
 class ListVocabularyWordsByTopic extends VocabularyEvent {

@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:status_change/status_change.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
+
 import 'package:wordy/domain/logic/settings_logic.dart';
-import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
-import 'package:wordy/presentation/bloc/login/login_bloc.dart';
-import 'package:wordy/presentation/screens/progress_of_register_screen.dart';
 
 import 'package:wordy/presentation/widgets/register_setting_course.dart';
-import 'package:wordy/presentation/screens/register_finish.dart';
-import 'package:wordy/utility/locator/storage_locator.dart';
 
-import '../../const/consts.dart';
+import '../../Utility/locator/service_locator.dart';
 import '../../const/enums.dart';
-import '../../data/network/exceptions/exception_helper.dart';
-import '../../data/network/exceptions/unexpected_error.dart';
 import '../bloc/register/register_bloc.dart';
 
 class InitialSettingsScreen extends StatefulWidget {
-  InitialSettingsScreen({super.key});
+  const InitialSettingsScreen({super.key});
 
   @override
   State<InitialSettingsScreen> createState() => _InitialSettingsScreenState();
@@ -31,14 +24,14 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
   ) {
     switch (registerStatus) {
       case InitialSetupStatus.choosingNativeLanguage:
-        return RegisterSettingCourse();
+        return const RegisterSettingCourse();
 
       default:
         return Container();
     }
   }
 
-  InitialSetupStatus _registerationStatus =
+  final InitialSetupStatus _registerationStatus =
       InitialSetupStatus.choosingNativeLanguage;
 
   @override
@@ -46,7 +39,7 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
     return RepositoryProvider(
       create: (context) => locator<SettingsLogic>(),
       child: BlocProvider(
-        create: (context) => RegisterBloc()..add(InitialSetupBegin()),
+        create: (context) => RegisterBloc()..add(const InitialSetupBegin()),
         child: BlocListener<RegisterBloc, RegisterState>(
             listener: (context, state) {
               if (state is RegisterLanguageChangeInfo) {

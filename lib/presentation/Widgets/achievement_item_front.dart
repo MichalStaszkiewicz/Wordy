@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class AchievementItemFront extends StatefulWidget {
   AchievementItemFront(
-      {required this.image,
+      {super.key, required this.image,
       required this.name,
       required this.currentProgress,
       required this.maximum});
@@ -39,7 +36,7 @@ class _AchievementItemFrontState extends State<AchievementItemFront> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(height: 50, child: Image(image: AssetImage(widget.image))),
+          SizedBox(height: 50, child: Image(image: AssetImage(widget.image))),
           const SizedBox(height: 10.0),
           Text(
             textAlign: TextAlign.center,

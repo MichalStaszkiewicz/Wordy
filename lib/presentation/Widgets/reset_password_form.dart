@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
-import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/widgets/login_button.dart';
 
 import '../../utility/validator.dart';
 
 class ResetPasswordForm extends StatefulWidget {
-  ResetPasswordForm({required this.onSwitchToLogin});
+  ResetPasswordForm({super.key, required this.onSwitchToLogin});
   VoidCallBack onSwitchToLogin;
   @override
   State<ResetPasswordForm> createState() => _ResetPasswordFormState();
@@ -33,14 +29,14 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
           'Reset Password',
           style: Theme.of(context).textTheme.headlineSmall,
         ),
-        Container(
+        SizedBox(
             width: 250,
             child: TextField(
               keyboardType: TextInputType.emailAddress,
               controller: _emailController,
               decoration: InputDecoration(
                   errorText: _emailErrorText,
-                  prefixIcon: Icon(Icons.email),
+                  prefixIcon: const Icon(Icons.email),
                   hintText: "Email"),
             )),
         LoginButton(

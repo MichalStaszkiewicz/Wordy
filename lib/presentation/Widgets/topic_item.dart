@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -8,7 +7,7 @@ import 'package:wordy/presentation/widgets/loading_data.dart';
 
 
 class TopicItem extends StatefulWidget {
-  TopicItem({required this.image, required this.label, required this.color,required this.index});
+  TopicItem({super.key, required this.image, required this.label, required this.color,required this.index});
   String label;
   String image;
   Color color;
@@ -79,7 +78,7 @@ class _TopicItemState extends State<TopicItem> with TickerProviderStateMixin {
             ),
           );
         } else {
-          return LoadingData();
+          return const LoadingData();
         }
       },
     );

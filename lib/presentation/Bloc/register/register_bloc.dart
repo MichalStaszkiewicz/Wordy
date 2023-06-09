@@ -1,25 +1,21 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:uuid/uuid.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
-import 'package:wordy/data/network/request/update_user_interface_language_request.dart';
-import 'package:wordy/domain/logic/settings_logic.dart';
-import 'package:wordy/domain/models/interface_language.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 
+import '../../../Utility/locator/service_locator.dart';
 import '../../../data/network/request/models/update_user_current_course_request_model.dart';
-import '../../../data/network/request/models/update_user_interface_language_request_model.dart';
 import '../../../domain/logic/user_service.dart';
 
 import '../../../domain/models/custom_error.dart';
-import '../../../utility/locator/storage_locator.dart';
+
 import '../../../utility/validator.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  RegisterBloc() : super(RegisterInitial()) {
+  RegisterBloc() : super(const RegisterInitial()) {
     register();
     settingUpProfileUpdate();
     settingUpProfileBegin();
@@ -38,20 +34,21 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   void finishInitialSetup() {
     on<FinishInitialSetup>((event, emit) async {
-      emit(RegisterLoadingState());
+      emit(const RegisterLoadingState());
 
       final userLogic = locator<UserService>();
 
       final userId = await locator.get<Repository>().getUserId();
       if (userId.isRight) {
-        await userLogic.updateUserCurrentCourse(UpdateUserCurrentCourseModel(
-            courseName: event.currentCourse, userId: userId.right!));
-        await userLogic.updateRegisterationStatus(true, userId.right!);
+        await Future.microtask(() async {
+          await userLogic.updateUserCurrentCourse(UpdateUserCurrentCourseModel(
+              courseName: event.currentCourse, userId: userId.right!));
+          await userLogic.updateRegisterationStatus(true, userId.right!);
+        }).then((value) => emit(InitialSetupDone()));
       } else {
         emit(RegisterError(
             error: ExceptionHelper.getErrorMessage(userId.left!)));
       }
-      emit(InitialSetupDone());
     });
   }
 
@@ -65,7 +62,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   void settingUpProfileBegin() {
     on<InitialSetupBegin>((event, emit) async {
-      emit(InitialSetupLoading());
+      emit(const InitialSetupLoading());
       emit(InitialSetupState(
         languageToLearn: '',
       ));
@@ -108,7 +105,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         "password": event.password
       });
       if (result.isRight) {
-        emit(RegisterSuccess());
+        emit(const RegisterSuccess());
       } else {
         emit(RegisterError(
             error: ExceptionHelper.getErrorMessage(result.left!)));

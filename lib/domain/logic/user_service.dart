@@ -1,37 +1,21 @@
-import 'package:dio/src/dio_error.dart';
-import 'package:get/get_connect/http/src/request/request.dart';
-import 'package:wordy/data/dto/login_user_response.dart';
-import 'package:wordy/data/dto/update_user_interface_language_response.dart';
-import 'package:wordy/data/dto/user_response.dart';
-import 'package:wordy/data/network/exceptions/api_errors/api_error_message.dart';
-import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/data/network/exceptions/session_verification_error.dart';
-import 'package:wordy/data/network/remote_source.dart';
 import 'package:wordy/data/network/request/login_user_request.dart';
-import 'package:wordy/data/network/request/models/user_settings_request_model.dart';
 import 'package:wordy/data/network/request/register_user_request.dart';
-import 'package:wordy/domain/models/achievement_old.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/course_entry.dart';
-import 'package:wordy/domain/models/registeration_status.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
-import 'package:wordy/domain/repositiories/user_repository.dart';
-import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
-import '../../data/dto/interface_language_response.dart';
-import '../../data/dto/update_user_current_course_response.dart';
+
+import '../../Utility/locator/service_locator.dart';
 import '../../data/network/exceptions/validation_error.dart';
 import '../../data/network/request/models/login_user_request_model.dart';
 import '../../data/network/request/models/update_user_current_course_request_model.dart';
 import '../../data/network/request/models/update_user_interface_language_request_model.dart';
 import '../../data/network/request/update_register_status_request.dart';
 import '../../data/network/request/update_user_current_course_request.dart';
-import '../../data/network/request/update_user_interface_language_request.dart';
 import '../../utility/either.dart';
-import '../../utility/locator/storage_locator.dart';
-import '../models/achievement.dart';
+
 import '../models/active_course.dart';
 import '../models/course_basic.dart';
-import '../models/interface_language.dart';
 
 import '../models/user_active_courses_progress.dart';
 import '../models/user_course.dart';
@@ -129,7 +113,6 @@ class UserService {
       return Either.left(userId.left);
     }
 
-    requetModel.userId = userId.right!;
     var updateCourse = await _repository.updateUserCurrentCourse(
         UpdateUserCurrentCourseRequest.fromJson(requetModel.toMap()));
     if (updateCourse.isRight) {

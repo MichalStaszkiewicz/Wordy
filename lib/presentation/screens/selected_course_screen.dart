@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wordy/data/network/exceptions/exception_helper.dart';
+import 'package:wordy/domain/repositiories/socket_repository.dart';
 
 import 'package:wordy/presentation/widgets/circular_precentage_chart.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 
+import '../../Utility/locator/service_locator.dart';
 import '../../domain/models/active_course.dart';
 
 import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/selected_course_background.dart';
 
 class SelectedCourseScreen extends StatefulWidget {
-  SelectedCourseScreen();
+  const SelectedCourseScreen({super.key});
 
   @override
   State<SelectedCourseScreen> createState() => _SelectedCourseScreenState();
@@ -26,7 +27,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: BlocProvider(
-      create: (context) => CoursesUpdateBloc()..add(LoadCurrentCourse()),
+      create: (context) => CoursesUpdateBloc(locator<StreamRepository>())
+        ..add(CurrentCourseInitial()),
       child: BlocBuilder<CoursesUpdateBloc, CoursesUpdateState>(
         builder: (context, state) {
           if (state is CourseTopicsLoaded) {
@@ -34,7 +36,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
               painter: SelectedCourseBackground(backgroundColor: Colors.amber),
               child: Container(
                 height: 1000,
-                padding: EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 20),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -46,8 +48,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
                               context.go('/home');
                             },
                             child: Container(
-                              margin: EdgeInsets.only(left: 10),
-                              child: Icon(
+                              margin: const EdgeInsets.only(left: 10),
+                              child: const Icon(
                                 Icons.arrow_back_ios_new_rounded,
                                 color: Colors.white,
                               ),
@@ -61,14 +63,14 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
                                 .copyWith(color: Colors.white),
                           ),
                           Container(
-                            margin: EdgeInsets.only(right: 10),
+                            margin: const EdgeInsets.only(right: 10),
                             height: 50,
                             width: 50,
                           )
                         ],
                       ),
                       _buildCurrentCourseInformations(context, state.course),
-                      Container(
+                      SizedBox(
                         height: 2000,
                         child: GridView.builder(
                             itemCount: state.course.topicProgress.length,
@@ -103,7 +105,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
             });
             return Container();
           } else {
-            return LoadingData();
+            print("STATE IS : " + state.toString());
+            return const LoadingData();
           }
         },
       ),
@@ -206,7 +209,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
                       .copyWith(color: Colors.white),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20)),
@@ -222,12 +225,12 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
                               .titleLarge!
                               .copyWith(color: Colors.amber),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         Container(
                           alignment: Alignment.center,
-                          child: Icon(
+                          child: const Icon(
                             Icons.keyboard_arrow_down_rounded,
                             color: Colors.amber,
                           ),
@@ -240,12 +243,12 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
                   child: Row(
                     children: [
                       Container(
-                        child: Icon(
+                        child: const Icon(
                           Icons.diamond_outlined,
                           color: Colors.blue,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
@@ -261,7 +264,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             height: 120,
             width: 120,
             child: CircularPercentageChart(
@@ -273,7 +276,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
                   .textTheme
                   .headlineMedium!
                   .copyWith(color: Colors.white),
-              optionalWidget: Container(
+              optionalWidget: SizedBox(
                 height: 20,
                 child: Text(
                   'completed',

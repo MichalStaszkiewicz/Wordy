@@ -10,8 +10,9 @@ class CircularPercentageChart extends StatelessWidget {
   final TextStyle textStyle;
   final Widget? optionalWidget;
 
-  CircularPercentageChart(
-      {required this.progress,
+  const CircularPercentageChart(
+      {super.key,
+      required this.progress,
       this.progressColor = Colors.blue,
       this.backgroundColor = Colors.grey,
       this.strokeWidth = 10.0,
@@ -26,6 +27,7 @@ class CircularPercentageChart extends StatelessWidget {
         progressColor: progressColor,
         backgroundColor: backgroundColor,
         strokeWidth: strokeWidth,
+        borderRadius: 5,
         textStyle: textStyle,
       ),
       child: Center(
@@ -34,7 +36,7 @@ class CircularPercentageChart extends StatelessWidget {
           children: [
             Text(
               '${progress.toInt()}%',
-              style: textStyle ?? TextStyle(fontSize: 24.0),
+              style: textStyle ?? const TextStyle(fontSize: 24.0),
             ),
             optionalWidget ?? Container()
           ],
@@ -52,14 +54,13 @@ class _CircularPercentageChartPainter extends CustomPainter {
   final double borderRadius;
   final TextStyle textStyle;
 
-  _CircularPercentageChartPainter({
-    required this.progress,
-    required this.progressColor,
-    required this.backgroundColor,
-    required this.strokeWidth,
-    this.borderRadius = 12,
-    required this.textStyle,
-  });
+  _CircularPercentageChartPainter(
+      {required this.progress,
+      required this.progressColor,
+      required this.backgroundColor,
+      required this.strokeWidth,
+      required this.textStyle,
+      required this.borderRadius});
 
   @override
   void paint(Canvas canvas, Size size) {

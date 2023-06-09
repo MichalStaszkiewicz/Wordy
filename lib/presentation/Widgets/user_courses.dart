@@ -5,13 +5,13 @@ import '../../domain/models/course_basic.dart';
 import '../Bloc/user_progress/user_progress_bloc.dart';
 
 class UserCourses extends StatelessWidget {
-  UserCourses();
+  const UserCourses({super.key});
   List<Widget> create_list_of_active_courses(
-      List<CourseBasic> active_courses_data) {
+      List<CourseBasic> activeCoursesData) {
     List<Widget> result = [];
-    for (CourseBasic active_course in active_courses_data) {
+    for (CourseBasic active_course in activeCoursesData) {
       result.add(
-        Container(
+        SizedBox(
           width: 100,
           child:  Image(
             image: AssetImage('assets/${active_course.flag}.png'),

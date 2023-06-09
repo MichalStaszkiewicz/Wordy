@@ -1,20 +1,17 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wordy/const/consts.dart';
-import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
+import 'package:wordy/domain/repositiories/socket_repository.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/widgets/login_form.dart';
 
 import '../../Utility/dialog_manager.dart';
+
+import '../../Utility/locator/service_locator.dart';
+import '../../Utility/socket_manager.dart';
 import '../../const/enums.dart';
-import '../../utility/locator/api_locator.dart';
-import '../bloc/register/register_bloc.dart';
+
 import '../bloc/login/login_bloc.dart';
 import '../widgets/register_form.dart';
 import '../widgets/reset_password_form.dart';
@@ -85,6 +82,13 @@ class _AuthScreenState extends State<AuthScreen> {
                       .add(LogOut(errorMessage: 'Request Failed')));
                 });
               } else if (state is Authenticated) {
+                final socketManager = locator<SocketManager>();
+
+                socketManager.connect();
+                socketManager.initialize();
+               
+                socketManager.joinRoom(state.userId);
+
                 state.registerCompleted
                     ? context.go('/home')
                     : context.go('/initial_settings');

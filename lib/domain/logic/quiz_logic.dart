@@ -1,25 +1,15 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
-import 'package:wordy/data/network/remote_source.dart';
 import 'package:wordy/data/network/request/models/begginer_quiz_request_model.dart';
 import 'package:wordy/domain/models/quiz_question.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/domain/repositiories/user_repository.dart';
-import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 import 'package:wordy/utility/either.dart';
 
-import '../../Utility/utility.dart';
 import '../../data/network/request/models/insert_learned_words.request.model.dart';
-import '../../data/network/request/models/words_by_topic_request_model.dart';
-import '../../utility/locator/storage_locator.dart';
 import '../models/beginner_question.dart';
 import '../models/beginner_quiz_question.dart';
-import '../models/course.dart';
-import '../models/course_entry.dart';
-import '../models/interface_language.dart';
 import '../models/learned_word.dart';
-import '../models/word.dart';
 
 class QuizLogic {
   final Repository _repository;

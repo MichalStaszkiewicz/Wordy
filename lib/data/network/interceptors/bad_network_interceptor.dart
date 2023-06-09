@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:wordy/data/network/exceptions/api_errors/bad_network_api_error.dart';
 
-import '../exceptions/bad_network_exception.dart';
 
 class BadNetworkInterceptor extends Interceptor {
   @override

@@ -7,16 +7,42 @@ abstract class CoursesUpdateEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class UpdateUserCourseList extends CoursesUpdateEvent {
+  UpdateUserCourseList({required this.courses});
+  UserActiveCoursesProgress courses;
+}
+
+class InitialCourses extends CoursesUpdateEvent {
+  InitialCourses();
+}
+
+class AddNewCourse extends CoursesUpdateEvent {
+  AddNewCourse({required this.selectedCourse});
+  String selectedCourse;
+}
+
+class ScreenChanged extends CoursesUpdateEvent {
+  ScreenChanged();
+}
+
 class LoadCourses extends CoursesUpdateEvent {
-  LoadCourses();
+  LoadCourses({
+    required this.courses,
+  });
+  UserActiveCoursesProgress courses;
 }
 
 class LoadCurrentCourse extends CoursesUpdateEvent {
-  LoadCurrentCourse();
+  LoadCurrentCourse({required this.course});
+  ActiveCourse course;
+}
+
+class CurrentCourseInitial extends CoursesUpdateEvent {
+  CurrentCourseInitial();
 }
 
 class LoadAvailableCourses extends CoursesUpdateEvent {
-  LoadAvailableCourses();
+  const LoadAvailableCourses();
 }
 
 class UpdateSelectedCourse extends CoursesUpdateEvent {

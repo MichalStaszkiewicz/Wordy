@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wordy/const/consts.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 import '../../utility/validator.dart';
 import '../bloc/register/register_bloc.dart';
 import 'login_button.dart';
 
 class RegisterForm extends StatefulWidget {
-  RegisterForm({required this.onSwitchToLogin});
+  RegisterForm({super.key, required this.onSwitchToLogin});
   VoidCallBack onSwitchToLogin;
   @override
   State<RegisterForm> createState() => _RegisterFormState();
@@ -42,7 +38,7 @@ class _RegisterFormState extends State<RegisterForm> {
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         //full name
-        Container(
+        SizedBox(
             width: 250,
             height: 50,
             child: TextFormField(
@@ -61,7 +57,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   hintText: "Full Name"),
             )),
         //email
-        Container(
+        SizedBox(
             height: 50,
             width: 250,
             child: TextFormField(
@@ -73,6 +69,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 } else {
                   return "This field is required";
                 }
+                return null;
               },
               decoration: InputDecoration(
                   errorText: _emailErrorText,
@@ -81,7 +78,7 @@ class _RegisterFormState extends State<RegisterForm> {
             )),
 
         //password
-        Container(
+        SizedBox(
           height: 50,
           width: 250,
           child: TextFormField(
@@ -94,6 +91,7 @@ class _RegisterFormState extends State<RegisterForm> {
               } else {
                 return "This field is required";
               }
+              return null;
             },
             decoration: InputDecoration(
               errorText: _passwordErrorText,

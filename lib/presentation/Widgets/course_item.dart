@@ -4,7 +4,7 @@ import 'circular_precentage_chart.dart';
 
 class CourseItem extends StatefulWidget {
   CourseItem(
-      {required this.courseLevel,
+      {super.key, required this.courseLevel,
       required this.courseName,
       required this.progress});
 
@@ -19,7 +19,7 @@ class _CourseItemState extends State<CourseItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       width: 170,
       decoration: BoxDecoration(boxShadow: const [
         BoxShadow(
@@ -29,7 +29,7 @@ class _CourseItemState extends State<CourseItem> {
         )
       ], color: Colors.green, borderRadius: BorderRadius.circular(10)),
       child: Container(
-        margin: EdgeInsets.only(left: 20, top: 20),
+        margin: const EdgeInsets.only(left: 20, top: 20),
         child: Stack(
           children: [
             Container(
@@ -56,7 +56,7 @@ class _CourseItemState extends State<CourseItem> {
             Positioned(
               top: 60,
               left: 60,
-              child: Container(
+              child: SizedBox(
                 width: 100,
                 height: 60,
                 child: CircularPercentageChart(

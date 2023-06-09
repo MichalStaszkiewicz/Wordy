@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:wordy/presentation/widgets/header_in_profile.dart';
 import 'package:wordy/presentation/widgets/statistics_item.dart';
 import 'package:wordy/presentation/widgets/user_courses.dart';
@@ -11,7 +10,7 @@ import 'package:wordy/const/consts.dart';
 import '../Bloc/user_progress/user_progress_bloc.dart';
 
 class ProfileDetails extends StatefulWidget {
-  ProfileDetails();
+  const ProfileDetails({super.key});
 
   @override
   State<ProfileDetails> createState() => _ProfileDetailsState();
@@ -46,7 +45,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             statisticsCount: state.learnedWords,
             navigation: BlocProvider(
               create: (context) => UserProgressBloc()..add(LoadLearnedWords()),
-              child: WordsLearnedScreen(),
+              child: const WordsLearnedScreen(),
             ),
           );
         },
@@ -89,12 +88,12 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             label:
                 ui_lang['English']!['profile_screen_courses_header'].toString(),
           ),
-          UserCourses(),
+          const UserCourses(),
           HeaderInProfile(
             label: ui_lang['English']!['profile_screen_statistics_header']
                 .toString(),
           ),
-          Container(
+          SizedBox(
             height: 400,
             child: GridView.builder(
               controller: _scrollStatisticsController,

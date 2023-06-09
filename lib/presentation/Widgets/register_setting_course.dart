@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:wordy/domain/logic/settings_logic.dart';
 import 'package:wordy/domain/models/custom_error.dart';
-import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
-import 'package:wordy/presentation/bloc/login/login_bloc.dart';
-import 'package:wordy/presentation/widgets/confirm_button.dart';
-import 'package:wordy/presentation/widgets/language_tile.dart';
-import 'package:wordy/const/consts.dart';
-import 'package:wordy/presentation/widgets/language_to_choose.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/presentation/widgets/register_course_list.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 
+
+import '../../Utility/locator/service_locator.dart';
 import '../../data/network/exceptions/exception_helper.dart';
 import '../../data/network/exceptions/unexpected_error.dart';
 import '../../domain/models/interface_language.dart';
 import '../../domain/repositiories/repository.dart';
-import '../../utility/locator/api_locator.dart';
 import '../bloc/register/register_bloc.dart';
 
 class RegisterSettingCourse extends StatefulWidget {
-  RegisterSettingCourse();
+  const RegisterSettingCourse({super.key});
 
   @override
   State<RegisterSettingCourse> createState() => _RegisterSettingCourseState();
@@ -43,7 +38,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
         }),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Expanded(flex: 8, child: LoadingData());
+            return const Expanded(flex: 8, child: LoadingData());
           } else if (snapshot.data != null && snapshot.hasData) {
             return BlocListener<RegisterBloc, RegisterState>(
               listener: (context, state) {
@@ -103,7 +98,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                     );
                   }
                   if (state is InitialSetupLoading) {
-                    return Expanded(flex: 8, child: LoadingData());
+                    return const Expanded(flex: 8, child: LoadingData());
                   } else {
                     DialogManager.showErrorDialog(
                         ExceptionHelper.getErrorMessage(UnexpectedError()),

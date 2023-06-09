@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class DifficultyLevelWidget extends StatelessWidget {
   DifficultyLevelWidget(
-      {required this.textColor,
+      {super.key, required this.textColor,
       required this.widgetColor,
       required this.label});
   Color widgetColor;

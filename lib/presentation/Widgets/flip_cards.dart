@@ -1,12 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 
 class FlipCards extends StatefulWidget {
-  FlipCards({required this.front, required this.back});
+  FlipCards({super.key, required this.front, required this.back});
 
   Widget front;
   Widget back;

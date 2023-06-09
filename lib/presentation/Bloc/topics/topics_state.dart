@@ -8,11 +8,11 @@ abstract class TopicsState extends Equatable {
 }
 
 class TopicsInitial extends TopicsState {
-  TopicsInitial();
+  const TopicsInitial();
 }
 
 class TopicsLoaded extends TopicsState {
-  TopicsLoaded({required  this.topics, required this.selectedTopic,required this.localPosition,required this.globalPosition,required  this.index,required this.topicsToReadFromDatabase});
+  const TopicsLoaded({required  this.topics, required this.selectedTopic,required this.localPosition,required this.globalPosition,required  this.index,required this.topicsToReadFromDatabase});
   final List<Topic> topics;
   final List<String> topicsToReadFromDatabase;
   final bool selectedTopic;

@@ -2,7 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:wordy/data/dto/user_course_response.dart';
 
 import '../../domain/models/profile.dart';
-import 'course_response.dart';
 part 'profile_response.g.dart';
 
 @JsonSerializable()

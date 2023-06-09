@@ -1,4 +1,3 @@
-import 'package:wordy/domain/models/topic.dart';
 
 class Word {
   Word({

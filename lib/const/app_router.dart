@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wordy/domain/models/active_course.dart';
 
 import 'package:wordy/presentation/home_page.dart';
 import 'package:wordy/presentation/screens/auth_screen.dart';
@@ -28,7 +27,7 @@ class AppRouter {
 
   static Widget _vocabularyTopicScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
-      VocabularyScreen();
+      const VocabularyScreen();
   static Widget _vocabularyTopicSelectedScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
       SelectedVocabularyTopic(
@@ -49,16 +48,16 @@ class AppRouter {
       );
   static Widget _selectedCourseScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
-      SelectedCourseScreen();
+      const SelectedCourseScreen();
   static Widget _authScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
-      AuthScreen();
+      const AuthScreen();
   static Widget _initialSettingsScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
-      InitialSettingsScreen();
+      const InitialSettingsScreen();
   static Widget _homeScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
-      HomePage();
+      const HomePage();
   static final GoRouter router = GoRouter(routes: [
     GoRoute(path: authScreen, builder: _authScreenRouteBuilder),
     GoRoute(path: initialSettings, builder: _initialSettingsScreenRouteBuilder),

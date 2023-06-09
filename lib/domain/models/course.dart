@@ -1,4 +1,3 @@
-import 'course_entry.dart';
 
 class Course {
   Course(

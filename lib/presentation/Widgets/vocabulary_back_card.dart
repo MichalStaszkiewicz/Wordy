@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class VocabularyBackCard extends StatefulWidget {
-  VocabularyBackCard({required this.label});
+  const VocabularyBackCard({super.key, required this.label});
   final String label;
 
   @override
@@ -28,7 +28,7 @@ class _VocabularyBackCardState extends State<VocabularyBackCard> {
       child: Center(
         child: Text(
           widget.label,
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
       ),
     );

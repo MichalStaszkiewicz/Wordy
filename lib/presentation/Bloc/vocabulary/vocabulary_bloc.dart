@@ -3,16 +3,13 @@ import 'package:equatable/equatable.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/custom_error.dart';
-import 'package:wordy/domain/models/interface_language.dart';
-import 'package:wordy/domain/models/word.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/domain/repositiories/user_repository.dart';
 
+import '../../../Utility/locator/service_locator.dart';
 import '../../../domain/logic/vocabulary_logic.dart';
 import '../../../domain/models/flash_card_data.dart';
-import '../../../domain/models/quiz_question.dart';
 import '../../../domain/models/vocabulary.dart';
-import '../../../utility/locator/api_locator.dart';
 
 part 'vocabulary_event.dart';
 part 'vocabulary_state.dart';

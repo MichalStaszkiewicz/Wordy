@@ -8,19 +8,20 @@ abstract class LoginState extends Equatable {
 }
 
 class LoggedOut extends LoginState {
-  LoggedOut();
+  const LoggedOut();
 
   @override
   List<Object?> get props => [];
 }
 
 class Authenticating extends LoginState {
-  Authenticating();
+  const Authenticating();
 }
 
 class Authenticated extends LoginState {
-  Authenticated({required this.registerCompleted});
+  Authenticated({required this.registerCompleted,required this.userId});
   bool registerCompleted;
+  String userId;
 }
 
 class LoginError extends LoginState {

@@ -8,7 +8,7 @@ abstract class RegisterState extends Equatable {
 }
 
 class RegisterInitial extends RegisterState {
-  RegisterInitial();
+  const RegisterInitial();
 }
 
 class RegisterInProgress extends RegisterState {
@@ -20,15 +20,15 @@ class RegisterInProgress extends RegisterState {
 }
 
 class InitialSetupLoading extends RegisterState {
-  InitialSetupLoading();
+  const InitialSetupLoading();
 }
 
 class RegisterSuccess extends RegisterState {
-  RegisterSuccess();
+  const RegisterSuccess();
 }
 
 class RegisterLoadingState extends RegisterState {
-  RegisterLoadingState();
+  const RegisterLoadingState();
 }
 
 class RegisterError extends RegisterState {

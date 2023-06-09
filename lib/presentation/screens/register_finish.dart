@@ -1,17 +1,12 @@
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
-import 'package:provider/provider.dart';
 
 import 'package:wordy/presentation/widgets/confirm_button.dart';
 import 'package:wordy/const/consts.dart';
 
-import '../Bloc/user_progress/user_progress_bloc.dart';
-import '../bloc/login/login_bloc.dart';
 
 class RegisterFinish extends StatefulWidget {
-  RegisterFinish({required this.onFinish});
+  RegisterFinish({super.key, required this.onFinish});
 
   VoidCallBack onFinish;
 
@@ -22,7 +17,7 @@ class RegisterFinish extends StatefulWidget {
 class _RegisterFinishState extends State<RegisterFinish> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 700,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -37,16 +32,16 @@ class _RegisterFinishState extends State<RegisterFinish> {
               ),
             ),
           ),
-          Expanded(
+          const Expanded(
               flex: 5,
-              child: Container(
+              child: SizedBox(
                   width: 500,
-                  child: const Image(
+                  child: Image(
                       image: AssetImage("assets/newserinishmage.png")))),
           Expanded(
             flex: 2,
             child: Center(
-              child: Container(
+              child: SizedBox(
                 width: 350,
                 child: Text(
                   ui_lang['English']!['register_finish_text'],
@@ -60,7 +55,7 @@ class _RegisterFinishState extends State<RegisterFinish> {
             ),
           ),
           GestureDetector(
-              onTap: widget.onFinish, child: ConfirmButton(selected: true)),
+              onTap: widget.onFinish, child: const ConfirmButton(selected: true)),
         ],
       ),
     );

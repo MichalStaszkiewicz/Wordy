@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:mysql1/mysql1.dart';
 import 'package:wordy/const/consts.dart';
 
 import '../../../domain/models/topic.dart';
@@ -11,7 +9,7 @@ part 'topics_event.dart';
 part 'topics_state.dart';
 
 class TopicsBloc extends Bloc<TopicsEvent, TopicsState> {
-  TopicsBloc() : super(TopicsInitial()) {
+  TopicsBloc() : super(const TopicsInitial()) {
     loadTopics();
     settingsOfTheQuiz();
   }
@@ -24,7 +22,7 @@ class TopicsBloc extends Bloc<TopicsEvent, TopicsState> {
               name: ui_lang[event.language]!['topic_label'][0],
             ),
           ],
-          topicsToReadFromDatabase: ["Basic Conversation"],
+          topicsToReadFromDatabase: const ["Basic Conversation"],
           localPosition: const Offset(0, 0),
           globalPosition: const Offset(0, 0),
           selectedTopic: false));

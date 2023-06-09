@@ -8,7 +8,7 @@ abstract class AchievementsFilterState extends Equatable {
 }
 
 class AchievementsFilterInitial extends AchievementsFilterState {
-  AchievementsFilterInitial();
+  const AchievementsFilterInitial();
 }
 
 class AchievedAlready extends AchievementsFilterState {

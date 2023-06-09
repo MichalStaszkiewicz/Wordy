@@ -1,25 +1,20 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wordy/data/network/exceptions/exception_helper.dart';
-import 'package:wordy/data/network/exceptions/unexpected_error.dart';
-import 'package:wordy/domain/logic/settings_logic.dart';
-import 'package:wordy/presentation/widgets/loading_data.dart';
 
+import '../domain/models/course.dart';
 import '../domain/models/custom_error.dart';
-import '../domain/repositiories/user_repository.dart';
-import '../presentation/widgets/language_tile.dart';
 import '../presentation/widgets/select_course_dialog.dart';
-import 'locator/api_locator.dart';
 
 class DialogManager {
-  static void showSelectNewCourseDialog(BuildContext context) {
+  static void showSelectNewCourseDialog(
+      BuildContext context, List<Course> courses) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return SelectCourseDialog();
+        return SelectCourseDialog(
+          availableCourses: courses,
+        );
       },
     );
   }
@@ -55,11 +50,11 @@ class DialogManager {
       body: Center(
         child: Column(
           children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
+            const CircularProgressIndicator(),
+            const SizedBox(height: 16),
             Text(
               message,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ],
         ),

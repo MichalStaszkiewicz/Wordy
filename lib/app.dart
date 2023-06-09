@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wordy/const/app_router.dart';
-import 'package:wordy/utility/locator/api_locator.dart';
-import 'package:wordy/utility/locator/service_locator.dart';
-import 'package:wordy/utility/locator/storage_locator.dart';
+
+import 'Utility/locator/service_locator.dart';
+import 'domain/repositiories/socket_repository.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -16,11 +15,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await apiLocator();
-      await storageLocator();
-      await logicLocator();
-    });
+    locator<StreamRepository>().initialize();
     super.initState();
   }
 

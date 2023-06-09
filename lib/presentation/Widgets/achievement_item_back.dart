@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class AchievementItemBack extends StatefulWidget {
-  AchievementItemBack({required this.description, required this.achieved});
+  AchievementItemBack({super.key, required this.description, required this.achieved});
   String description;
   bool achieved;
 
@@ -35,7 +32,7 @@ class _AchievementItemBackState extends State<AchievementItemBack> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: Container(width: double.infinity,
+                child: SizedBox(width: double.infinity,
                   child: Center(
                     child: Text(
                       widget.achieved ? "Achieved" : "Locked",
@@ -47,7 +44,7 @@ class _AchievementItemBackState extends State<AchievementItemBack> {
               ),
             
               Expanded(flex: 4,
-                child: Container(
+                child: SizedBox(
                width: double.infinity,
                   child: Text(
                     textAlign: TextAlign.center,

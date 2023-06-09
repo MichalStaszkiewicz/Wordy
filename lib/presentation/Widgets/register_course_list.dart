@@ -9,7 +9,7 @@ import 'language_tile.dart';
 
 class RegisterCourseList extends StatefulWidget {
   RegisterCourseList(
-      {required this.languages,
+      {super.key, required this.languages,
       required this.onNextStep,
       required this.currentLanguage});
   List<InterfaceLanguage> languages;

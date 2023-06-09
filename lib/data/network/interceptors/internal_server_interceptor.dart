@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 
 import '../exceptions/api_errors/internal_server_api_error.dart';
-import '../exceptions/internal_server_exception.dart';
 
 class InternalServerInterceptor extends Interceptor {
   @override

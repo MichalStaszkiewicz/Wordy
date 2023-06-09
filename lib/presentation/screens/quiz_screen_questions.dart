@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dropdown_alert/alert_controller.dart';
-import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 import 'package:wordy/presentation/widgets/answears_column.dart';
 import 'package:wordy/presentation/widgets/quiz_word_to_answear.dart';
 
-import 'package:wordy/presentation/screens/quiz_finish_screen.dart';
-import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 
-import '../../domain/models/quiz_question.dart';
-import '../widgets/loading_data.dart';
 import '../widgets/quiz_next_button.dart';
 
 class QuizScreenQuestions extends StatefulWidget {
-  QuizScreenQuestions({required this.topic});
+  QuizScreenQuestions({super.key, required this.topic});
   String topic;
   @override
   State<QuizScreenQuestions> createState() => _QuizScreenQuestionsState();
@@ -45,7 +37,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
                         onTap: () {
                           context.go('/selected_course');
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.arrow_back,
                           color: Colors.black,
                         ),

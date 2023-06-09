@@ -3,7 +3,7 @@ import'package:flutter/material.dart';
 import 'package:wordy/presentation/widgets/quiz_answear.dart';
 
 class AnswearsColumn extends StatelessWidget {
-  AnswearsColumn({required this.answears});
+  const AnswearsColumn({super.key, required this.answears});
  final List<String> answears;
 
   @override

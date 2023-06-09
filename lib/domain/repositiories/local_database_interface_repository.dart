@@ -1,7 +1,5 @@
-import 'package:wordy/domain/models/quiz_question.dart';
 
 import '../../data/dto/course_entry_dto.dart';
-import '../../data/dto/word_response.dart';
 import '../models/course_entry.dart';
 
 abstract class LocalInterface {

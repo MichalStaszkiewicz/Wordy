@@ -2,8 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:wordy/domain/models/beginner_quiz_question.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 
-import '../../const/shared_preferences_keys.dart';
-import '../../const/shared_preferences_keys.dart';
 import '../../data/network/request/login_user_request.dart';
 import '../../data/network/request/models/begginer_quiz_request_model.dart';
 import '../../data/network/request/models/flash_card_list_request_model.dart';
@@ -13,8 +11,6 @@ import '../../data/network/request/models/user_settings_request_model.dart';
 import '../../data/network/request/register_user_request.dart';
 import '../../data/network/request/update_register_status_request.dart';
 import '../../data/network/request/update_user_current_course_request.dart';
-import '../../data/network/request/update_user_interface_language_request.dart';
-import '../../data/network/request/user_settings_request.dart';
 import '../../utility/either.dart';
 import '../models/achievement.dart';
 import '../models/flash_card_data.dart';

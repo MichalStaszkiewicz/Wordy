@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:wordy/data/network/exceptions/api_error_message_exception.dart';
@@ -7,10 +6,7 @@ import 'package:wordy/data/network/exceptions/api_errors/bad_network_api_error.d
 import 'package:wordy/data/network/exceptions/api_errors/internal_server_api_error.dart';
 import 'package:wordy/data/network/exceptions/bad_network_exception.dart';
 import 'package:wordy/data/network/exceptions/internal_server_exception.dart';
-import 'package:wordy/data/network/interceptors/internal_server_interceptor.dart';
-import 'package:wordy/data/network/interceptors/server_error_interceptort.dart';
 
-import 'interceptors/bad_network_interceptor.dart';
 
 class ApiService {
   final String baseUrl;
@@ -83,7 +79,7 @@ class ApiService {
       return response;
     } on BadNetworkApiError {
       throw BadNetworkException();
-    } on ApiErrorMessage catch (e) {
+    } on ApiErrorMessage {
       throw ApiErrorMessageException();
     } on InternalServerApiError {
       throw InternalServerException("Internal Server Error");
@@ -97,7 +93,7 @@ class ApiService {
       return response.data;
     } on BadNetworkApiError {
       throw BadNetworkException();
-    } on ApiErrorMessage catch (e) {
+    } on ApiErrorMessage {
       throw ApiErrorMessageException();
     } on InternalServerApiError {
       throw InternalServerException("Internal Server Error");

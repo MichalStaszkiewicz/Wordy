@@ -8,7 +8,7 @@ abstract class SettingsState extends Equatable {
 }
 
 class SettingsInitial extends SettingsState {
-  SettingsInitial();
+  const SettingsInitial();
 }
 
 class SettingsLoaded extends SettingsState {

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
-import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/widgets/login_button.dart';
 
 import '../../utility/validator.dart';
@@ -11,7 +8,7 @@ import '../bloc/login/login_bloc.dart';
 
 class LoginForm extends StatefulWidget {
   LoginForm(
-      {required this.onSwitchToRegister,
+      {super.key, required this.onSwitchToRegister,
       required this.onSwitchToResetPassword});
   VoidCallBack onSwitchToRegister;
   VoidCallBack onSwitchToResetPassword;
@@ -44,7 +41,7 @@ class _LoginFormState extends State<LoginForm> {
         ),
 
         //email
-        Container(
+        SizedBox(
             width: 250,
             child: TextField(
               keyboardType: TextInputType.emailAddress,
@@ -56,7 +53,7 @@ class _LoginFormState extends State<LoginForm> {
             )),
 
         //password
-        Container(
+        SizedBox(
             width: 250,
             child: TextField(
               keyboardType: TextInputType.visiblePassword,

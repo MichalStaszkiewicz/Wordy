@@ -1,19 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:status_change/status_change.dart';
-import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 import 'package:wordy/presentation/widgets/stepper/stepper_connector.dart';
 import 'package:wordy/presentation/widgets/stepper/stepper_entry.dart';
-import 'package:wordy/presentation/home_page.dart';
 
 import '../../Utility/utility.dart';
 import '../../const/consts.dart';
 import '../../const/enums.dart';
 
 class ProgressOfInitialSetup extends StatefulWidget {
-  ProgressOfInitialSetup({required this.status});
+  ProgressOfInitialSetup({super.key, required this.status});
   InitialSetupStatus status;
 
   @override
@@ -32,7 +27,7 @@ class ProgressOfInitialSetupState extends State<ProgressOfInitialSetup> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 390,
       child: Container(
         child: Stack(
@@ -40,7 +35,7 @@ class ProgressOfInitialSetupState extends State<ProgressOfInitialSetup> {
             Positioned(
                 left: 0,
                 top: 50,
-                child: Container(
+                child: SizedBox(
                   width: 390,
                   height: 30,
                   child: Center(

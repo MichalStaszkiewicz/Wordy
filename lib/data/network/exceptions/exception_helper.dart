@@ -4,8 +4,6 @@ import 'package:wordy/data/network/exceptions/validation_error.dart';
 
 import '../../../domain/models/custom_error.dart';
 import 'api_errors/api_error_message.dart';
-import 'bad_network_exception.dart';
-import 'internal_server_exception.dart';
 
 class ExceptionHelper implements Exception {
   static CustomError getErrorMessage(Exception exception) {

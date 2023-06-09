@@ -2,15 +2,13 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/models/achievement.dart';
-import '../../../domain/models/achievement_old.dart';
-import '../../../domain/models/achievements_base.dart';
 
 part 'achievements_filter_event.dart';
 part 'achievements_filter_state.dart';
 
 class AchievementsFilterBloc
     extends Bloc<AchievementsFilterEvent, AchievementsFilterState> {
-  AchievementsFilterBloc() : super(AchievementsFilterInitial()) {
+  AchievementsFilterBloc() : super(const AchievementsFilterInitial()) {
     loadAllAchievements();
     loadUserAchievements();
     loadNoAchievedAchievements();

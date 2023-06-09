@@ -8,7 +8,7 @@ class AddNewCourseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         width: 170,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -17,14 +17,14 @@ class AddNewCourseItem extends StatelessWidget {
               color: const Color.fromARGB(255, 197, 194, 194),
               width: 5),
         ),
-        child: Center(
-          child: Container(
+        child: const Center(
+          child: SizedBox(
               height: 50,
               width: 80,
               child: Icon(
                 size: 50,
                 Icons.add,
-                color: const Color.fromARGB(255, 197, 194, 194),
+                color: Color.fromARGB(255, 197, 194, 194),
               )),
         ));
   }

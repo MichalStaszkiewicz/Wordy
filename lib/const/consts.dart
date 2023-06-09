@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wordy/domain/models/achievement_old.dart';
-import 'package:wordy/domain/models/achievements_base.dart';
 
-import '../domain/models/achievements_base.dart';
 import '../domain/models/course_profile.dart';
 
 final ColorScheme colorScheme = ColorScheme.fromSwatch(

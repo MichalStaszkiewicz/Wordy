@@ -5,9 +5,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:wordy/presentation/widgets/loading_data.dart';
-import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/const/consts.dart';
 
 import '../../domain/models/achievement.dart';
@@ -16,7 +13,8 @@ import '../Widgets/quiz_next_button.dart';
 
 class QuizFinishScreen extends StatefulWidget {
   QuizFinishScreen(
-      {required this.topic,
+      {super.key,
+      required this.topic,
       required this.correctAnswers,
       required this.maximumPoints});
   String topic;
@@ -47,7 +45,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
           context,
           title: achievement.name,
           subTitle: achievement.description,
-          icon: Icon(Icons.star, color: Colors.white),
+          icon: const Icon(Icons.star, color: Colors.white),
           color: Colors.green,
         ).show();
       });
@@ -67,7 +65,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
-                child: Container(
+                child: SizedBox(
               width: double.infinity,
               child: Center(
                 child: Text(
@@ -102,7 +100,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                     const SizedBox(
                       height: 50,
                     ),
-                    Container(
+                    const SizedBox(
                         height: 100,
                         child: Image(image: AssetImage('assets/perfect.png'))),
                     const SizedBox(
@@ -161,7 +159,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
             ),
             Expanded(
               flex: 2,
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 child: Center(
                   child: Column(
@@ -176,17 +174,17 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                             .toString(),
                         height: 50,
                         width: 350,
-                        margin: EdgeInsets.only(bottom: 20),
+                        margin: const EdgeInsets.only(bottom: 20),
                       ),
                       QuizButton(
                         function: () {
-                          context.go('/home');
+                          context.go('/selected_course');
                         },
                         label:
                             ui_lang['english']!['quiz_finish_home'].toString(),
                         height: 50,
                         width: 350,
-                        margin: EdgeInsets.only(bottom: 20),
+                        margin: const EdgeInsets.only(bottom: 20),
                       ),
                     ],
                   ),

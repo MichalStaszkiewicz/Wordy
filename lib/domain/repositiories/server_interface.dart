@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:wordy/data/dto/achievement_list.dart';
-import 'package:wordy/data/dto/course_response.dart';
 
 import '../../data/dto/achievement_dto.dart';
 
@@ -8,7 +7,6 @@ import '../../data/dto/active_course_response.dart';
 import '../../data/dto/beginner_quiz_word_list_response.dart';
 import '../../data/dto/course_list_response.dart';
 import '../../data/dto/flash_card_list_response.dart';
-import '../../data/dto/interface_language_response.dart';
 import '../../data/dto/language_list_response.dart';
 import '../../data/dto/learned_word_list_response.dart';
 import '../../data/dto/login_user_response.dart';
@@ -19,7 +17,6 @@ import '../../data/dto/update_user_current_course_response.dart';
 import '../../data/dto/update_user_interface_language_response.dart';
 import '../../data/dto/user_active_courses_progress_response.dart';
 import '../../data/dto/user_course_response.dart';
-import '../../data/dto/user_response.dart';
 import '../../data/dto/user_settings_response.dart';
 import '../../data/dto/word_list_response.dart';
 import '../../data/network/request/login_user_request.dart';

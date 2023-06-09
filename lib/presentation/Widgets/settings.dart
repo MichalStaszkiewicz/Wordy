@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import 'package:wordy/presentation/widgets/select_language_dialog.dart';
 import 'package:wordy/presentation/widgets/settings_on_off_option.dart';
@@ -36,7 +35,7 @@ class _SettingsState extends State<Settings> {
                         .toString(),
                 stateOfSwitch: true,
               ),
-              Container(
+              SizedBox(
                 height: 100,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,

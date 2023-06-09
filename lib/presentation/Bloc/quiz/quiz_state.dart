@@ -8,11 +8,11 @@ abstract class QuizState extends Equatable {
 }
 
 class QuizInitial extends QuizState {
-  QuizInitial();
+  const QuizInitial();
 }
 
 class InProgress extends QuizState {
-  InProgress();
+  const InProgress();
 }
 
 class QuizError extends QuizState {

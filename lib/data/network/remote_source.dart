@@ -1,13 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:dio/src/response.dart';
-import 'package:wordy/const/urls.dart';
 
 import 'package:wordy/data/dto/achievement_list.dart';
 import 'package:wordy/data/dto/active_course_response.dart';
 import 'package:wordy/data/dto/beginner_quiz_word_list_response.dart';
-import 'package:wordy/data/dto/course_response.dart';
 import 'package:wordy/data/dto/flash_card_list_response.dart';
-import 'package:wordy/data/dto/interface_language_response.dart';
 import 'package:wordy/data/dto/language_list_response.dart';
 import 'package:wordy/data/dto/learned_word_list_response.dart';
 import 'package:wordy/data/dto/register_user_response.dart';
@@ -36,7 +32,6 @@ import '../dto/login_user_response.dart';
 
 import '../dto/registeration_response.dart';
 import '../dto/user_course_response.dart';
-import '../dto/user_response.dart';
 import '../../data/dto/course_list_response.dart';
 
 class RemoteSource implements ServerInterface {
@@ -100,7 +95,7 @@ class RemoteSource implements ServerInterface {
       String topic, String userId) async {
     try {
       var response =
-          await _apiService.get('/v1/learnedWords/byTopic/${topic}/${userId}');
+          await _apiService.get('/v1/learnedWords/byTopic/$topic/$userId');
 
       return Either.right(WordListResponse.fromJson(response.data));
     } on DioError catch (exception) {

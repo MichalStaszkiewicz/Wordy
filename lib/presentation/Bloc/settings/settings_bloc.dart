@@ -1,15 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wordy/domain/logic/settings_logic.dart';
-import 'package:wordy/const/consts.dart';
 
-import '../../../utility/locator/api_locator.dart';
+import '../../../Utility/locator/service_locator.dart';
+
 
 part 'settings_event.dart';
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc() : super(SettingsInitial()) {
+  SettingsBloc() : super(const SettingsInitial()) {
     loadSettings();
     updateUserTheme();
     updateUserInterfaceLanguage();

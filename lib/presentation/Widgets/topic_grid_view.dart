@@ -6,7 +6,7 @@ import 'package:wordy/presentation/widgets/topic_item.dart';
 import 'loading_data.dart';
 
 class TopicGridView extends StatelessWidget {
-  TopicGridView();
+  const TopicGridView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class TopicGridView extends StatelessWidget {
             ),
           );
         } else {
-          return SliverToBoxAdapter(child: LoadingData());
+          return const SliverToBoxAdapter(child: LoadingData());
         }
       },
     );

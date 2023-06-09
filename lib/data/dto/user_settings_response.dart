@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:wordy/data/dto/interface_language_response.dart';
-import 'package:wordy/data/dto/user_response.dart';
 
 import '../../domain/models/user_settings.dart';
 part 'user_settings_response.g.dart';

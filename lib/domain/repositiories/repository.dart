@@ -1,31 +1,12 @@
 import 'dart:async';
-import 'dart:ffi';
-import 'dart:math';
 
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
-import 'package:wordy/const/shared_preferences_keys.dart';
-import 'package:wordy/data/dto/beginner_quiz_word_list_response.dart';
-import 'package:wordy/data/dto/language_list_response.dart';
-import 'package:wordy/data/dto/login_user_response.dart';
-import 'package:wordy/data/dto/register_user_response.dart';
-import 'package:wordy/data/dto/update_user_interface_language_response.dart';
-import 'package:wordy/data/network/request/models/insert_learned_words.request.model.dart';
 import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/data/network/request/update_user_interface_language_request.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/learned_word.dart';
 
-import '../../data/dto/achievement_dto.dart';
-import '../../data/dto/achievement_list.dart';
 
-import '../../data/dto/flash_card_list_response.dart';
-import '../../data/dto/interface_language_response.dart';
-import '../../data/dto/learned_word_list_response.dart';
-import '../../data/dto/update_register_status_response.dart';
-import '../../data/dto/update_user_current_course_response.dart';
-import '../../data/dto/user_response.dart';
-import '../../data/dto/word_list_response.dart';
 import '../../data/local/local_storage.dart';
 import '../../data/network/remote_source.dart';
 import '../../data/network/request/login_user_request.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'difficulty_level_widget.dart';
 
 class DailyChallangeWidget extends StatelessWidget {
-  DailyChallangeWidget({required this.difficultyLevel});
+  DailyChallangeWidget({super.key, required this.difficultyLevel});
   String difficultyLevel;
 
   @override
@@ -29,9 +29,9 @@ class DailyChallangeWidget extends StatelessWidget {
               alignment: Alignment.centerRight,
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(10)),
-              child: Image(image: AssetImage('assets/dailychallange.png'))),
+              child: const Image(image: AssetImage('assets/dailychallange.png'))),
           Container(
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               left: 20,
             ),
             alignment: Alignment.centerLeft,
@@ -46,7 +46,7 @@ class DailyChallangeWidget extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Container(
+                    SizedBox(
                       height: 100,
                       width: 200,
                       child: Text(
@@ -59,7 +59,7 @@ class DailyChallangeWidget extends StatelessWidget {
                                 fontWeight: FontWeight.normal),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       width: 200,
                       child: Text(
                         textAlign: TextAlign.start,
@@ -85,7 +85,7 @@ class DailyChallangeWidget extends StatelessWidget {
                       const SizedBox(
                         width: 5,
                       ),
-                      Container(
+                      SizedBox(
                           width: 150,
                           child: Text(
                             'Take this lesson to earn a new milestone',

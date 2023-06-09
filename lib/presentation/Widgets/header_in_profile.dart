@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HeaderInProfile extends StatelessWidget {
-  HeaderInProfile({required this.label});
+  HeaderInProfile({super.key, required this.label});
   String label;
   @override
   Widget build(BuildContext context) {

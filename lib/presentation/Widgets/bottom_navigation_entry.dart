@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 
 class BottomNavigationEntry extends StatefulWidget {
   BottomNavigationEntry(
-      {required this.label, required this.icon, required this.index});
+      {super.key, required this.label, required this.icon, required this.index});
   String label;
   IconData icon;
   int index;
@@ -40,7 +38,7 @@ class _BottomNavigationEntryState extends State<BottomNavigationEntry> {
                       Icon(widget.icon,
                           color:
                               widget.index == 0 ? Colors.white : Colors.grey),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       0 == widget.index

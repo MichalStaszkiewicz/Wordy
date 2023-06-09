@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 
 import 'package:wordy/const/consts.dart';
@@ -38,10 +37,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: BlocBuilder<UserProgressBloc, UserProgressState>(
         builder: (context, state) {
           if (state is UserProgressInitial) {
-            return LoadingData();
+            return const LoadingData();
           }
           if (state is UserProgressLoaded) {
-            return ProfileDetails();
+            return const ProfileDetails();
           } else {
             DialogManager.showErrorDialog(
                 ExceptionHelper.getErrorMessage(UnexpectedError()),

@@ -1,22 +1,18 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:wordy/Utility/c_achievment.dart';
-import 'package:wordy/domain/logic/settings_logic.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/course_basic.dart';
-import 'package:wordy/const/consts.dart';
-import '../../../Utility/utility.dart';
+
+import '../../../Utility/locator/service_locator.dart';
 
 import '../../../domain/models/achievement.dart';
-import '../../../domain/models/achievement_old.dart';
-import '../../../domain/models/achievements_base.dart';
 import '../../../domain/models/course.dart';
-import '../../../utility/locator/api_locator.dart';
+
 part 'user_progress_event.dart';
 part 'user_progress_state.dart';
 
 class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
-  UserProgressBloc() : super(UserProgressInitial()) {
+  UserProgressBloc() : super(const UserProgressInitial()) {
     loadUserData();
     loadLearnedWords();
     loadLearnedWordsByCourse();
@@ -50,10 +46,10 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
           daysStreak: 3,
           finishedTopics: 3,
           learnedWords: 412,
-          courses: [],
-          userAchievements: [],
-          allAchievements: [],
-          userAchievementsNonAchieved: []));
+          courses: const [],
+          userAchievements: const [],
+          allAchievements: const [],
+          userAchievementsNonAchieved: const []));
     });
   }
 
@@ -89,17 +85,17 @@ class UserProgressBloc extends Bloc<UserProgressEvent, UserProgressState> {
           daysStreak: 0,
           finishedTopics: 0,
           learnedWords: 0,
-          courses: [],
+          courses: const [],
           userAchievements: achievements,
-          allAchievements: [],
-          userAchievementsNonAchieved: []));
+          allAchievements: const [],
+          userAchievementsNonAchieved: const []));
     });
   }
 
   void loadLearnedWords() {
     on<LoadLearnedWords>((event, emit) async {
       final userLogic = locator<UserService>();
-      emit(UserLearnedWordsLoaded(courses: []));
+      emit(UserLearnedWordsLoaded(courses: const []));
     });
   }
 

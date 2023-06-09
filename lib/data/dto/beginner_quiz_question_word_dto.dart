@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:wordy/domain/models/word.dart';
 
 import '../../domain/models/beginner_quiz_question.dart';
 

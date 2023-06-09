@@ -8,19 +8,19 @@ abstract class UserProgressEvent extends Equatable {
 }
 
 class LoadUserPreferencesOrCreateNewUser extends UserProgressEvent {
-  LoadUserPreferencesOrCreateNewUser();
+  const LoadUserPreferencesOrCreateNewUser();
 }
 
 class LoadUserDataAndPreferences extends UserProgressEvent {
-  LoadUserDataAndPreferences();
+  const LoadUserDataAndPreferences();
 }
 
 class LoadLearnedWords extends UserProgressEvent {
-  LoadLearnedWords();
+  const LoadLearnedWords();
 }
 
 class LoadUserSettingsAndCourseInformations extends UserProgressEvent {
-  LoadUserSettingsAndCourseInformations();
+  const LoadUserSettingsAndCourseInformations();
 }
 
 class UpdateUserCourse extends UserProgressEvent {
@@ -51,7 +51,7 @@ class CreateNewUser extends UserProgressEvent {
 }
 
 class LoadNewUserChoosingLanguageToLearn extends UserProgressEvent {
-  LoadNewUserChoosingLanguageToLearn();
+  const LoadNewUserChoosingLanguageToLearn();
 }
 
 class LoadLearnedWorsdWithSpecificCourse extends UserProgressEvent {

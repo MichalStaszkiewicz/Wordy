@@ -35,7 +35,7 @@ class CancelLanguageChange extends RegisterEvent {
 }
 
 class InitialSetupBegin extends RegisterEvent {
-  InitialSetupBegin();
+  const InitialSetupBegin();
 }
 
 class InitialSetupStateUpdate extends RegisterEvent {

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:wordy/const/consts.dart';
 
 class ExitDialog extends StatelessWidget {
-  ExitDialog();
+  const ExitDialog({super.key});
 
   @override
   Widget build(BuildContext context) {

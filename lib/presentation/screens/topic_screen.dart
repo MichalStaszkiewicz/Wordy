@@ -1,30 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
-import 'package:wordy/Utility/utility.dart';
 import 'package:wordy/const/urls.dart';
-import 'package:wordy/data/network/exceptions/exception_helper.dart';
-import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/domain/logic/user_service.dart';
+import 'package:wordy/utility/socket_manager.dart';
 
+import '../../Utility/locator/service_locator.dart';
 import '../../data/network/request/models/update_user_current_course_request_model.dart';
-import '../../utility/locator/api_locator.dart';
 
+import '../../domain/repositiories/socket_repository.dart';
 import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/add_new_course_item.dart';
-import '../widgets/circular_precentage_chart.dart';
 import '../widgets/course_item.dart';
 import '../widgets/current_course_widget.dart';
 import '../widgets/daily_challange_widget.dart';
-import '../widgets/difficulty_level_widget.dart';
-import '../widgets/language_tile.dart';
 import '../widgets/loading_data.dart';
 
 class TopicScreen extends StatefulWidget {
-  TopicScreen();
+  const TopicScreen({super.key});
 
   @override
   State<TopicScreen> createState() => _TopicScreenState();
@@ -37,11 +32,6 @@ class _TopicScreenState extends State<TopicScreen>
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   var dialogShowed = false;
   @override
   Widget build(BuildContext context) {
@@ -50,7 +40,9 @@ class _TopicScreenState extends State<TopicScreen>
         children: [
           Container(
             child: BlocProvider<CoursesUpdateBloc>(
-                create: (context) => CoursesUpdateBloc()..add(LoadCourses()),
+                create: (context) =>
+                    CoursesUpdateBloc(locator<StreamRepository>())
+                      ..add(InitialCourses()),
                 child: BlocBuilder<CoursesUpdateBloc, CoursesUpdateState>(
                   builder: (context, state) {
                     if (state is CoursesLoaded) {
@@ -59,7 +51,7 @@ class _TopicScreenState extends State<TopicScreen>
                           SliverAppBar(
                             primary: false,
                             flexibleSpace: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Colors.white,
                               ),
                             ),
@@ -74,13 +66,13 @@ class _TopicScreenState extends State<TopicScreen>
                                 children: [
                                   const Icon(Icons.format_align_left_sharp,
                                       color: Colors.black),
-                                  Container(
+                                  SizedBox(
                                     width: 150,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Container(
+                                        SizedBox(
                                           height: 35,
                                           child: Image.network(Urls.kImageUrl +
                                               state
@@ -105,7 +97,7 @@ class _TopicScreenState extends State<TopicScreen>
                                         Container(
                                             height: 20,
                                             alignment: Alignment.bottomCenter,
-                                            child: Icon(
+                                            child: const Icon(
                                                 Icons
                                                     .keyboard_arrow_down_outlined,
                                                 color: Colors.black))
@@ -128,15 +120,15 @@ class _TopicScreenState extends State<TopicScreen>
                               difficultyLevel: "Expert",
                             ),
                           ),
-                          SliverToBoxAdapter(
-                            child: const SizedBox(
+                          const SliverToBoxAdapter(
+                            child: SizedBox(
                               height: 30,
                             ),
                           ),
                           SliverToBoxAdapter(
                             child: Container(
                               width: double.infinity,
-                              margin: EdgeInsets.only(left: 25),
+                              margin: const EdgeInsets.only(left: 25),
                               child: Text(
                                 'Your courses',
                                 style: Theme.of(context).textTheme.titleLarge,
@@ -155,9 +147,10 @@ class _TopicScreenState extends State<TopicScreen>
                                 height: 170,
                                 child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: state.availablCoursesCount > 0
+                                    itemCount: state
+                                            .availableCoursesCount.isNotEmpty
                                         ? state.courses.activeCourses.length + 1
-                                        : 0,
+                                        : state.courses.activeCourses.length,
                                     itemBuilder: (context, index) {
                                       if (index ==
                                           state.courses.activeCourses.length) {
@@ -165,9 +158,11 @@ class _TopicScreenState extends State<TopicScreen>
                                             onTap: () {
                                               DialogManager
                                                   .showSelectNewCourseDialog(
-                                                      context);
+                                                      context,
+                                                      state.courses
+                                                          .availableCourses);
                                             },
-                                            child: AddNewCourseItem());
+                                            child: const AddNewCourseItem());
                                       } else {
                                         return GestureDetector(
                                             onTap: () async {
@@ -219,7 +214,7 @@ class _TopicScreenState extends State<TopicScreen>
 
                       return Container();
                     } else {
-                      return LoadingData();
+                      return const LoadingData();
                     }
                   },
                 )),

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:wordy/const/consts.dart';
 
 class QuizButton extends StatelessWidget {
   QuizButton(
-      {required this.function,
+      {super.key, required this.function,
       required this.height,
       required this.width,
       required this.margin,
@@ -26,7 +24,7 @@ class QuizButton extends StatelessWidget {
           height: height,
           decoration: BoxDecoration(
             color: Colors.blueAccent,
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Colors.black12,
                 offset: Offset(0, 2),

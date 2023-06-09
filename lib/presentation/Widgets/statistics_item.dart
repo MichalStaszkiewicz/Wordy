@@ -39,7 +39,7 @@ class StatisticsItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(height: 50, child: Image(image: AssetImage(image))),
+            SizedBox(height: 50, child: Image(image: AssetImage(image))),
             const SizedBox(height: 10.0),
             Text(
               label,

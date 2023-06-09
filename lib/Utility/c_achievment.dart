@@ -1,5 +1,3 @@
-import '../domain/models/achievement_old.dart';
-import '../domain/models/achievements_base.dart';
 /*
 class CAchievement {
   CAchievement();

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:wordy/presentation/widgets/statistics_list.dart';
 
 class FinishedTopicsChoosenCourse extends StatefulWidget {
   FinishedTopicsChoosenCourse({super.key, required this.choosenLanguage});

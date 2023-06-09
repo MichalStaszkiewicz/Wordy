@@ -8,7 +8,7 @@ import '../../domain/models/active_course.dart';
 import 'difficulty_level_widget.dart';
 
 class CurrentCourseWidget extends StatelessWidget {
-  CurrentCourseWidget({required this.currentCourse, required this.label});
+  CurrentCourseWidget({super.key, required this.currentCourse, required this.label});
   ActiveCourse currentCourse;
   String label;
   @override
@@ -16,7 +16,7 @@ class CurrentCourseWidget extends StatelessWidget {
     return Container(
         height: 230,
         width: 380,
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [Colors.blue, Colors.purple],
@@ -45,7 +45,7 @@ class CurrentCourseWidget extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
+                  child: SizedBox(
                     height: double.infinity,
                     child: Center(
                       child: Container(
@@ -111,7 +111,7 @@ class CurrentCourseWidget extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: Container(
-                                    margin: EdgeInsets.only(bottom: 10),
+                                    margin: const EdgeInsets.only(bottom: 10),
                                     alignment: Alignment.bottomLeft,
                                     child: Text(
                                       "${currentCourse.finishedTopics} / ${currentCourse.topicsCount} Topics completed",
@@ -170,7 +170,7 @@ class CurrentCourseWidget extends StatelessWidget {
                   .titleMedium!
                   .copyWith(color: Colors.white),
             ),
-            Icon(Icons.arrow_right_alt_rounded, color: Colors.white)
+            const Icon(Icons.arrow_right_alt_rounded, color: Colors.white)
           ],
         ),
       ),

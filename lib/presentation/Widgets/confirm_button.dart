@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ConfirmButton extends StatefulWidget {
-  ConfirmButton({required this.selected});
+  const ConfirmButton({super.key, required this.selected});
   final bool selected;
 
   @override

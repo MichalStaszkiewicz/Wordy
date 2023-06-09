@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class VocabularyFrontCard extends StatelessWidget {
-  VocabularyFrontCard({required this.label});
+  const VocabularyFrontCard({super.key, required this.label});
   final String label;
 
   @override

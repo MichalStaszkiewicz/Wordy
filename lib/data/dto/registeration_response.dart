@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:wordy/data/dto/user_response.dart';
 
 import '../../domain/models/registeration_status.dart';
 

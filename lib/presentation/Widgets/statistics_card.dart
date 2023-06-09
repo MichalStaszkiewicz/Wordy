@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class StatisticsCard extends StatelessWidget {
   StatisticsCard(
-      {required this.image,
+      {super.key, required this.image,
       required this.label,
       required this.max,
       required this.current});
@@ -33,7 +33,7 @@ class StatisticsCard extends StatelessWidget {
                 child: Center(
                     child: Text(
                   label,
-                  style: Theme.of(context).textTheme.subtitle1,
+                  style: Theme.of(context).textTheme.titleMedium,
                 )),
               )),
           Expanded(
@@ -42,7 +42,7 @@ class StatisticsCard extends StatelessWidget {
                 child: Center(
                     child: Text(
                   "$current/$max",
-                  style: Theme.of(context).textTheme.subtitle1,
+                  style: Theme.of(context).textTheme.titleMedium,
                 )),
               ))
         ],

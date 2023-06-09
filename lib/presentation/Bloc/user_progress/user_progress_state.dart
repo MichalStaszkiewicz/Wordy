@@ -8,7 +8,7 @@ abstract class UserProgressState extends Equatable {
 }
 
 class UserProgressInitial extends UserProgressState {
-  UserProgressInitial();
+  const UserProgressInitial();
   @override
   List<Object> get props => [];
 }
@@ -61,11 +61,11 @@ class UserCoursesAndSettingsInformations extends UserProgressState {
 }
 
 class LanguageConflict extends UserProgressState {
-  LanguageConflict();
+  const LanguageConflict();
 }
 
 class NewUserCreating extends UserProgressState {
-  NewUserCreating();
+  const NewUserCreating();
 }
 
 class CreatingNewUserPreferences extends UserProgressState {

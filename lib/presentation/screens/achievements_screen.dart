@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
-import 'package:wordy/domain/models/achievements_base.dart';
 import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 
 import 'package:wordy/presentation/widgets/achievement_item_back.dart';
 import 'package:wordy/presentation/widgets/flip_cards.dart';
-import 'package:wordy/presentation/widgets/statistics_item.dart';
 
 import 'package:wordy/const/consts.dart';
 
-import '../../domain/models/achievement_old.dart';
 import '../Bloc/achievements/achievements_filter_bloc.dart';
 import '../widgets/achievement_dial.dart';
 import '../widgets/achievement_item_front.dart';
 import '../widgets/loading_data.dart';
 
 class AchievementsScreen extends StatefulWidget {
-  AchievementsScreen({required this.userState});
+  AchievementsScreen({super.key, required this.userState});
   UserProgressLoaded userState;
 
   @override
@@ -63,7 +59,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                         style: Theme.of(context)
                             .textTheme
                             .titleLarge!
-                            .copyWith(color: Color(0xFFA2A2A2)),
+                            .copyWith(color: const Color(0xFFA2A2A2)),
                       ),
                     ),
                   ));
@@ -193,7 +189,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                       )),
             );
           } else {
-            return LoadingData();
+            return const LoadingData();
           }
         },
       ),

@@ -1,5 +1,4 @@
 import 'package:wordy/domain/repositiories/repository.dart';
-import 'package:wordy/presentation/widgets/settings.dart';
 
 import '../../utility/either.dart';
 import '../models/interface_language.dart';

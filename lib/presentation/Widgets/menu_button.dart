@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MenuButton extends StatelessWidget {
-  MenuButton({required this.label,required this.function});
+  MenuButton({super.key, required this.label,required this.function});
   String label;
   Function function;
 

@@ -1,10 +1,9 @@
-import 'package:dio/src/dio_error.dart';
+
 import 'package:wordy/domain/repositiories/user_repository.dart';
-import 'package:wordy/utility/either.dart';
 
 import '../data/network/request/models/update_user_interface_language_request_model.dart';
 import '../domain/repositiories/repository.dart';
-import 'locator/api_locator.dart';
+import 'locator/service_locator.dart';
 
 class Validator {
   static String? fullNameValidate(String? value) {

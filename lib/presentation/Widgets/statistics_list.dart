@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wordy/presentation/widgets/loading_data.dart';
-import 'package:wordy/presentation/widgets/statistics_card.dart';
-import 'package:wordy/const/consts.dart';
 
-import '../Bloc/user_progress/user_progress_bloc.dart';
 /*
 class StatisticsList extends StatefulWidget {
   StatisticsList(

@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
 
 import 'package:wordy/const/consts.dart';
 
 class LanguageDialog extends StatelessWidget {
-  LanguageDialog({required this.ctx});
+  LanguageDialog({super.key, required this.ctx});
   BuildContext ctx;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SettingsBloc()..add(LoadSettings()),
+      create: (context) => SettingsBloc()..add(const LoadSettings()),
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
           if (state is SettingsLoaded) {
@@ -105,7 +104,7 @@ class LanguageDialog extends StatelessWidget {
                       ],
                     )));
           } else {
-            return LoadingData();
+            return const LoadingData();
           }
         },
       ),

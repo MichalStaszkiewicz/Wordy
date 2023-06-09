@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,7 @@ import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
 
 class QuizAnswear extends StatefulWidget {
-  QuizAnswear({required this.answer, required this.index});
+  QuizAnswear({super.key, required this.answer, required this.index});
   String answer;
   int index;
 
@@ -74,7 +73,7 @@ class _QuizAnswearState extends State<QuizAnswear> {
             ),
           );
         } else {
-          return LoadingData();
+          return const LoadingData();
         }
       },
     );

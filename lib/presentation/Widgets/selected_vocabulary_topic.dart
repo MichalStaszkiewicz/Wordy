@@ -1,7 +1,4 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
@@ -58,7 +55,7 @@ class _SelectedVocabularyTopicState extends State<SelectedVocabularyTopic> {
                                           context.pop(
                                               AppRouter.vocabularyTopicScreen);
                                         },
-                                        child: Icon(Icons.arrow_back))),
+                                        child: const Icon(Icons.arrow_back))),
                               ),
                               Expanded(
                                 flex: 3,
@@ -104,7 +101,7 @@ class _SelectedVocabularyTopicState extends State<SelectedVocabularyTopic> {
               } else if (state is VocabularyError) {
                 return Container();
               } else if (state is VocabularyInitial) {
-                return LoadingData();
+                return const LoadingData();
               } else {
                 DialogManager.showErrorDialog(
                     ExceptionHelper.getErrorMessage(UnexpectedError()), context,
