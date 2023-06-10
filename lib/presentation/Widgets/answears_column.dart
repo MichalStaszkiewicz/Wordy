@@ -1,28 +1,27 @@
-
-import'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:wordy/presentation/widgets/quiz_answear.dart';
 
 class AnswearsColumn extends StatelessWidget {
   const AnswearsColumn({super.key, required this.answears});
- final List<String> answears;
+  final List<String> answears;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-           
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             children: [
               Expanded(
                 child: QuizAnswear(
-                  answer: answears[0], index: 0,
+                  answer: answears[0],
+                  index: 0,
                 ),
               ),
               Expanded(
                 child: QuizAnswear(
-                  answer: answears[1], index: 1,
+                  answer: answears[1],
+                  index: 1,
                 ),
               ),
             ],
@@ -31,12 +30,14 @@ class AnswearsColumn extends StatelessWidget {
             children: [
               Expanded(
                 child: QuizAnswear(
-                  answer: answears[2], index: 2,
+                  answer: answears[2],
+                  index: 2,
                 ),
               ),
               Expanded(
                 child: QuizAnswear(
-                  answer: answears[3], index: 3,
+                  answer: answears[3],
+                  index: 3,
                 ),
               ),
             ],

@@ -84,15 +84,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 22),
               child: GNav(
-                  tabActiveBorder: Border.all(color: Colors.blueAccent),
+                  tabActiveBorder: Border.all(color: Colors.indigo[400]!),
                   gap: 10,
                   color: Colors.grey[600],
-                  activeColor: Colors.blueAccent,
+                  activeColor: Colors.indigo[400],
                   rippleColor: Colors.grey[300]!,
                   hoverColor: Colors.grey[100]!,
                   iconSize: 20,
-                  textStyle:
-                      const TextStyle(fontSize: 16, color: Colors.blueAccent),
+                  textStyle: TextStyle(fontSize: 16, color: Colors.indigo[400]),
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20, vertical: 14.5),
                   duration: const Duration(milliseconds: 800),

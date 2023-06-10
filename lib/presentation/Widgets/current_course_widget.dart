@@ -8,7 +8,8 @@ import '../../domain/models/active_course.dart';
 import 'difficulty_level_widget.dart';
 
 class CurrentCourseWidget extends StatelessWidget {
-  CurrentCourseWidget({super.key, required this.currentCourse, required this.label});
+  CurrentCourseWidget(
+      {super.key, required this.currentCourse, required this.label});
   ActiveCourse currentCourse;
   String label;
   @override
@@ -18,11 +19,7 @@ class CurrentCourseWidget extends StatelessWidget {
         width: 380,
         margin: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Colors.blue, Colors.purple],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            color: Colors.indigo[400],
             boxShadow: const [
               BoxShadow(
                 color: Colors.black12,
@@ -37,7 +34,6 @@ class CurrentCourseWidget extends StatelessWidget {
             top: 10,
             child: DifficultyLevelWidget(
               textColor: Colors.white,
-              widgetColor: Colors.blue.withOpacity(0.9),
               label: label,
             ),
           ),
@@ -126,7 +122,6 @@ class CurrentCourseWidget extends StatelessWidget {
                                   margin: const EdgeInsets.only(bottom: 10),
                                   child: ProgressionBar(
                                     progress: currentCourse.totalProgress,
-                                    progressColor: Colors.blueAccent,
                                     width: 270,
                                   ),
                                 )
@@ -150,7 +145,14 @@ class CurrentCourseWidget extends StatelessWidget {
       width: 110,
       height: 40,
       decoration: BoxDecoration(
-          color: Colors.blueAccent,
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 99, 155, 252),
+              Color.fromRGBO(158, 149, 248, 1),
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
           boxShadow: const [
             BoxShadow(
               color: Colors.black12,

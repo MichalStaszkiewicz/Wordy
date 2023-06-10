@@ -1,4 +1,3 @@
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +41,7 @@ class _QuizAnswearState extends State<QuizAnswear> {
             },
             child: Container(
               margin: const EdgeInsets.all(20),
-              height: 100,
+              height: 150,
               decoration: BoxDecoration(
                 color: colorCheck(
                     state.selectedIndex,

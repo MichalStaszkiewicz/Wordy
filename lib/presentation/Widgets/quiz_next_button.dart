@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class QuizButton extends StatelessWidget {
   QuizButton(
-      {super.key, required this.function,
+      {super.key,
+      required this.function,
       required this.height,
       required this.width,
       required this.margin,
@@ -23,7 +24,14 @@ class QuizButton extends StatelessWidget {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            color: Colors.blueAccent,
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 99, 155, 252),
+                Color.fromRGBO(158, 149, 248, 1),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
             boxShadow: const [
               BoxShadow(
                 color: Colors.black12,
@@ -31,14 +39,14 @@ class QuizButton extends StatelessWidget {
                 blurRadius: 6.0,
               ),
             ],
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(50),
           ),
           child: Center(
             child: Text(label,
                 style: Theme.of(context)
                     .textTheme
-                    .headlineSmall!
-                    .copyWith(color: Colors.white)),
+                    .labelLarge!
+                    .copyWith(color: Colors.white, fontSize: 15)),
           ),
         ));
   }

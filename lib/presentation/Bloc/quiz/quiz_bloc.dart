@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/custom_error.dart';
 
 import '../../../Utility/locator/service_locator.dart';
@@ -22,12 +23,19 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       final quizLogic = locator<QuizLogic>();
       emit(const InProgress());
       var questions = await quizLogic.createBeginnerQuiz(event.topic);
+      final courseName = await locator<UserService>().getUserCurrentCourse();
+      if (courseName.isLeft) {
+        emit(QuizError(
+            error: ExceptionHelper.getErrorMessage(courseName.left!)));
+      }
+
       if (questions.isRight) {
         emit(BeginnerQuizLoaded(
             questions: questions.right!,
             currentQuestionIndex: 0,
             selectedIndex: null,
-            correctAnswersWordIndexes: const []));
+            correctAnswersWordIndexes: const [],
+            courseName: courseName.right!.course.name));
       } else {
         emit(
             QuizError(error: ExceptionHelper.getErrorMessage(questions.left!)));
@@ -47,7 +55,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           questions: state.questions,
           currentQuestionIndex: state.currentQuestionIndex,
           selectedIndex: event.selectedIndex,
-          correctAnswersWordIndexes: correctIndexes));
+          correctAnswersWordIndexes: correctIndexes,
+          courseName: state.courseName));
     });
   }
 
@@ -58,7 +67,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           questions: state.questions,
           currentQuestionIndex: state.currentQuestionIndex + 1,
           correctAnswersWordIndexes: state.correctAnswersWordIndexes,
-          selectedIndex: null));
+          selectedIndex: null,
+          courseName: state.courseName));
     });
   }
 

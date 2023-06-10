@@ -29,7 +29,8 @@ class DailyChallangeWidget extends StatelessWidget {
               alignment: Alignment.centerRight,
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(10)),
-              child: const Image(image: AssetImage('assets/dailychallange.png'))),
+              child:
+                  const Image(image: AssetImage('assets/dailychallange.png'))),
           Container(
             margin: const EdgeInsets.only(
               left: 20,
@@ -40,8 +41,7 @@ class DailyChallangeWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 DifficultyLevelWidget(
-                  textColor: Colors.blue,
-                  widgetColor: Colors.blue.withOpacity(0.3),
+                  textColor: Colors.white,
                   label: difficultyLevel,
                 ),
                 Column(

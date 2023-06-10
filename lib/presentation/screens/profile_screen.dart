@@ -22,34 +22,27 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    context.read<UserProgressBloc>().add(LoadUserDataAndPreferences());
     return Scaffold(
-      appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Center(
-              child: Text(
-            ui_lang['English']!['profile_screen_app_bar'].toString(),
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall!
-                .copyWith(color: Colors.white),
-          ))),
-      body: BlocBuilder<UserProgressBloc, UserProgressState>(
-        builder: (context, state) {
-          if (state is UserProgressInitial) {
-            return const LoadingData();
-          }
-          if (state is UserProgressLoaded) {
-            return const ProfileDetails();
-          } else {
-            DialogManager.showErrorDialog(
-                ExceptionHelper.getErrorMessage(UnexpectedError()),
-                context, () {
-              context.go('/');
-            });
-            return Container();
-          }
-        },
+      body: BlocProvider(
+        create: (context) =>
+            UserProgressBloc()..add(LoadUserDataAndPreferences()),
+        child: BlocBuilder<UserProgressBloc, UserProgressState>(
+          builder: (context, state) {
+            if (state is UserProgressInitial) {
+              return const LoadingData();
+            }
+            if (state is UserProgressLoaded) {
+              return const ProfileDetails();
+            } else {
+              DialogManager.showErrorDialog(
+                  ExceptionHelper.getErrorMessage(UnexpectedError()), context,
+                  () {
+                context.go('/');
+              });
+              return Container();
+            }
+          },
+        ),
       ),
     );
   }

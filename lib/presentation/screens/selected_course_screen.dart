@@ -79,11 +79,9 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
                                     mainAxisSpacing: 20, crossAxisCount: 2),
                             itemBuilder: (context, index) => GestureDetector(
                                   onTap: () {
-                                    context.goNamed('quiz_screen',
-                                        queryParameters: {
-                                          'topic': state
-                                              .course.topicProgress[index].name
-                                        });
+                                    context.go('/home/quiz_screen',
+                                        extra: state
+                                            .course.topicProgress[index].name);
                                   },
                                   child: _buildTopicItem(
                                       context,
@@ -105,7 +103,6 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
             });
             return Container();
           } else {
-            print("STATE IS : " + state.toString());
             return const LoadingData();
           }
         },
@@ -182,7 +179,6 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
           )),
           ProgressionBar(
             progress: (knownWords / totalWords) * 100,
-            progressColor: Colors.blueAccent,
             width: 150,
           )
         ],

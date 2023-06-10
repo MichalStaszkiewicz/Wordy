@@ -167,8 +167,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                     children: [
                       QuizButton(
                         function: () {
-                          context.goNamed('quiz_screen',
-                              queryParameters: {'topic': widget.topic});
+                          context.go('/home/quiz_screen', extra: widget.topic);
                         },
                         label: ui_lang['english']!['quiz_finish_repeat']
                             .toString(),

@@ -76,7 +76,7 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "profile_screen_statistics_header": "Statystyki",
     "profile_screen_days_in_a_row": "Dni z rzędu",
     "profile_screen_learned_words": "Nauczone słowa",
-    "profile_screen_finished_topics": "Ukończone tematy",
+    "profile_screen_finished_topics": "Ukończone kursy",
     "profile_screen_achievements": "Osiągnięcia",
     "settings_screen_app_bar": "Ustawienia",
     "settings_screen_theme_description":
@@ -123,7 +123,7 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "profile_screen_statistics_header": "Statistics",
     "profile_screen_days_in_a_row": "Days in a row",
     "profile_screen_learned_words": "Learned words",
-    "profile_screen_finished_topics": "Finished topics",
+    "profile_screen_finished_topics": "Finished courses",
     "profile_screen_achievements": "Achievements",
     "settings_screen_app_bar": "Settings",
     "settings_screen_theme_description":
