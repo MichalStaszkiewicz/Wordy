@@ -44,7 +44,7 @@ abstract class ServerInterface {
       int userID);
   Future<Either<DioError, RegisterUserResponse>> registerUser(
       RegisterUserRequest registerRequest);
-  Future<Either<DioError, LoginUserResponse>> loginUser(
+  Future<Either<DioError, LoginResponse>> loginUser(
       LoginUserRequest loginRequest);
   Future<Either<DioError, RegisterationResponse>> getRegisterationStatus(
       String userId);

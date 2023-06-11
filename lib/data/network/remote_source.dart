@@ -116,13 +116,13 @@ class RemoteSource implements ServerInterface {
   }
 
   @override
-  Future<Either<DioError, LoginUserResponse>> loginUser(
+  Future<Either<DioError, LoginResponse>> loginUser(
       LoginUserRequest request) async {
     try {
       var response =
           await _apiService.post('/v1/user/login', payload: request.toJson());
 
-      return Either.right(LoginUserResponse.fromJson(response.data));
+      return Either.right(LoginResponse.fromJson(response.data));
     } on DioError catch (exception) {
       return Either.left(exception);
     }

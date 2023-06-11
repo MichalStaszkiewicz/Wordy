@@ -3,10 +3,10 @@ import 'package:wordy/data/dto/user_response.dart';
 part 'login_user_response.g.dart';
 
 @JsonSerializable()
-class LoginUserResponse {
-  LoginUserResponse({required this.message, required this.user});
+class LoginResponse {
+  LoginResponse({required this.message, required this.token});
   String message;
-  UserResponse user;
-  factory LoginUserResponse.fromJson(Map<String, dynamic> json) =>
+  String token;
+  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
       _$LoginUserResponseFromJson(json);
 }

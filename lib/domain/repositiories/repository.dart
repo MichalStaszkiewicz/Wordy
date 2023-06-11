@@ -6,7 +6,6 @@ import 'package:wordy/data/network/request/update_user_interface_language_reques
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/learned_word.dart';
 
-
 import '../../data/local/local_storage.dart';
 import '../../data/network/remote_source.dart';
 import '../../data/network/request/login_user_request.dart';
@@ -191,7 +190,7 @@ class Repository {
   Future<Either<DioError, String>> loginUser(LoginUserRequest request) async {
     var response = await _remoteSource.loginUser(request);
     if (response.isRight) {
-      return Either.right(response.right!.user.id);
+      return Either.right(response.right!.token);
     } else {
       return Either.left(response.left);
     }
