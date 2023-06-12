@@ -20,19 +20,25 @@ class ProfileDataError extends ProfileState {
 }
 
 class ProfileDataReady extends ProfileState {
-  ProfileDataReady({
-    required this.finishedCourses,
-    required this.hotStreak,
-    required this.learnedWords,
-    required this.achievements,
-  });
+  ProfileDataReady(
+      {required this.finishedCourses,
+      required this.hotStreak,
+      required this.learnedWords,
+      required this.achievements,
+      required this.beginnerProgress});
 
   int finishedCourses;
   int hotStreak;
   int learnedWords;
   int achievements;
+  List<ActiveCourse> beginnerProgress;
 
   @override
-  List<Object> get props =>
-      [finishedCourses, hotStreak, learnedWords, achievements];
+  List<Object> get props => [
+        finishedCourses,
+        hotStreak,
+        learnedWords,
+        achievements,
+        beginnerProgress
+      ];
 }

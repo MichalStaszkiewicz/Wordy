@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wordy/presentation/bloc/profile/profile_bloc.dart';
 
 import 'package:wordy/presentation/widgets/statistics_item.dart';
@@ -7,6 +8,8 @@ import 'package:wordy/presentation/widgets/statistics_item.dart';
 import 'package:wordy/presentation/screens/achievements_screen.dart';
 import 'package:wordy/presentation/screens/words_learned_screen.dart';
 import 'package:wordy/const/consts.dart';
+
+import '../../const/app_router.dart';
 
 class ProfileDetails extends StatefulWidget {
   const ProfileDetails({super.key});
@@ -29,7 +32,6 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             label:
                 ui_lang[language]!['profile_screen_days_in_a_row'].toString(),
             statisticsCount: state.hotStreak,
-            navigation: null,
           );
         },
       ),
@@ -37,14 +39,16 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         builder: (context, state) {
           state as ProfileDataReady;
 
-          return StatisticsItem(
-            image: 'assets/open-book.png',
-            label:
-                ui_lang[language]!['profile_screen_learned_words'].toString(),
-            statisticsCount: state.learnedWords,
-            navigation: BlocProvider(
-              create: (context) => ProfileBloc()..add(LoadProfileData()),
-              child: const WordsLearnedScreen(),
+          return GestureDetector(
+            onTap: () {
+              context.pushNamed(AppRouter.wordsLearnedScreenNamed,
+                  extra: {'beginnerProgress': state.beginnerProgress});
+            },
+            child: StatisticsItem(
+              image: 'assets/open-book.png',
+              label:
+                  ui_lang[language]!['profile_screen_learned_words'].toString(),
+              statisticsCount: state.learnedWords,
             ),
           );
         },
@@ -57,7 +61,6 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             label:
                 ui_lang[language]!['profile_screen_finished_topics'].toString(),
             statisticsCount: state.finishedCourses,
-            navigation: null,
           );
         },
       ),
@@ -65,11 +68,11 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         builder: (context, state) {
           state as ProfileDataReady;
           return StatisticsItem(
-              image: 'assets/award.png',
-              label:
-                  ui_lang[language]!['profile_screen_achievements'].toString(),
-              statisticsCount: state.achievements,
-              navigation: AchievementsScreen());
+            //TODO AchievementsScreen
+            image: 'assets/award.png',
+            label: ui_lang[language]!['profile_screen_achievements'].toString(),
+            statisticsCount: state.achievements,
+          );
         },
       ),
     ];

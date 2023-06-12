@@ -38,16 +38,16 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       final userLogic = locator<UserService>();
 
       final token = await locator.get<Repository>().getToken();
-      if (token.isRight) {
+      if (token.isData) {
         await Future.microtask(() async {
           await userLogic.updateUserCurrentCourse(
             event.currentCourse,
           );
-          await userLogic.updateRegisterationStatus(token.right!);
+          await userLogic.updateRegisterationStatus(token.data!);
         }).then((value) => emit(InitialSetupDone()));
       } else {
-        emit(
-            RegisterError(error: ExceptionHelper.getErrorMessage(token.left!)));
+        emit(RegisterError(
+            error: ExceptionHelper.getErrorMessage(token.error!)));
       }
     });
   }
@@ -76,7 +76,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         final userInterfaceLanguage =
             await locator<Repository>().getUserInterfaceLanguage();
         if (event.languageToLearn.toLowerCase() ==
-            userInterfaceLanguage.right!.toLowerCase()) {
+            userInterfaceLanguage.data!.toLowerCase()) {
           emit(RegisterLanguageChangeInfo(
               message:
                   'Choosing this language will change your interface language.',
@@ -104,11 +104,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         "email": event.email,
         "password": event.password
       });
-      if (result.isRight) {
+      if (result.isData) {
         emit(const RegisterSuccess());
       } else {
         emit(RegisterError(
-            error: ExceptionHelper.getErrorMessage(result.left!)));
+            error: ExceptionHelper.getErrorMessage(result.error!)));
       }
     });
   }

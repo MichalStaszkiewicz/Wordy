@@ -106,7 +106,7 @@ class _SelectedVocabularyTopicState extends State<SelectedVocabularyTopic> {
                 DialogManager.showErrorDialog(
                     ExceptionHelper.getErrorMessage(UnexpectedError()), context,
                     () {
-                  context.go('/');
+                  context.go(AppRouter.authScreen);
                 });
                 return Container();
               }

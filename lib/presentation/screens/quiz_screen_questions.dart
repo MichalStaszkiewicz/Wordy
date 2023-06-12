@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/presentation/widgets/answears_column.dart';
+import 'package:wordy/presentation/widgets/exit_button.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 import 'package:wordy/presentation/widgets/quiz_word_to_answear.dart';
 
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 
 import '../../Utility/dialog_manager.dart';
+import '../../const/app_router.dart';
 import '../widgets/quiz_next_button.dart';
 
 class QuizScreenQuestions extends StatefulWidget {
@@ -52,30 +54,11 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
                             DialogManager.showQuestionDialog(
                                 'If you will quit now all progress you have made will be lost!',
                                 'Are you sure ? ',
-                                context,
-                                () {context.go('/selected_course')},
-                                () {});
+                                context, () {
+                              context.go(AppRouter.selectedCourse);
+                            }, () {});
                           },
-                          child: Container(
-                            height: 35,
-                            width: 35,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(50),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  spreadRadius: 2,
-                                  blurRadius: 3,
-                                  offset: Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: const Icon(
-                              Icons.close,
-                              color: Colors.black,
-                            ),
-                          ),
+                          child: ExitButton(),
                         ),
                       )),
                       ProgressionBar(
@@ -164,7 +147,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
                             context.read<QuizBloc>().add(FinishQuiz(
                                 wordIds: state.correctAnswersWordIndexes,
                                 maximumPoints: state.questions.length));
-                            context.go('/home/quiz_screen/completed', extra: {
+                            context.go(AppRouter.quizCompleted, extra: {
                               'topic': widget.topic,
                               'maximumPoints':
                                   state.questions.length.toString(),

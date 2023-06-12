@@ -8,8 +8,8 @@ import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/presentation/widgets/register_course_list.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 
-
 import '../../Utility/locator/service_locator.dart';
+import '../../const/app_router.dart';
 import '../../data/network/exceptions/exception_helper.dart';
 import '../../data/network/exceptions/unexpected_error.dart';
 import '../../domain/models/interface_language.dart';
@@ -30,11 +30,11 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
         future: RepositoryProvider.of<SettingsLogic>(context)
             .getAvailableLanguages()
             .then((value) {
-          if (value.isLeft) {
+          if (value.isError) {
             throw Exception(
                 "There was some server issue. Please try again later");
           }
-          return value.right!;
+          return value.data!;
         }),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -50,7 +50,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                     locator.get<Repository>().cancelRequest();
                   });
                 } else if (state is InitialSetupDone) {
-                  context.go('/home');
+                  context.go(AppRouter.home);
                 }
               },
               child: BlocBuilder<RegisterBloc, RegisterState>(
@@ -103,7 +103,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                     DialogManager.showErrorDialog(
                         ExceptionHelper.getErrorMessage(UnexpectedError()),
                         context, () {
-                      context.go('/');
+                      context.go(AppRouter.authScreen);
                     });
                     return Container();
                   }
@@ -117,7 +117,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                   message:
                       "The error occurred when trying to load data from the server."),
               context, () {
-            context.go('/');
+            context.go(AppRouter.authScreen);
           });
           return Container();
         });

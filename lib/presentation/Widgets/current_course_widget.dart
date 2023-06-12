@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 
+import '../../const/app_router.dart';
 import '../../domain/models/active_course.dart';
 import 'difficulty_level_widget.dart';
 
@@ -90,9 +91,7 @@ class CurrentCourseWidget extends StatelessWidget {
                               alignment: Alignment.bottomLeft,
                               child: GestureDetector(
                                   onTap: () {
-                                    context.go(
-                                      '/selected_course',
-                                    );
+                                    context.go(AppRouter.selectedCourse);
                                   },
                                   child: _buildContinueButton(context))),
                         ),

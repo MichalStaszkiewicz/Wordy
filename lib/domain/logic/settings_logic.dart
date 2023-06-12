@@ -10,25 +10,25 @@ class SettingsLogic {
   Future<Either<Exception, List<InterfaceLanguage>>>
       getAvailableLanguages() async {
     var languages = await _repository.getAvailableLanguages();
-    if (languages.isLeft) {
-      return Either.error(languages.left!);
+    if (languages.isError) {
+      return Either.error(languages.error!);
     }
-    return Either.data(languages.right);
+    return Either.data(languages.data);
   }
 
   Future<Either<Exception, List<InterfaceLanguage>>>
       getAvailableLanguagesExceptCurrentUserLanguage() async {
     var availableLanguages = await _repository.getAvailableLanguages();
-    if (availableLanguages.isLeft) {
-      return Either.error(availableLanguages.left!);
+    if (availableLanguages.isError) {
+      return Either.error(availableLanguages.error!);
     }
     var currentUserLanguage = await _repository.getUserInterfaceLanguage();
-    if (currentUserLanguage.isLeft) {
-      return Either.error(currentUserLanguage.left);
+    if (currentUserLanguage.isError) {
+      return Either.error(currentUserLanguage.error);
     }
-    availableLanguages.right!.removeWhere((element) =>
-        element.name.toLowerCase() == currentUserLanguage.right!.toLowerCase());
-    return Either.data(availableLanguages.right);
+    availableLanguages.data!.removeWhere((element) =>
+        element.name.toLowerCase() == currentUserLanguage.data!.toLowerCase());
+    return Either.data(availableLanguages.data);
   }
 
   Future<bool> getUserTheme() async {

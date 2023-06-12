@@ -6,12 +6,12 @@ import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/bloc/profile/profile_bloc.dart';
 
 import '../../Utility/dialog_manager.dart';
+import '../../const/app_router.dart';
 import '../../data/network/exceptions/exception_helper.dart';
 import '../../data/network/exceptions/unexpected_error.dart';
 import '../widgets/loading_data.dart';
 import '../widgets/profile_details.dart';
 
-//TODO fixing UI. bloc is not updating profile also changing language is no showing proper data in vocabulary screen without helping statements. quiz is breaking when we skip all questions.
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -36,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               DialogManager.showErrorDialog(
                   ExceptionHelper.getErrorMessage(UnexpectedError()), context,
                   () {
-                context.go('/');
+                context.go(AppRouter.authScreen);
               });
               return Container();
             }

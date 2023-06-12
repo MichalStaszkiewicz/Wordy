@@ -10,6 +10,7 @@ import '../../Utility/dialog_manager.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../Utility/socket_manager.dart';
+import '../../const/app_router.dart';
 import '../../const/enums.dart';
 
 import '../bloc/login/login_bloc.dart';
@@ -89,8 +90,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 socketManager.joinRoom(state.userId);
 
                 state.registerCompleted
-                    ? context.go('/home')
-                    : context.go('/initial_settings');
+                    ? context.go(AppRouter.home)
+                    : context.go(AppRouter.initialSettings);
               } else if (state is LoginError) {
                 if (context.canPop()) {
                   Navigator.pop(context);

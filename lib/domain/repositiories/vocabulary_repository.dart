@@ -9,12 +9,12 @@ class VocabularyRepository {
   VocabularyRepository(this._repository);
 
   Future<Either<DioError, List<FlashCardData>>> createFlashCardList(
-      String topic) async {
-    var response = await _repository.createFlashCardList(topic);
-    if (response.isRight) {
-      return Either.data(response.right!);
+      String topic, String token) async {
+    var response = await _repository.createFlashCardList(topic, token);
+    if (response.isData) {
+      return Either.data(response.data!);
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 }

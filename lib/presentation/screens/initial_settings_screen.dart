@@ -8,6 +8,7 @@ import 'package:wordy/domain/logic/settings_logic.dart';
 import 'package:wordy/presentation/widgets/register_setting_course.dart';
 
 import '../../Utility/locator/service_locator.dart';
+import '../../const/app_router.dart';
 import '../../const/enums.dart';
 import '../bloc/register/register_bloc.dart';
 
@@ -55,7 +56,7 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
               }
               if (state is RegisterError) {
                 DialogManager.showErrorDialog(state.error, context, () {
-                  context.go('/');
+                  context.go(AppRouter.authScreen);
                 });
               }
             },

@@ -21,10 +21,6 @@ class AddNewCourse extends CoursesUpdateEvent {
   String selectedCourse;
 }
 
-class ScreenChanged extends CoursesUpdateEvent {
-  ScreenChanged();
-}
-
 class LoadCourses extends CoursesUpdateEvent {
   LoadCourses({
     required this.courses,
@@ -35,6 +31,12 @@ class LoadCourses extends CoursesUpdateEvent {
 class LoadCurrentCourse extends CoursesUpdateEvent {
   LoadCurrentCourse({required this.course});
   ActiveCourse course;
+}
+
+class ErrorEvent extends CoursesUpdateEvent {
+  ErrorEvent({required this.error});
+
+  CustomError error;
 }
 
 class CurrentCourseInitial extends CoursesUpdateEvent {

@@ -8,6 +8,7 @@ import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/utility/socket_manager.dart';
 
 import '../../Utility/locator/service_locator.dart';
+import '../../const/app_router.dart';
 import '../../domain/repositiories/socket_repository.dart';
 import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/add_new_course_item.dart';
@@ -145,8 +146,7 @@ class _TopicScreenState extends State<TopicScreen>
                                 height: 170,
                                 child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: state
-                                            .availableCoursesCount.isNotEmpty
+                                    itemCount: state.availableCourses.isNotEmpty
                                         ? state.courses.activeCourses.length + 1
                                         : state.courses.activeCourses.length,
                                     itemBuilder: (context, index) {
@@ -157,8 +157,7 @@ class _TopicScreenState extends State<TopicScreen>
                                               DialogManager
                                                   .showSelectNewCourseDialog(
                                                       context,
-                                                      state.courses
-                                                          .availableCourses);
+                                                      state.availableCourses);
                                             },
                                             child: const AddNewCourseItem());
                                       } else {
@@ -172,7 +171,8 @@ class _TopicScreenState extends State<TopicScreen>
                                                       .course
                                                       .name)
                                                   .then((value) {
-                                                context.go('/selected_course');
+                                                context.go(
+                                                    AppRouter.selectedCourse);
                                               });
                                             },
                                             child: CourseItem(
@@ -202,7 +202,7 @@ class _TopicScreenState extends State<TopicScreen>
                     } else if (state is CourseUpdateError) {
                       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                         DialogManager.showErrorDialog(state.error, context, () {
-                          context.go('/');
+                          context.go(AppRouter.authScreen);
                         });
                       });
 

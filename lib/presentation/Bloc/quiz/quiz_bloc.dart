@@ -24,21 +24,21 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       emit(const InProgress());
       var questions = await quizLogic.createBeginnerQuiz(event.topic);
       final courseName = await locator<UserService>().getUserCurrentCourse();
-      if (courseName.isLeft) {
+      if (courseName.isError) {
         emit(QuizError(
-            error: ExceptionHelper.getErrorMessage(courseName.left!)));
+            error: ExceptionHelper.getErrorMessage(courseName.error!)));
       }
 
-      if (questions.isRight) {
+      if (questions.isData) {
         emit(BeginnerQuizLoaded(
-            questions: questions.right!,
+            questions: questions.data!,
             currentQuestionIndex: 0,
             selectedIndex: null,
             correctAnswersWordIndexes: const [],
-            courseName: courseName.right!.course.name));
+            courseName: courseName.data!.course.name));
       } else {
-        emit(
-            QuizError(error: ExceptionHelper.getErrorMessage(questions.left!)));
+        emit(QuizError(
+            error: ExceptionHelper.getErrorMessage(questions.error!)));
       }
     });
   }

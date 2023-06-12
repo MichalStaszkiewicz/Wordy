@@ -17,12 +17,12 @@ class CourseUpdateError extends CoursesUpdateState {
 }
 
 class CoursesLoaded extends CoursesUpdateState {
-  CoursesLoaded({required this.courses, required this.availableCoursesCount});
+  CoursesLoaded({required this.courses, required this.availableCourses});
   UserActiveCoursesProgress courses;
-  List<Course> availableCoursesCount;
+  List<Course> availableCourses;
 
   @override
-  List<Object> get props => [courses, availableCoursesCount];
+  List<Object> get props => [courses, availableCourses];
 }
 
 class AvailableCoursesLoaded extends CoursesUpdateState {

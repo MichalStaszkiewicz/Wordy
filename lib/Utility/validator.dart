@@ -37,23 +37,23 @@ class Validator {
     final token = await locator.get<Repository>().getToken();
     var userInterfaceLanguage =
         await locator.get<Repository>().getUserInterfaceLanguage();
-    if (token.isRight && userInterfaceLanguage.isRight) {
+    if (token.isData && userInterfaceLanguage.isData) {
       try {
         if (choosenLanguage.toLowerCase() ==
-                userInterfaceLanguage.right!.toLowerCase() &&
-            userInterfaceLanguage.right!.toLowerCase() == 'polish') {
+                userInterfaceLanguage.data!.toLowerCase() &&
+            userInterfaceLanguage.data!.toLowerCase() == 'polish') {
           var message = await locator
               .get<UserRepository>()
-              .switchInterfaceLangauge(token.right!, 'english');
+              .switchInterfaceLangauge(token.data!, 'english');
 
-          if (message.isRight) {
+          if (message.isData) {
             locator.get<Repository>().synchronizeUserInterfaceLanguage();
           }
         } else {
           var message = await locator
               .get<Repository>()
-              .switchInterfaceLangauge(token.right!, 'polish');
-          if (message.isRight) {
+              .switchInterfaceLangauge(token.data!, 'polish');
+          if (message.isData) {
             locator.get<Repository>().synchronizeUserInterfaceLanguage();
           }
         }

@@ -6,7 +6,6 @@ import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/bloc/profile/profile_bloc.dart';
 
 import 'package:wordy/presentation/screens/profile_screen.dart';
-import 'package:wordy/presentation/screens/settings_screen.dart';
 
 import 'package:wordy/presentation/screens/vocabulary_screen.dart';
 import 'package:wordy/const/consts.dart';
@@ -35,10 +34,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       child: const VocabularyScreen(),
     ),
     const ProfileScreen(),
-    BlocProvider(
-      create: (context) => SettingsBloc()..add(const LoadSettings()),
-      child: const SettingsScreen(),
-    ),
   ];
 
   List<GButton> navBarsItems(String language) {

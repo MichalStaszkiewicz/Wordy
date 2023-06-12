@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wordy/const/app_router.dart';
 import 'package:wordy/domain/repositiories/socket_repository.dart';
 
 import 'package:wordy/presentation/widgets/circular_precentage_chart.dart';
@@ -45,7 +46,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              context.go('/home');
+                              context.go(AppRouter.home);
                             },
                             child: Container(
                               margin: const EdgeInsets.only(left: 10),
@@ -79,7 +80,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
                                     mainAxisSpacing: 20, crossAxisCount: 2),
                             itemBuilder: (context, index) => GestureDetector(
                                   onTap: () {
-                                    context.go('/home/quiz_screen',
+                                    context.go(AppRouter.quizScreen,
                                         extra: state
                                             .course.topicProgress[index].name);
                                   },
@@ -99,7 +100,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
             );
           } else if (state is CourseUpdateError) {
             DialogManager.showErrorDialog(state.error, context, () {
-              context.go('/home');
+              context.go(AppRouter.home);
             });
             return Container();
           } else {

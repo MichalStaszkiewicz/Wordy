@@ -29,25 +29,23 @@ class LoginBloc extends Bloc<AuthFormEvent, LoginState> {
       var token = await userLogic.loginUser(
           LoginUserModel(email: event.email, password: event.password));
 
-      //TODO Implement saving token in shared preferences
-      if (token.isRight) {
-        final registerationStatus = await locator
-            .get<Repository>()
-            .getRegisterationStatus(token.right!);
+      if (token.isData) {
+        final registerationStatus =
+            await locator.get<Repository>().getRegisterationStatus(token.data!);
         print("Authentication success");
 
-        if (registerationStatus.isRight) {
+        if (registerationStatus.isData) {
           emit(Authenticated(
               registerCompleted:
-                  registerationStatus.right!.registerationCompleted,
-              userId: token.right!));
+                  registerationStatus.data!.registerationCompleted,
+              userId: token.data!));
         } else {
           emit(LoginError(
               error:
-                  ExceptionHelper.getErrorMessage(registerationStatus.left!)));
+                  ExceptionHelper.getErrorMessage(registerationStatus.error!)));
         }
       } else {
-        emit(LoginError(error: ExceptionHelper.getErrorMessage(token.left!)));
+        emit(LoginError(error: ExceptionHelper.getErrorMessage(token.error!)));
       }
     });
   }

@@ -15,8 +15,6 @@ import '../../../../domain/models/user_active_courses_progress.dart';
 
 import '../../../Utility/locator/service_locator.dart';
 
-import '../../../data/dto/active_course_response.dart';
-import '../../../data/dto/user_active_courses_progress_response.dart';
 import '../../../domain/repositiories/socket_repository.dart';
 
 part 'courses_update_event.dart';
@@ -27,14 +25,14 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
   final StreamRepository socketRepository;
   final socketManager = locator<SocketManager>();
 
-  late StreamSubscription<UserActiveCoursesProgressResponse> _activeCoursesSub;
-  late StreamSubscription<ActiveCourseResponse> _currentCourseSub;
+  late StreamSubscription<UserActiveCoursesProgress> _activeCoursesSub;
+  late StreamSubscription<ActiveCourse> _currentCourseSub;
   CoursesUpdateBloc(this.socketRepository) : super(CoursesUpdateInitial()) {
     _activeCoursesSub =
         socketRepository.courseStreamController.stream.listen((data) {
       if (!isClosed) {
         add(LoadCourses(
-          courses: data.toDomain(),
+          courses: data,
         ));
       }
     });
@@ -42,8 +40,9 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
     _currentCourseSub =
         socketRepository.currentCourseStreamController.stream.listen((data) {
       totalProgress = data.totalProgress;
+
       if (!isClosed) {
-        add(LoadCurrentCourse(course: data.toDomain()));
+        add(LoadCurrentCourse(course: data));
       }
     });
 
@@ -68,11 +67,11 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
     on<CurrentCourseInitial>((event, emit) async {
       final userId = await locator<Repository>().getToken();
 
-      if (userId.isLeft) {
+      if (userId.isError) {
         emit(CourseUpdateError(
-            error: ExceptionHelper.getErrorMessage(userId.left!)));
+            error: ExceptionHelper.getErrorMessage(userId.error!)));
       }
-      socketManager.loadCurrentCourse(userId.right!);
+      socketManager.loadCurrentCourse(userId.data!);
     });
   }
 
@@ -80,11 +79,11 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
     on<InitialCourses>((event, emit) async {
       final userId = await locator<Repository>().getToken();
 
-      if (userId.isLeft) {
+      if (userId.isError) {
         emit(CourseUpdateError(
-            error: ExceptionHelper.getErrorMessage(userId.left!)));
+            error: ExceptionHelper.getErrorMessage(userId.error!)));
       }
-      socketManager.loggedIn(userId.right!);
+      socketManager.loggedIn(userId.data!);
     });
   }
 
@@ -92,13 +91,13 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
     on<AddNewCourse>((event, emit) async {
       final userId = await locator<Repository>().getToken();
 
-      if (userId.isLeft) {
+      if (userId.isError) {
         emit(CourseUpdateError(
-            error: ExceptionHelper.getErrorMessage(userId.left!)));
+            error: ExceptionHelper.getErrorMessage(userId.error!)));
       }
       await locator<UserService>()
           .updateUserCurrentCourse(event.selectedCourse)
-          .then((value) => socketManager.loggedIn(userId.right!));
+          .then((value) => socketManager.loggedIn(userId.data!));
     });
   }
 
@@ -108,22 +107,20 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
           await locator<UserService>().getAvailableCourses();
       final userInterfaceLanguage =
           await locator<UserService>().getUserInterfaceLanguage();
-      if (userInterfaceLanguage.isLeft) {
+      if (userInterfaceLanguage.isError) {
         emit(CourseUpdateError(
             error:
-                ExceptionHelper.getErrorMessage(userInterfaceLanguage.left!)));
+                ExceptionHelper.getErrorMessage(userInterfaceLanguage.error!)));
       }
 
-      if (availableCourses.isLeft) {
+      if (availableCourses.isError) {
         emit(CourseUpdateError(
-            error: ExceptionHelper.getErrorMessage(availableCourses.left!)));
+            error: ExceptionHelper.getErrorMessage(availableCourses.error!)));
       } else {
         final UserActiveCoursesProgress coursesData = event.courses;
-        coursesData.availableCourses = availableCourses.right!;
 
         emit(CoursesLoaded(
-            courses: coursesData,
-            availableCoursesCount: availableCourses.right!));
+            courses: coursesData, availableCourses: availableCourses.data!));
       }
     });
   }
@@ -141,14 +138,14 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
     on<LoadAvailableCourses>((event, emit) async {
       final userInterfaceLanguage =
           await locator<UserService>().getUserInterfaceLanguage();
-      if (userInterfaceLanguage.isLeft) {
+      if (userInterfaceLanguage.isError) {
         emit(CourseUpdateError(
             error:
-                ExceptionHelper.getErrorMessage(userInterfaceLanguage.left!)));
+                ExceptionHelper.getErrorMessage(userInterfaceLanguage.error!)));
       }
       emit(AvailableCoursesLoaded(
           selectedCourse: '',
-          userInterfaceLanguage: userInterfaceLanguage.right!));
+          userInterfaceLanguage: userInterfaceLanguage.data!));
     });
   }
 

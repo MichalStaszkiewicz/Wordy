@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/const/consts.dart';
 
+import '../../const/app_router.dart';
 import '../../domain/models/achievement.dart';
 import '../Bloc/quiz/quiz_bloc.dart';
 import '../Widgets/quiz_next_button.dart';
@@ -167,7 +168,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                     children: [
                       QuizButton(
                         function: () {
-                          context.go('/home/quiz_screen', extra: widget.topic);
+                          context.go(AppRouter.quizScreen, extra: widget.topic);
                         },
                         label: ui_lang['english']!['quiz_finish_repeat']
                             .toString(),
@@ -177,7 +178,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                       ),
                       QuizButton(
                         function: () {
-                          context.go('/selected_course');
+                          context.go(AppRouter.selectedCourse);
                         },
                         label:
                             ui_lang['english']!['quiz_finish_home'].toString(),

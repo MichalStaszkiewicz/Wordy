@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../domain/models/course_profile.dart';
-
 final ColorScheme colorScheme = ColorScheme.fromSwatch(
   primarySwatch: Colors.blue,
   accentColor: Colors.green,
@@ -21,39 +19,10 @@ final ThemeData darkTheme = ThemeData(
 const Color kdisabledcolor = Color.fromARGB(156, 212, 209, 209);
 const Color kactivestatuscolor = Color.fromARGB(255, 67, 165, 70);
 const Color ktitlecolor = Color.fromRGBO(51, 51, 51, 1.0);
-List<CourseProfile> kCourses = [
-  CourseProfile(
-      native: "English",
-      dbNotation: "Polish",
-      flag: "poland",
-      language: "Polish"),
-  CourseProfile(
-      native: "English",
-      dbNotation: "French",
-      flag: "france",
-      language: "French"),
-  CourseProfile(
-      native: "English",
-      dbNotation: "Spanish",
-      flag: "spain",
-      language: "Spanish"),
-  CourseProfile(
-      native: "Polish",
-      dbNotation: "English",
-      flag: "united-kingdom",
-      language: "English"),
-];
 
-List<String> topics = ["Basic Conversation"];
 Map<String, String> quizTitles = {
   "Basic Conversation": "Basic Conversation",
   "Podstawowe Wyrażenia": "Basic Conversation"
-};
-Map<String, String> flagWays = {
-  "Polish": "poland",
-  "Spanish": "spain",
-  "French": "france",
-  "English": "united-kingdom"
 };
 
 Map<String, Map<String, dynamic>> ui_lang = {

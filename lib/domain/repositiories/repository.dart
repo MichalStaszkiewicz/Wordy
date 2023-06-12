@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/domain/models/course.dart';
-import 'package:wordy/domain/models/learned_word.dart';
+import 'package:wordy/domain/models/word.dart';
 
-import '../../data/dto/profile_data.dart';
+import '../../const/shared_preferences_keys.dart';
 import '../../data/local/local_storage.dart';
 import '../../data/network/remote_source.dart';
 import '../../data/network/request/login_user_request.dart';
@@ -14,9 +14,9 @@ import '../../data/network/request/models/begginer_quiz_request_model.dart';
 import '../../utility/either.dart';
 import '../models/achievement.dart';
 import '../models/active_course.dart';
-import '../models/beginner_quiz_question.dart';
 import '../models/flash_card_data.dart';
 import '../models/interface_language.dart';
+import '../models/profile_data.dart';
 import '../models/registeration_status.dart';
 
 import '../models/user_active_courses_progress.dart';
@@ -33,31 +33,30 @@ class Repository {
   final RemoteSource _remoteSource;
   Future<Either<DioError, ProfileData>> getProfileData(String token) async {
     var profileData = await _remoteSource.getProfileData(token);
-    if (profileData.isRight) {
-      return Either.data(profileData.right!);
+    if (profileData.isData) {
+      return Either.data(profileData.data!);
     } else {
-      return Either.error(profileData.left);
+      return Either.error(profileData.error);
     }
   }
 
   Future<Either<DioError, ActiveCourse>> getUserCurrentCourseProgress(
       String userId) async {
     var course = await _remoteSource.getUserCurrentCourseProgress(userId);
-    if (course.isRight) {
-      return Either.data(course.right!.toDomain());
+    if (course.isData) {
+      return Either.data(course.data!);
     } else {
-      return Either.error(course.left);
+      return Either.error(course.error);
     }
   }
 
   Future<Either<DioError, List<Course>>> getAvailableCourses(
       String userId) async {
     var courses = await _remoteSource.getAvailableCourses(userId);
-    if (courses.isRight) {
-      return Either.data(
-          courses.right!.courses.map((e) => e.toDomain()).toList());
+    if (courses.isData) {
+      return Either.data(courses.data!.courses);
     } else {
-      return Either.error(courses.left);
+      return Either.error(courses.error);
     }
   }
 
@@ -65,10 +64,10 @@ class Repository {
       getUserActiveCoursesProgress(String userId) async {
     var response = await _remoteSource.getUserActiveCoursesProgress(userId);
 
-    if (response.isRight) {
-      return Either.data(response.right!.toDomain());
+    if (response.isData) {
+      return Either.data(response.data!);
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
@@ -76,10 +75,10 @@ class Repository {
       String token, String languageName) async {
     var response =
         await _remoteSource.switchInterfaceLanguage(token, languageName);
-    if (response.isRight) {
-      return Either.data(response.right!.message);
+    if (response.isData) {
+      return Either.data(response.data!.registerationCompleted.toString());
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
@@ -87,143 +86,139 @@ class Repository {
       String token) async {
     var response = await _remoteSource.getRegisterationStatus(token);
 
-    if (response.isRight) {
-      return Either.data(response.right!.toDomain());
+    if (response.isData) {
+      return Either.data(RegisterationStatus(
+          registerationCompleted: response.data!.registerationCompleted));
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
   Future<Either<DioError, UserSettings>> getUserSettings(String token) async {
     var response = await _remoteSource.getUserSettings(token);
-    if (response.isRight) {
-      return Either.data(response.right!.toDomain());
+    if (response.isData) {
+      return Either.data(response.data!);
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
   Future<Either<DioError, String>> insertLearnedWordList(
       List<int> wordIdList, String token) async {
     var response = await _remoteSource.insertLearnedWordList(wordIdList, token);
-    if (response.isRight) {
+    if (response.isData) {
       return Either.data('Success');
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
-  Future<Either<DioError, List<LearnedWord>>> getLearnedWordList(
-      String token) async {
+  Future<Either<DioError, List<Word>>> getLearnedWordList(String token) async {
     var response = await _remoteSource.getLearnedWordList(token);
-    if (response.isRight) {
-      return Either.data(
-          response.right!.learnedWords.map((e) => e.toDomain()).toList());
+    if (response.isData) {
+      return Either.data(response.data!.learnedWords);
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
-  Future<Either<DioError, List<BeginnerQuizQuestion>>> getBeginnerQuizWordList(
+  Future<Either<DioError, List<Word>>> getBeginnerQuizWordList(
       String topic, String token) async {
     var response = await _remoteSource.getBeginnerQuizWordList(topic, token);
-    if (response.isRight) {
-      return Either.data(response.right!.beginnerQuizWordList
-          .map((e) => e.toDomain())
-          .toList());
+    if (response.isData) {
+      return Either.data(response.data!.wordList);
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
   Future<Either<DioError, List<FlashCardData>>> createFlashCardList(
-      String topic) async {
-    var response = await _remoteSource.createFlashCardList(topic);
-    if (response.isRight) {
-      return Either.data(
-          response.right!.wordList.map((e) => e.toDomain()).toList());
+      String topic, String token) async {
+    var response = await _remoteSource.createFlashCardList(topic, token);
+    if (response.isData) {
+      return Either.data(response.data!.wordList
+          .map((e) => FlashCardData(question: e.question, answer: e.answer))
+          .toList());
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
   Future<Either<DioError, UserCourse>> updateUserCurrentCourse(
       String courseName, String token) async {
     var response = await _remoteSource.switchCurrentCourse(courseName, token);
-    if (response.isRight) {
-      return Either.data(response.right!.updatedCourse.toDomain());
+    if (response.isData) {
+      return Either.data(response.data!.updatedCourse);
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
   Future<Either<DioError, UserCourse>> getUserCurrentCourse(
       String token) async {
     var response = await _remoteSource.getUserCurrentCourse(token);
-    if (response.isRight) {
-      return Either.data(response.right!.toDomain());
+    if (response.isData) {
+      return Either.data(response.data!);
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
-  Future<Either<DioError, bool>> updateUserRegisterStatus(String token) async {
+  Future<Either<DioError, String>> updateUserRegisterStatus(
+      String token) async {
     var response = await _remoteSource.updateRegisterationStatus(token);
-    if (response.isRight) {
-      return Either.data(response.right!.updatedRegisterStatus);
+    if (response.isData) {
+      return Either.data(response.data!.message);
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
   Future<Either<DioError, List<InterfaceLanguage>>>
       getAvailableLanguages() async {
     var response = await _remoteSource.getAvailableLanguages();
-    if (response.isRight) {
-      return Either.data(
-          response.right!.languages.map((e) => e.toDomain()).toList());
+    if (response.isData) {
+      return Either.data(response.data!.languages);
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
   Future<Either<DioError, String>> loginUser(LoginUserRequest request) async {
     var response = await _remoteSource.loginUser(request);
-    if (response.isRight) {
-      return Either.data(response.right!.token);
+    if (response.isData) {
+      return Either.data(response.data!.token);
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
   Future<Either<DioError, String>> registerUser(
       RegisterUserRequest request) async {
     var response = await _remoteSource.registerUser(request);
-    if (response.isRight) {
-      return Either.data(response.right!.message);
+    if (response.isData) {
+      return Either.data(response.data!.message);
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
   Future<Either<DioError, List<Word>>> getLearnedWordsByTopic(
       String topic, String token) async {
     var response = await _remoteSource.getLearnedWordsByTopic(topic, token);
-    if (response.isRight) {
-      return Either.data(
-          response.right!.wordList.map((e) => e.toDomain()).toList());
+    if (response.isData) {
+      return Either.data(response.data!.learnedWords);
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
   Future<Either<DioError, List<Word>>> getWordsByTopic(String topic) async {
     var response = await _remoteSource.getWordsByTopic(topic);
-    if (response.isRight) {
-      return Either.data(
-          response.right!.wordList.map((e) => e.toDomain()).toList());
+    if (response.isData) {
+      return Either.data(response.data!.learnedWords);
     } else {
-      return Either.error(response.left);
+      return Either.error(response.error);
     }
   }
 
@@ -242,9 +237,9 @@ class Repository {
     if (token != null) {
       var response = await _remoteSource.getUserSettings(token);
 
-      if (response.isRight) {
+      if (response.isData) {
         await _localSource
-            .setUserInterfaceLanguage(response.right!.interfaceLanguage.name);
+            .setUserInterfaceLanguage(response.data!.interfaceLanguage.name);
       } else {
         return Either.error(
             Exception('Error occured while synchronizing with server'));
@@ -269,10 +264,10 @@ class Repository {
   Future<Either<DioError, bool>> cancelRequest() async {
     var response = await _remoteSource.cancelRequest();
 
-    if (response.isRight) {
-      return Either.error(response.left);
+    if (response.isData) {
+      return Either.error(response.error);
     } else {
-      return Either.data(response.right);
+      return Either.data(response.data);
     }
   }
 }

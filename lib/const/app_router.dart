@@ -8,8 +8,11 @@ import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/presentation/screens/vocabulary_screen.dart';
 import 'package:wordy/presentation/widgets/selected_vocabulary_topic.dart';
 
+import '../domain/models/active_course.dart';
 import '../presentation/screens/initial_settings_screen.dart';
+import '../presentation/screens/learned_words_selected_course.dart';
 import '../presentation/screens/selected_course_screen.dart';
+import '../presentation/screens/words_learned_screen.dart';
 
 class AppRouter {
   static const authScreen = "/";
@@ -20,10 +23,23 @@ class AppRouter {
   static const quizCompleted = '/home/quiz_screen/completed';
   static const vocabularyTopicScreen = '/home/vocabulary_topic_screen';
   static const selectedCourseScreenNamed = '/selected_course_named';
+  static const wordsLearnedScreen = '/words_learned_screen';
+  static const wordsLearnedScreenNamed = 'words_learned_screen';
   static const vocabularyTopicSelectedScreen =
       '/home/vocabulary_topic_selected_screen';
   static const vocabularyTopicSelectedScreenNamed =
       'vocabulary_topic_selected_screen';
+  static const learnedWordsSelectedCourse = '/learned_word_course_selected';
+  static const learnedWordsSelectedCourseNamed =
+      '/learned_word_course_selected_named';
+
+  static Widget _learnedWordsSelectedCourse(
+      BuildContext context, GoRouterState state) {
+    Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+    return LearnedWordsSelectedCourse(
+      course: data['activeCourse'] as ActiveCourse,
+    );
+  }
 
   static Widget _vocabularyTopicScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
@@ -33,6 +49,14 @@ class AppRouter {
       SelectedVocabularyTopic(
         topic: state.queryParameters['topic']!,
       );
+
+  static Widget _wordsLearnedScreenRouteBuild(
+      BuildContext context, GoRouterState state) {
+    Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+    return WordsLearnedScreen(
+      beginnerProgress: data['beginnerProgress'] as List<ActiveCourse>,
+    );
+  }
 
   static Widget _quizScreenCompletedRouteBuilder(
       BuildContext context, GoRouterState state) {
@@ -62,6 +86,14 @@ class AppRouter {
           BuildContext context, GoRouterState state) =>
       const HomePage();
   static final GoRouter router = GoRouter(routes: [
+    GoRoute(
+        path: learnedWordsSelectedCourse,
+        name: learnedWordsSelectedCourseNamed,
+        builder: _learnedWordsSelectedCourse),
+    GoRoute(
+        path: wordsLearnedScreen,
+        name: wordsLearnedScreenNamed,
+        builder: _wordsLearnedScreenRouteBuild),
     GoRoute(path: authScreen, builder: _authScreenRouteBuilder),
     GoRoute(path: initialSettings, builder: _initialSettingsScreenRouteBuilder),
     GoRoute(path: home, builder: _homeScreenRouteBuilder),

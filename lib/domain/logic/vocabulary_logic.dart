@@ -7,12 +7,12 @@ class VocabularyService {
 
   VocabularyService(this._repository);
   Future<Either<Exception, List<FlashCardData>>> getVocabularyByTopic(
-      String topic, String userId) async {
-    var flashCards = await _repository.createFlashCardList(topic);
-    if (flashCards.isRight) {
-      return Either.data(flashCards.right);
+      String topic, String token) async {
+    var flashCards = await _repository.createFlashCardList(topic, token);
+    if (flashCards.isData) {
+      return Either.data(flashCards.data);
     } else {
-      return Either.error(flashCards.left);
+      return Either.error(flashCards.error);
     }
   }
 }

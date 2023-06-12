@@ -8,8 +8,7 @@ import 'package:wordy/utility/either.dart';
 
 import '../../data/network/request/models/insert_learned_words.request.model.dart';
 import '../models/beginner_question.dart';
-import '../models/beginner_quiz_question.dart';
-import '../models/learned_word.dart';
+import '../models/word.dart';
 
 class QuizLogic {
   final Repository _repository;
@@ -19,16 +18,16 @@ class QuizLogic {
   Future<Either<Exception, String>> insertLearnedWords(
       List<int> wordIds) async {
     final token = await _repository.getToken();
-    if (token.isRight) {
+    if (token.isData) {
       var insertedWords =
-          await _repository.insertLearnedWordList(wordIds, token.right!);
-      if (insertedWords.isRight) {
-        return Either.data(insertedWords.right);
+          await _repository.insertLearnedWordList(wordIds, token.data!);
+      if (insertedWords.isData) {
+        return Either.data(insertedWords.data);
       } else {
-        return Either.error(insertedWords.left!);
+        return Either.error(insertedWords.error!);
       }
     } else {
-      return Either.error(token.left);
+      return Either.error(token.error);
     }
   }
 
@@ -36,37 +35,37 @@ class QuizLogic {
       String topic) async {
     List<BeginnerQuestion> quizQuestions = [];
     final token = await _userRepository.getUserId();
-    if (token.isLeft) {
-      return Either.error(token.left);
+    if (token.isError) {
+      return Either.error(token.error);
     }
     final userInterfaceLanguage = await _repository.getUserInterfaceLanguage();
-    if (userInterfaceLanguage.isLeft) {
-      return Either.error(userInterfaceLanguage.left);
+    if (userInterfaceLanguage.isError) {
+      return Either.error(userInterfaceLanguage.error);
     }
-    var course = await _repository.getUserCurrentCourse(token.right!);
+    var course = await _repository.getUserCurrentCourse(token.data!);
 
-    if (course.isLeft) {
-      return Either.error(course.left!);
+    if (course.isError) {
+      return Either.error(course.error!);
     }
 
-    var learnedWords = await _repository.getLearnedWordList(token.right!);
-    if (learnedWords.isLeft) {
-      return Either.error(learnedWords.left!);
+    var learnedWords = await _repository.getLearnedWordList(token.data!);
+    if (learnedWords.isError) {
+      return Either.error(learnedWords.error!);
     }
 
     var questions =
-        await _repository.getBeginnerQuizWordList(topic, token.right!);
-    if (questions.isLeft) {
-      return Either.error(questions.left!);
+        await _repository.getBeginnerQuizWordList(topic, token.data!);
+    if (questions.isError) {
+      return Either.error(questions.error!);
     }
-    List<BeginnerQuizQuestion> validatedQuestions = questions.right!;
-    List<LearnedWord> validatedLearnedWords = learnedWords.right!;
+    List<Word> validatedQuestions = questions.data!;
+    List<Word> validatedLearnedWords = learnedWords.data!;
     List<String> possibleAnswers = [];
 
-    List<BeginnerQuizQuestion> filteredQuestions = [];
+    List<Word> filteredQuestions = [];
 
-    for (BeginnerQuizQuestion question in validatedQuestions) {
-      if (!validatedLearnedWords.contains(LearnedWord(
+    for (Word question in validatedQuestions) {
+      if (!validatedLearnedWords.contains(Word(
           question: question.question,
           answer: question.answer,
           wordId: question.wordId))) {
@@ -74,7 +73,7 @@ class QuizLogic {
       }
     }
 
-    for (BeginnerQuizQuestion question in validatedQuestions) {
+    for (Word question in validatedQuestions) {
       possibleAnswers.add(question.answer);
     }
     if (filteredQuestions.length >= 10) {
@@ -97,13 +96,16 @@ class QuizLogic {
           correctAnswerIndex = random.nextInt(3);
           answers[correctAnswerIndex] = filteredQuestions[i].answer;
         }
-        quizQuestions.add(BeginnerQuestion(filteredQuestions[i].question,
-            answers, correctAnswerIndex, filteredQuestions[i].wordId));
+        quizQuestions.add(BeginnerQuestion(
+            question: filteredQuestions[i].question,
+            answers: answers,
+            correctAnswerIndex: correctAnswerIndex,
+            wordId: filteredQuestions[i].wordId));
         i++;
       }
     } else {
       for (int i = 0; i < filteredQuestions.length; i++) {
-        BeginnerQuizQuestion question = filteredQuestions[i];
+        Word question = filteredQuestions[i];
         List<String> answers = [];
 
         while (answers.length < 4) {
@@ -124,7 +126,10 @@ class QuizLogic {
 
         quizQuestions.add(
           BeginnerQuestion(
-              question.question, answers, correctAnswerIndex, question.wordId),
+              question: question.question,
+              answers: answers,
+              correctAnswerIndex: correctAnswerIndex,
+              wordId: question.wordId),
         );
       }
     }

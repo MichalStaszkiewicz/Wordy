@@ -25,14 +25,14 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
     return on<LoadVocabulary>((event, emit) async {
       emit(VocabularyInitial());
       final course = await locator<UserService>().getUserCurrentCourse();
-      if (course.isLeft) {
+      if (course.isError) {
         emit(VocabularyError(
-            error: ExceptionHelper.getErrorMessage(course.left!)));
+            error: ExceptionHelper.getErrorMessage(course.error!)));
       }
 
       List<Vocabulary> list = [
         Vocabulary(
-          topic: ui_lang[course.right!.interfaceLanguage.name]!['topic_label']
+          topic: ui_lang[course.data!.interfaceLanguage.name]!['topic_label']
               [0],
           image: "assets/dailyusage.png",
         ),
@@ -41,7 +41,7 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
       emit(VocabularyLoaded(
           vocabularyList: list,
           vocabularyListSearched: list,
-          language: course.right!.interfaceLanguage.name));
+          language: course.data!.interfaceLanguage.name));
     });
   }
 
@@ -71,25 +71,25 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
       final vocabService = locator<VocabularyService>();
       final userId = await locator<UserRepository>().getUserId();
 
-      if (userId.isLeft) {
+      if (userId.isError) {
         emit(VocabularyError(
-            error: ExceptionHelper.getErrorMessage(userId.left!)));
+            error: ExceptionHelper.getErrorMessage(userId.error!)));
       }
       final course =
-          await locator<UserRepository>().getUserCurrentCourse(userId.right!);
+          await locator<UserRepository>().getUserCurrentCourse(userId.data!);
 
-      if (course.isLeft) {
+      if (course.isError) {
         emit(VocabularyError(
-            error: ExceptionHelper.getErrorMessage(course.left!)));
+            error: ExceptionHelper.getErrorMessage(course.error!)));
       }
 
       var flashCards =
-          await vocabService.getVocabularyByTopic(event.topic, userId.right!);
-      if (flashCards.isLeft) {
+          await vocabService.getVocabularyByTopic(event.topic, userId.data!);
+      if (flashCards.isError) {
         emit(VocabularyError(
-            error: ExceptionHelper.getErrorMessage(flashCards.left!)));
+            error: ExceptionHelper.getErrorMessage(flashCards.error!)));
       } else {
-        emit(VocabularyFlashCards(flashCards: flashCards.right!));
+        emit(VocabularyFlashCards(flashCards: flashCards.data!));
       }
     });
   }
