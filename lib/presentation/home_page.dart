@@ -3,14 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
+import 'package:wordy/presentation/bloc/profile/profile_bloc.dart';
 
 import 'package:wordy/presentation/screens/profile_screen.dart';
 import 'package:wordy/presentation/screens/settings_screen.dart';
 
 import 'package:wordy/presentation/screens/vocabulary_screen.dart';
 import 'package:wordy/const/consts.dart';
-
-import 'Bloc/user_progress/user_progress_bloc.dart';
 
 import 'bloc/courses_update/courses_update_bloc.dart';
 import 'screens/topic_screen.dart';
@@ -28,7 +27,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _currentScreenIndex = 0;
   final List<Widget> _currentScreen = [
     BlocProvider(
-      create: (context) => UserProgressBloc(),
+      create: (context) => ProfileBloc(),
       child: const TopicScreen(),
     ),
     BlocProvider(

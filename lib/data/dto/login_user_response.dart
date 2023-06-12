@@ -8,5 +8,5 @@ class LoginResponse {
   String message;
   String token;
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>
-      _$LoginUserResponseFromJson(json);
+      _$LoginResponseFromJson(json);
 }

@@ -9,7 +9,6 @@ import '../../Utility/dialog_manager.dart';
 import '../../Utility/locator/service_locator.dart';
 import '../../data/network/exceptions/exception_helper.dart';
 import '../../data/network/exceptions/unexpected_error.dart';
-import '../../data/network/request/models/update_user_current_course_request_model.dart';
 
 import '../../domain/models/course.dart';
 import '../bloc/courses_update/courses_update_bloc.dart';

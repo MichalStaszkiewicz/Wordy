@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wordy/presentation/Bloc/user_progress/user_progress_bloc.dart';
 
 import 'package:wordy/presentation/widgets/achievement_item_back.dart';
 import 'package:wordy/presentation/widgets/flip_cards.dart';
@@ -13,8 +12,9 @@ import '../widgets/achievement_item_front.dart';
 import '../widgets/loading_data.dart';
 
 class AchievementsScreen extends StatefulWidget {
-  AchievementsScreen({super.key, required this.userState});
-  UserProgressLoaded userState;
+  AchievementsScreen({
+    super.key,
+  });
 
   @override
   State<AchievementsScreen> createState() => _AchievementsScreenState();
@@ -24,17 +24,14 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AchievementsFilterBloc()
-        ..add(LoadUserAchievements(
-            achievements: widget.userState.userAchievements)),
+      create: (context) =>
+          AchievementsFilterBloc()..add(LoadUserAchievements(achievements: [])),
       child: BlocBuilder<AchievementsFilterBloc, AchievementsFilterState>(
         builder: (context, achievementsState) {
           if (achievementsState is AchievedAlready) {
             if (achievementsState.achievements.isEmpty) {
               return Scaffold(
-                  floatingActionButton: AchievementDial(
-                    userState: widget.userState,
-                  ),
+                  floatingActionButton: AchievementDial(),
                   appBar: AppBar(
                     title: Container(
                       padding: const EdgeInsets.only(right: 40),
@@ -65,9 +62,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                   ));
             } else {
               Scaffold(
-                floatingActionButton: AchievementDial(
-                  userState: widget.userState,
-                ),
+                floatingActionButton: AchievementDial(),
                 appBar: AppBar(
                   title: Container(
                     padding: const EdgeInsets.only(right: 40),
@@ -110,9 +105,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
           }
           if (achievementsState is NotAchievedOnly) {
             return Scaffold(
-              floatingActionButton: AchievementDial(
-                userState: widget.userState,
-              ),
+              floatingActionButton: AchievementDial(),
               appBar: AppBar(
                 title: Container(
                   padding: const EdgeInsets.only(right: 40),
@@ -150,17 +143,14 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
           }
           if (achievementsState is AllAchievements) {
             return Scaffold(
-              floatingActionButton: AchievementDial(
-                userState: widget.userState,
-              ),
+              floatingActionButton: AchievementDial(),
               appBar: AppBar(
                 title: Container(
                   padding: const EdgeInsets.only(right: 40),
                   child: Center(
                     child: Container(
                       child: Text(
-                         ui_lang['English']![
-                            'profile_screen_achievements'],
+                        ui_lang['English']!['profile_screen_achievements'],
                         style: Theme.of(context)
                             .textTheme
                             .headlineSmall!

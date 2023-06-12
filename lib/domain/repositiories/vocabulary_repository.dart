@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 
-import '../../data/network/request/models/flash_card_list_request_model.dart';
 import '../../utility/either.dart';
 import '../models/flash_card_data.dart';
 
@@ -10,12 +9,12 @@ class VocabularyRepository {
   VocabularyRepository(this._repository);
 
   Future<Either<DioError, List<FlashCardData>>> createFlashCardList(
-      FlashCardListModel request) async {
-    var response = await _repository.createFlashCardList(request);
+      String topic) async {
+    var response = await _repository.createFlashCardList(topic);
     if (response.isRight) {
-      return Either.right(response.right!);
+      return Either.data(response.right!);
     } else {
-      return Either.left(response.left);
+      return Either.error(response.left);
     }
   }
 }

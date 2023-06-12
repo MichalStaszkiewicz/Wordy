@@ -10,6 +10,7 @@ import '../../data/dto/flash_card_list_response.dart';
 import '../../data/dto/language_list_response.dart';
 import '../../data/dto/learned_word_list_response.dart';
 import '../../data/dto/login_user_response.dart';
+import '../../data/dto/profile_data.dart';
 import '../../data/dto/register_user_response.dart';
 import '../../data/dto/registeration_response.dart';
 import '../../data/dto/update_register_status_response.dart';
@@ -20,62 +21,49 @@ import '../../data/dto/user_course_response.dart';
 import '../../data/dto/user_settings_response.dart';
 import '../../data/dto/word_list_response.dart';
 import '../../data/network/request/login_user_request.dart';
-import '../../data/network/request/models/begginer_quiz_request_model.dart';
-import '../../data/network/request/models/flash_card_list_request_model.dart';
-import '../../data/network/request/models/insert_learned_words.request.model.dart';
-import '../../data/network/request/models/words_by_topic_request_model.dart';
+
 import '../../data/network/request/register_user_request.dart';
-import '../../data/network/request/update_register_status_request.dart';
-import '../../data/network/request/update_user_current_course_request.dart';
-import '../../data/network/request/update_user_interface_language_request.dart';
-import '../../data/network/request/user_settings_request.dart';
+
 import '../../utility/either.dart';
 
 abstract class ServerInterface {
-  Future<Either<DioError, WordListResponse>> getAllWords();
-  Future<Either<DioError, WordListResponse>> getWordsByTopic(
-      WordsByTopicModel request);
-  Future<Either<DioError, WordListResponse>> getAllLearnedWords(int userID);
+  Future<Either<DioError, ProfileData>> getProfileData(String token);
+  Future<Either<DioError, WordListResponse>> getWordsByTopic(String topic);
+
   Future<Either<DioError, WordListResponse>> getLearnedWordsByTopic(
-      String topic, String userId);
-  Future<Either<DioError, AchievementListResponse>> getAllAchievements();
-  Future<Either<DioError, AchievementDto>> getAchievementById(int id);
-  Future<Either<DioError, AchievementListResponse>> getUserAchievements(
-      int userID);
+      String topic, String token);
+
   Future<Either<DioError, RegisterUserResponse>> registerUser(
       RegisterUserRequest registerRequest);
   Future<Either<DioError, LoginResponse>> loginUser(
       LoginUserRequest loginRequest);
   Future<Either<DioError, RegisterationResponse>> getRegisterationStatus(
-      String userId);
+      String token);
 
   Future<Either<DioError, LanguageListResponse>> getAvailableLanguages();
   Future<Either<DioError, UpdateUserInterfaceLanguageResponse>>
-      switchInterfaceLanguage(
-          UpdateUserInterfaceLanguageRequest
-              userUpdateinterfaceLanguageRequest);
+      switchInterfaceLanguage(String token, String languageName);
   Future<Either<DioError, UpdateRegisterationStatusResponse>>
-      updateRegisterationStatus(UpdateRegisterStatusRequest request);
+      updateRegisterationStatus(String token);
   Future<Either<DioError, UpdateUserCurrentCourseResponse>> switchCurrentCourse(
-      UpdateUserCurrentCourseRequest request);
+      String token, String courseName);
   Future<Either<DioError, UserCourseResponse>> getUserCurrentCourse(
-      String userId);
+      String token);
   Future<Either<DioError, FlashCardListResponse>> createFlashCardList(
-      FlashCardListModel request);
+      String topic);
 
   Future<Either<DioError, BeginnerQuizWordListResponse>>
-      getBeginnerQuizWordList(BeginnerQuizModel request);
+      getBeginnerQuizWordList(String topic, String token);
   Future<Either<DioError, LearnedWordListResponse>> getLearnedWordList(
-      String userId);
+      String token);
   Future<Either<DioError, void>> insertLearnedWordList(
-      InsertLearnedWordsModel request);
-  Future<Either<DioError, UserSettingsResponse>> getUserSettings(
-      UserSettingsRequest request);
+      List<int> wordIds, String token);
+  Future<Either<DioError, UserSettingsResponse>> getUserSettings(String token);
   Future<Either<DioError, void>> cancelRequest();
   Future<Either<DioError, UserActiveCoursesProgressResponse>>
-      getUserActiveCoursesProgress(String userId);
+      getUserActiveCoursesProgress(String token);
   Future<Either<DioError, CourseListResponse>> getAvailableCourses(
-      String userId);
+      String token);
   Future<Either<DioError, ActiveCourseResponse>> getUserCurrentCourseProgress(
-      String userId);
+      String token);
 }

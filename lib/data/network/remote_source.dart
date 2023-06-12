@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dio/dio.dart';
 
 import 'package:wordy/data/dto/achievement_list.dart';
@@ -6,6 +8,7 @@ import 'package:wordy/data/dto/beginner_quiz_word_list_response.dart';
 import 'package:wordy/data/dto/flash_card_list_response.dart';
 import 'package:wordy/data/dto/language_list_response.dart';
 import 'package:wordy/data/dto/learned_word_list_response.dart';
+import 'package:wordy/data/dto/profile_data.dart';
 import 'package:wordy/data/dto/register_user_response.dart';
 import 'package:wordy/data/dto/update_register_status_response.dart';
 import 'package:wordy/data/dto/update_user_current_course_response.dart';
@@ -15,15 +18,9 @@ import 'package:wordy/data/dto/user_settings_response.dart';
 import 'package:wordy/data/dto/word_list_response.dart';
 import 'package:wordy/data/network/api_service.dart';
 import 'package:wordy/data/network/request/login_user_request.dart';
-import 'package:wordy/data/network/request/models/begginer_quiz_request_model.dart';
-import 'package:wordy/data/network/request/models/flash_card_list_request_model.dart';
-import 'package:wordy/data/network/request/models/insert_learned_words.request.model.dart';
-import 'package:wordy/data/network/request/models/words_by_topic_request_model.dart';
+
 import 'package:wordy/data/network/request/register_user_request.dart';
-import 'package:wordy/data/network/request/update_register_status_request.dart';
-import 'package:wordy/data/network/request/update_user_current_course_request.dart';
-import 'package:wordy/data/network/request/update_user_interface_language_request.dart';
-import 'package:wordy/data/network/request/user_settings_request.dart';
+
 import 'package:wordy/domain/repositiories/server_interface.dart';
 
 import '../../utility/either.dart';
@@ -37,81 +34,34 @@ import '../../data/dto/course_list_response.dart';
 class RemoteSource implements ServerInterface {
   RemoteSource(this._apiService);
   final ApiService _apiService;
-  @override
-  Future<Either<DioError, AchievementDto>> getAchievementById(int id) async {
-    try {
-      Response response = await _apiService.get('/achievements');
-      return Either.right(AchievementDto.fromJson(response.data));
-    } on DioError catch (exception) {
-      return Either.left(exception);
-    }
-  }
-
-  @override
-  Future<Either<DioError, AchievementListResponse>> getAllAchievements() async {
-    try {
-      Response response = await _apiService.get('/achievements');
-      return Either.right(AchievementListResponse.fromJson(response.data));
-    } on DioError catch (exception) {
-      return Either.left(exception);
-    }
-  }
-
-  @override
-  Future<Either<DioError, AchievementListResponse>> getUserAchievements(
-      int userID) async {
-    try {
-      Response response = await _apiService.get('/achievements/');
-      return Either.right(AchievementListResponse.fromJson(response.data));
-    } on DioError catch (exception) {
-      return Either.left(exception);
-    }
-  }
-
-  @override
-  Future<Either<DioError, WordListResponse>> getAllLearnedWords(
-      int userID) async {
-    try {
-      var response = await _apiService.get('/learnedWords');
-      return Either.right(WordListResponse.fromJson(response.data));
-    } on DioError catch (exception) {
-      return Either.left(exception);
-    }
-  }
-
-  @override
-  Future<Either<DioError, WordListResponse>> getAllWords() async {
-    try {
-      var response = await _apiService.get('/words');
-
-      return Either.right(WordListResponse.fromJson(response.data));
-    } on DioError catch (exception) {
-      return Either.left(exception);
-    }
-  }
 
   @override
   Future<Either<DioError, WordListResponse>> getLearnedWordsByTopic(
-      String topic, String userId) async {
+    String topic,
+    String token,
+  ) async {
     try {
-      var response =
-          await _apiService.get('/v1/learnedWords/byTopic/$topic/$userId');
+      var response = await _apiService.get(
+          '/v1/learnedWords/get/by/topic/$topic',
+          options: Options(headers: {'authorization': token}));
 
-      return Either.right(WordListResponse.fromJson(response.data));
+      return Either.data(WordListResponse.fromJson(response.data));
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
   @override
   Future<Either<DioError, WordListResponse>> getWordsByTopic(
-      WordsByTopicModel request) async {
+      String topic) async {
     try {
-      var response = await _apiService.get('v1/words/${request.topic}');
+      var response = await _apiService.get(
+        'v1/words/$topic',
+      );
 
-      return Either.right(WordListResponse.fromJson(response.data));
+      return Either.data(WordListResponse.fromJson(response.data));
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
@@ -122,9 +72,9 @@ class RemoteSource implements ServerInterface {
       var response =
           await _apiService.post('/v1/user/login', payload: request.toJson());
 
-      return Either.right(LoginResponse.fromJson(response.data));
+      return Either.data(LoginResponse.fromJson(response.data));
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
@@ -135,22 +85,22 @@ class RemoteSource implements ServerInterface {
       var response = await _apiService.post('/v1/user/register',
           payload: request.toJson());
 
-      return Either.right(RegisterUserResponse.fromJson(response.data));
+      return Either.data(RegisterUserResponse.fromJson(response.data));
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
   @override
   Future<Either<DioError, RegisterationResponse>> getRegisterationStatus(
-      String userId) async {
+      String token) async {
     try {
-      var response =
-          await _apiService.get('/v1/user/info/$userId/registerStatus');
+      var response = await _apiService.get('/v1/user/info/registerStatus',
+          options: Options(headers: {'authorization': token}));
 
-      return Either.right(RegisterationResponse.fromJson(response.data));
+      return Either.data(RegisterationResponse.fromJson(response.data));
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
@@ -158,123 +108,126 @@ class RemoteSource implements ServerInterface {
   Future<Either<DioError, LanguageListResponse>> getAvailableLanguages() async {
     try {
       var response = await _apiService.get('/v1/languages');
-      return Either.right(LanguageListResponse.fromJson(response.data));
+      return Either.data(LanguageListResponse.fromJson(response.data));
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
   @override
   Future<Either<DioError, UpdateUserInterfaceLanguageResponse>>
-      switchInterfaceLanguage(
-          UpdateUserInterfaceLanguageRequest request) async {
+      switchInterfaceLanguage(String token, String languageName) async {
     try {
       var response = await _apiService.put('/v1/user/update/language',
-          payload: request.toJson());
-      return Either.right(
+          payload: {"languageName": languageName},
+          options: Options(headers: {'authorization': token}));
+      return Either.data(
           UpdateUserInterfaceLanguageResponse.fromJson(response.data));
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
   @override
   Future<Either<DioError, UpdateRegisterationStatusResponse>>
-      updateRegisterationStatus(UpdateRegisterStatusRequest request) async {
+      updateRegisterationStatus(String token) async {
     try {
       var response = await _apiService.put('/v1/user/update/registerStatus',
-          payload: request.toJson());
-      return Either.right(
+          options: Options(headers: {'authorization': token}));
+      return Either.data(
           UpdateRegisterationStatusResponse.fromJson(response.data));
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
   @override
   Future<Either<DioError, UpdateUserCurrentCourseResponse>> switchCurrentCourse(
-      UpdateUserCurrentCourseRequest request) async {
+      String courseName, String token) async {
     try {
       var response = await _apiService.put('/v1/user/update/currentCourse',
-          payload: request.toJson());
-      return Either.right(
+          options: Options(headers: {'authorization': token}),
+          payload: {"courseName": courseName});
+      return Either.data(
           UpdateUserCurrentCourseResponse.fromJson(response.data));
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
   @override
   Future<Either<DioError, FlashCardListResponse>> createFlashCardList(
-      FlashCardListModel request) async {
+      String topic) async {
     try {
-      var response = await _apiService.get(
-          '/v1/words/flashCards/by/topic/${request.topic}/${request.userId}');
-      return Either.right(FlashCardListResponse.fromJson(response.data));
+      var response =
+          await _apiService.get('/v1/words/flashCards/by/topic/$topic');
+      return Either.data(FlashCardListResponse.fromJson(response.data));
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
   @override
   Future<Either<DioError, BeginnerQuizWordListResponse>>
-      getBeginnerQuizWordList(BeginnerQuizModel request) async {
+      getBeginnerQuizWordList(String topic, String token) async {
     try {
-      var response = await _apiService.get(
-        '/v1/words/flashCards/${request.userId}/${request.topic}',
-      );
-      return Either.right(BeginnerQuizWordListResponse.fromJson(response.data));
+      var response = await _apiService.get('/v1/words/flashCards/$topic',
+          options: Options(headers: {'authorization': token}));
+      return Either.data(BeginnerQuizWordListResponse.fromJson(response.data));
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
   @override
   Future<Either<DioError, LearnedWordListResponse>> getLearnedWordList(
-      String userId) async {
+      String token) async {
     try {
-      var response = await _apiService.get('/v1/user/learnedWords/$userId/get');
+      var response = await _apiService.get('/v1/user/learnedWords/get',
+          options: Options(headers: {'authorization': token}));
       print(response.data);
-      return Either.right(LearnedWordListResponse.fromJson(response.data));
+      return Either.data(LearnedWordListResponse.fromJson(response.data));
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
   @override
   Future<Either<DioError, void>> insertLearnedWordList(
-      InsertLearnedWordsModel request) async {
+      List<int> wordIdList, String token) async {
     try {
       await _apiService.post("/v1/user/learnedWords/insert",
-          payload: request.toMap());
-      return Either.right('inserted words');
+          options: Options(headers: {'authorization': token}),
+          payload: {'wordIdList': wordIdList});
+      return Either.data(null);
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
   @override
   Future<Either<DioError, UserSettingsResponse>> getUserSettings(
-      UserSettingsRequest request) async {
+      String token) async {
     try {
-      var response =
-          await _apiService.get('/v1/user/settings/${request.userId}/get');
-      return Either.right(
+      var response = await _apiService.get('/v1/user/settings/get',
+          options: Options(headers: {'authorization': token}));
+      return Either.data(
           UserSettingsResponse.fromJson(response.data['userSettings']));
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
   @override
   Future<Either<DioError, UserCourseResponse>> getUserCurrentCourse(
-      String userId) async {
+      String token) async {
     try {
-      var response = await _apiService.get('/v1/profile/$userId/course');
-      return Either.right(
+      var response = await _apiService.get('/v1/profile/course',
+          options: Options(headers: {'authorization': token}));
+      return Either.data(
           UserCourseResponse.fromJson(response.data['userCourse']));
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
@@ -282,48 +235,61 @@ class RemoteSource implements ServerInterface {
   Future<Either<DioError, bool>> cancelRequest() async {
     try {
       await _apiService.cancelRequests();
-      return Either.right(true);
+      return Either.data(true);
     } on DioError catch (exception) {
-      return Either.left(exception);
+      return Either.error(exception);
     }
   }
 
   @override
   Future<Either<DioError, UserActiveCoursesProgressResponse>>
-      getUserActiveCoursesProgress(String userId) async {
+      getUserActiveCoursesProgress(String token) async {
     try {
-      var response = await _apiService.get('/v1/user/$userId/course/progress');
+      var response = await _apiService.get('/v1/user/course/progress',
+          options: Options(headers: {'authorization': token}));
 
-      return Either.right(
+      return Either.data(
           UserActiveCoursesProgressResponse.fromJson(response.data));
     } on DioError catch (e) {
-      return Either.left(e);
+      return Either.error(e);
     }
   }
 
   @override
   Future<Either<DioError, CourseListResponse>> getAvailableCourses(
-      String userId) async {
+      String token) async {
     try {
-      var response =
-          await _apiService.get('/v1/user/$userId/course/availableCourses');
+      var response = await _apiService.get('/v1/user/course/availableCourses',
+          options: Options(headers: {'authorization': token}));
 
-      return Either.right(CourseListResponse.fromJson(response.data));
+      return Either.data(CourseListResponse.fromJson(response.data));
     } on DioError catch (e) {
-      return Either.left(e);
+      return Either.error(e);
     }
   }
 
   @override
   Future<Either<DioError, ActiveCourseResponse>> getUserCurrentCourseProgress(
-      String userId) async {
+      String token) async {
     try {
-      var response =
-          await _apiService.get('/v1/user/$userId/course/current/progress');
+      var response = await _apiService.get('/v1/user/course/current/progress',
+          options: Options(headers: {'authorization': token}));
 
-      return Either.right(ActiveCourseResponse.fromJson(response.data[0]));
+      return Either.data(ActiveCourseResponse.fromJson(response.data[0]));
     } on DioError catch (e) {
-      return Either.left(e);
+      return Either.error(e);
+    }
+  }
+
+  @override
+  Future<Either<DioError, ProfileData>> getProfileData(String token) async {
+    try {
+      var response = await _apiService.get('/v1/profile/data',
+          options: Options(headers: {'authorization': token}));
+
+      return Either.data(ProfileData.fromJson(response.data));
+    } on DioError catch (e) {
+      return Either.error(e);
     }
   }
 }

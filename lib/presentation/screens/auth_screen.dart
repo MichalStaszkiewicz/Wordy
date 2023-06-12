@@ -83,10 +83,9 @@ class _AuthScreenState extends State<AuthScreen> {
                 });
               } else if (state is Authenticated) {
                 final socketManager = locator<SocketManager>();
+                print(state.userId);
+                socketManager.initialize(state.userId);
 
-                socketManager.connect();
-                socketManager.initialize();
-               
                 socketManager.joinRoom(state.userId);
 
                 state.registerCompleted

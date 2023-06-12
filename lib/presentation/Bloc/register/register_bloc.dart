@@ -4,7 +4,6 @@ import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 
 import '../../../Utility/locator/service_locator.dart';
-import '../../../data/network/request/models/update_user_current_course_request_model.dart';
 import '../../../domain/logic/user_service.dart';
 
 import '../../../domain/models/custom_error.dart';
@@ -38,16 +37,17 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
       final userLogic = locator<UserService>();
 
-      final userId = await locator.get<Repository>().getUserId();
-      if (userId.isRight) {
+      final token = await locator.get<Repository>().getToken();
+      if (token.isRight) {
         await Future.microtask(() async {
-          await userLogic.updateUserCurrentCourse(UpdateUserCurrentCourseModel(
-              courseName: event.currentCourse, userId: userId.right!));
-          await userLogic.updateRegisterationStatus(true, userId.right!);
+          await userLogic.updateUserCurrentCourse(
+            event.currentCourse,
+          );
+          await userLogic.updateRegisterationStatus(token.right!);
         }).then((value) => emit(InitialSetupDone()));
       } else {
-        emit(RegisterError(
-            error: ExceptionHelper.getErrorMessage(userId.left!)));
+        emit(
+            RegisterError(error: ExceptionHelper.getErrorMessage(token.left!)));
       }
     });
   }

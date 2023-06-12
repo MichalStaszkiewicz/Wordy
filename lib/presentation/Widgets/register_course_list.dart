@@ -9,7 +9,8 @@ import 'language_tile.dart';
 
 class RegisterCourseList extends StatefulWidget {
   RegisterCourseList(
-      {super.key, required this.languages,
+      {super.key,
+      required this.languages,
       required this.onNextStep,
       required this.currentLanguage});
   List<InterfaceLanguage> languages;
@@ -20,7 +21,6 @@ class RegisterCourseList extends StatefulWidget {
   State<RegisterCourseList> createState() => _RegisterCourseListState();
 }
 
-//TODO implement new logic for course selecting
 class _RegisterCourseListState extends State<RegisterCourseList> {
   @override
   Widget build(BuildContext context) {

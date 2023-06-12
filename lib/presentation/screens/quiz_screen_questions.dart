@@ -8,6 +8,7 @@ import 'package:wordy/presentation/widgets/quiz_word_to_answear.dart';
 
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 
+import '../../Utility/dialog_manager.dart';
 import '../widgets/quiz_next_button.dart';
 
 class QuizScreenQuestions extends StatefulWidget {
@@ -48,7 +49,12 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
                           child: Center(
                         child: GestureDetector(
                           onTap: () {
-                            context.go('/selected_course');
+                            DialogManager.showQuestionDialog(
+                                'If you will quit now all progress you have made will be lost!',
+                                'Are you sure ? ',
+                                context,
+                                () {context.go('/selected_course')},
+                                () {});
                           },
                           child: Container(
                             height: 35,

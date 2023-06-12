@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wordy/presentation/widgets/exit_dialog.dart';
+
 import 'package:wordy/presentation/widgets/loading_data.dart';
 
 import 'package:wordy/presentation/screens/quiz_screen_questions.dart';
@@ -20,43 +20,30 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  Future<bool> _onWillPop() async {
-    return await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const ExitDialog();
-          },
-        ) ??
-        false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
           QuizBloc()..add(LoadBeginnerQuiz(topic: widget.topic)),
-      child: WillPopScope(
-        onWillPop: _onWillPop,
-        child: Scaffold(
-          body: Container(
-            child: BlocBuilder<QuizBloc, QuizState>(
-              builder: (context, state) {
-                if (state is InProgress || state is QuizInitial) {
-                  return const LoadingData();
-                } else if (state is BeginnerQuizLoaded) {
-                  return QuizScreenQuestions(
-                    topic: widget.topic,
-                  );
-                } else {
-                  DialogManager.showErrorDialog(
-                      ExceptionHelper.getErrorMessage(UnexpectedError()),
-                      context, () {
-                    context.go('/');
-                  });
-                  return Container();
-                }
-              },
-            ),
+      child: Scaffold(
+        body: Container(
+          child: BlocBuilder<QuizBloc, QuizState>(
+            builder: (context, state) {
+              if (state is InProgress || state is QuizInitial) {
+                return const LoadingData();
+              } else if (state is BeginnerQuizLoaded) {
+                return QuizScreenQuestions(
+                  topic: widget.topic,
+                );
+              } else {
+                DialogManager.showErrorDialog(
+                    ExceptionHelper.getErrorMessage(UnexpectedError()),
+                    context, () {
+                  context.go('/');
+                });
+                return Container();
+              }
+            },
           ),
         ),
       ),

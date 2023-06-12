@@ -18,48 +18,46 @@ class QuizLogic {
 
   Future<Either<Exception, String>> insertLearnedWords(
       List<int> wordIds) async {
-    final userId = await _repository.getUserId();
-    if (userId.isRight) {
-      var insertedWords = await _repository.insertLearnedWordList(
-          InsertLearnedWordsModel(userId: userId.right!, wordIdList: wordIds));
+    final token = await _repository.getToken();
+    if (token.isRight) {
+      var insertedWords =
+          await _repository.insertLearnedWordList(wordIds, token.right!);
       if (insertedWords.isRight) {
-        return Either.right(insertedWords.right);
+        return Either.data(insertedWords.right);
       } else {
-        return Either.left(insertedWords.left!);
+        return Either.error(insertedWords.left!);
       }
     } else {
-      return Either.left(userId.left);
+      return Either.error(token.left);
     }
   }
 
   Future<Either<Exception, List<BeginnerQuestion>>> createBeginnerQuiz(
       String topic) async {
     List<BeginnerQuestion> quizQuestions = [];
-    final userId = await _userRepository.getUserId();
-    if (userId.isLeft) {
-      return Either.left(userId.left);
+    final token = await _userRepository.getUserId();
+    if (token.isLeft) {
+      return Either.error(token.left);
     }
     final userInterfaceLanguage = await _repository.getUserInterfaceLanguage();
     if (userInterfaceLanguage.isLeft) {
-      return Either.left(userInterfaceLanguage.left);
+      return Either.error(userInterfaceLanguage.left);
     }
-    var course = await _repository.getUserCurrentCourse(userId.right!);
+    var course = await _repository.getUserCurrentCourse(token.right!);
 
     if (course.isLeft) {
-      return Either.left(course.left!);
+      return Either.error(course.left!);
     }
 
-    var learnedWords = await _repository.getLearnedWordList(userId.right!);
+    var learnedWords = await _repository.getLearnedWordList(token.right!);
     if (learnedWords.isLeft) {
-      return Either.left(learnedWords.left!);
+      return Either.error(learnedWords.left!);
     }
 
-    var questions = await _repository.getBeginnerQuizWordList(BeginnerQuizModel(
-        topic: topic,
-        interfaceLanguage: userInterfaceLanguage.right!,
-        userId: userId.right!));
+    var questions =
+        await _repository.getBeginnerQuizWordList(topic, token.right!);
     if (questions.isLeft) {
-      return Either.left(questions.left!);
+      return Either.error(questions.left!);
     }
     List<BeginnerQuizQuestion> validatedQuestions = questions.right!;
     List<LearnedWord> validatedLearnedWords = learnedWords.right!;
@@ -131,7 +129,7 @@ class QuizLogic {
       }
     }
 
-    return Either.right(quizQuestions);
+    return Either.data(quizQuestions);
   }
 
   Future<List<QuizQuestion>> createLearningQuiz(String topic) async {

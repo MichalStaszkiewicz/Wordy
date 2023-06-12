@@ -8,8 +8,6 @@ import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/utility/socket_manager.dart';
 
 import '../../Utility/locator/service_locator.dart';
-import '../../data/network/request/models/update_user_current_course_request_model.dart';
-
 import '../../domain/repositiories/socket_repository.dart';
 import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/add_new_course_item.dart';
@@ -167,16 +165,12 @@ class _TopicScreenState extends State<TopicScreen>
                                         return GestureDetector(
                                             onTap: () async {
                                               await locator<UserService>()
-                                                  .updateUserCurrentCourse(
-                                                      UpdateUserCurrentCourseModel(
-                                                          userId: '',
-                                                          courseName: state
-                                                              .courses
-                                                              .activeCourses[
-                                                                  index]
-                                                              .userCourse
-                                                              .course
-                                                              .name))
+                                                  .updateUserCurrentCourse(state
+                                                      .courses
+                                                      .activeCourses[index]
+                                                      .userCourse
+                                                      .course
+                                                      .name)
                                                   .then((value) {
                                                 context.go('/selected_course');
                                               });

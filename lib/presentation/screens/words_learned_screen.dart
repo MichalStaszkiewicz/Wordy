@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/const/consts.dart';
 
-import '../Bloc/user_progress/user_progress_bloc.dart';
+import '../bloc/profile/profile_bloc.dart';
 import '../widgets/loading_data.dart';
 
 class WordsLearnedScreen extends StatefulWidget {
@@ -32,9 +32,9 @@ class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
           ),
         ),
       ),
-      body: BlocBuilder<UserProgressBloc, UserProgressState>(
+      body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
-          if (state is UserLearnedWordsLoaded) {
+          if (state is ProfileDataReady) {
             return Container(); /*
             StatisticsList(
               image: 'assets/poland.png',

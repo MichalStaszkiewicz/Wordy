@@ -17,7 +17,6 @@ import '../../../Utility/locator/service_locator.dart';
 
 import '../../../data/dto/active_course_response.dart';
 import '../../../data/dto/user_active_courses_progress_response.dart';
-import '../../../data/network/request/models/update_user_current_course_request_model.dart';
 import '../../../domain/repositiories/socket_repository.dart';
 
 part 'courses_update_event.dart';
@@ -67,7 +66,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
 
   void initialCurrentCourse() {
     on<CurrentCourseInitial>((event, emit) async {
-      final userId = await locator<Repository>().getUserId();
+      final userId = await locator<Repository>().getToken();
 
       if (userId.isLeft) {
         emit(CourseUpdateError(
@@ -79,7 +78,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
 
   void initialCourses() {
     on<InitialCourses>((event, emit) async {
-      final userId = await locator<Repository>().getUserId();
+      final userId = await locator<Repository>().getToken();
 
       if (userId.isLeft) {
         emit(CourseUpdateError(
@@ -91,15 +90,14 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
 
   void addNewCourse() {
     on<AddNewCourse>((event, emit) async {
-      final userId = await locator<Repository>().getUserId();
+      final userId = await locator<Repository>().getToken();
 
       if (userId.isLeft) {
         emit(CourseUpdateError(
             error: ExceptionHelper.getErrorMessage(userId.left!)));
       }
       await locator<UserService>()
-          .updateUserCurrentCourse(UpdateUserCurrentCourseModel(
-              userId: userId.right!, courseName: event.selectedCourse))
+          .updateUserCurrentCourse(event.selectedCourse)
           .then((value) => socketManager.loggedIn(userId.right!));
     });
   }

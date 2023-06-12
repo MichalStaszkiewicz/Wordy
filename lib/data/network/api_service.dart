@@ -7,7 +7,6 @@ import 'package:wordy/data/network/exceptions/api_errors/internal_server_api_err
 import 'package:wordy/data/network/exceptions/bad_network_exception.dart';
 import 'package:wordy/data/network/exceptions/internal_server_exception.dart';
 
-
 class ApiService {
   final String baseUrl;
   final Dio dio;
@@ -39,11 +38,12 @@ class ApiService {
     cancelToken = CancelToken();
   }
 
-  Future<Response> get(String endpoint, {Map<String, dynamic>? payload}) async {
+  Future<Response> get(String endpoint,
+      {Map<String, dynamic>? payload, Options? options}) async {
     resetCancelToken();
     try {
       return await dio.get(endpoint,
-          queryParameters: payload, cancelToken: cancelToken);
+          queryParameters: payload, cancelToken: cancelToken, options: options);
     } on DioError catch (e) {
       if (e is BadNetworkApiError) {
         print("Bad network");
@@ -56,10 +56,11 @@ class ApiService {
   }
 
   Future<Response> post(String endpoint,
-      {Map<String, dynamic>? payload}) async {
+      {Map<String, dynamic>? payload, Options? options}) async {
     resetCancelToken();
     try {
-      return await dio.post(endpoint, data: payload, cancelToken: cancelToken);
+      return await dio.post(endpoint,
+          data: payload, cancelToken: cancelToken, options: options);
     } on DioError catch (e) {
       if (e is BadNetworkApiError) {
         print("Bad network");
@@ -71,11 +72,12 @@ class ApiService {
     }
   }
 
-  Future<dynamic> put(String endpoint, {Map<String, dynamic>? payload}) async {
+  Future<dynamic> put(String endpoint,
+      {Map<String, dynamic>? payload, Options? options}) async {
     resetCancelToken();
     try {
-      final response =
-          await dio.put(endpoint, data: payload, cancelToken: cancelToken);
+      final response = await dio.put(endpoint,
+          data: payload, cancelToken: cancelToken, options: options);
       return response;
     } on BadNetworkApiError {
       throw BadNetworkException();

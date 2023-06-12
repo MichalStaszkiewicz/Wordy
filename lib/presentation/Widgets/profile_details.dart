@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wordy/presentation/widgets/header_in_profile.dart';
+import 'package:wordy/presentation/bloc/profile/profile_bloc.dart';
+
 import 'package:wordy/presentation/widgets/statistics_item.dart';
-import 'package:wordy/presentation/widgets/user_courses.dart';
+
 import 'package:wordy/presentation/screens/achievements_screen.dart';
 import 'package:wordy/presentation/screens/words_learned_screen.dart';
 import 'package:wordy/const/consts.dart';
-
-import '../Bloc/user_progress/user_progress_bloc.dart';
 
 class ProfileDetails extends StatefulWidget {
   const ProfileDetails({super.key});
@@ -22,21 +21,21 @@ class _ProfileDetailsState extends State<ProfileDetails> {
 
   List<Widget> statItems(String language) {
     final List<Widget> items = [
-      BlocBuilder<UserProgressBloc, UserProgressState>(
+      BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
-          state as UserProgressLoaded;
+          state as ProfileDataReady;
           return StatisticsItem(
             image: 'assets/fire.png',
             label:
                 ui_lang[language]!['profile_screen_days_in_a_row'].toString(),
-            statisticsCount: state.daysStreak,
+            statisticsCount: state.hotStreak,
             navigation: null,
           );
         },
       ),
-      BlocBuilder<UserProgressBloc, UserProgressState>(
+      BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
-          state as UserProgressLoaded;
+          state as ProfileDataReady;
 
           return StatisticsItem(
             image: 'assets/open-book.png',
@@ -44,35 +43,33 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                 ui_lang[language]!['profile_screen_learned_words'].toString(),
             statisticsCount: state.learnedWords,
             navigation: BlocProvider(
-              create: (context) => UserProgressBloc()..add(LoadLearnedWords()),
+              create: (context) => ProfileBloc()..add(LoadProfileData()),
               child: const WordsLearnedScreen(),
             ),
           );
         },
       ),
-      BlocBuilder<UserProgressBloc, UserProgressState>(
+      BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
-          state as UserProgressLoaded;
+          state as ProfileDataReady;
           return StatisticsItem(
             image: 'assets/medal.png',
             label:
                 ui_lang[language]!['profile_screen_finished_topics'].toString(),
-            statisticsCount: state.finishedTopics,
+            statisticsCount: state.finishedCourses,
             navigation: null,
           );
         },
       ),
-      BlocBuilder<UserProgressBloc, UserProgressState>(
+      BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
-          state as UserProgressLoaded;
+          state as ProfileDataReady;
           return StatisticsItem(
               image: 'assets/award.png',
               label:
                   ui_lang[language]!['profile_screen_achievements'].toString(),
               statisticsCount: state.achievements,
-              navigation: AchievementsScreen(
-                userState: state,
-              ));
+              navigation: AchievementsScreen());
         },
       ),
     ];
@@ -163,8 +160,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                 ],
               ),
             ),
-            HeaderInProfile(
-              label: ui_lang['english']!['profile_screen_statistics_header']
+            Text(
+              textAlign: TextAlign.left,
+              ui_lang['english']!['profile_screen_statistics_header']
                   .toString(),
             ),
             SizedBox(

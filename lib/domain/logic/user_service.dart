@@ -6,12 +6,10 @@ import 'package:wordy/domain/models/course_entry.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 
 import '../../Utility/locator/service_locator.dart';
+import '../../data/dto/profile_data.dart';
 import '../../data/network/exceptions/validation_error.dart';
 import '../../data/network/request/models/login_user_request_model.dart';
-import '../../data/network/request/models/update_user_current_course_request_model.dart';
-import '../../data/network/request/models/update_user_interface_language_request_model.dart';
-import '../../data/network/request/update_register_status_request.dart';
-import '../../data/network/request/update_user_current_course_request.dart';
+
 import '../../utility/either.dart';
 
 import '../models/active_course.dart';
@@ -23,66 +21,78 @@ import '../models/user_course.dart';
 class UserService {
   UserService(this._repository);
   final Repository _repository;
+  Future<Either<Exception, ProfileData>> getProfileData() async {
+    var token = await _repository.getToken();
+    if (token.isLeft) {
+      return Either.error(token.left);
+    }
+
+    var profileData = await _repository.getProfileData(token.right!);
+    if (profileData.isLeft) {
+      return Either.error(profileData.left!);
+    }
+    return Either.data(profileData.right!);
+  }
+
   Future<Either<Exception, String>> switchInterfaceLangauge(
-      String languageName, String userId) async {
-    var interfaceLanguage = await _repository.switchInterfaceLangauge(
-        UpdateUserInterfaceLanguageModel(
-            userId: userId, languageName: languageName));
+      String languageName, String token) async {
+    var interfaceLanguage =
+        await _repository.switchInterfaceLangauge(token, languageName);
     if (interfaceLanguage.isLeft) {
-      return Either.left(interfaceLanguage.left);
+      return Either.error(interfaceLanguage.left);
     } else {
-      return Either.right(interfaceLanguage.right);
+      return Either.data(interfaceLanguage.right);
     }
   }
 
   Future<Either<Exception, String>> getUserInterfaceLanguage() async {
     var interfaceLanguage = await _repository.getUserInterfaceLanguage();
     if (interfaceLanguage.isLeft) {
-      return Either.left(interfaceLanguage.left);
+      return Either.error(interfaceLanguage.left);
     } else {
-      return Either.right(interfaceLanguage.right);
+      return Either.data(interfaceLanguage.right);
     }
   }
 
   Future<Either<Exception, ActiveCourse>> getUserCurrentCourseProgress() async {
-    var userId = await _repository.getUserId();
-    if (userId.isLeft) {
-      return Either.left(userId.left);
+    var token = await _repository.getToken();
+    if (token.isLeft) {
+      return Either.error(token.left);
     }
-    var course = await _repository.getUserCurrentCourseProgress(userId.right!);
+    var course = await _repository.getUserCurrentCourseProgress(token.right!);
     if (course.isRight) {
-      return Either.right(course.right!);
+      return Either.data(course.right!);
     } else {
-      return Either.left(course.left);
+      return Either.error(course.left);
     }
   }
 
   Future<Either<Exception, List<Course>>> getAvailableCourses() async {
-    var userId = await _repository.getUserId();
+    var token = await _repository.getToken();
     var userInterfaceLanguage = await getUserInterfaceLanguage();
-    if (userId.isLeft) {
-      return Either.left(userId.left);
+    if (token.isLeft) {
+      return Either.error(token.left);
     }
     if (userInterfaceLanguage.isLeft) {
-      return Either.left(userInterfaceLanguage.left);
+      return Either.error(userInterfaceLanguage.left);
     }
 
-    var courses = await _repository.getAvailableCourses(userId.right!);
+    var courses = await _repository.getAvailableCourses(token.right!);
     if (courses.isRight) {
       courses.right!.removeWhere((element) =>
           element.name.toLowerCase() ==
           userInterfaceLanguage.right!.toLowerCase());
-      return Either.right(courses.right!);
+      return Either.data(courses.right!);
     } else {
-      return Either.left(courses.left);
+      return Either.error(courses.left);
     }
   }
 
   Future<Either<Exception, UserActiveCoursesProgress>>
       getUserActiveCoursesProgress() async {
-    var userId = await _repository.getUserId();
+    var userId = await _repository.getToken();
     if (userId.isLeft) {
-      return Either.left(SessionVerificationError(
+      return Either.error(SessionVerificationError(
           title: 'Session Error',
           message:
               "We couldn't verify your session. You will be logged out now. Sorry for the difficulties."));
@@ -90,50 +100,50 @@ class UserService {
     var activeCourses =
         await _repository.getUserActiveCoursesProgress(userId.right!);
     if (activeCourses.isRight) {
-      return Either.right(activeCourses.right);
+      return Either.data(activeCourses.right);
     } else {
-      return Either.left(activeCourses.left);
+      return Either.error(activeCourses.left);
     }
   }
 
-  Future<void> updateRegisterationStatus(bool status, String userId) async {
-    await _repository.updateUserRegisterStatus(UpdateRegisterStatusRequest(
-      userId: userId,
-    ));
+  Future<void> updateRegisterationStatus(String token) async {
+    await _repository.updateUserRegisterStatus(
+      token,
+    );
   }
 
   Future<Either<Exception, UserCourse>> updateUserCurrentCourse(
-      UpdateUserCurrentCourseModel requetModel) async {
-    var userId = await _repository.getUserId();
+      String courseName) async {
+    var token = await _repository.getToken();
     var userInterfaceLanguage = await _repository.getUserInterfaceLanguage();
     if (userInterfaceLanguage.isLeft) {
-      return Either.left(userInterfaceLanguage.left);
+      return Either.error(userInterfaceLanguage.left);
     }
-    if (userId.isLeft) {
-      return Either.left(userId.left);
+    if (token.isLeft) {
+      return Either.error(token.left);
     }
 
-    var updateCourse = await _repository.updateUserCurrentCourse(
-        UpdateUserCurrentCourseRequest.fromJson(requetModel.toMap()));
+    var updateCourse =
+        await _repository.updateUserCurrentCourse(courseName, token.right!);
     if (updateCourse.isRight) {
-      return Either.right(updateCourse.right);
+      return Either.data(updateCourse.right);
     } else {
-      return Either.left(updateCourse.left!);
+      return Either.error(updateCourse.left!);
     }
   }
 
   Future<Either<Exception, UserCourse>> getUserCurrentCourse() async {
-    final userId = await locator<Repository>().getUserId();
-    if (userId.isRight) {
+    final token = await locator<Repository>().getToken();
+    if (token.isRight) {
       var userCurrentCourse =
-          await _repository.getUserCurrentCourse(userId.right!);
+          await _repository.getUserCurrentCourse(token.right!);
       if (userCurrentCourse.isRight) {
-        return Either.right(userCurrentCourse.right);
+        return Either.data(userCurrentCourse.right);
       } else {
-        return Either.left(userCurrentCourse.left!);
+        return Either.error(userCurrentCourse.left!);
       }
     } else {
-      return Either.left(userId.left);
+      return Either.error(token.left);
     }
   }
 
@@ -143,25 +153,25 @@ class UserService {
 
     final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (userAuthData['email'] == null || userAuthData['password'] == null) {
-      return Either.left(
+      return Either.error(
           ValidationError(message: 'Fill all fields', 'Validation Error'));
     }
 
     if (!emailRegExp.hasMatch(userAuthData['email'])) {
-      return Either.left(
+      return Either.error(
           ValidationError(message: 'Bad email format', 'Validation Error'));
     }
 
-    var userId =
+    var token =
         await _repository.loginUser(LoginUserRequest.fromJson(userAuthData));
-    if (userId.isRight) {
-      _repository.setUserId(userId.right!);
+    if (token.isRight) {
+      _repository.saveToken(token.right!);
     } else {
-      return Either.left(userId.left!);
+      return Either.error(token.left!);
     }
 
     await _repository.synchronizeUserInterfaceLanguage();
-    return Either.right(userId.right);
+    return Either.data(token.right);
   }
 
   Future<Either<Exception, String>> registerUser(
@@ -169,25 +179,25 @@ class UserService {
     final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
     if (userAuthData['email'] == null || userAuthData['password'] == null) {
-      return Either.left(
+      return Either.error(
           ValidationError('Validation Error', message: 'Fill all fields'));
     }
 
     if (!emailRegExp.hasMatch(userAuthData['email'])) {
-      return Either.left(
+      return Either.error(
           ValidationError('Validation Error', message: 'Bad email format'));
     }
     if ((userAuthData['password'] as String).length < 5) {
-      return Either.left(ValidationError('Validation Error',
+      return Either.error(ValidationError('Validation Error',
           message: 'Password is too short'));
     }
 
     var responseMessage = await _repository
         .registerUser(RegisterUserRequest.fromJson(userAuthData));
     if (responseMessage.isRight) {
-      return Either.right(responseMessage.right);
+      return Either.data(responseMessage.right);
     } else {
-      return Either.left(responseMessage.left!);
+      return Either.error(responseMessage.left!);
     }
   }
 }
