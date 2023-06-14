@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
-import 'package:wordy/domain/repositiories/socket_repository.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/widgets/login_form.dart';
 

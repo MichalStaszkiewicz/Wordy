@@ -11,6 +11,10 @@ class SocketManager {
     socket.emit('joinRoom', [token]);
   }
 
+  void checkAchievements(String token) async {
+    socket.emit('check_achievements', [token]);
+  }
+
   void loggedIn(String token) async {
     socket.emit('topic_screen_load_courses', [token]);
   }

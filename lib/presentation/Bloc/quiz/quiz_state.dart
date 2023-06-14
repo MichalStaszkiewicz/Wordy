@@ -11,6 +11,11 @@ class QuizInitial extends QuizState {
   const QuizInitial();
 }
 
+class AchievementInformation extends QuizState {
+  AchievementInformation({required this.achievements});
+  List<Achievement> achievements;
+}
+
 class InProgress extends QuizState {
   const InProgress();
 }

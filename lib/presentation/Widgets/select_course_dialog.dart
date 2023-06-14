@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/domain/logic/user_service.dart';
-import 'package:wordy/domain/repositiories/socket_repository.dart';
+import 'package:wordy/domain/repositiories/stream_repository.dart';
 
 import '../../Utility/dialog_manager.dart';
 

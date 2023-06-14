@@ -13,10 +13,10 @@ packages:
     dependency: "direct main"
     description:
       name: achievement_view
-      sha256: c48d858233f6b44dda080f62690d2fbb16be59727da06dd18b69253bc5bd5ea7
+      sha256: c085c3e5f0b0bbb71a4473516d6cec1414da1e01aac40975c92e08008edcfc6e
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   analyzer:
     dependency: transitive
     description:

@@ -1,8 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+import 'package:wordy/data/network/response/achievement_list_response.dart';
 
 import '../../Utility/locator/service_locator.dart';
+import '../../utility/toast_manager.dart';
+import '../models/achievement.dart';
 import '../models/active_course.dart';
 import '../models/user_active_courses_progress.dart';
 
@@ -25,6 +29,14 @@ class StreamRepository {
     _socket.on('current_course', (data) {
       currentCourseStreamController
           .add(ActiveCourse.fromJson(data['activeCourse']));
+    });
+  }
+
+  void initializaAchievementNotifications(BuildContext context) {
+    _socket.on('got_new_achievement', (data) {
+      List<Achievement> list =
+          AchievementListResponse.fromJson(data).achievements;
+      ToastManager.achievementNotification(context, list[0]);
     });
   }
 }

@@ -4,13 +4,13 @@ part 'achievement.freezed.dart';
 part 'achievement.g.dart';
 
 @freezed
-class Achievement with _$Achievement {
-  factory Achievement({
-    required int id,
-    required String name,
-    required String description,
-    required int goal,
-    int? progress,
+abstract class Achievement with _$Achievement {
+  const factory Achievement({
+    int? id,
+    int? goal,
+    String? type,
+    String? description,
+    String? name,
   }) = _Achievement;
 
   factory Achievement.fromJson(Map<String, dynamic> json) =>

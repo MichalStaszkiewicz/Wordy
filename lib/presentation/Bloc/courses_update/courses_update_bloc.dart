@@ -15,7 +15,7 @@ import '../../../../domain/models/user_active_courses_progress.dart';
 
 import '../../../Utility/locator/service_locator.dart';
 
-import '../../../domain/repositiories/socket_repository.dart';
+import '../../../domain/repositiories/stream_repository.dart';
 
 part 'courses_update_event.dart';
 part 'courses_update_state.dart';

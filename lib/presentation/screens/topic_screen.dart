@@ -9,7 +9,7 @@ import 'package:wordy/utility/socket_manager.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../const/app_router.dart';
-import '../../domain/repositiories/socket_repository.dart';
+import '../../domain/repositiories/stream_repository.dart';
 import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/add_new_course_item.dart';
 import '../widgets/course_item.dart';
@@ -28,6 +28,7 @@ class _TopicScreenState extends State<TopicScreen>
     with TickerProviderStateMixin {
   @override
   void initState() {
+    locator<StreamRepository>().initializaAchievementNotifications(context);
     super.initState();
   }
 

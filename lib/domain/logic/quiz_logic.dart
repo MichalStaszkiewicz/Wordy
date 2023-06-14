@@ -24,7 +24,7 @@ class QuizLogic {
       if (insertedWords.isData) {
         return Either.data(insertedWords.data);
       } else {
-        return Either.error(insertedWords.error!);
+        return Either.error(insertedWords.error);
       }
     } else {
       return Either.error(token.error);

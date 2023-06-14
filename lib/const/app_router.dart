@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wordy/domain/models/beginner_question.dart';
 
 import 'package:wordy/presentation/home_page.dart';
 import 'package:wordy/presentation/screens/auth_screen.dart';
@@ -60,11 +61,11 @@ class AppRouter {
 
   static Widget _quizScreenCompletedRouteBuilder(
       BuildContext context, GoRouterState state) {
-    Map<String, String> data = state.extra as Map<String, String>;
+    Map<String, dynamic> data = state.extra as Map<String, dynamic>;
     return QuizFinishScreen(
       topic: data['topic']!,
-      correctAnswers: int.parse(data['correctAnswers']!),
-      maximumPoints: int.parse(data['maximumPoints']!),
+      correctAnswers: data['correctAnswers']! as List<int>,
+      questions: data['maximumPoints']! as List<BeginnerQuestion>,
     );
   }
 

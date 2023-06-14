@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/const/app_router.dart';
-import 'package:wordy/domain/repositiories/socket_repository.dart';
 
 import 'package:wordy/presentation/widgets/circular_precentage_chart.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
@@ -13,6 +12,7 @@ import 'package:wordy/utility/dialog_manager.dart';
 import '../../Utility/locator/service_locator.dart';
 import '../../domain/models/active_course.dart';
 
+import '../../domain/repositiories/stream_repository.dart';
 import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/selected_course_background.dart';
 

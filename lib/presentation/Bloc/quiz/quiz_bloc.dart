@@ -1,23 +1,36 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:wordy/Utility/socket_manager.dart';
+import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/domain/logic/user_service.dart';
+import 'package:wordy/domain/models/achievement.dart';
 import 'package:wordy/domain/models/custom_error.dart';
+import 'package:wordy/domain/repositiories/repository.dart';
 
 import '../../../Utility/locator/service_locator.dart';
 import '../../../data/network/exceptions/exception_helper.dart';
+import '../../../data/network/response/achievement_list_response.dart';
 import '../../../domain/logic/quiz_logic.dart';
 import '../../../domain/models/beginner_question.dart';
+import '../../../domain/models/user_active_courses_progress.dart';
+import '../../../domain/repositiories/stream_repository.dart';
 
 part 'quiz_event.dart';
 part 'quiz_state.dart';
 
 class QuizBloc extends Bloc<QuizEvent, QuizState> {
-  QuizBloc() : super(const QuizInitial()) {
+  final StreamRepository socketRepository;
+  final socketManager = locator<SocketManager>();
+
+  QuizBloc(this.socketRepository) : super(const QuizInitial()) {
     loadBeginnerQuiz();
     loadNextQuestion();
     finishQuiz();
     selectAnswer();
   }
+
   void loadBeginnerQuiz() {
     on<LoadBeginnerQuiz>((event, emit) async {
       final quizLogic = locator<QuizLogic>();
@@ -75,8 +88,16 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   void finishQuiz() {
     on<FinishQuiz>((event, emit) async {
       final quizLogic = locator<QuizLogic>();
+      final token = await locator<Repository>().getToken();
+      if (token.isError) {
+        emit(QuizError(
+            error: ExceptionHelper.getErrorMessage(UnexpectedError())));
+      }
+      await quizLogic.insertLearnedWords(event.wordIds).then((value) {
+        print("Token?:" + token.data!.toString());
 
-      await quizLogic.insertLearnedWords(event.wordIds);
+        locator<SocketManager>().checkAchievements(token.data!);
+      });
     });
   }
 }

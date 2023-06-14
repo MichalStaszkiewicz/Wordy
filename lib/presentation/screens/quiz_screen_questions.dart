@@ -144,16 +144,10 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
                         function: () {
                           if (state.currentQuestionIndex ==
                               state.questions.length - 1) {
-                            context.read<QuizBloc>().add(FinishQuiz(
-                                wordIds: state.correctAnswersWordIndexes,
-                                maximumPoints: state.questions.length));
                             context.go(AppRouter.quizCompleted, extra: {
                               'topic': widget.topic,
-                              'maximumPoints':
-                                  state.questions.length.toString(),
-                              'correctAnswers': state
-                                  .correctAnswersWordIndexes.length
-                                  .toString(),
+                              'maximumPoints': state.questions,
+                              'correctAnswers': state.correctAnswersWordIndexes,
                             });
                           } else {
                             context.read<QuizBloc>().add(LoadNextQuestion());

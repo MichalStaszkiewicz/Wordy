@@ -87,7 +87,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                     itemBuilder: (context, index) => FlipCards(
                           back: AchievementItemBack(
                             description: achievementsState
-                                .achievements[index].description,
+                                .achievements[index].description!,
                             achieved: /*achievementsState
                                   .achievements[index].achieved*/
                                 true,
@@ -95,7 +95,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                           front: AchievementItemFront(
                             image:
                                 /* achievementsState.achievements[index].image*/ "",
-                            name: achievementsState.achievements[index].name,
+                            name: achievementsState.achievements[index].name!,
                             currentProgress: null,
                             maximum: null,
                           ),
@@ -129,12 +129,12 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                   itemBuilder: (context, index) => FlipCards(
                         back: AchievementItemBack(
                           achieved: true,
-                          description:
-                              achievementsState.achievements[index].description,
+                          description: achievementsState
+                              .achievements[index].description!,
                         ),
                         front: AchievementItemFront(
                           image: '',
-                          name: achievementsState.achievements[index].name,
+                          name: achievementsState.achievements[index].name!,
                           currentProgress: 0,
                           maximum: achievementsState.achievements[index].goal,
                         ),
@@ -167,12 +167,12 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                   itemBuilder: (context, index) => FlipCards(
                         back: AchievementItemBack(
                           achieved: true,
-                          description:
-                              achievementsState.achievements[index].description,
+                          description: achievementsState
+                              .achievements[index].description!,
                         ),
                         front: AchievementItemFront(
                           image: '',
-                          name: achievementsState.achievements[index].name,
+                          name: achievementsState.achievements[index].name!,
                           currentProgress: 0,
                           maximum: achievementsState.achievements[index].goal,
                         ),

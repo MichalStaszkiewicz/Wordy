@@ -16,6 +16,13 @@ class LoadNextQuestion extends QuizEvent {
   const LoadNextQuestion();
 }
 
+class AchievementNotificationEvent extends QuizEvent {
+  AchievementNotificationEvent({required this.achievements});
+  List<Achievement> achievements;
+  @override
+  List<Object> get props => [];
+}
+
 class SelectAnswer extends QuizEvent {
   SelectAnswer({required this.selectedIndex});
   int selectedIndex;

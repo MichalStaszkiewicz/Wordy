@@ -10,6 +10,8 @@ import 'package:wordy/presentation/screens/profile_screen.dart';
 import 'package:wordy/presentation/screens/vocabulary_screen.dart';
 import 'package:wordy/const/consts.dart';
 
+import '../Utility/locator/service_locator.dart';
+import '../domain/repositiories/stream_repository.dart';
 import 'bloc/courses_update/courses_update_bloc.dart';
 import 'screens/topic_screen.dart';
 

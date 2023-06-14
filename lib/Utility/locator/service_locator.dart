@@ -12,7 +12,7 @@ import '../../domain/logic/settings_logic.dart';
 import '../../domain/logic/user_service.dart';
 import '../../domain/logic/vocabulary_logic.dart';
 import '../../domain/repositiories/repository.dart';
-import '../../domain/repositiories/socket_repository.dart';
+import '../../domain/repositiories/stream_repository.dart';
 import '../../domain/repositiories/user_repository.dart';
 import '../../domain/repositiories/vocabulary_repository.dart';
 import '../socket_manager.dart';
