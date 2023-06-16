@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
+import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
+import 'package:wordy/utility/dialog_manager.dart';
+import 'package:wordy/utility/utility.dart';
 
+import '../../Utility/locator/service_locator.dart';
 import '../../domain/models/interface_language.dart';
 import 'confirm_button.dart';
 import 'language_tile.dart';
@@ -40,8 +44,10 @@ class _RegisterCourseListState extends State<RegisterCourseList> {
                               onSelect: () {
                                 context.read<RegisterBloc>().add(
                                     InitialSetupStateUpdate(
-                                        languageToLearn:
-                                            widget.languages[index].name));
+                                        updatedLanguage:
+                                            widget.languages[index].name,
+                                        beforeUpdateLanguage:
+                                            widget.currentLanguage));
                               },
                               selectedLangauge: widget.currentLanguage,
                             )))),

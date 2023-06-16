@@ -38,25 +38,16 @@ class RegisterError extends RegisterState {
 
 class InitialSetupDone extends RegisterState {}
 
-class RegisterLanguageChangeInfo extends RegisterState {
-  RegisterLanguageChangeInfo(
-      {required this.message,
-      required this.languageToLearn,
-      required this.langaugeOnCancel});
-  String message;
-  String languageToLearn;
-  String langaugeOnCancel;
-
-  @override
-  List<Object> get props => [message, languageToLearn, langaugeOnCancel];
-}
-
 class InitialSetupState extends RegisterState {
-  InitialSetupState({
-    required this.languageToLearn,
-  });
-
+  InitialSetupState(
+      {required this.languageToLearn,
+      required this.languageConflict,
+      required this.languageToLearnCopy});
+  bool languageConflict;
   String languageToLearn;
+  String languageToLearnCopy;
+
   @override
-  List<Object> get props => [languageToLearn];
+  List<Object> get props =>
+      [languageToLearn, languageConflict, languageToLearnCopy];
 }

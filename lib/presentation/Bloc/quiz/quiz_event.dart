@@ -29,7 +29,11 @@ class SelectAnswer extends QuizEvent {
 }
 
 class FinishQuiz extends QuizEvent {
-  FinishQuiz({required this.wordIds, required this.maximumPoints});
+  FinishQuiz(
+      {required this.wordIds,
+      required this.maximumPoints,
+      required this.topic});
   List<int> wordIds;
+  String topic;
   int maximumPoints;
 }

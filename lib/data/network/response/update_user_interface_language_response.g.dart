@@ -9,11 +9,11 @@ part of 'update_user_interface_language_response.dart';
 UpdateUserInterfaceLanguageResponse
     _$UpdateUserInterfaceLanguageResponseFromJson(Map<String, dynamic> json) =>
         UpdateUserInterfaceLanguageResponse(
-          registerationCompleted: json['registerationCompleted'] as bool,
+          updatedLanguageName: json['updatedLanguageName'] as String,
         );
 
 Map<String, dynamic> _$UpdateUserInterfaceLanguageResponseToJson(
         UpdateUserInterfaceLanguageResponse instance) =>
     <String, dynamic>{
-      'registerationCompleted': instance.registerationCompleted,
+      'updatedLanguageName': instance.updatedLanguageName,
     };

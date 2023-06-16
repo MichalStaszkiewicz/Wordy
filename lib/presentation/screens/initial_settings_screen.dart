@@ -43,17 +43,6 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
         create: (context) => RegisterBloc()..add(const InitialSetupBegin()),
         child: BlocListener<RegisterBloc, RegisterState>(
             listener: (context, state) {
-              if (state is RegisterLanguageChangeInfo) {
-                DialogManager.showQuestionDialog(
-                    state.message, 'Are you sure ?', context, () {
-                  context.read<RegisterBloc>().add(InterfaceLanguageChange(
-                        choosenLanguage: state.languageToLearn,
-                      ));
-                }, () {
-                  context.read<RegisterBloc>().add(CancelLanguageChange(
-                      choosenLanguage: state.langaugeOnCancel));
-                });
-              }
               if (state is RegisterError) {
                 DialogManager.showErrorDialog(state.error, context, () {
                   context.go(AppRouter.authScreen);

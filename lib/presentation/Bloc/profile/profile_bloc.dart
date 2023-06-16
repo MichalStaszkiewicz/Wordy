@@ -26,15 +26,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       if (profileData.isError) {
         emit(ProfileDataError(
             error: ExceptionHelper.getErrorMessage(profileData.error!)));
+      } else {
+        emit(ProfileDataReady(
+          finishedCourses: profileData.data!.finishedCourses,
+          hotStreak: profileData.data!.hotStreak,
+          learnedWords: profileData.data!.learnedWords,
+          beginnerProgress: profileData.data!.beginnerProgress,
+          achievements: profileData.data!.achievements,
+        ));
       }
-
-      emit(ProfileDataReady(
-        finishedCourses: profileData.data!.finishedCourses,
-        hotStreak: profileData.data!.hotStreak,
-        learnedWords: profileData.data!.learnedWords,
-        beginnerProgress: profileData.data!.beginnerProgress,
-        achievements: profileData.data!.achievements,
-      ));
     });
   }
 }

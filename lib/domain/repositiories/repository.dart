@@ -76,7 +76,7 @@ class Repository {
     var response =
         await _remoteSource.switchInterfaceLanguage(token, languageName);
     if (response.isData) {
-      return Either.data(response.data!.registerationCompleted.toString());
+      return Either.data(response.data!.updatedLanguageName.toString());
     } else {
       return Either.error(response.error);
     }

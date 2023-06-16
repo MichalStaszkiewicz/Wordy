@@ -25,22 +25,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       body: BlocProvider(
         create: (context) => ProfileBloc()..add(LoadProfileData()),
-        child: BlocBuilder<ProfileBloc, ProfileState>(
-          builder: (context, state) {
-            if (state is ProfileDataInit) {
-              return const LoadingData();
-            }
-            if (state is ProfileDataReady) {
-              return const ProfileDetails();
-            } else {
-              DialogManager.showErrorDialog(
-                  ExceptionHelper.getErrorMessage(UnexpectedError()), context,
-                  () {
-                context.go(AppRouter.authScreen);
-              });
-              return Container();
+        child: BlocListener<ProfileBloc, ProfileState>(
+          listener: (context, state) {
+            if (state is ProfileDataError) {
+              DialogManager.showErrorDialog(state.error, context, () {});
             }
           },
+          child: BlocBuilder<ProfileBloc, ProfileState>(
+            builder: (context, state) {
+              if (state is ProfileDataInit) {
+                return const LoadingData();
+              }
+              if (state is ProfileDataReady) {
+                return const ProfileDetails();
+              } else {
+                return Container();
+              }
+            },
+          ),
         ),
       ),
     );

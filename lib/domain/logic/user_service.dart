@@ -84,9 +84,12 @@ class UserService {
     if (availableCoursesData.isData) {
       List<Course> availableCourses = [];
 
-      availableCourses.addAllIf((Course e) {
-        e.name.toLowerCase() != userInterfaceLanguage.data!.toLowerCase();
-      }, availableCoursesData.data!);
+      for (Course course in availableCoursesData.data!) {
+        if (course.name.toLowerCase() !=
+            userInterfaceLanguage.data!.toLowerCase()) {
+          availableCourses.add(course);
+        }
+      }
 
       return Either.data(availableCourses);
     } else {

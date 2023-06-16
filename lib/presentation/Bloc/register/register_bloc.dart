@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
+import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 
 import '../../../Utility/locator/service_locator.dart';
@@ -16,18 +17,47 @@ part 'register_state.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc() : super(const RegisterInitial()) {
     register();
-    settingUpProfileUpdate();
+
     settingUpProfileBegin();
     switchInterfaceLanguage();
     finishInitialSetup();
     cancelLanguageChange();
+    initialSetupStateUpdate();
   }
 
   void cancelLanguageChange() {
     on<CancelLanguageChange>((event, emit) {
       emit(InitialSetupState(
         languageToLearn: event.choosenLanguage,
+        languageConflict: false,
+        languageToLearnCopy: event.choosenLanguage,
       ));
+    });
+  }
+
+  void initialSetupStateUpdate() {
+    on<InitialSetupStateUpdate>((event, emit) async {
+      final userInterfaceLanguage =
+          await locator<UserService>().getUserInterfaceLanguage();
+      if (userInterfaceLanguage.isError) {
+        emit(RegisterError(
+            error: ExceptionHelper.getErrorMessage(UnexpectedError())));
+      } else {
+        if (event.updatedLanguage.toLowerCase() ==
+            userInterfaceLanguage.data!) {
+          emit(InitialSetupState(
+            languageToLearn: event.updatedLanguage,
+            languageConflict: true,
+            languageToLearnCopy: event.beforeUpdateLanguage,
+          ));
+        } else {
+          emit(InitialSetupState(
+            languageToLearn: event.updatedLanguage,
+            languageConflict: false,
+            languageToLearnCopy: event.updatedLanguage,
+          ));
+        }
+      }
     });
   }
 
@@ -40,11 +70,19 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       final token = await locator.get<Repository>().getToken();
       if (token.isData) {
         await Future.microtask(() async {
-          await userLogic.updateUserCurrentCourse(
+          var userCourseData = await userLogic.updateUserCurrentCourse(
             event.currentCourse,
           );
-          await userLogic.updateRegisterationStatus(token.data!);
-        }).then((value) => emit(InitialSetupDone()));
+          if (userCourseData.isError) {
+            print("USERCOURSE DOSENT EXISTS!!!!!!!");
+            emit(RegisterError(
+                error: ExceptionHelper.getErrorMessage(token.error!)));
+          } else {
+            await userLogic
+                .updateRegisterationStatus(token.data!)
+                .then((value) => emit(InitialSetupDone()));
+          }
+        });
       } else {
         emit(RegisterError(
             error: ExceptionHelper.getErrorMessage(token.error!)));
@@ -56,7 +94,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<InterfaceLanguageChange>((event, emit) async {
       String choosenLanguage =
           await Validator.interfaceLanguageChange(event.choosenLanguage);
-      emit(InitialSetupState(languageToLearn: choosenLanguage));
+      emit(InitialSetupState(
+          languageToLearn: choosenLanguage,
+          languageConflict: false,
+          languageToLearnCopy: choosenLanguage));
     });
   }
 
@@ -65,29 +106,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(const InitialSetupLoading());
       emit(InitialSetupState(
         languageToLearn: '',
+        languageConflict: false,
+        languageToLearnCopy: '',
       ));
-    });
-  }
-
-  void settingUpProfileUpdate() {
-    on<InitialSetupStateUpdate>((event, emit) async {
-      if (state is InitialSetupState) {
-        final state = this.state as InitialSetupState;
-        final userInterfaceLanguage =
-            await locator<Repository>().getUserInterfaceLanguage();
-        if (event.languageToLearn.toLowerCase() ==
-            userInterfaceLanguage.data!.toLowerCase()) {
-          emit(RegisterLanguageChangeInfo(
-              message:
-                  'Choosing this language will change your interface language.',
-              languageToLearn: event.languageToLearn,
-              langaugeOnCancel: state.languageToLearn));
-        } else {
-          emit(InitialSetupState(
-            languageToLearn: event.languageToLearn,
-          ));
-        }
-      }
     });
   }
 

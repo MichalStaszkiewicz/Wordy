@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../domain/models/topic.dart';
 import 'circular_precentage_chart.dart';
 
 class CourseItem extends StatefulWidget {
   CourseItem(
-      {super.key, required this.courseLevel,
+      {super.key,
+      required this.courseLevel,
       required this.courseName,
-      required this.progress});
+      required this.progress,
+      required this.topic});
 
   String courseName;
   String courseLevel;
+  Topic? topic;
   double progress;
+
   @override
   State<CourseItem> createState() => _CourseItemState();
 }
@@ -27,7 +33,7 @@ class _CourseItemState extends State<CourseItem> {
           offset: Offset(0, 6),
           blurRadius: 6.0,
         )
-      ], color: Colors.green, borderRadius: BorderRadius.circular(10)),
+      ], color: Colors.indigo, borderRadius: BorderRadius.circular(10)),
       child: Container(
         margin: const EdgeInsets.only(left: 20, top: 20),
         child: Stack(
@@ -37,24 +43,29 @@ class _CourseItemState extends State<CourseItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.courseName,
+                    widget.courseName.capitalize!,
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5),
                   ),
-                  Text(
-                    widget.courseLevel,
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 1.5),
-                  ),
+                  widget.topic != null
+                      ? Text(
+                          widget.topic!.name.capitalize!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5),
+                        )
+                      : Text(''),
                 ],
               ),
             ),
             Positioned(
-              top: 60,
+              top: 80,
               left: 60,
               child: SizedBox(
                 width: 100,

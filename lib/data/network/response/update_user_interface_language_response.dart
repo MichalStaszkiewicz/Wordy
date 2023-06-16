@@ -3,8 +3,8 @@ part 'update_user_interface_language_response.g.dart';
 
 @JsonSerializable()
 class UpdateUserInterfaceLanguageResponse {
-  UpdateUserInterfaceLanguageResponse({required this.registerationCompleted});
-  bool registerationCompleted;
+  UpdateUserInterfaceLanguageResponse({required this.updatedLanguageName});
+  String updatedLanguageName;
 
   factory UpdateUserInterfaceLanguageResponse.fromJson(
           Map<String, dynamic> json) =>

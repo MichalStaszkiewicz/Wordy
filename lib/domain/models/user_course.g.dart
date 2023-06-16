@@ -13,6 +13,9 @@ _$_UserCourse _$$_UserCourseFromJson(Map<String, dynamic> json) =>
           Difficulty.fromJson(json['difficulty'] as Map<String, dynamic>),
       interfaceLanguage: InterfaceLanguage.fromJson(
           json['interfaceLanguage'] as Map<String, dynamic>),
+      lastTopic: json['lastTopic'] == null
+          ? null
+          : Topic.fromJson(json['lastTopic'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_UserCourseToJson(_$_UserCourse instance) =>
@@ -20,4 +23,5 @@ Map<String, dynamic> _$$_UserCourseToJson(_$_UserCourse instance) =>
       'course': instance.course,
       'difficulty': instance.difficulty,
       'interfaceLanguage': instance.interfaceLanguage,
+      'lastTopic': instance.lastTopic,
     };

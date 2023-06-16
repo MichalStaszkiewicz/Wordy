@@ -11,6 +11,7 @@ import 'package:wordy/domain/repositiories/repository.dart';
 
 import '../../../Utility/locator/service_locator.dart';
 import '../../../data/network/exceptions/exception_helper.dart';
+import '../../../data/network/request/quiz_summary_request.dart';
 import '../../../data/network/response/achievement_list_response.dart';
 import '../../../domain/logic/quiz_logic.dart';
 import '../../../domain/models/beginner_question.dart';
@@ -96,7 +97,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       await quizLogic.insertLearnedWords(event.wordIds).then((value) {
         print("Token?:" + token.data!.toString());
 
-        locator<SocketManager>().checkAchievements(token.data!);
+        locator<SocketManager>()
+            .quizSummary(QuizSummary(token: token.data!, topic: event.topic));
       });
     });
   }

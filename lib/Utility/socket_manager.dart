@@ -1,5 +1,7 @@
 import 'package:socket_io_client/socket_io_client.dart';
 
+import '../data/network/request/quiz_summary_request.dart';
+
 class SocketManager {
   final Socket socket;
   SocketManager(this.socket);
@@ -11,8 +13,8 @@ class SocketManager {
     socket.emit('joinRoom', [token]);
   }
 
-  void checkAchievements(String token) async {
-    socket.emit('check_achievements', [token]);
+  void quizSummary(QuizSummary data) async {
+    socket.emit('quiz_summary', [data.toJson()]);
   }
 
   void loggedIn(String token) async {

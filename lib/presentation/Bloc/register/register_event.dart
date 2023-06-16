@@ -15,8 +15,6 @@ class RegisterUser extends RegisterEvent {
   String password;
 }
 
-
-
 class FinishInitialSetup extends RegisterEvent {
   FinishInitialSetup({required this.currentCourse});
   String currentCourse;
@@ -39,7 +37,9 @@ class InitialSetupBegin extends RegisterEvent {
 }
 
 class InitialSetupStateUpdate extends RegisterEvent {
-  InitialSetupStateUpdate({required this.languageToLearn});
+  InitialSetupStateUpdate(
+      {required this.updatedLanguage, required this.beforeUpdateLanguage});
 
-  String languageToLearn;
+  String updatedLanguage;
+  String beforeUpdateLanguage;
 }

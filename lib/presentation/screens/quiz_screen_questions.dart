@@ -23,7 +23,6 @@ class QuizScreenQuestions extends StatefulWidget {
 
 class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
   @override
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<QuizBloc, QuizState>(
@@ -66,6 +65,12 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
                         ),
                       )),
                       ProgressionBar(
+                          height: 10,
+                          gradient: [
+                            Color.fromARGB(255, 99, 155, 252),
+                            Color.fromRGBO(158, 149, 248, 1),
+                          ],
+                          nonProgressionColor: Colors.white,
                           progress: ((state.currentQuestionIndex + 1) /
                                   state.questions.length) *
                               100,

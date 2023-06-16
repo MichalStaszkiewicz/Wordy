@@ -43,12 +43,30 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
             return BlocListener<RegisterBloc, RegisterState>(
               listener: (context, state) {
                 if (state is RegisterLoadingState) {
-                  DialogManager.showLoadingDialogWithCancelButton(
-                      'We are preparing app to work for you ! Thank you for patience',
-                      'Loading',
-                      context, () {
-                    locator.get<Repository>().cancelRequest();
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    DialogManager.showLoadingDialogWithCancelButton(
+                        'We are preparing app to work for you ! Thank you for patience',
+                        'Loading',
+                        context, () {
+                      locator.get<Repository>().cancelRequest();
+                      context.go(AppRouter.authScreen);
+                    });
                   });
+                }
+
+                if (state is InitialSetupState) {
+                  if (state.languageConflict) {
+                    DialogManager.showQuestionDialog(
+                        "This action will change your interface language. Do you want to continue?",
+                        "Are you sure ?",
+                        context, () {
+                      context.read<RegisterBloc>().add(InterfaceLanguageChange(
+                          choosenLanguage: state.languageToLearn));
+                    }, () {
+                      context.read<RegisterBloc>().add(CancelLanguageChange(
+                          choosenLanguage: state.languageToLearnCopy));
+                    });
+                  }
                 } else if (state is InitialSetupDone) {
                   context.go(AppRouter.home);
                 }
@@ -74,52 +92,26 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                         }
                       },
                     );
-                  } else if (state is RegisterLanguageChangeInfo) {
-                    return RegisterCourseList(
-                      currentLanguage: state.languageToLearn,
-                      languages: snapshot.data!,
-                      onNextStep: () {
-                        if (state.languageToLearn != '') {
-                          context.read<RegisterBloc>().add(FinishInitialSetup(
-                              currentCourse: state.languageToLearn));
-                        } else {
-                          DialogManager.showInformationDialog(
-                              'You have to select your language you want to learn',
-                              'woops',
-                              context);
-                        }
-                      },
-                    );
-                  } else if (state is RegisterError) {
-                    return RegisterCourseList(
-                      currentLanguage: '',
-                      languages: snapshot.data!,
-                      onNextStep: () {},
-                    );
-                  }
-                  if (state is InitialSetupLoading) {
-                    return const Expanded(flex: 8, child: LoadingData());
                   } else {
-                    DialogManager.showErrorDialog(
-                        ExceptionHelper.getErrorMessage(UnexpectedError()),
-                        context, () {
-                      context.go(AppRouter.authScreen);
-                    });
-                    return Container();
+                    return LoadingData();
                   }
                 },
               ),
             );
+          } else {
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              DialogManager.showErrorDialog(
+                  CustomError(
+                      title: "Error",
+                      message:
+                          "The error occurred when trying to load data from the server."),
+                  context, () {
+                context.go(AppRouter.authScreen);
+              });
+            });
+
+            return Container();
           }
-          DialogManager.showErrorDialog(
-              CustomError(
-                  title: "Error",
-                  message:
-                      "The error occurred when trying to load data from the server."),
-              context, () {
-            context.go(AppRouter.authScreen);
-          });
-          return Container();
         });
   }
 }

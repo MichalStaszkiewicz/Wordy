@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wordy/data/network/exceptions/exception_helper.dart';
+import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/widgets/login_form.dart';
@@ -12,6 +14,7 @@ import '../../Utility/socket_manager.dart';
 import '../../const/app_router.dart';
 import '../../const/enums.dart';
 
+import '../../domain/models/custom_error.dart';
 import '../bloc/login/login_bloc.dart';
 import '../widgets/register_form.dart';
 import '../widgets/reset_password_form.dart';
@@ -103,7 +106,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
                   currentForm = AuthFormType.login;
                 });
-              } else {}
+              }
             })
           ],
           child: Container(

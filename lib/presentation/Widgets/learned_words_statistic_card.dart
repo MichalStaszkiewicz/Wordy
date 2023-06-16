@@ -46,7 +46,15 @@ class _LearnedWordsStatisticCardState extends State<LearnedWordsStatisticCard> {
                 borderRadius: BorderRadius.circular(50)),
           ),
           ProgressionBar(
-              progress: (widget.current / widget.maximum) * 100, width: 230),
+            progress: (widget.current / widget.maximum) * 100,
+            width: 230,
+            gradient: [
+              Color.fromARGB(255, 99, 155, 252),
+              Color.fromRGBO(158, 149, 248, 1),
+            ],
+            nonProgressionColor: Colors.white,
+            height: 10,
+          ),
           Text(
             "${widget.current} / ${widget.maximum}",
             style: Theme.of(context).textTheme.titleSmall!.copyWith(),

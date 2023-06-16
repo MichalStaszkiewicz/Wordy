@@ -42,7 +42,6 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
 
   @override
   void dispose() {
-   
     super.dispose();
   }
 
@@ -51,17 +50,13 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
     return ChangeNotifierProvider(
       create: (context) => NotificationProvider(),
       builder: (context, child) => BlocProvider(
-
-              create: (context) => QuizBloc(locator<StreamRepository>())
+        create: (context) => QuizBloc(locator<StreamRepository>())
           ..add(FinishQuiz(
               wordIds: widget.correctAnswers,
-              maximumPoints: widget.questions.length)),
+              maximumPoints: widget.questions.length,
+              topic: widget.topic)),
         child: BlocListener<QuizBloc, QuizState>(
-          listener: (context, state) {
-
-
-
-          },
+          listener: (context, state) {},
           child: Scaffold(
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 
 class ProgressionBar extends StatelessWidget {
-  ProgressionBar({
-    super.key,
-    required this.progress,
-    required this.width,
-  });
-
+  ProgressionBar(
+      {super.key,
+      required this.progress,
+      required this.width,
+      required this.gradient,
+      required this.nonProgressionColor,
+      required this.height});
+  List<Color> gradient;
   double progress;
   double width;
+  double height;
+  Color nonProgressionColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 10,
+      height: height,
       decoration: BoxDecoration(
-          color: Color.fromARGB(255, 240, 232, 243),
-          borderRadius: BorderRadius.circular(20)),
+          color: nonProgressionColor, borderRadius: BorderRadius.circular(20)),
       width: width,
       alignment: Alignment.topLeft,
       child: Container(
         width: (progress / 100) * width,
         decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 99, 155, 252),
-                Color.fromRGBO(158, 149, 248, 1),
-              ],
+              colors: gradient,
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),

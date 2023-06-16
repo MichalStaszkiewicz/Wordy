@@ -17,10 +17,9 @@ class CurrentCourseWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: 230,
-        width: 380,
-        margin: const EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-            color: Colors.orange,
+            color: Colors.indigoAccent[200],
             boxShadow: const [
               BoxShadow(
                 color: Colors.black12,
@@ -30,6 +29,7 @@ class CurrentCourseWidget extends StatelessWidget {
             ],
             borderRadius: BorderRadius.circular(10)),
         child: Stack(children: [
+          /*
           Positioned(
             left: 270,
             top: 10,
@@ -37,7 +37,7 @@ class CurrentCourseWidget extends StatelessWidget {
               textColor: Colors.white,
               label: label,
             ),
-          ),
+          ),*/
           Container(
             child: Row(
               children: [
@@ -107,23 +107,48 @@ class CurrentCourseWidget extends StatelessWidget {
                                 Expanded(
                                   child: Container(
                                     margin: const EdgeInsets.only(bottom: 10),
-                                    alignment: Alignment.bottomLeft,
-                                    child: Text(
-                                      "${currentCourse.finishedTopics} / ${currentCourse.topicsCount} Topics completed",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium!
-                                          .copyWith(color: Colors.white),
+                                    child: Center(
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 3,
+                                            child: ProgressionBar(
+                                              height: 5,
+                                              gradient: [
+                                                Colors.white,
+                                                Colors.white
+                                              ],
+                                              nonProgressionColor:
+                                                  Colors.white.withOpacity(0.6),
+                                              progress: 90,
+                                              width: 200,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                bottom: 2,
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                '90%',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleSmall!
+                                                    .copyWith(
+                                                        fontSize: 15,
+                                                        letterSpacing: 2,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.white),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 10),
-                                  child: ProgressionBar(
-                                    progress: currentCourse.totalProgress,
-                                    width: 270,
-                                  ),
-                                )
                               ],
                             ),
                           ),
@@ -145,10 +170,7 @@ class CurrentCourseWidget extends StatelessWidget {
       height: 40,
       decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 99, 155, 252),
-              Color.fromRGBO(158, 149, 248, 1),
-            ],
+            colors: [Colors.blueAccent, Colors.blueAccent],
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
@@ -171,7 +193,7 @@ class CurrentCourseWidget extends StatelessWidget {
                   .titleMedium!
                   .copyWith(color: Colors.white),
             ),
-            const Icon(Icons.arrow_right_alt_rounded, color: Colors.white)
+            const Icon(Icons.play_circle_outline_rounded, color: Colors.white)
           ],
         ),
       ),

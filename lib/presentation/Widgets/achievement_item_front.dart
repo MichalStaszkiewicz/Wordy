@@ -73,6 +73,12 @@ class _AchievementItemFrontState extends State<AchievementItemFront> {
             ),
           ),
           ProgressionBar(
+            height: 10,
+            gradient: [
+              Color.fromARGB(255, 99, 155, 252),
+              Color.fromRGBO(158, 149, 248, 1),
+            ],
+            nonProgressionColor: Colors.white,
             progress: (widget.currentProgress! / widget.maximum!) * 100,
             width: 150,
           )

@@ -113,14 +113,16 @@ class _TopicScreenState extends State<TopicScreen>
                                   .difficulty.beginner.name.capitalize!,
                             ),
                           ),
+                          /*
                           SliverToBoxAdapter(
                             child: DailyChallangeWidget(
                               difficultyLevel: "Expert",
                             ),
                           ),
+                          */
                           const SliverToBoxAdapter(
                             child: SizedBox(
-                              height: 30,
+                              height: 20,
                             ),
                           ),
                           SliverToBoxAdapter(
@@ -140,41 +142,41 @@ class _TopicScreenState extends State<TopicScreen>
                           ),
                           SliverToBoxAdapter(
                             child: Container(
+                                height: 400,
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 10),
-                                height: 170,
-                                child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: state.availableCourses.isNotEmpty
-                                        ? state.courses.activeCourses.length + 1
-                                        : state.courses.activeCourses.length,
-                                    itemBuilder: (context, index) {
-                                      if (index ==
-                                          state.courses.activeCourses.length) {
-                                        return GestureDetector(
-                                            onTap: () {
-                                              DialogManager
-                                                  .showSelectNewCourseDialog(
-                                                      context,
-                                                      state.availableCourses);
-                                            },
-                                            child: const AddNewCourseItem());
-                                      } else {
-                                        return GestureDetector(
-                                            onTap: () async {
-                                              await locator<UserService>()
-                                                  .updateUserCurrentCourse(state
-                                                      .courses
-                                                      .activeCourses[index]
-                                                      .userCourse
-                                                      .course
-                                                      .name)
-                                                  .then((value) {
-                                                context.go(
-                                                    AppRouter.selectedCourse);
-                                              });
-                                            },
-                                            child: CourseItem(
+                                child: GridView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: state.availableCourses.isNotEmpty
+                                      ? state.courses.activeCourses.length + 1
+                                      : state.courses.activeCourses.length,
+                                  itemBuilder: (context, index) {
+                                    if (index ==
+                                        state.courses.activeCourses.length) {
+                                      return GestureDetector(
+                                          onTap: () {
+                                            DialogManager
+                                                .showSelectNewCourseDialog(
+                                                    context,
+                                                    state.availableCourses);
+                                          },
+                                          child: const AddNewCourseItem());
+                                    } else {
+                                      return GestureDetector(
+                                          onTap: () async {
+                                            await locator<UserService>()
+                                                .updateUserCurrentCourse(state
+                                                    .courses
+                                                    .activeCourses[index]
+                                                    .userCourse
+                                                    .course
+                                                    .name)
+                                                .then((value) {
+                                              context
+                                                  .go(AppRouter.selectedCourse);
+                                            });
+                                          },
+                                          child: CourseItem(
                                               courseLevel: state
                                                   .courses
                                                   .activeCourses[index]
@@ -192,9 +194,17 @@ class _TopicScreenState extends State<TopicScreen>
                                                   .courses
                                                   .activeCourses[index]
                                                   .totalProgress,
-                                            ));
-                                      }
-                                    })),
+                                              topic: state
+                                                  .courses
+                                                  .activeCourses[index]
+                                                  .userCourse
+                                                  .lastTopic));
+                                    }
+                                  },
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2),
+                                )),
                           ),
                         ],
                       );

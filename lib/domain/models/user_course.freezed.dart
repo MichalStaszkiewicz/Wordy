@@ -23,6 +23,7 @@ mixin _$UserCourse {
   Course get course => throw _privateConstructorUsedError;
   Difficulty get difficulty => throw _privateConstructorUsedError;
   InterfaceLanguage get interfaceLanguage => throw _privateConstructorUsedError;
+  Topic? get lastTopic => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,7 +40,8 @@ abstract class $UserCourseCopyWith<$Res> {
   $Res call(
       {Course course,
       Difficulty difficulty,
-      InterfaceLanguage interfaceLanguage});
+      InterfaceLanguage interfaceLanguage,
+      Topic? lastTopic});
 
   $CourseCopyWith<$Res> get course;
   $DifficultyCopyWith<$Res> get difficulty;
@@ -62,6 +64,7 @@ class _$UserCourseCopyWithImpl<$Res, $Val extends UserCourse>
     Object? course = null,
     Object? difficulty = null,
     Object? interfaceLanguage = null,
+    Object? lastTopic = freezed,
   }) {
     return _then(_value.copyWith(
       course: null == course
@@ -76,6 +79,10 @@ class _$UserCourseCopyWithImpl<$Res, $Val extends UserCourse>
           ? _value.interfaceLanguage
           : interfaceLanguage // ignore: cast_nullable_to_non_nullable
               as InterfaceLanguage,
+      lastTopic: freezed == lastTopic
+          ? _value.lastTopic
+          : lastTopic // ignore: cast_nullable_to_non_nullable
+              as Topic?,
     ) as $Val);
   }
 
@@ -115,7 +122,8 @@ abstract class _$$_UserCourseCopyWith<$Res>
   $Res call(
       {Course course,
       Difficulty difficulty,
-      InterfaceLanguage interfaceLanguage});
+      InterfaceLanguage interfaceLanguage,
+      Topic? lastTopic});
 
   @override
   $CourseCopyWith<$Res> get course;
@@ -139,6 +147,7 @@ class __$$_UserCourseCopyWithImpl<$Res>
     Object? course = null,
     Object? difficulty = null,
     Object? interfaceLanguage = null,
+    Object? lastTopic = freezed,
   }) {
     return _then(_$_UserCourse(
       course: null == course
@@ -153,6 +162,10 @@ class __$$_UserCourseCopyWithImpl<$Res>
           ? _value.interfaceLanguage
           : interfaceLanguage // ignore: cast_nullable_to_non_nullable
               as InterfaceLanguage,
+      lastTopic: freezed == lastTopic
+          ? _value.lastTopic
+          : lastTopic // ignore: cast_nullable_to_non_nullable
+              as Topic?,
     ));
   }
 }
@@ -163,7 +176,8 @@ class _$_UserCourse implements _UserCourse {
   _$_UserCourse(
       {required this.course,
       required this.difficulty,
-      required this.interfaceLanguage});
+      required this.interfaceLanguage,
+      this.lastTopic});
 
   factory _$_UserCourse.fromJson(Map<String, dynamic> json) =>
       _$$_UserCourseFromJson(json);
@@ -174,10 +188,12 @@ class _$_UserCourse implements _UserCourse {
   final Difficulty difficulty;
   @override
   final InterfaceLanguage interfaceLanguage;
+  @override
+  final Topic? lastTopic;
 
   @override
   String toString() {
-    return 'UserCourse(course: $course, difficulty: $difficulty, interfaceLanguage: $interfaceLanguage)';
+    return 'UserCourse(course: $course, difficulty: $difficulty, interfaceLanguage: $interfaceLanguage, lastTopic: $lastTopic)';
   }
 
   @override
@@ -189,13 +205,15 @@ class _$_UserCourse implements _UserCourse {
             (identical(other.difficulty, difficulty) ||
                 other.difficulty == difficulty) &&
             (identical(other.interfaceLanguage, interfaceLanguage) ||
-                other.interfaceLanguage == interfaceLanguage));
+                other.interfaceLanguage == interfaceLanguage) &&
+            (identical(other.lastTopic, lastTopic) ||
+                other.lastTopic == lastTopic));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, course, difficulty, interfaceLanguage);
+  int get hashCode => Object.hash(
+      runtimeType, course, difficulty, interfaceLanguage, lastTopic);
 
   @JsonKey(ignore: true)
   @override
@@ -215,7 +233,8 @@ abstract class _UserCourse implements UserCourse {
   factory _UserCourse(
       {required final Course course,
       required final Difficulty difficulty,
-      required final InterfaceLanguage interfaceLanguage}) = _$_UserCourse;
+      required final InterfaceLanguage interfaceLanguage,
+      final Topic? lastTopic}) = _$_UserCourse;
 
   factory _UserCourse.fromJson(Map<String, dynamic> json) =
       _$_UserCourse.fromJson;
@@ -226,6 +245,8 @@ abstract class _UserCourse implements UserCourse {
   Difficulty get difficulty;
   @override
   InterfaceLanguage get interfaceLanguage;
+  @override
+  Topic? get lastTopic;
   @override
   @JsonKey(ignore: true)
   _$$_UserCourseCopyWith<_$_UserCourse> get copyWith =>
