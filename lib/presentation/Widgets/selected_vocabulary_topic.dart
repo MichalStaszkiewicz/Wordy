@@ -32,7 +32,7 @@ class _SelectedVocabularyTopicState extends State<SelectedVocabularyTopic> {
           listener: (context, state) {
             if (state is VocabularyError) {
               DialogManager.showErrorDialog(state.error, context, () {
-                context.go(AppRouter.vocabularyTopicScreen);
+                AppRouter.popUntil(context, AppRouter.vocabularyTopicScreen);
               });
             }
           },

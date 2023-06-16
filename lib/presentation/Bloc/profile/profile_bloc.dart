@@ -10,6 +10,7 @@ import '../../../domain/models/achievement.dart';
 import '../../../domain/models/active_course.dart';
 import '../../../domain/models/course.dart';
 import '../../../domain/models/custom_error.dart';
+import '../../../domain/models/user_achievement.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
@@ -28,11 +29,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
 
       emit(ProfileDataReady(
-          achievements: 0,
-          finishedCourses: profileData.data!.finishedCourses,
-          hotStreak: 0,
-          learnedWords: profileData.data!.learnedWords,
-          beginnerProgress: profileData.data!.beginnerProgress));
+        finishedCourses: profileData.data!.finishedCourses,
+        hotStreak: profileData.data!.hotStreak,
+        learnedWords: profileData.data!.learnedWords,
+        beginnerProgress: profileData.data!.beginnerProgress,
+        achievements: profileData.data!.achievements,
+      ));
     });
   }
 }

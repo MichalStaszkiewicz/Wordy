@@ -11,6 +11,7 @@ import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 
 import '../../Utility/dialog_manager.dart';
 import '../../const/app_router.dart';
+import '../../global/notification_provider.dart';
 import '../widgets/quiz_next_button.dart';
 
 class QuizScreenQuestions extends StatefulWidget {
@@ -21,6 +22,8 @@ class QuizScreenQuestions extends StatefulWidget {
 }
 
 class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
+  @override
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<QuizBloc, QuizState>(
@@ -55,7 +58,8 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
                                 'If you will quit now all progress you have made will be lost!',
                                 'Are you sure ? ',
                                 context, () {
-                              context.go(AppRouter.selectedCourse);
+                              AppRouter.popUntil(
+                                  context, AppRouter.selectedCourse);
                             }, () {});
                           },
                           child: ExitButton(),
@@ -144,7 +148,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
                         function: () {
                           if (state.currentQuestionIndex ==
                               state.questions.length - 1) {
-                            context.go(AppRouter.quizCompleted, extra: {
+                            context.pushNamed(AppRouter.quizCompleted, extra: {
                               'topic': widget.topic,
                               'maximumPoints': state.questions,
                               'correctAnswers': state.correctAnswersWordIndexes,

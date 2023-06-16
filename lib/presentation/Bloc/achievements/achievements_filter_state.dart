@@ -11,21 +11,22 @@ class AchievementsFilterInitial extends AchievementsFilterState {
   const AchievementsFilterInitial();
 }
 
-class AchievedAlready extends AchievementsFilterState {
-  AchievedAlready({required this.achievements});
-  List<Achievement> achievements;
+class AchievementsLoaded extends AchievementsFilterState {
+  AchievementsLoaded({required this.achievements, required this.filter});
+  List<UserAchievement> achievements;
+  String filter;
+
   @override
-  List<Object> get props => [achievements];
+  List<Object> get props => [achievements, filter];
 }
-class NotAchievedOnly extends AchievementsFilterState {
-  NotAchievedOnly({required this.achievements});
-  List<Achievement> achievements;
-  @override
-  List<Object> get props => [achievements];
+
+class AchievementsLoading extends AchievementsFilterState {
+  AchievementsLoading();
 }
-class AllAchievements extends AchievementsFilterState {
-  AllAchievements({required this.achievements});
-  List<Achievement> achievements;
+
+class AchievementError extends AchievementsFilterState {
+  AchievementError({required this.error});
+  CustomError error;
   @override
-  List<Object> get props => [achievements];
+  List<Object> get props => [error];
 }

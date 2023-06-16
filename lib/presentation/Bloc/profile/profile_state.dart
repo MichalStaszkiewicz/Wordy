@@ -30,7 +30,8 @@ class ProfileDataReady extends ProfileState {
   int finishedCourses;
   int hotStreak;
   int learnedWords;
-  int achievements;
+  List<UserAchievement> achievements;
+
   List<ActiveCourse> beginnerProgress;
 
   @override
@@ -38,7 +39,7 @@ class ProfileDataReady extends ProfileState {
         finishedCourses,
         hotStreak,
         learnedWords,
-        achievements,
-        beginnerProgress
+        beginnerProgress,
+        achievements
       ];
 }

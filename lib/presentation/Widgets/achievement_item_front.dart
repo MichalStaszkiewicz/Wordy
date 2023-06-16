@@ -1,8 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:wordy/presentation/widgets/progression_bar.dart';
 
 class AchievementItemFront extends StatefulWidget {
   AchievementItemFront(
-      {super.key, required this.image,
+      {super.key,
+      required this.image,
       required this.name,
       required this.currentProgress,
       required this.maximum});
@@ -38,26 +41,29 @@ class _AchievementItemFrontState extends State<AchievementItemFront> {
         children: <Widget>[
           SizedBox(height: 50, child: Image(image: AssetImage(widget.image))),
           const SizedBox(height: 10.0),
-          Text(
-            textAlign: TextAlign.center,
-            widget.name,
-            style: TextStyle(
-              color: Colors.grey[700],
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 5),
+            child: AutoSizeText(
+              maxLines: 1,
+              textAlign: TextAlign.center,
+              widget.name,
+              style: TextStyle(
+                color: Colors.grey[700],
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           const SizedBox(height: 10.0),
           Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10),
             width: 130,
             height: 30,
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(20)),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
             child: Center(
-              child: Text(
-                widget.currentProgress != null && widget.maximum != null
-                    ? "${widget.currentProgress}/${widget.maximum}"
-                    : "",
+              child: AutoSizeText(
+                maxLines: 2,
+                "${widget.currentProgress}/${widget.maximum}",
                 style: TextStyle(
                   color: Colors.grey[700],
                   fontSize: 16.0,
@@ -66,6 +72,10 @@ class _AchievementItemFrontState extends State<AchievementItemFront> {
               ),
             ),
           ),
+          ProgressionBar(
+            progress: (widget.currentProgress! / widget.maximum!) * 100,
+            width: 150,
+          )
         ],
       ),
     );

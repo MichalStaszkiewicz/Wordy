@@ -15,7 +15,7 @@ class ProgressionBar extends StatelessWidget {
     return Container(
       height: 10,
       decoration: BoxDecoration(
-          color: Color.fromARGB(255, 206, 183, 214),
+          color: Color.fromARGB(255, 240, 232, 243),
           borderRadius: BorderRadius.circular(20)),
       width: width,
       alignment: Alignment.topLeft,

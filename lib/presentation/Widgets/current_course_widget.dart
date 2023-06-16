@@ -20,7 +20,7 @@ class CurrentCourseWidget extends StatelessWidget {
         width: 380,
         margin: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
-            color: Colors.indigo[400],
+            color: Colors.orange,
             boxShadow: const [
               BoxShadow(
                 color: Colors.black12,
@@ -91,7 +91,7 @@ class CurrentCourseWidget extends StatelessWidget {
                               alignment: Alignment.bottomLeft,
                               child: GestureDetector(
                                   onTap: () {
-                                    context.go(AppRouter.selectedCourse);
+                                    context.pushNamed(AppRouter.selectedCourse);
                                   },
                                   child: _buildContinueButton(context))),
                         ),

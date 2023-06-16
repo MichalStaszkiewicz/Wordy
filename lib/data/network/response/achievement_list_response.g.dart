@@ -10,7 +10,7 @@ AchievementListResponse _$AchievementListResponseFromJson(
         Map<String, dynamic> json) =>
     AchievementListResponse(
       achievements: (json['achievements'] as List<dynamic>)
-          .map((e) => Achievement.fromJson(e as Map<String, dynamic>))
+          .map((e) => UserAchievement.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

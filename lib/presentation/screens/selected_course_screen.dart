@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:wordy/const/app_router.dart';
 
 import 'package:wordy/presentation/widgets/circular_precentage_chart.dart';
@@ -13,6 +14,8 @@ import '../../Utility/locator/service_locator.dart';
 import '../../domain/models/active_course.dart';
 
 import '../../domain/repositiories/stream_repository.dart';
+
+import '../../global/notification_provider.dart';
 import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/selected_course_background.dart';
 
@@ -24,91 +27,99 @@ class SelectedCourseScreen extends StatefulWidget {
 }
 
 class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: BlocProvider(
-      create: (context) => CoursesUpdateBloc(locator<StreamRepository>())
-        ..add(CurrentCourseInitial()),
-      child: BlocBuilder<CoursesUpdateBloc, CoursesUpdateState>(
-        builder: (context, state) {
-          if (state is CourseTopicsLoaded) {
-            return CustomPaint(
-              painter: SelectedCourseBackground(backgroundColor: Colors.amber),
-              child: Container(
-                height: 1000,
-                padding: const EdgeInsets.only(top: 20),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              context.go(AppRouter.home);
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(left: 10),
-                              child: const Icon(
-                                Icons.arrow_back_ios_new_rounded,
-                                color: Colors.white,
+    return ChangeNotifierProvider(
+      create: (context) => NotificationProvider(),
+      builder: (context, child) => Scaffold(
+          body: BlocProvider(
+        create: (context) => CoursesUpdateBloc(locator<StreamRepository>())
+          ..add(CurrentCourseInitial()),
+        child: BlocBuilder<CoursesUpdateBloc, CoursesUpdateState>(
+          builder: (context, state) {
+            if (state is CourseTopicsLoaded) {
+              return CustomPaint(
+                painter:
+                    SelectedCourseBackground(backgroundColor: Colors.amber),
+                child: Container(
+                  height: 1000,
+                  padding: const EdgeInsets.only(top: 20),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                context.go(AppRouter.home);
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 10),
+                                child: const Icon(
+                                  Icons.arrow_back_ios_new_rounded,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            'Course',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(color: Colors.white),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(right: 10),
-                            height: 50,
-                            width: 50,
-                          )
-                        ],
-                      ),
-                      _buildCurrentCourseInformations(context, state.course),
-                      SizedBox(
-                        height: 2000,
-                        child: GridView.builder(
-                            itemCount: state.course.topicProgress.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    mainAxisSpacing: 20, crossAxisCount: 2),
-                            itemBuilder: (context, index) => GestureDetector(
-                                  onTap: () {
-                                    context.go(AppRouter.quizScreen,
-                                        extra: state
-                                            .course.topicProgress[index].name);
-                                  },
-                                  child: _buildTopicItem(
-                                      context,
-                                      state.course.topicProgress[index].name,
-                                      state.course.topicProgress[index]
-                                          .knownWords,
-                                      state.course.topicProgress[index]
-                                          .wordsCount),
-                                )),
-                      )
-                    ],
+                            Text(
+                              'Course',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(color: Colors.white),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(right: 10),
+                              height: 50,
+                              width: 50,
+                            )
+                          ],
+                        ),
+                        _buildCurrentCourseInformations(context, state.course),
+                        SizedBox(
+                          height: 2000,
+                          child: GridView.builder(
+                              itemCount: state.course.topicProgress.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      mainAxisSpacing: 20, crossAxisCount: 2),
+                              itemBuilder: (context, index) => GestureDetector(
+                                    onTap: () {
+                                      context.pushNamed(AppRouter.quizScreen,
+                                          extra: state.course
+                                              .topicProgress[index].name);
+                                    },
+                                    child: _buildTopicItem(
+                                        context,
+                                        state.course.topicProgress[index].name,
+                                        state.course.topicProgress[index]
+                                            .knownWords,
+                                        state.course.topicProgress[index]
+                                            .wordsCount),
+                                  )),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          } else if (state is CourseUpdateError) {
-            DialogManager.showErrorDialog(state.error, context, () {
-              context.go(AppRouter.home);
-            });
-            return Container();
-          } else {
-            return const LoadingData();
-          }
-        },
-      ),
-    ));
+              );
+            } else if (state is CourseUpdateError) {
+              DialogManager.showErrorDialog(state.error, context, () {
+                context.pop();
+              });
+              return Container();
+            } else {
+              return const LoadingData();
+            }
+          },
+        ),
+      )),
+    );
   }
 
   Container _buildTopicItem(

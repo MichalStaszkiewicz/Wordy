@@ -12,6 +12,7 @@ import '../../domain/models/active_course.dart';
 import '../bloc/profile/profile_bloc.dart';
 import '../widgets/learned_words_statistic_card.dart';
 import '../widgets/loading_data.dart';
+import '../widgets/title_with_back_button.dart';
 
 class WordsLearnedScreen extends StatefulWidget {
   WordsLearnedScreen({required this.beginnerProgress});
@@ -26,7 +27,7 @@ class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
     for (ActiveCourse course in widget.beginnerProgress) {
       list.add(GestureDetector(
         onTap: () {
-          context.pushNamed(AppRouter.learnedWordsSelectedCourseNamed,
+          context.pushNamed(AppRouter.learnedWordsSelectedCourse,
               extra: {'activeCourse': course});
         },
         child: LearnedWordsStatisticCard(
@@ -45,37 +46,8 @@ class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
       child: Container(
         child: Column(
           children: [
-            Container(
-              child: Center(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                      child: Container(
-                          child: Center(
-                              child: GestureDetector(
-                                  onTap: () {
-                                    context.pop();
-                                  },
-                                  child: ExitButton())))),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      child: Center(
-                        child: Text(
-                          'Learned Words',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(fontSize: 20),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(child: Container()),
-                ],
-              )),
-              height: 100,
+            TitleWithBackButton(
+              title: "Learned Words",
             ),
             Expanded(
               child: Container(

@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:wordy/data/network/response/achievement_list_response.dart';
+import 'package:wordy/domain/models/user_achievement.dart';
+import 'package:wordy/global/notification_provider.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../utility/toast_manager.dart';
@@ -16,11 +19,16 @@ class StreamRepository {
       StreamController<UserActiveCoursesProgress>.broadcast();
   final StreamController<ActiveCourse> _currentCourseStreamController =
       StreamController<ActiveCourse>.broadcast();
+  final StreamController<AchievementListResponse>
+      _achievementNotificationController = StreamController.broadcast();
 
   StreamController<UserActiveCoursesProgress> get courseStreamController =>
       _courseStreamController;
   StreamController<ActiveCourse> get currentCourseStreamController =>
       _currentCourseStreamController;
+  StreamController<AchievementListResponse>
+      get achievemnetNotificationController =>
+          _achievementNotificationController;
 
   void initialize() {
     _socket.on('loadCourses', (data) {
@@ -30,13 +38,12 @@ class StreamRepository {
       currentCourseStreamController
           .add(ActiveCourse.fromJson(data['activeCourse']));
     });
-  }
-
-  void initializaAchievementNotifications(BuildContext context) {
     _socket.on('got_new_achievement', (data) {
-      List<Achievement> list =
+      List<UserAchievement> list =
           AchievementListResponse.fromJson(data).achievements;
-      ToastManager.achievementNotification(context, list[0]);
+
+      _achievementNotificationController
+          .add(AchievementListResponse.fromJson(data));
     });
   }
 }

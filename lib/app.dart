@@ -17,6 +17,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     locator<StreamRepository>().initialize();
+
     super.initState();
   }
 

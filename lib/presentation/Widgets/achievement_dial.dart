@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_speed_dial/simple_speed_dial.dart';
-import 'package:wordy/presentation/Bloc/achievements/achievements_filter_bloc.dart';
 
+import '../../domain/models/achievement.dart';
+import '../../domain/models/user_achievement.dart';
+import '../bloc/achievements/achievements_filter_bloc.dart';
 
 class AchievementDial extends StatefulWidget {
-  AchievementDial({
-    super.key,
-  });
+  AchievementDial({required this.achievements});
+  List<UserAchievement> achievements;
 
   @override
   State<AchievementDial> createState() => _AchievementDialState();
@@ -26,9 +27,12 @@ class _AchievementDialState extends State<AchievementDial> {
               backgroundColor: Colors.blueAccent,
               label: 'Only achieved already',
               onPressed: () {
-                context
-                    .read<AchievementsFilterBloc>()
-                    .add(LoadUserAchievements(achievements: []));
+                context.read<AchievementsFilterBloc>().add(FilterAchievements(
+                      achievements: widget.achievements
+                          .where((e) => e.achieved == true)
+                          .toList(),
+                      filter: 'Achievements - Achieved',
+                    ));
               },
             ),
             SpeedDialChild(
@@ -37,9 +41,12 @@ class _AchievementDialState extends State<AchievementDial> {
               backgroundColor: Colors.blueAccent,
               label: 'Only no achieved',
               onPressed: () {
-                context
-                    .read<AchievementsFilterBloc>()
-                    .add(LoadNoAchievedAchievements(achievements: []));
+                context.read<AchievementsFilterBloc>().add(FilterAchievements(
+                      achievements: widget.achievements
+                          .where((e) => e.achieved == false)
+                          .toList(),
+                      filter: 'Achievements - Achievable',
+                    ));
               },
             ),
             SpeedDialChild(
@@ -48,9 +55,9 @@ class _AchievementDialState extends State<AchievementDial> {
               backgroundColor: Colors.blueAccent,
               label: 'All achievements',
               onPressed: () {
-                context
-                    .read<AchievementsFilterBloc>()
-                    .add(LoadAllAchievements(achievements: []));
+                context.read<AchievementsFilterBloc>().add(FilterAchievements(
+                    achievements: widget.achievements,
+                    filter: 'Achievements - Everything'));
               },
             ),
           ],

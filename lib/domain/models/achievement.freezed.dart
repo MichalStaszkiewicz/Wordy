@@ -25,6 +25,8 @@ mixin _$Achievement {
   String? get type => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
+  int? get progress => throw _privateConstructorUsedError;
+  bool? get achieved => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,7 +41,13 @@ abstract class $AchievementCopyWith<$Res> {
       _$AchievementCopyWithImpl<$Res, Achievement>;
   @useResult
   $Res call(
-      {int? id, int? goal, String? type, String? description, String? name});
+      {int? id,
+      int? goal,
+      String? type,
+      String? description,
+      String? name,
+      int? progress,
+      bool? achieved});
 }
 
 /// @nodoc
@@ -60,6 +68,8 @@ class _$AchievementCopyWithImpl<$Res, $Val extends Achievement>
     Object? type = freezed,
     Object? description = freezed,
     Object? name = freezed,
+    Object? progress = freezed,
+    Object? achieved = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -82,6 +92,14 @@ class _$AchievementCopyWithImpl<$Res, $Val extends Achievement>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
+      progress: freezed == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as int?,
+      achieved: freezed == achieved
+          ? _value.achieved
+          : achieved // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -95,7 +113,13 @@ abstract class _$$_AchievementCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int? id, int? goal, String? type, String? description, String? name});
+      {int? id,
+      int? goal,
+      String? type,
+      String? description,
+      String? name,
+      int? progress,
+      bool? achieved});
 }
 
 /// @nodoc
@@ -114,6 +138,8 @@ class __$$_AchievementCopyWithImpl<$Res>
     Object? type = freezed,
     Object? description = freezed,
     Object? name = freezed,
+    Object? progress = freezed,
+    Object? achieved = freezed,
   }) {
     return _then(_$_Achievement(
       id: freezed == id
@@ -136,6 +162,14 @@ class __$$_AchievementCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
+      progress: freezed == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as int?,
+      achieved: freezed == achieved
+          ? _value.achieved
+          : achieved // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -144,7 +178,13 @@ class __$$_AchievementCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Achievement implements _Achievement {
   const _$_Achievement(
-      {this.id, this.goal, this.type, this.description, this.name});
+      {this.id,
+      this.goal,
+      this.type,
+      this.description,
+      this.name,
+      this.progress,
+      this.achieved});
 
   factory _$_Achievement.fromJson(Map<String, dynamic> json) =>
       _$$_AchievementFromJson(json);
@@ -159,10 +199,14 @@ class _$_Achievement implements _Achievement {
   final String? description;
   @override
   final String? name;
+  @override
+  final int? progress;
+  @override
+  final bool? achieved;
 
   @override
   String toString() {
-    return 'Achievement(id: $id, goal: $goal, type: $type, description: $description, name: $name)';
+    return 'Achievement(id: $id, goal: $goal, type: $type, description: $description, name: $name, progress: $progress, achieved: $achieved)';
   }
 
   @override
@@ -175,13 +219,17 @@ class _$_Achievement implements _Achievement {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.progress, progress) ||
+                other.progress == progress) &&
+            (identical(other.achieved, achieved) ||
+                other.achieved == achieved));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, goal, type, description, name);
+  int get hashCode => Object.hash(
+      runtimeType, id, goal, type, description, name, progress, achieved);
 
   @JsonKey(ignore: true)
   @override
@@ -203,7 +251,9 @@ abstract class _Achievement implements Achievement {
       final int? goal,
       final String? type,
       final String? description,
-      final String? name}) = _$_Achievement;
+      final String? name,
+      final int? progress,
+      final bool? achieved}) = _$_Achievement;
 
   factory _Achievement.fromJson(Map<String, dynamic> json) =
       _$_Achievement.fromJson;
@@ -218,6 +268,10 @@ abstract class _Achievement implements Achievement {
   String? get description;
   @override
   String? get name;
+  @override
+  int? get progress;
+  @override
+  bool? get achieved;
   @override
   @JsonKey(ignore: true)
   _$$_AchievementCopyWith<_$_Achievement> get copyWith =>

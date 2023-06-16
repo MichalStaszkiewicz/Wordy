@@ -11,6 +11,8 @@ abstract class Achievement with _$Achievement {
     String? type,
     String? description,
     String? name,
+    int? progress,
+    bool? achieved,
   }) = _Achievement;
 
   factory Achievement.fromJson(Map<String, dynamic> json) =>

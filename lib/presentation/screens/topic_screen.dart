@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/domain/logic/user_service.dart';
+import 'package:wordy/global/notification_provider.dart';
 import 'package:wordy/utility/socket_manager.dart';
 
 import '../../Utility/locator/service_locator.dart';
@@ -26,9 +28,7 @@ class TopicScreen extends StatefulWidget {
 
 class _TopicScreenState extends State<TopicScreen>
     with TickerProviderStateMixin {
-  @override
   void initState() {
-    locator<StreamRepository>().initializaAchievementNotifications(context);
     super.initState();
   }
 
@@ -46,6 +46,7 @@ class _TopicScreenState extends State<TopicScreen>
                 child: BlocBuilder<CoursesUpdateBloc, CoursesUpdateState>(
                   builder: (context, state) {
                     if (state is CoursesLoaded) {
+                      context.read<NotificationProvider>().context = context;
                       return CustomScrollView(
                         slivers: [
                           SliverAppBar(
@@ -61,11 +62,8 @@ class _TopicScreenState extends State<TopicScreen>
                                   const EdgeInsets.symmetric(horizontal: 15),
                               height: 100,
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  const Icon(Icons.format_align_left_sharp,
-                                      color: Colors.black),
                                   SizedBox(
                                     width: 150,
                                     child: Row(

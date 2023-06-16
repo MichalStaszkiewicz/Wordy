@@ -1,7 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class AchievementItemBack extends StatefulWidget {
-  AchievementItemBack({super.key, required this.description, required this.achieved});
+  AchievementItemBack(
+      {super.key, required this.description, required this.achieved});
   String description;
   bool achieved;
 
@@ -32,7 +34,8 @@ class _AchievementItemBackState extends State<AchievementItemBack> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: SizedBox(width: double.infinity,
+                child: SizedBox(
+                  width: double.infinity,
                   child: Center(
                     child: Text(
                       widget.achieved ? "Achieved" : "Locked",
@@ -42,11 +45,13 @@ class _AchievementItemBackState extends State<AchievementItemBack> {
                   ),
                 ),
               ),
-            
-              Expanded(flex: 4,
-                child: SizedBox(
-               width: double.infinity,
-                  child: Text(
+              Expanded(
+                flex: 4,
+                child: Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: AutoSizeText(
+                    maxLines: 5,
                     textAlign: TextAlign.center,
                     widget.description,
                     style: Theme.of(context).textTheme.titleSmall,

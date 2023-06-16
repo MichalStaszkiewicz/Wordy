@@ -7,6 +7,7 @@ class ToastManager {
   static void achievementNotification(
       BuildContext context, Achievement achievement) {
     AchievementView(
+      duration: Duration(milliseconds: 200),
       title: achievement.name,
       subTitle: achievement.description,
       isCircle: false,

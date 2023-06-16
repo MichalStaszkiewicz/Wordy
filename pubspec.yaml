@@ -66,6 +66,8 @@ dependencies:
   socket_io_client: ^2.0.2
   freezed: ^2.3.5
   animation_list: ^2.2.1
+ 
+
   
 dev_dependencies:
   flutter_test:

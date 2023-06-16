@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wordy/data/network/exceptions/exception_helper.dart';
+import 'package:wordy/data/network/exceptions/unexpected_error.dart';
+import 'package:wordy/domain/models/achievement.dart';
+import 'package:wordy/presentation/bloc/achievements/achievements_filter_bloc.dart';
 
 import 'package:wordy/presentation/widgets/achievement_item_back.dart';
+import 'package:wordy/presentation/widgets/exit_button.dart';
 import 'package:wordy/presentation/widgets/flip_cards.dart';
 
 import 'package:wordy/const/consts.dart';
+import 'package:wordy/utility/dialog_manager.dart';
 
-import '../Bloc/achievements/achievements_filter_bloc.dart';
+import '../../domain/models/user_achievement.dart';
 import '../widgets/achievement_dial.dart';
 import '../widgets/achievement_item_front.dart';
 import '../widgets/loading_data.dart';
+import '../widgets/title_with_back_button.dart';
 
 class AchievementsScreen extends StatefulWidget {
-  AchievementsScreen({
-    super.key,
-  });
+  AchievementsScreen({required this.achievements});
+  List<UserAchievement> achievements;
 
   @override
   State<AchievementsScreen> createState() => _AchievementsScreenState();
@@ -23,165 +30,68 @@ class AchievementsScreen extends StatefulWidget {
 class _AchievementsScreenState extends State<AchievementsScreen> {
   @override
   Widget build(BuildContext context) {
+    print(widget.achievements.length.toString());
     return BlocProvider(
-      create: (context) =>
-          AchievementsFilterBloc()..add(LoadUserAchievements(achievements: [])),
-      child: BlocBuilder<AchievementsFilterBloc, AchievementsFilterState>(
-        builder: (context, achievementsState) {
-          if (achievementsState is AchievedAlready) {
-            if (achievementsState.achievements.isEmpty) {
-              return Scaffold(
-                  floatingActionButton: AchievementDial(),
-                  appBar: AppBar(
-                    title: Container(
-                      padding: const EdgeInsets.only(right: 40),
-                      child: Center(
-                        child: Container(
-                          child: Text(
-                            ui_lang['English']!['profile_screen_achievements'],
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .copyWith(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  body: Center(
+      create: (context) => AchievementsFilterBloc()
+        ..add(FilterAchievements(
+            achievements: widget.achievements,
+            filter: 'Achievements - Everything')),
+      child: Scaffold(
+        floatingActionButton: AchievementDial(
+          achievements: widget.achievements,
+        ),
+        body: SafeArea(
+          child: BlocBuilder<AchievementsFilterBloc, AchievementsFilterState>(
+              builder: (context, state) {
+            if (state is AchievementsLoaded) {
+              return Column(
+                children: [
+                  Expanded(
+                      flex: 1,
+                      child: TitleWithBackButton(
+                        title: state.filter,
+                      )),
+                  Expanded(
+                    flex: 8,
                     child: Container(
-                      child: Text(
-                        ui_lang['English']!['no_achievements'],
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(color: const Color(0xFFA2A2A2)),
-                      ),
-                    ),
-                  ));
-            } else {
-              Scaffold(
-                floatingActionButton: AchievementDial(),
-                appBar: AppBar(
-                  title: Container(
-                    padding: const EdgeInsets.only(right: 40),
-                    child: Center(
-                      child: Container(
-                        child: Text(
-                          ui_lang['English']!['profile_screen_achievements'],
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(color: Colors.white),
-                        ),
-                      ),
+                      child: GridView.builder(
+                          itemCount: state.achievements.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                          itemBuilder: (context, index) => FlipCards(
+                                back: AchievementItemBack(
+                                  description: state.achievements[index]
+                                      .achievement.description!,
+                                  achieved: state.achievements[index].achieved!,
+                                ),
+                                front: AchievementItemFront(
+                                  image: "assets/medal.png",
+                                  name: state
+                                      .achievements[index].achievement.name!,
+                                  currentProgress:
+                                      state.achievements[index].progress,
+                                  maximum: state
+                                      .achievements[index].achievement.goal,
+                                ),
+                              )),
                     ),
                   ),
-                ),
-                body: GridView.builder(
-                    itemCount: achievementsState.achievements.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                    itemBuilder: (context, index) => FlipCards(
-                          back: AchievementItemBack(
-                            description: achievementsState
-                                .achievements[index].description!,
-                            achieved: /*achievementsState
-                                  .achievements[index].achieved*/
-                                true,
-                          ),
-                          front: AchievementItemFront(
-                            image:
-                                /* achievementsState.achievements[index].image*/ "",
-                            name: achievementsState.achievements[index].name!,
-                            currentProgress: null,
-                            maximum: null,
-                          ),
-                        )),
+                ],
               );
+            } else if (state is AchievementError) {
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                DialogManager.showErrorDialog(
+                    ExceptionHelper.getErrorMessage(UnexpectedError()),
+                    context,
+                    () {});
+              });
+              return Container();
+            } else {
+              return LoadingData();
             }
-          }
-          if (achievementsState is NotAchievedOnly) {
-            return Scaffold(
-              floatingActionButton: AchievementDial(),
-              appBar: AppBar(
-                title: Container(
-                  padding: const EdgeInsets.only(right: 40),
-                  child: Center(
-                    child: Container(
-                      child: Text(
-                        ui_lang['English']!['profile_screen_achievements'],
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              body: GridView.builder(
-                  itemCount: achievementsState.achievements.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
-                  itemBuilder: (context, index) => FlipCards(
-                        back: AchievementItemBack(
-                          achieved: true,
-                          description: achievementsState
-                              .achievements[index].description!,
-                        ),
-                        front: AchievementItemFront(
-                          image: '',
-                          name: achievementsState.achievements[index].name!,
-                          currentProgress: 0,
-                          maximum: achievementsState.achievements[index].goal,
-                        ),
-                      )),
-            );
-          }
-          if (achievementsState is AllAchievements) {
-            return Scaffold(
-              floatingActionButton: AchievementDial(),
-              appBar: AppBar(
-                title: Container(
-                  padding: const EdgeInsets.only(right: 40),
-                  child: Center(
-                    child: Container(
-                      child: Text(
-                        ui_lang['English']!['profile_screen_achievements'],
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              body: GridView.builder(
-                  itemCount: achievementsState.achievements.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
-                  itemBuilder: (context, index) => FlipCards(
-                        back: AchievementItemBack(
-                          achieved: true,
-                          description: achievementsState
-                              .achievements[index].description!,
-                        ),
-                        front: AchievementItemFront(
-                          image: '',
-                          name: achievementsState.achievements[index].name!,
-                          currentProgress: 0,
-                          maximum: achievementsState.achievements[index].goal,
-                        ),
-                      )),
-            );
-          } else {
-            return const LoadingData();
-          }
-        },
+          }),
+        ),
       ),
     );
   }

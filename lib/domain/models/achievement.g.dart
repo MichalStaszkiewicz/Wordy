@@ -13,6 +13,8 @@ _$_Achievement _$$_AchievementFromJson(Map<String, dynamic> json) =>
       type: json['type'] as String?,
       description: json['description'] as String?,
       name: json['name'] as String?,
+      progress: json['progress'] as int?,
+      achieved: json['achieved'] as bool?,
     );
 
 Map<String, dynamic> _$$_AchievementToJson(_$_Achievement instance) =>
@@ -22,4 +24,6 @@ Map<String, dynamic> _$$_AchievementToJson(_$_Achievement instance) =>
       'type': instance.type,
       'description': instance.description,
       'name': instance.name,
+      'progress': instance.progress,
+      'achieved': instance.achieved,
     };

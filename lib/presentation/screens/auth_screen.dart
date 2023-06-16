@@ -89,8 +89,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 socketManager.joinRoom(state.userId);
 
                 state.registerCompleted
-                    ? context.go(AppRouter.home)
-                    : context.go(AppRouter.initialSettings);
+                    ? context.pushNamed(AppRouter.home)
+                    : context.pushNamed(AppRouter.initialSettings);
               } else if (state is LoginError) {
                 if (context.canPop()) {
                   Navigator.pop(context);

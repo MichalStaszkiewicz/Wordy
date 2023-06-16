@@ -8,6 +8,7 @@ import 'package:wordy/presentation/widgets/statistics_item.dart';
 import 'package:wordy/presentation/screens/achievements_screen.dart';
 import 'package:wordy/presentation/screens/words_learned_screen.dart';
 import 'package:wordy/const/consts.dart';
+import 'package:wordy/utility/dialog_manager.dart';
 
 import '../../const/app_router.dart';
 
@@ -41,7 +42,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
 
           return GestureDetector(
             onTap: () {
-              context.pushNamed(AppRouter.wordsLearnedScreenNamed,
+              context.pushNamed(AppRouter.wordsLearnedScreen,
                   extra: {'beginnerProgress': state.beginnerProgress});
             },
             child: StatisticsItem(
@@ -67,11 +68,21 @@ class _ProfileDetailsState extends State<ProfileDetails> {
       BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           state as ProfileDataReady;
-          return StatisticsItem(
-            //TODO AchievementsScreen
-            image: 'assets/award.png',
-            label: ui_lang[language]!['profile_screen_achievements'].toString(),
-            statisticsCount: state.achievements,
+          return GestureDetector(
+            onTap: () {
+              context.pushNamed(AppRouter.achievementsScreen, extra: {
+                'achievements': state.achievements,
+              });
+            },
+            child: StatisticsItem(
+              image: 'assets/award.png',
+              label:
+                  ui_lang[language]!['profile_screen_achievements'].toString(),
+              statisticsCount: state.achievements
+                  .where((e) => e.achieved == true)
+                  .toList()
+                  .length,
+            ),
           );
         },
       ),
@@ -85,30 +96,13 @@ class _ProfileDetailsState extends State<ProfileDetails> {
       child: SafeArea(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                    margin: EdgeInsets.only(left: 20),
-                    child: const Icon(
-                      Icons.edit_outlined,
-                      color: Color.fromRGBO(30, 30, 30, 1.0),
-                    )),
-                Text(
-                  "Profile",
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                        fontSize: 20,
-                        letterSpacing: 0.5,
-                        color: Color.fromRGBO(30, 30, 30, 1.0),
-                      ),
-                ),
-                Container(
-                    margin: EdgeInsets.only(right: 20),
-                    child: const Icon(
-                      Icons.settings,
-                      color: Color.fromRGBO(30, 30, 30, 1.0),
-                    )),
-              ],
+            Text(
+              "Profile",
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    fontSize: 20,
+                    letterSpacing: 0.5,
+                    color: Color.fromRGBO(30, 30, 30, 1.0),
+                  ),
             ),
             Container(
               height: 100,
@@ -167,10 +161,12 @@ class _ProfileDetailsState extends State<ProfileDetails> {
               textAlign: TextAlign.left,
               ui_lang['english']!['profile_screen_statistics_header']
                   .toString(),
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
-            SizedBox(
+            Container(
               height: 400,
               child: GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 controller: _scrollStatisticsController,
                 itemCount: statItems('english').length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -184,8 +180,13 @@ class _ProfileDetailsState extends State<ProfileDetails> {
     );
   }
 
-  Container _buildProfileImage() {
-    return Container(
+  GestureDetector _buildProfileImage() {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (context) => DialogManager.editProfileDialog(context));
+      },
       child: Stack(
         children: [
           Center(

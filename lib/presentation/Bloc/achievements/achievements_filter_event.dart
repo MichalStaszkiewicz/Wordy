@@ -7,16 +7,10 @@ abstract class AchievementsFilterEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadUserAchievements extends AchievementsFilterEvent {
-  LoadUserAchievements({required this.achievements});
-  List<Achievement> achievements;
-}
-class LoadNoAchievedAchievements extends AchievementsFilterEvent {
-  LoadNoAchievedAchievements({required this.achievements});
-  List<Achievement> achievements;
-}
-
-class LoadAllAchievements extends AchievementsFilterEvent {
-  LoadAllAchievements({required this.achievements});
-  List<Achievement> achievements;
+class FilterAchievements extends AchievementsFilterEvent {
+  FilterAchievements({required this.achievements, required this.filter});
+  List<UserAchievement> achievements;
+  String filter;
+  @override
+  List<Object> get props => [filter, achievements];
 }

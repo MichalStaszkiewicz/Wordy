@@ -10,10 +10,12 @@ import 'package:wordy/presentation/screens/vocabulary_screen.dart';
 import 'package:wordy/presentation/widgets/selected_vocabulary_topic.dart';
 
 import '../domain/models/active_course.dart';
+import '../presentation/screens/achievements_screen.dart';
 import '../presentation/screens/initial_settings_screen.dart';
 import '../presentation/screens/learned_words_selected_course.dart';
 import '../presentation/screens/selected_course_screen.dart';
 import '../presentation/screens/words_learned_screen.dart';
+import '../utility/observers/custom_route_observer.dart';
 
 class AppRouter {
   static const authScreen = "/";
@@ -23,22 +25,27 @@ class AppRouter {
   static const quizScreen = '/home/quiz_screen';
   static const quizCompleted = '/home/quiz_screen/completed';
   static const vocabularyTopicScreen = '/home/vocabulary_topic_screen';
-  static const selectedCourseScreenNamed = '/selected_course_named';
+  static const achievementsScreen = '/home/profile/achievements';
   static const wordsLearnedScreen = '/words_learned_screen';
-  static const wordsLearnedScreenNamed = 'words_learned_screen';
+
   static const vocabularyTopicSelectedScreen =
       '/home/vocabulary_topic_selected_screen';
-  static const vocabularyTopicSelectedScreenNamed =
-      'vocabulary_topic_selected_screen';
+
   static const learnedWordsSelectedCourse = '/learned_word_course_selected';
-  static const learnedWordsSelectedCourseNamed =
-      '/learned_word_course_selected_named';
 
   static Widget _learnedWordsSelectedCourse(
       BuildContext context, GoRouterState state) {
     Map<String, dynamic> data = state.extra as Map<String, dynamic>;
     return LearnedWordsSelectedCourse(
       course: data['activeCourse'] as ActiveCourse,
+    );
+  }
+
+  static Widget _achievementsScreenRouteBuilder(
+      BuildContext context, GoRouterState state) {
+    Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+    return AchievementsScreen(
+      achievements: data['achievements'],
     );
   }
 
@@ -51,7 +58,7 @@ class AppRouter {
         topic: state.queryParameters['topic']!,
       );
 
-  static Widget _wordsLearnedScreenRouteBuild(
+  static Widget _wordsLearnedScreenRouteBuilder(
       BuildContext context, GoRouterState state) {
     Map<String, dynamic> data = state.extra as Map<String, dynamic>;
     return WordsLearnedScreen(
@@ -86,37 +93,51 @@ class AppRouter {
   static Widget _homeScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
       const HomePage();
-  static final GoRouter router = GoRouter(routes: [
+  static final GoRouter router = GoRouter(observers: [
+    CustomRouteObserver(),
+  ], routes: [
+    GoRoute(
+        path: achievementsScreen,
+        name: achievementsScreen,
+        builder: _achievementsScreenRouteBuilder),
     GoRoute(
         path: learnedWordsSelectedCourse,
-        name: learnedWordsSelectedCourseNamed,
+        name: learnedWordsSelectedCourse,
         builder: _learnedWordsSelectedCourse),
     GoRoute(
         path: wordsLearnedScreen,
-        name: wordsLearnedScreenNamed,
-        builder: _wordsLearnedScreenRouteBuild),
-    GoRoute(path: authScreen, builder: _authScreenRouteBuilder),
-    GoRoute(path: initialSettings, builder: _initialSettingsScreenRouteBuilder),
-    GoRoute(path: home, builder: _homeScreenRouteBuilder),
+        name: wordsLearnedScreen,
+        builder: _wordsLearnedScreenRouteBuilder),
     GoRoute(
-        name: selectedCourseScreenNamed,
+        name: authScreen, path: authScreen, builder: _authScreenRouteBuilder),
+    GoRoute(
+        name: initialSettings,
+        path: initialSettings,
+        builder: _initialSettingsScreenRouteBuilder),
+    GoRoute(name: home, path: home, builder: _homeScreenRouteBuilder),
+    GoRoute(
+        name: selectedCourse,
         path: selectedCourse,
         builder: _selectedCourseScreenRouteBuilder),
     GoRoute(
-        name: 'quiz_screen',
-        path: quizScreen,
-        builder: _quizScreenRouteBuilder),
+        name: quizScreen, path: quizScreen, builder: _quizScreenRouteBuilder),
     GoRoute(
-        name: 'quiz_screen_completed',
+        name: quizCompleted,
         path: quizCompleted,
         builder: _quizScreenCompletedRouteBuilder),
     GoRoute(
-        name: 'vocabulary_topic_screen',
+        name: vocabularyTopicScreen,
         path: vocabularyTopicScreen,
         builder: _vocabularyTopicScreenRouteBuilder),
     GoRoute(
-        name: vocabularyTopicSelectedScreenNamed,
+        name: vocabularyTopicSelectedScreen,
         path: vocabularyTopicSelectedScreen,
         builder: _vocabularyTopicSelectedScreenRouteBuilder),
   ]);
+
+  static void popUntil(BuildContext context, String path) {
+    Navigator.popUntil(context, (route) {
+      return route.settings.name == path;
+    });
+  }
 }
