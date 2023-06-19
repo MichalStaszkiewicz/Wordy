@@ -77,19 +77,32 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   void loadNextQuestion() {
     on<LoadNextQuestion>((event, emit) {
       final state = this.state as BeginnerQuizLoaded;
-      emit(BeginnerQuizLoaded(
-          questions: state.questions,
-          currentQuestionIndex: state.currentQuestionIndex + 1,
-          correctAnswersWordIndexes: state.correctAnswersWordIndexes,
-          selectedIndex: null,
-          courseName: state.courseName));
+      if (state.questions[state.currentQuestionIndex].correctAnswerIndex ==
+          state.selectedIndex) {
+        emit(BeginnerQuizLoaded(
+            questions: state.questions,
+            currentQuestionIndex: state.currentQuestionIndex + 1,
+            correctAnswersWordIndexes: state.correctAnswersWordIndexes,
+            selectedIndex: null,
+            courseName: state.courseName));
+      } else {
+        List<BeginnerQuestion> questions =
+            List.from(state.questions).removeAt(state.currentQuestionIndex);
+        questions.add(state.questions[state.currentQuestionIndex]);
+        emit(BeginnerQuizLoaded(
+            questions: questions,
+            currentQuestionIndex: state.currentQuestionIndex,
+            correctAnswersWordIndexes: state.correctAnswersWordIndexes,
+            selectedIndex: null,
+            courseName: state.courseName));
+      }
     });
   }
 
   void finishQuiz() {
     on<FinishQuiz>((event, emit) async {
       final quizLogic = locator<QuizLogic>();
-      final token = await locator<Repository>().getToken();
+      final token = await locator<Repository>().getTokenAccess();
       if (token.isError) {
         emit(QuizError(
             error: ExceptionHelper.getErrorMessage(UnexpectedError())));

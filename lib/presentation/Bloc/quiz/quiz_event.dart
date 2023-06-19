@@ -13,7 +13,7 @@ class LoadBeginnerQuiz extends QuizEvent {
 }
 
 class LoadNextQuestion extends QuizEvent {
-  const LoadNextQuestion();
+  LoadNextQuestion();
 }
 
 class AchievementNotificationEvent extends QuizEvent {

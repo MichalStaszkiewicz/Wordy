@@ -11,6 +11,7 @@ import '../../data/network/remote_source.dart';
 import '../../data/network/request/login_user_request.dart';
 import '../../data/network/request/models/begginer_quiz_request_model.dart';
 
+import '../../data/network/response/login_user_response.dart';
 import '../../utility/either.dart';
 import '../models/achievement.dart';
 import '../models/active_course.dart';
@@ -87,6 +88,7 @@ class Repository {
     var response = await _remoteSource.getRegisterationStatus(token);
 
     if (response.isData) {
+
       return Either.data(RegisterationStatus(
           registerationCompleted: response.data!.registerationCompleted));
     } else {
@@ -184,10 +186,11 @@ class Repository {
     }
   }
 
-  Future<Either<DioError, String>> loginUser(LoginUserRequest request) async {
+  Future<Either<DioError, LoginUserResponse>> loginUser(
+      LoginUserRequest request) async {
     var response = await _remoteSource.loginUser(request);
     if (response.isData) {
-      return Either.data(response.data!.token);
+      return Either.data(response.data!);
     } else {
       return Either.error(response.error);
     }
@@ -233,7 +236,7 @@ class Repository {
   }
 
   Future<Either<Exception, String>> synchronizeUserInterfaceLanguage() async {
-    final token = await _localSource.getUserId();
+    final token = await _localSource.getTokenAccess();
     if (token != null) {
       var response = await _remoteSource.getUserSettings(token);
 
@@ -248,8 +251,8 @@ class Repository {
     return Either.data("Unknown error when synchronizing with server");
   }
 
-  Future<Either<Exception, String>> getToken() async {
-    var response = await _localSource.getUserId();
+  Future<Either<Exception, String>> getTokenAccess() async {
+    var response = await _localSource.getTokenAccess();
     if (response != null) {
       return Either.data(response);
     } else {
@@ -257,8 +260,21 @@ class Repository {
     }
   }
 
-  void saveToken(String id) async {
-    _localSource.setUserId(id);
+  Future<Either<Exception, String>> getTokenRefresh() async {
+    var response = await _localSource.getTokenRefresh();
+    if (response != null) {
+      return Either.data(response);
+    } else {
+      return Either.error(Exception('Local storage error'));
+    }
+  }
+
+  void saveTokenAccess(String token) async {
+    _localSource.setTokenAccess(token);
+  }
+
+  void saveTokenRefresh(String token) async {
+    _localSource.setTokenRefresh(token);
   }
 
   Future<Either<DioError, bool>> cancelRequest() async {

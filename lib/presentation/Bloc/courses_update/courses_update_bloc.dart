@@ -30,6 +30,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
   CoursesUpdateBloc(this.socketRepository) : super(CoursesUpdateInitial()) {
     _activeCoursesSub =
         socketRepository.courseStreamController.stream.listen((data) {
+  
       if (!isClosed) {
         add(LoadCourses(
           courses: data,
@@ -65,19 +66,19 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
 
   void initialCurrentCourse() {
     on<CurrentCourseInitial>((event, emit) async {
-      final userId = await locator<Repository>().getToken();
+      final token = await locator<Repository>().getTokenAccess();
 
-      if (userId.isError) {
+      if (token.isError) {
         emit(CourseUpdateError(
-            error: ExceptionHelper.getErrorMessage(userId.error!)));
+            error: ExceptionHelper.getErrorMessage(token.error!)));
       }
-      socketManager.loadCurrentCourse(userId.data!);
+      socketManager.loadCurrentCourse(token.data!);
     });
   }
 
   void initialCourses() {
     on<InitialCourses>((event, emit) async {
-      final userId = await locator<Repository>().getToken();
+      final userId = await locator<Repository>().getTokenAccess();
 
       if (userId.isError) {
         emit(CourseUpdateError(
@@ -89,7 +90,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
 
   void addNewCourse() {
     on<AddNewCourse>((event, emit) async {
-      final userId = await locator<Repository>().getToken();
+      final userId = await locator<Repository>().getTokenAccess();
 
       if (userId.isError) {
         emit(CourseUpdateError(

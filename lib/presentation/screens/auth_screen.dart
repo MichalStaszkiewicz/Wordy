@@ -85,11 +85,12 @@ class _AuthScreenState extends State<AuthScreen> {
                       .add(LogOut(errorMessage: 'Request Failed')));
                 });
               } else if (state is Authenticated) {
+                context.pop();
                 final socketManager = locator<SocketManager>();
-                print(state.userId);
-                socketManager.initialize(state.userId);
+                print(state.token);
+                socketManager.initialize(state.token);
 
-                socketManager.joinRoom(state.userId);
+                socketManager.joinRoom(state.token);
 
                 state.registerCompleted
                     ? context.pushNamed(AppRouter.home)

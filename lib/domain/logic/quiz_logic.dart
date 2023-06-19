@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:wordy/data/network/request/models/begginer_quiz_request_model.dart';
+import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/quiz_question.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
-import 'package:wordy/domain/repositiories/user_repository.dart';
 import 'package:wordy/utility/either.dart';
 
 import '../../data/network/request/models/insert_learned_words.request.model.dart';
@@ -12,12 +12,13 @@ import '../models/word.dart';
 
 class QuizLogic {
   final Repository _repository;
-  final UserRepository _userRepository;
-  QuizLogic(this._repository, this._userRepository);
+  final UserService _userService;
+
+  QuizLogic(this._repository, this._userService);
 
   Future<Either<Exception, String>> insertLearnedWords(
       List<int> wordIds) async {
-    final token = await _repository.getToken();
+    final token = await _userService.getTokenAccess();
     if (token.isData) {
       var insertedWords =
           await _repository.insertLearnedWordList(wordIds, token.data!);
@@ -34,7 +35,7 @@ class QuizLogic {
   Future<Either<Exception, List<BeginnerQuestion>>> createBeginnerQuiz(
       String topic) async {
     List<BeginnerQuestion> quizQuestions = [];
-    final token = await _userRepository.getUserId();
+    final token = await _userService.getTokenAccess();
     if (token.isError) {
       return Either.error(token.error);
     }

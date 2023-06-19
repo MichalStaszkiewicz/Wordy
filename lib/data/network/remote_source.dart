@@ -11,6 +11,7 @@ import 'package:wordy/data/network/response/flash_card_list_response.dart';
 import 'package:wordy/data/network/response/language_list_response.dart';
 import 'package:wordy/data/network/response/learned_words_list.dart';
 import 'package:wordy/data/network/response/login_user_response.dart';
+import 'package:wordy/data/network/response/refresh_token_response.dart';
 import 'package:wordy/data/network/response/register_user_response.dart';
 import 'package:wordy/data/network/response/registeration_response.dart';
 import 'package:wordy/data/network/response/update_registeration_status_response.dart';
@@ -281,6 +282,19 @@ class RemoteSource implements ServerInterface {
           options: Options(headers: {'authorization': token}));
 
       return Either.data(ProfileData.fromJson(response.data));
+    } on DioError catch (e) {
+      return Either.error(e);
+    }
+  }
+
+  @override
+  Future<Either<DioError, RefreshTokenResponse>> refreshToken(
+      String refreshToken) async {
+    try {
+      var response = await _apiService
+          .post('/v1/refreshToken', payload: {'token': refreshToken});
+
+      return Either.data(RefreshTokenResponse.fromJson(response.data));
     } on DioError catch (e) {
       return Either.error(e);
     }

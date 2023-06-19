@@ -27,13 +27,23 @@ class _CourseItemState extends State<CourseItem> {
     return Container(
       margin: const EdgeInsets.all(10),
       width: 170,
-      decoration: BoxDecoration(boxShadow: const [
-        BoxShadow(
-          color: Colors.black12,
-          offset: Offset(0, 6),
-          blurRadius: 6.0,
-        )
-      ], color: Colors.indigo, borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.indigo.shade300,
+              Colors.indigo.shade700,
+            ],
+          ),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              offset: Offset(0, 6),
+              blurRadius: 6.0,
+            )
+          ],
+          borderRadius: BorderRadius.circular(10)),
       child: Container(
         margin: const EdgeInsets.only(left: 20, top: 20),
         child: Stack(

@@ -25,6 +25,8 @@ class VocabularyLoaded extends VocabularyState {
 class VocabularyError extends VocabularyState {
   VocabularyError({required this.error});
   CustomError error;
+  @override
+  List<Object> get props => [error];
 }
 
 class VocabularyFlashCards extends VocabularyState {

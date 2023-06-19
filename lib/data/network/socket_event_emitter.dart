@@ -11,9 +11,9 @@ class SocketEventEmitter {
   }
 
   Future<void> joinRoom(
-    String userId,
+    String token,
   ) async {
-    _socket.emit('joinRoom', [userId]);
+    _socket.emit('joinRoom', [token]);
     return;
   }
 }

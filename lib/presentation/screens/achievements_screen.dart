@@ -63,7 +63,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                                 back: AchievementItemBack(
                                   description: state.achievements[index]
                                       .achievement.description!,
-                                  achieved: state.achievements[index].achieved!,
+                                  achieved: state.achievements[index].achieved,
                                 ),
                                 front: AchievementItemFront(
                                   image: "assets/medal.png",

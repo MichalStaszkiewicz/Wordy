@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/const/urls.dart';
+import 'package:wordy/presentation/widgets/continue_button.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 
 import '../../const/app_router.dart';
@@ -19,7 +20,14 @@ class CurrentCourseWidget extends StatelessWidget {
         height: 230,
         margin: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-            color: Colors.indigoAccent[200],
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.indigo.shade300,
+                Colors.indigo.shade700,
+              ],
+            ),
             boxShadow: const [
               BoxShadow(
                 color: Colors.black12,
@@ -89,11 +97,7 @@ class CurrentCourseWidget extends StatelessWidget {
                           child: Container(
                               width: double.infinity,
                               alignment: Alignment.bottomLeft,
-                              child: GestureDetector(
-                                  onTap: () {
-                                    context.pushNamed(AppRouter.selectedCourse);
-                                  },
-                                  child: _buildContinueButton(context))),
+                              child: ContinueButton()),
                         ),
                         Expanded(
                           flex: 2,
@@ -131,7 +135,10 @@ class CurrentCourseWidget extends StatelessWidget {
                                               ),
                                               alignment: Alignment.center,
                                               child: Text(
-                                                '90%',
+                                                currentCourse.totalProgress
+                                                        .round()
+                                                        .toString() +
+                                                    "%",
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .titleSmall!
@@ -161,42 +168,5 @@ class CurrentCourseWidget extends StatelessWidget {
             ),
           ),
         ]));
-  }
-
-  Container _buildContinueButton(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 30),
-      width: 110,
-      height: 40,
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blueAccent, Colors.blueAccent],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black12,
-              offset: Offset(0, 2),
-              blurRadius: 6.0,
-            ),
-          ],
-          borderRadius: BorderRadius.circular(20)),
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              'Continue',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: Colors.white),
-            ),
-            const Icon(Icons.play_circle_outline_rounded, color: Colors.white)
-          ],
-        ),
-      ),
-    );
   }
 }

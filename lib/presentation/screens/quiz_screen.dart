@@ -37,30 +37,30 @@ class _QuizScreenState extends State<QuizScreen> {
         create: (context) => QuizBloc(locator<StreamRepository>())
           ..add(LoadBeginnerQuiz(topic: widget.topic)),
         child: Scaffold(
-          //TODO this builder should not be builded add handler for achievement notificatiohn
           body: Container(
-            child: BlocBuilder<QuizBloc, QuizState>(
-              builder: (context, state) {
-                if (state is InProgress || state is QuizInitial) {
-                  return const LoadingData();
-                } else if (state is BeginnerQuizLoaded) {
-               
-
-                  return QuizScreenQuestions(
-                    topic: widget.topic,
-                  );
-                } else {
-                  /*
-                DialogManager.showErrorDialog(
-                      ExceptionHelper.getErrorMessage(UnexpectedError()), context,
-                      () {
-                      
-                    context.go(AppRouter.authScreen);
-                  });*/
-
-                  return Container();
+            child: BlocListener<QuizBloc, QuizState>(
+              listener: (context, state) {
+                if (state is QuizError) {
+                  DialogManager.showErrorDialog(state.error, context, () {
+                    if (state.error.critical) {
+                      context.go(AppRouter.authScreen);
+                    }
+                  });
                 }
               },
+              child: BlocBuilder<QuizBloc, QuizState>(
+                builder: (context, state) {
+                  if (state is InProgress || state is QuizInitial) {
+                    return const LoadingData();
+                  } else if (state is BeginnerQuizLoaded) {
+                    return QuizScreenQuestions(
+                      topic: widget.topic,
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
             ),
           ),
         ),

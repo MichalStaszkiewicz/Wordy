@@ -1,4 +1,4 @@
-import 'package:wordy/domain/repositiories/user_repository.dart';
+import 'package:wordy/domain/logic/user_service.dart';
 
 import '../domain/repositiories/repository.dart';
 import 'locator/service_locator.dart';
@@ -34,7 +34,7 @@ class Validator {
   }
 
   static Future<String> interfaceLanguageChange(String choosenLanguage) async {
-    final token = await locator.get<Repository>().getToken();
+    final token = await locator.get<Repository>().getTokenAccess();
     var userInterfaceLanguage =
         await locator.get<Repository>().getUserInterfaceLanguage();
     if (token.isData && userInterfaceLanguage.isData) {
@@ -43,7 +43,7 @@ class Validator {
                 userInterfaceLanguage.data!.toLowerCase() &&
             userInterfaceLanguage.data!.toLowerCase() == 'polish') {
           var message = await locator
-              .get<UserRepository>()
+              .get<UserService>()
               .switchInterfaceLangauge(token.data!, 'english');
 
           if (message.isData) {

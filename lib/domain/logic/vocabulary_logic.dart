@@ -1,9 +1,9 @@
 import 'package:wordy/domain/models/flash_card_data.dart';
+import 'package:wordy/domain/repositiories/repository.dart';
 import '../../utility/either.dart';
-import '../repositiories/vocabulary_repository.dart';
 
 class VocabularyService {
-  final VocabularyRepository _repository;
+  final Repository _repository;
 
   VocabularyService(this._repository);
   Future<Either<Exception, List<FlashCardData>>> getVocabularyByTopic(

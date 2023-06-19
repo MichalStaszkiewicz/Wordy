@@ -67,14 +67,15 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
       final userLogic = locator<UserService>();
 
-      final token = await locator.get<Repository>().getToken();
+      final token = await locator.get<Repository>().getTokenAccess();
       if (token.isData) {
         await Future.microtask(() async {
           var userCourseData = await userLogic.updateUserCurrentCourse(
             event.currentCourse,
           );
+          print("after UserCourseData ");
+
           if (userCourseData.isError) {
-            print("USERCOURSE DOSENT EXISTS!!!!!!!");
             emit(RegisterError(
                 error: ExceptionHelper.getErrorMessage(token.error!)));
           } else {

@@ -9,6 +9,7 @@ import '../../data/network/response/flash_card_list_response.dart';
 import '../../data/network/response/language_list_response.dart';
 import '../../data/network/response/learned_words_list.dart';
 import '../../data/network/response/login_user_response.dart';
+import '../../data/network/response/refresh_token_response.dart';
 import '../../data/network/response/register_user_response.dart';
 import '../../data/network/response/registeration_response.dart';
 import '../../data/network/response/update_registeration_status_response.dart';
@@ -23,6 +24,8 @@ import '../models/user_settings.dart';
 import '../models/word.dart';
 
 abstract class ServerInterface {
+  Future<Either<DioError, RefreshTokenResponse>> refreshToken(
+      String refreshToken);
   Future<Either<DioError, ProfileData>> getProfileData(String token);
   Future<Either<DioError, LearnedWordsList>> getWordsByTopic(String topic);
 

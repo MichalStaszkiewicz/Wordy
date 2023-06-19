@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:wordy/data/network/exceptions/session_verification_error.dart';
 import 'package:wordy/data/network/request/login_user_request.dart';
 import 'package:wordy/data/network/request/register_user_request.dart';
@@ -8,6 +9,7 @@ import 'package:wordy/domain/repositiories/repository.dart';
 
 import '../../Utility/locator/service_locator.dart';
 
+import '../../Utility/socket_manager.dart';
 import '../../data/network/exceptions/validation_error.dart';
 import '../../data/network/request/models/login_user_request_model.dart';
 
@@ -24,7 +26,7 @@ class UserService {
   UserService(this._repository);
   final Repository _repository;
   Future<Either<Exception, ProfileData>> getProfileData() async {
-    var token = await _repository.getToken();
+    var token = await _repository.getTokenAccess();
     if (token.isError) {
       return Either.error(token.error);
     }
@@ -34,6 +36,22 @@ class UserService {
       return Either.error(profileData.error!);
     }
     return Either.data(profileData.data!);
+  }
+
+  Future<Either<Exception, String>> getTokenAccess() async {
+    var token = await _repository.getTokenAccess();
+    if (token.isError) {
+      return Either.error(token.error);
+    }
+    return Either.data(token.data!);
+  }
+
+  Future<Either<Exception, String>> getTokenRefresh() async {
+    var token = await _repository.getTokenRefresh();
+    if (token.isError) {
+      return Either.error(token.error);
+    }
+    return Either.data(token.data!);
   }
 
   Future<Either<Exception, String>> switchInterfaceLangauge(
@@ -57,7 +75,7 @@ class UserService {
   }
 
   Future<Either<Exception, ActiveCourse>> getUserCurrentCourseProgress() async {
-    var token = await _repository.getToken();
+    var token = await getTokenAccess();
     if (token.isError) {
       return Either.error(token.error);
     }
@@ -70,7 +88,7 @@ class UserService {
   }
 
   Future<Either<Exception, List<Course>>> getAvailableCourses() async {
-    var token = await _repository.getToken();
+    var token = await getTokenAccess();
     var userInterfaceLanguage = await getUserInterfaceLanguage();
     if (token.isError) {
       return Either.error(token.error);
@@ -99,7 +117,7 @@ class UserService {
 
   Future<Either<Exception, UserActiveCoursesProgress>>
       getUserActiveCoursesProgress() async {
-    var userId = await _repository.getToken();
+    var userId = await getTokenAccess();
     if (userId.isError) {
       return Either.error(SessionVerificationError(
           title: 'Session Error',
@@ -123,13 +141,16 @@ class UserService {
 
   Future<Either<Exception, UserCourse>> updateUserCurrentCourse(
       String courseName) async {
-    var token = await _repository.getToken();
-    var userInterfaceLanguage = await _repository.getUserInterfaceLanguage();
-    if (userInterfaceLanguage.isError) {
-      return Either.error(userInterfaceLanguage.error);
-    }
+    var token = await getTokenAccess();
+
     if (token.isError) {
       return Either.error(token.error);
+    }
+
+    var userInterfaceLanguage = await _repository.getUserInterfaceLanguage();
+
+    if (userInterfaceLanguage.isError) {
+      return Either.error(userInterfaceLanguage.error);
     }
 
     var updateCourse =
@@ -142,7 +163,7 @@ class UserService {
   }
 
   Future<Either<Exception, UserCourse>> getUserCurrentCourse() async {
-    final token = await locator<Repository>().getToken();
+    final token = await locator<Repository>().getTokenAccess();
     if (token.isData) {
       var userCurrentCourse =
           await _repository.getUserCurrentCourse(token.data!);
@@ -171,16 +192,24 @@ class UserService {
           ValidationError(message: 'Bad email format', 'Validation Error'));
     }
 
-    var token =
+    var response =
         await _repository.loginUser(LoginUserRequest.fromJson(userAuthData));
-    if (token.isData) {
-      _repository.saveToken(token.data!);
+    if (response.isData) {
+      print("Access Token : " + response.data!.accessToken);
+      print("Refresh Token : " + response.data!.refreshToken);
+      _repository.saveTokenAccess(response.data!.accessToken);
+      _repository.saveTokenRefresh(response.data!.refreshToken);
     } else {
-      return Either.error(token.error!);
+      return Either.error(response.error!);
     }
 
     await _repository.synchronizeUserInterfaceLanguage();
-    return Either.data(token.data);
+    return Either.data(response.data!.accessToken);
+  }
+
+  Future<void> logOut() async {
+    var token = await getTokenAccess();
+    locator<SocketManager>().logOut(token.data!);
   }
 
   Future<Either<Exception, String>> registerUser(
@@ -209,73 +238,4 @@ class UserService {
       return Either.error(responseMessage.error!);
     }
   }
-}
-
-Future<void> insertNewAchievementID(String achievementID) async {
-  // await _localRepository.insertDataToAchievement(achievementID);
-}
-
-/*
-  Future<List<Achievement>> getAllAchievements() async {
-    RemoteSource remoteSource = RemoteSource();
-    return await remoteSource
-        .getAllAchievements()
-        .then((value) => value.achievements.map((e) => e.toDomain()).toList());
-  }
-
-  Future<List<Achievement>> getUserAchievements(int userID) async {
-    List<Achievement> achievements = await _repository
-        .getUserAchievements(userID)
-        .then((value) => value.achievements.map((e) => e.toDomain()).toList());
-
-    return achievements;
-  }
-*/
-Future<int> getUserLearnedWordiesToday() async {
-  // implement logic here
-  return 200;
-}
-
-Future<void> increaseLearnedWordsToday(List<CourseEntry> entries) async {
-  //implement logic here
-}
-
-Future<void> increaseUserHotStreak() async {
-  // implement logic here
-}
-
-Future<int> getUserHotStreak() async {
-  // implenment logic here
-  return 2;
-}
-
-void insertLearnedWordsToDatabase(List<CourseEntry> wordsToInsert) async {
-  // implement logic here
-}
-
-Future<List<CourseBasic>> getActiveCourses() async {
-  // implement logic here
-
-  return [];
-}
-
-Future<bool> getFirstRun() async {
-  //implement logic
-  return false;
-}
-
-Future<int> getFinishedTopicsCount() async {
-  //implement logic
-  return 4;
-}
-
-Future<int> getLearnedWordiesCount() async {
-  //implement logic
-  return 4;
-}
-
-Future<List<Course>> getCoursesData() async {
-  //implement logic
-
-  return [];
 }

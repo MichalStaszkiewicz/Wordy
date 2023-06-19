@@ -24,9 +24,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<LoadProfileData>((event, emit) async {
       var profileData = await locator<UserService>().getProfileData();
       if (profileData.isError) {
+        print("ERROR IN BLOC PROFILE");
         emit(ProfileDataError(
             error: ExceptionHelper.getErrorMessage(profileData.error!)));
       } else {
+        print("DATA IS READY");
         emit(ProfileDataReady(
           finishedCourses: profileData.data!.finishedCourses,
           hotStreak: profileData.data!.hotStreak,

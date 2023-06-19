@@ -1,10 +1,10 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/custom_error.dart';
 import 'package:wordy/const/consts.dart';
-import 'package:wordy/domain/repositiories/user_repository.dart';
 
 import '../../../Utility/locator/service_locator.dart';
 import '../../../domain/logic/vocabulary_logic.dart';
@@ -28,20 +28,20 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
       if (course.isError) {
         emit(VocabularyError(
             error: ExceptionHelper.getErrorMessage(course.error!)));
+      } else {
+        List<Vocabulary> list = [
+          Vocabulary(
+            topic: ui_lang[course.data!.interfaceLanguage.name]!['topic_label']
+                [0],
+            image: "assets/dailyusage.png",
+          ),
+        ];
+
+        emit(VocabularyLoaded(
+            vocabularyList: list,
+            vocabularyListSearched: list,
+            language: course.data!.interfaceLanguage.name));
       }
-
-      List<Vocabulary> list = [
-        Vocabulary(
-          topic: ui_lang[course.data!.interfaceLanguage.name]!['topic_label']
-              [0],
-          image: "assets/dailyusage.png",
-        ),
-      ];
-
-      emit(VocabularyLoaded(
-          vocabularyList: list,
-          vocabularyListSearched: list,
-          language: course.data!.interfaceLanguage.name));
     });
   }
 
@@ -69,14 +69,13 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
   void showSpecificVocabularyList() {
     on<ListVocabularyWordsByTopic>((event, emit) async {
       final vocabService = locator<VocabularyService>();
-      final userId = await locator<UserRepository>().getUserId();
+      final userId = await locator<UserService>().getTokenAccess();
 
       if (userId.isError) {
         emit(VocabularyError(
             error: ExceptionHelper.getErrorMessage(userId.error!)));
       }
-      final course =
-          await locator<UserRepository>().getUserCurrentCourse(userId.data!);
+      final course = await locator<UserService>().getUserCurrentCourse();
 
       if (course.isError) {
         emit(VocabularyError(

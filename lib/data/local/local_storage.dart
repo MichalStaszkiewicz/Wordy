@@ -18,19 +18,35 @@ class LocalStorage {
     pref.setString(interfaceLanguage, interfaceLang);
   }
 
-  Future<String?> getUserId() async {
+  Future<String?> getTokenAccess() async {
     final pref = sharedPreferences;
-    final id = pref.getString(userId);
+    final id = pref.getString(tokenAccess);
     return id;
   }
 
-  void setUserId(
-    String id,
+  Future<String?> getTokenRefresh() async {
+    final pref = sharedPreferences;
+    final id = pref.getString(tokenRefresh);
+    return id;
+  }
+
+  void setTokenAccess(
+    String token,
   ) async {
     final pref = sharedPreferences;
     await pref.setString(
-      userId,
-      id,
+      tokenAccess,
+      token,
+    );
+  }
+
+  void setTokenRefresh(
+    String token,
+  ) async {
+    final pref = sharedPreferences;
+    await pref.setString(
+      tokenRefresh,
+      token,
     );
   }
 }

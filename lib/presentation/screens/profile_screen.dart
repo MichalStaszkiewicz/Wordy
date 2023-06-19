@@ -28,7 +28,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: BlocListener<ProfileBloc, ProfileState>(
           listener: (context, state) {
             if (state is ProfileDataError) {
-              DialogManager.showErrorDialog(state.error, context, () {});
+              DialogManager.showErrorDialog(state.error, context, () {
+                if (state.error.critical) {
+                  context.go(AppRouter.authScreen);
+                }
+              });
             }
           },
           child: BlocBuilder<ProfileBloc, ProfileState>(

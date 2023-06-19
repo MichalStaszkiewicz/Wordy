@@ -29,8 +29,8 @@ class QuizButton extends StatelessWidget {
                 Color.fromARGB(255, 99, 155, 252),
                 Color.fromRGBO(158, 149, 248, 1),
               ],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
             boxShadow: const [
               BoxShadow(

@@ -32,13 +32,13 @@ class _TopicScreenState extends State<TopicScreen>
     super.initState();
   }
 
-  var dialogShowed = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Stack(
         children: [
           Container(
+            color: Colors.white,
             child: BlocProvider<CoursesUpdateBloc>(
                 create: (context) =>
                     CoursesUpdateBloc(locator<StreamRepository>())
@@ -50,6 +50,7 @@ class _TopicScreenState extends State<TopicScreen>
                       return CustomScrollView(
                         slivers: [
                           SliverAppBar(
+                            centerTitle: true,
                             primary: false,
                             flexibleSpace: Container(
                               decoration: const BoxDecoration(
@@ -58,12 +59,25 @@ class _TopicScreenState extends State<TopicScreen>
                             ),
                             pinned: true,
                             title: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              height: 100,
+                              width: double.infinity,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.logout_rounded,
+                                      color: Colors.black,
+                                    ),
+                                    onPressed: () {
+                                      DialogManager.showQuestionDialog(
+                                          "",
+                                          'Do you want to log out ?',
+                                          context, () async {
+                                        await locator<UserService>().logOut();
+                                      }, () {});
+                                    },
+                                  ),
                                   SizedBox(
                                     width: 150,
                                     child: Row(

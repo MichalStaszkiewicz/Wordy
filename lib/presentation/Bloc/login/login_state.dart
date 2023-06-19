@@ -19,9 +19,9 @@ class Authenticating extends LoginState {
 }
 
 class Authenticated extends LoginState {
-  Authenticated({required this.registerCompleted,required this.userId});
+  Authenticated({required this.registerCompleted, required this.token});
   bool registerCompleted;
-  String userId;
+  String token;
 }
 
 class LoginError extends LoginState {

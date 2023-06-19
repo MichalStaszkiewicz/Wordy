@@ -32,13 +32,13 @@ class LoginBloc extends Bloc<AuthFormEvent, LoginState> {
       if (token.isData) {
         final registerationStatus =
             await locator.get<Repository>().getRegisterationStatus(token.data!);
-        print("Authentication success");
+     
 
         if (registerationStatus.isData) {
           emit(Authenticated(
               registerCompleted:
                   registerationStatus.data!.registerationCompleted,
-              userId: token.data!));
+              token: token.data!));
         } else {
           emit(LoginError(
               error:

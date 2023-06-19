@@ -86,7 +86,8 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                               CustomError(
                                   title: 'Error',
                                   message:
-                                      'You have to select a language you want to learn'),
+                                      'You have to select a language you want to learn',
+                                  critical: true),
                               context,
                               () {});
                         }
@@ -102,6 +103,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
               DialogManager.showErrorDialog(
                   CustomError(
+                      critical: true,
                       title: "Error",
                       message:
                           "The error occurred when trying to load data from the server."),

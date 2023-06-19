@@ -6,13 +6,18 @@ import 'package:wordy/data/network/exceptions/api_errors/bad_network_api_error.d
 import 'package:wordy/data/network/exceptions/api_errors/internal_server_api_error.dart';
 import 'package:wordy/data/network/exceptions/bad_network_exception.dart';
 import 'package:wordy/data/network/exceptions/internal_server_exception.dart';
+import 'package:wordy/domain/logic/user_service.dart';
+
+import '../../Utility/locator/service_locator.dart';
+import 'interceptors/token_interceptor.dart';
 
 class ApiService {
   final String baseUrl;
   final Dio dio;
   CancelToken cancelToken = CancelToken();
   ApiService({required this.baseUrl})
-      : dio = Dio(BaseOptions(baseUrl: baseUrl)) {
+      : dio = Dio(BaseOptions(
+            baseUrl: baseUrl, connectTimeout: 10000, receiveTimeout: 10000)) {
     dio.interceptors.add(PrettyDioLogger(
         requestHeader: true,
         requestBody: true,
@@ -21,7 +26,15 @@ class ApiService {
         error: true,
         compact: true,
         maxWidth: 90));
+    dio.interceptors.add(TokenInterceptor(dio));
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) async {
+        var token = await locator<UserService>().getTokenAccess();
+        options.headers['Authorization'] = 'Bearer ${token.data}';
 
+        return handler.next(options);
+      },
+    ));
 //    dio.interceptors.add(InternalServerInterceptor());
   }
   Future<bool> cancelRequests() async {
