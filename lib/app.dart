@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_dropdown_alert/dropdown_alert.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/domain/models/achievement.dart';
 import 'package:wordy/global/notification_provider.dart';
+import 'package:wordy/presentation/widgets/success_toast.dart';
 import 'package:wordy/utility/toast_manager.dart';
 import 'package:wordy/utility/utility.dart';
 
@@ -66,8 +68,6 @@ class _AppState extends State<App> {
             child: Consumer<NotificationProvider>(
               builder: (BuildContext context, value, Widget? child) {
                 return Builder(builder: (BuildContext context) {
-                  print("Refreshed notes " +
-                      value.achievementNotifications.length.toString());
                   WidgetsBinding.instance.addPostFrameCallback(
                     (timeStamp) async {
                       await Utility.showAchievementNotifications(
@@ -76,10 +76,10 @@ class _AppState extends State<App> {
                     },
                   );
 
-                  return Center(
-                    child: Text(
-                      '',
-                    ),
+                  return Container(
+                    child: Stack(children: [
+                   
+                    ]),
                   );
                 });
               },

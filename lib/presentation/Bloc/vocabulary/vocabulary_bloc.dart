@@ -32,8 +32,7 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
       } else {
         List<Vocabulary> list = [
           Vocabulary(
-            topic: ui_lang[course.data!.interfaceLanguage.name]![
-                'topic_label'][0],
+            topic: ui_lang[course.data!.course.name]!['topic_label'][0],
             image: "assets/dailyusage.png",
           ),
         ];
@@ -41,7 +40,7 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
         emit(VocabularyLoaded(
             vocabularyList: list,
             vocabularyListSearched: list,
-            language: course.data!.interfaceLanguage.name));
+            language: course.data!.course.name));
       }
     });
   }

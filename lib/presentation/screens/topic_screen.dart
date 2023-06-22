@@ -51,7 +51,6 @@ class _TopicScreenState extends State<TopicScreen>
                         return CustomScrollView(
                           slivers: [
                             SliverAppBar(
-                              centerTitle: true,
                               primary: false,
                               flexibleSpace: Container(
                                 decoration: const BoxDecoration(
@@ -59,67 +58,76 @@ class _TopicScreenState extends State<TopicScreen>
                                 ),
                               ),
                               pinned: true,
+                              automaticallyImplyLeading: false,
                               title: Container(
-                                width: double.infinity,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.logout_rounded,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () {
-                                        DialogManager.showQuestionDialog(
-                                            "",
-                                            'Do you want to log out ?',
-                                            context, () async {
-                                          await locator<UserService>()
-                                              .logOut()
-                                              .then((value) => context
-                                                  .go(AppRouter.authScreen));
-                                        }, () {});
-                                      },
-                                    ),
-                                    SizedBox(
-                                      width: 150,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          SizedBox(
-                                            height: 35,
-                                            child: Image.network(
-                                                Urls.kImageUrl +
-                                                    state
-                                                        .courses
-                                                        .currentCourse
-                                                        .userCourse
-                                                        .interfaceLanguage
-                                                        .image),
+                                    Expanded(
+                                      child: Container(
+                                        alignment: Alignment.topLeft,
+                                        child: IconButton(
+                                          icon: Icon(
+                                            Icons.logout_rounded,
+                                            color: Colors.black,
                                           ),
-                                          Text(
-                                              state
-                                                  .courses
-                                                  .currentCourse
-                                                  .userCourse
-                                                  .interfaceLanguage
-                                                  .name
-                                                  .capitalize!,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleMedium!
-                                                  .copyWith(
-                                                      color: Colors.black)),
-                                          Container(
-                                              height: 20,
-                                              alignment: Alignment.bottomCenter,
-                                              child: const Icon(
-                                                  Icons
-                                                      .keyboard_arrow_down_outlined,
-                                                  color: Colors.black))
-                                        ],
+                                          onPressed: () {
+                                            DialogManager.showQuestionDialog(
+                                                "",
+                                                'Do you want to log out ?',
+                                                context, () async {
+                                              await locator<UserService>()
+                                                  .logOut()
+                                                  .then((value) => context.go(
+                                                      AppRouter.authScreen));
+                                            }, () {});
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        child: Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              SizedBox(
+                                                height: 35,
+                                                child: Image.network(
+                                                    Urls.kImageUrl +
+                                                        state
+                                                            .courses
+                                                            .currentCourse
+                                                            .userCourse
+                                                            .interfaceLanguage
+                                                            .image),
+                                              ),
+                                              Text(
+                                                  state
+                                                      .courses
+                                                      .currentCourse
+                                                      .userCourse
+                                                      .interfaceLanguage
+                                                      .name
+                                                      .capitalize!,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium!
+                                                      .copyWith(
+                                                          color: Colors.black)),
+                                              Container(
+                                                  height: 20,
+                                                  alignment:
+                                                      Alignment.bottomCenter,
+                                                  child: const Icon(
+                                                      Icons
+                                                          .keyboard_arrow_down_outlined,
+                                                      color: Colors.black))
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     )
                                   ],

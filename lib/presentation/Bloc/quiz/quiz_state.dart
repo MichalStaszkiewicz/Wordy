@@ -31,24 +31,32 @@ class BeginnerQuizLoaded extends QuizState {
       required this.currentQuestionIndex,
       required this.selectedIndex,
       required this.correctAnswersWordIndexes,
-      required this.courseName});
+      required this.courseName,
+      required this.answerChecked});
   List<BeginnerQuestion> questions;
   int currentQuestionIndex;
   int? selectedIndex;
   List<int> correctAnswersWordIndexes;
   String courseName;
+  bool answerChecked;
+
   @override
   List<Object?> get props => [
         questions,
+        answerChecked,
         currentQuestionIndex,
         selectedIndex,
         correctAnswersWordIndexes,
-        courseName
+        courseName,
       ];
 }
 
 class QuizCompleted extends QuizState {
-  QuizCompleted({required this.correctAnswers, required this.maximumPoints});
-  int maximumPoints;
-  int correctAnswers;
+  QuizCompleted({required this.topicCompleted});
+  bool topicCompleted = false;
+
+  @override
+  List<Object> get props => [
+        topicCompleted,
+      ];
 }

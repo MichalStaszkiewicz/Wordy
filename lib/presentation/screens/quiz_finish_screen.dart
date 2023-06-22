@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/global/notification_provider.dart';
 import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
+import 'package:wordy/presentation/widgets/bouncing_widget.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 import 'package:wordy/utility/socket_manager.dart';
 
@@ -46,6 +47,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
     super.dispose();
   }
 
+  bool _topicCompleted = false;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -55,7 +57,11 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
             maximumPoints: widget.questions.length,
             topic: widget.topic)),
       child: BlocListener<QuizBloc, QuizState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is QuizCompleted) {
+            _topicCompleted = state.topicCompleted;
+          }
+        },
         child: Scaffold(
           body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -162,40 +168,43 @@ class _QuizFinishScreenState extends State<QuizFinishScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        QuizButton(
-                          function: () {
-                            print("topic completed ?  " +
-                                context
-                                    .read<QuizBloc>()
-                                    .topicCompleted
-                                    .toString());
-                            if (!context.read<QuizBloc>().topicCompleted) {
-                              context.go(AppRouter.quizScreen,
-                                  extra: widget.topic);
-                            } else {
-                              DialogManager.showSuccessDialog(
-                                  "You have completed this module",
-                                  'Congratulations !',
-                                  context, () {
-                                context.go(AppRouter.selectedCourse);
-                              });
-                            }
-                          },
-                          label: ui_lang['english']!['quiz_finish_repeat']
-                              .toString(),
-                          height: 50,
-                          width: 350,
-                          margin: const EdgeInsets.only(bottom: 20),
+                        BouncingWidget(
+                          onPress: () {},
+                          child: QuizButton(
+                            function: () {
+                              if (!_topicCompleted) {
+                                context.go(AppRouter.quizScreen,
+                                    extra: widget.topic);
+                              } else {
+                                DialogManager.showSuccessDialog(
+                                    "You have completed this module",
+                                    'Congratulations !',
+                                    context, () {
+                                  context.go(AppRouter.selectedCourse);
+                                });
+                              }
+                            },
+                            selectedAnswer: true,
+                            label: ui_lang['english']!['quiz_finish_repeat']
+                                .toString(),
+                            height: 50,
+                            width: 350,
+                            margin: const EdgeInsets.only(bottom: 0),
+                          ),
                         ),
-                        QuizButton(
-                          function: () {
-                            context.go(AppRouter.selectedCourse);
-                          },
-                          label: ui_lang['english']!['quiz_finish_home']
-                              .toString(),
-                          height: 50,
-                          width: 350,
-                          margin: const EdgeInsets.only(bottom: 20),
+                        BouncingWidget(
+                          onPress: () {},
+                          child: QuizButton(
+                            function: () {
+                              context.go(AppRouter.selectedCourse);
+                            },
+                            selectedAnswer: true,
+                            label: ui_lang['english']!['quiz_finish_home']
+                                .toString(),
+                            height: 50,
+                            width: 350,
+                            margin: const EdgeInsets.only(bottom: 0),
+                          ),
                         ),
                       ],
                     ),

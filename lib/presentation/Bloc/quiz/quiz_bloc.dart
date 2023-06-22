@@ -25,13 +25,13 @@ part 'quiz_state.dart';
 class QuizBloc extends Bloc<QuizEvent, QuizState> {
   final StreamRepository socketRepository;
   final socketManager = locator<SocketManager>();
-    var topicCompleted = false;
-  QuizBloc(this.socketRepository) : super(const QuizInitial()) {
 
+  QuizBloc(this.socketRepository) : super(const QuizInitial()) {
     loadBeginnerQuiz();
     loadNextQuestion();
     finishQuiz();
     selectAnswer();
+    checkAnswer();
   }
 
   void loadBeginnerQuiz() {
@@ -47,11 +47,13 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
       if (questions.isData) {
         emit(BeginnerQuizLoaded(
-            questions: questions.data!,
-            currentQuestionIndex: 0,
-            selectedIndex: null,
-            correctAnswersWordIndexes: const [],
-            courseName: courseName.data!.userCourse.course.name));
+          questions: questions.data!,
+          answerChecked: false,
+          currentQuestionIndex: 0,
+          selectedIndex: null,
+          correctAnswersWordIndexes: const [],
+          courseName: courseName.data!.course.name,
+        ));
       } else {
         emit(QuizError(
             error: ExceptionHelper.getErrorMessage(questions.error!)));
@@ -68,11 +70,28 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
         correctIndexes.add(state.questions[state.currentQuestionIndex].wordId);
       }
       emit(BeginnerQuizLoaded(
-          questions: state.questions,
-          currentQuestionIndex: state.currentQuestionIndex,
-          selectedIndex: event.selectedIndex,
-          correctAnswersWordIndexes: correctIndexes,
-          courseName: state.courseName));
+        questions: state.questions,
+        answerChecked: false,
+        currentQuestionIndex: state.currentQuestionIndex,
+        selectedIndex: event.selectedIndex,
+        correctAnswersWordIndexes: correctIndexes,
+        courseName: state.courseName,
+      ));
+    });
+  }
+
+  void checkAnswer() {
+    on<CheckAnswer>((event, emit) {
+      final state = this.state as BeginnerQuizLoaded;
+
+      emit(BeginnerQuizLoaded(
+        questions: state.questions,
+        answerChecked: true,
+        currentQuestionIndex: state.currentQuestionIndex,
+        selectedIndex: state.selectedIndex,
+        correctAnswersWordIndexes: state.correctAnswersWordIndexes,
+        courseName: state.courseName,
+      ));
     });
   }
 
@@ -82,21 +101,25 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       if (state.questions[state.currentQuestionIndex].correctAnswerIndex ==
           state.selectedIndex) {
         emit(BeginnerQuizLoaded(
-            questions: state.questions,
-            currentQuestionIndex: state.currentQuestionIndex + 1,
-            correctAnswersWordIndexes: state.correctAnswersWordIndexes,
-            selectedIndex: null,
-            courseName: state.courseName));
+          answerChecked: false,
+          questions: state.questions,
+          currentQuestionIndex: state.currentQuestionIndex + 1,
+          correctAnswersWordIndexes: state.correctAnswersWordIndexes,
+          selectedIndex: null,
+          courseName: state.courseName,
+        ));
       } else {
         List<BeginnerQuestion> questions = List.from(state.questions)
           ..removeAt(state.currentQuestionIndex);
         questions.add(state.questions[state.currentQuestionIndex]);
         emit(BeginnerQuizLoaded(
-            questions: questions,
-            currentQuestionIndex: state.currentQuestionIndex,
-            correctAnswersWordIndexes: state.correctAnswersWordIndexes,
-            selectedIndex: null,
-            courseName: state.courseName));
+          questions: questions,
+          answerChecked: false,
+          currentQuestionIndex: state.currentQuestionIndex,
+          correctAnswersWordIndexes: state.correctAnswersWordIndexes,
+          selectedIndex: null,
+          courseName: state.courseName,
+        ));
       }
     });
   }
@@ -112,7 +135,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       await quizLogic.insertLearnedWords(event.wordIds).then((value) async {
         locator<SocketManager>()
             .quizSummary(QuizSummary(token: token.data!, topic: event.topic));
-        var currentCourse = await locator<UserService>().getUserCurrentCourse();
+        var currentCourse =
+            await locator<UserService>().getUserCurrentCourseProgress();
         if (currentCourse.isError) {
           emit(QuizError(
               error: ExceptionHelper.getErrorMessage(currentCourse.error!)));
@@ -120,7 +144,9 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           ProgressInTopic progress = currentCourse.data!.topicProgress
               .firstWhere((element) => element.name == event.topic);
           if (progress.knownWords == progress.wordsCount) {
-            topicCompleted = true;
+            emit(QuizCompleted(topicCompleted: true));
+          } else {
+            emit(QuizCompleted(topicCompleted: false));
           }
         }
       });

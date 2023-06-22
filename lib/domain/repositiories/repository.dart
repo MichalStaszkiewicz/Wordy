@@ -269,7 +269,6 @@ class Repository {
     }
   }
 
-
   Future<void> saveTokenAccess(String token) async {
     _localSource.setTokenAccess(token);
   }

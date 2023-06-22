@@ -215,12 +215,12 @@ class RemoteSource implements ServerInterface {
   }
 
   @override
-  Future<Either<DioError, ActiveCourse>> getUserCurrentCourse(
+  Future<Either<DioError, UserCourse>> getUserCurrentCourse(
       String token) async {
     try {
       var response = await _apiService.get('/v1/profile/course',
           options: Options(headers: {'authorization': token}));
-      return Either.data(ActiveCourse.fromJson(response.data['userCourse']));
+      return Either.data(UserCourse.fromJson(response.data['userCourse']));
     } on DioError catch (exception) {
       return Either.error(exception);
     }

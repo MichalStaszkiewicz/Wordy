@@ -69,6 +69,7 @@ dependencies:
   animations: ^2.0.7
   flutter_background_service: ^3.0.1
   mockito: ^5.4.2
+  flutter_staggered_animations: ^1.1.1
  
 
   

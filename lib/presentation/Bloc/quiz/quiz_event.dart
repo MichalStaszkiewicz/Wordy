@@ -28,6 +28,10 @@ class SelectAnswer extends QuizEvent {
   int selectedIndex;
 }
 
+class CheckAnswer extends QuizEvent {
+  CheckAnswer();
+}
+
 class FinishQuiz extends QuizEvent {
   FinishQuiz(
       {required this.wordIds,
