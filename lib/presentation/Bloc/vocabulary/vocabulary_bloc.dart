@@ -7,6 +7,7 @@ import 'package:wordy/domain/models/custom_error.dart';
 import 'package:wordy/const/consts.dart';
 
 import '../../../Utility/locator/service_locator.dart';
+import '../../../const/shared_preferences_keys.dart';
 import '../../../domain/logic/vocabulary_logic.dart';
 import '../../../domain/models/flash_card_data.dart';
 import '../../../domain/models/vocabulary.dart';
@@ -31,8 +32,8 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
       } else {
         List<Vocabulary> list = [
           Vocabulary(
-            topic: ui_lang[course.data!.interfaceLanguage.name]!['topic_label']
-                [0],
+            topic: ui_lang[course.data!.interfaceLanguage.name]![
+                'topic_label'][0],
             image: "assets/dailyusage.png",
           ),
         ];

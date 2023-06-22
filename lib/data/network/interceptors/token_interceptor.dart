@@ -12,7 +12,6 @@ import '../response/refresh_room_request.dart';
 
 class TokenInterceptor extends Interceptor {
   Dio? _dio;
-  int _maxRefreshAttempts = 3; // Maksymalna liczba prób odświeżenia tokenu
 
   TokenInterceptor(Dio dio) {
     _dio = dio;
@@ -22,7 +21,7 @@ class TokenInterceptor extends Interceptor {
   Future onError(DioError err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401) {
       final newToken = await _refreshToken();
-      final oldToken = await locator<UserService>().getTokenAccess();
+      // final oldToken = await locator<UserService>().getTokenAccess();
       print("TOKEN EXPIRED");
       print("GENERATING NEW TOKEN");
       if (newToken.isError) {
@@ -30,9 +29,10 @@ class TokenInterceptor extends Interceptor {
         return;
       }
       if (newToken != null) {
-        err.requestOptions.headers['Authorization'] = 'Bearer ${newToken.data}';
+        err.requestOptions.headers['Authorization'] = '${newToken.data}';
         var options = err.requestOptions;
         Response? response = await _dio?.request(err.requestOptions.path,
+            data: err.requestOptions.data,
             options: Options(
                 method: options.method,
                 sendTimeout: options.sendTimeout,
@@ -50,7 +50,7 @@ class TokenInterceptor extends Interceptor {
                 listFormat: options.listFormat));
         if (response != null) {
           locator<SocketManager>().refreshToken(RefreshRoomRequest(
-              newToken: newToken.data!, oldToken: oldToken.data!));
+              newToken: newToken.data!, oldToken: newToken.data!));
           return handler.resolve(response);
         }
         return;

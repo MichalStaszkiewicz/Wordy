@@ -46,7 +46,7 @@ abstract class ServerInterface {
       updateRegisterationStatus(String token);
   Future<Either<DioError, UpdateUserCurrentCourseResponse>> switchCurrentCourse(
       String token, String courseName);
-  Future<Either<DioError, UserCourse>> getUserCurrentCourse(String token);
+  Future<Either<DioError, ActiveCourse>> getUserCurrentCourse(String token);
   Future<Either<DioError, FlashCardListResponse>> createFlashCardList(
       String topic, String token);
 

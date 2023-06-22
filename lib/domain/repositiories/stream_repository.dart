@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:wordy/data/network/response/achievement_list_response.dart';
+import 'package:wordy/data/network/response/refresh_room_request.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/user_achievement.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/global/notification_provider.dart';
+import 'package:wordy/utility/either.dart';
 import 'package:wordy/utility/socket_manager.dart';
 
 import '../../Utility/locator/service_locator.dart';
@@ -43,6 +45,7 @@ class StreamRepository {
           .add(ActiveCourse.fromJson(data['activeCourse']));
     });
     _socket.on('got_new_achievement', (data) {
+      print("GOT NEW ACHIEVEMENTS!!!!!!!!!!!!");
       List<UserAchievement> list =
           AchievementListResponse.fromJson(data).achievements;
 
@@ -51,12 +54,18 @@ class StreamRepository {
     _socket.on('logout_success', (data) {
       _notificationController.add("loggedOut");
     });
-    _socket.on('token_expired', (data) {
-      if (data.runtimeType == String) {
-        print('token expired got new one !');
-        print(data);
-        locator<Repository>().saveTokenAccess(data);
-      }
+    _socket.on('token_expired', (data) async {
+      print('token expired got new one !');
+      print(data);
+
+      await locator<Repository>().saveTokenAccess(data['token']);
+    });
+    _socket.on('request_refresh_token', (data) async {
+      var refreshToken = await locator<UserService>().getTokenRefresh();
+      print("asking for refresh token");
+
+      print('sending refresh token...');
+      _socket.emit('refresh_token', {"refreshToken": refreshToken.data!});
     });
   }
 }

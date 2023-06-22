@@ -30,7 +30,6 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
   CoursesUpdateBloc(this.socketRepository) : super(CoursesUpdateInitial()) {
     _activeCoursesSub =
         socketRepository.courseStreamController.stream.listen((data) {
-  
       if (!isClosed) {
         add(LoadCourses(
           courses: data,
@@ -79,12 +78,12 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
   void initialCourses() {
     on<InitialCourses>((event, emit) async {
       final userId = await locator<Repository>().getTokenAccess();
-
+   
       if (userId.isError) {
         emit(CourseUpdateError(
             error: ExceptionHelper.getErrorMessage(userId.error!)));
       }
-      socketManager.loggedIn(userId.data!);
+      socketManager.loadTopics(userId.data!);
     });
   }
 
@@ -98,7 +97,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
       }
       await locator<UserService>()
           .updateUserCurrentCourse(event.selectedCourse)
-          .then((value) => socketManager.loggedIn(userId.data!));
+          .then((value) => socketManager.loadTopics(userId.data!));
     });
   }
 

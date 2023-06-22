@@ -189,10 +189,10 @@ packages:
     dependency: transitive
     description:
       name: code_builder
-      sha256: "0d43dd1288fd145de1ecc9a3948ad4a6d5a82f0a14c4fdd0892260787d975cbe"
+      sha256: "4ad01d6e56db961d29661561effde45e519939fdaeb46c351275b182eac70189"
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.0"
+    version: "4.5.0"
   collection:
     dependency: transitive
     description:
@@ -310,6 +310,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  flutter_background_service:
+    dependency: "direct main"
+    description:
+      name: flutter_background_service
+      sha256: cd8dbba8fad41a0cd6e37be61e1edd3826358a8a03fbea9acfa2013a670cb4df
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
+  flutter_background_service_android:
+    dependency: transitive
+    description:
+      name: flutter_background_service_android
+      sha256: "16fd887d5acb8096126072f192e9cce1a359a8c28af1cee63122b1e12ffd5693"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
+  flutter_background_service_ios:
+    dependency: transitive
+    description:
+      name: flutter_background_service_ios
+      sha256: "980a8eba58ad1d8c52ab3b3dc9cebd129caa2ee0ef3d37e7efb2dcb2466a65bb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
+  flutter_background_service_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_background_service_platform_interface
+      sha256: "15f9cbe2f018d79a991c2468ca448f059a5a1762bf50c9cca66cefd414dcb6c1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   flutter_bloc:
     dependency: "direct main"
     description:
@@ -544,6 +576,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  mockito:
+    dependency: "direct main"
+    description:
+      name: mockito
+      sha256: "7d5b53bcd556c1bc7ffbe4e4d5a19c3e112b7e925e9e172dd7c6ad0630812616"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.4.2"
   mysql1:
     dependency: "direct main"
     description:

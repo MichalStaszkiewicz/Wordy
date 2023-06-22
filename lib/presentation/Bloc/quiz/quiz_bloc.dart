@@ -7,6 +7,7 @@ import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/achievement.dart';
 import 'package:wordy/domain/models/custom_error.dart';
+import 'package:wordy/domain/models/progress_in_topic.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 
 import '../../../Utility/locator/service_locator.dart';
@@ -24,8 +25,9 @@ part 'quiz_state.dart';
 class QuizBloc extends Bloc<QuizEvent, QuizState> {
   final StreamRepository socketRepository;
   final socketManager = locator<SocketManager>();
-
+    var topicCompleted = false;
   QuizBloc(this.socketRepository) : super(const QuizInitial()) {
+
     loadBeginnerQuiz();
     loadNextQuestion();
     finishQuiz();
@@ -49,7 +51,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
             currentQuestionIndex: 0,
             selectedIndex: null,
             correctAnswersWordIndexes: const [],
-            courseName: courseName.data!.course.name));
+            courseName: courseName.data!.userCourse.course.name));
       } else {
         emit(QuizError(
             error: ExceptionHelper.getErrorMessage(questions.error!)));
@@ -86,8 +88,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
             selectedIndex: null,
             courseName: state.courseName));
       } else {
-        List<BeginnerQuestion> questions =
-            List.from(state.questions).removeAt(state.currentQuestionIndex);
+        List<BeginnerQuestion> questions = List.from(state.questions)
+          ..removeAt(state.currentQuestionIndex);
         questions.add(state.questions[state.currentQuestionIndex]);
         emit(BeginnerQuizLoaded(
             questions: questions,
@@ -104,14 +106,23 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       final quizLogic = locator<QuizLogic>();
       final token = await locator<Repository>().getTokenAccess();
       if (token.isError) {
-        emit(QuizError(
-            error: ExceptionHelper.getErrorMessage(UnexpectedError())));
+        emit(QuizError(error: ExceptionHelper.getErrorMessage(token.error!)));
       }
-      await quizLogic.insertLearnedWords(event.wordIds).then((value) {
-        print("Token?:" + token.data!.toString());
 
+      await quizLogic.insertLearnedWords(event.wordIds).then((value) async {
         locator<SocketManager>()
             .quizSummary(QuizSummary(token: token.data!, topic: event.topic));
+        var currentCourse = await locator<UserService>().getUserCurrentCourse();
+        if (currentCourse.isError) {
+          emit(QuizError(
+              error: ExceptionHelper.getErrorMessage(currentCourse.error!)));
+        } else {
+          ProgressInTopic progress = currentCourse.data!.topicProgress
+              .firstWhere((element) => element.name == event.topic);
+          if (progress.knownWords == progress.wordsCount) {
+            topicCompleted = true;
+          }
+        }
       });
     });
   }

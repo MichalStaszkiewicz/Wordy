@@ -18,34 +18,36 @@ import '../data/network/response/achievement_list_response.dart';
 import '../presentation/home_page.dart';
 
 class NotificationProvider with ChangeNotifier {
-  BuildContext? context;
   late StreamSubscription subscription;
-
+  List<Achievement> achievementNotifications = [];
   NotificationProvider() {
     subscription = locator<StreamRepository>()
         .notificationController
         .stream
         .listen((event) async {
-      print("RECIEVED AN EVENT " + event);
+      print("EVEN HAS BEEN FIRED! " + event.runtimeType.toString());
       if (event.runtimeType == AchievementListResponse) {
+        event as AchievementListResponse;
+
         for (int i = 0; i < event.achievements.length; i++) {
-          if (context != null) {
-            if (context!.mounted) {
-              achievementsNotification(
-                  event.achievements.elementAt(i).achievement);
-              await Future.delayed(Duration(seconds: 3));
-            }
-          }
+          print("ADDING NOTIFICATION ABOUT ACHIEVEMENT");
+
+          achievementNotifications.add(event.achievements[i].achievement);
+          notifyListeners();
         }
+        notifyListeners();
       }
       if (event.runtimeType == String) {
         if (event == "loggedOut") {
+          /*
           if (context != null) {
             if (context!.mounted) {
               // ignore: use_build_context_synchronously
               context!.go(AppRouter.authScreen);
             }
+            
           }
+          */
         } /*
         if (event == 'token_expired') {
           var refreshToken = await locator<UserService>().getTokenRefresh();
@@ -61,15 +63,6 @@ class NotificationProvider with ChangeNotifier {
         }
         */
       }
-
-      subscription.cancel();
     });
-  }
-
-  void achievementsNotification(Achievement achievement) {
-    if (context != null) {
-      ToastManager.achievementNotification(context!, achievement);
-      notifyListeners();
-    }
   }
 }

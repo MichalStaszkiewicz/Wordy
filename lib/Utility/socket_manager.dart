@@ -14,7 +14,9 @@ class SocketManager {
     socket.io.options['extraHeaders'] = {
       'Authorization': {token}
     };
-    socket.connect();
+
+    joinRoom(token);
+    connect();
   }
 
   void joinRoom(String token) async {
@@ -41,8 +43,9 @@ class SocketManager {
     socket.emit('logout', [token]);
   }
 
-  void loggedIn(String token) async {
+  void loadTopics(String token) async {
     socket.io.options['extraHeaders'] = {'Authorization': token};
+  
     socket.emit('topic_screen_load_courses', [token]);
   }
 

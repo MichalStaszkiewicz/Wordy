@@ -31,36 +31,33 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => NotificationProvider(),
-      builder: (context, child) => BlocProvider(
-        create: (context) => QuizBloc(locator<StreamRepository>())
-          ..add(LoadBeginnerQuiz(topic: widget.topic)),
-        child: Scaffold(
-          body: Container(
-            child: BlocListener<QuizBloc, QuizState>(
-              listener: (context, state) {
-                if (state is QuizError) {
-                  DialogManager.showErrorDialog(state.error, context, () {
-                    if (state.error.critical) {
-                      context.go(AppRouter.authScreen);
-                    }
-                  });
+    return BlocProvider(
+      create: (context) => QuizBloc(locator<StreamRepository>())
+        ..add(LoadBeginnerQuiz(topic: widget.topic)),
+      child: Scaffold(
+        body: Container(
+          child: BlocListener<QuizBloc, QuizState>(
+            listener: (context, state) {
+              if (state is QuizError) {
+                DialogManager.showErrorDialog(state.error, context, () {
+                  if (state.error.critical) {
+                    context.go(AppRouter.authScreen);
+                  }
+                });
+              }
+            },
+            child: BlocBuilder<QuizBloc, QuizState>(
+              builder: (context, state) {
+                if (state is InProgress || state is QuizInitial) {
+                  return const LoadingData();
+                } else if (state is BeginnerQuizLoaded) {
+                  return QuizScreenQuestions(
+                    topic: widget.topic,
+                  );
+                } else {
+                  return Container();
                 }
               },
-              child: BlocBuilder<QuizBloc, QuizState>(
-                builder: (context, state) {
-                  if (state is InProgress || state is QuizInitial) {
-                    return const LoadingData();
-                  } else if (state is BeginnerQuizLoaded) {
-                    return QuizScreenQuestions(
-                      topic: widget.topic,
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
             ),
           ),
         ),

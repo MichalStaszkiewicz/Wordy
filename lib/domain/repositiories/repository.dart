@@ -12,6 +12,7 @@ import '../../data/network/request/login_user_request.dart';
 import '../../data/network/request/models/begginer_quiz_request_model.dart';
 
 import '../../data/network/response/login_user_response.dart';
+import '../../data/network/response/refresh_room_request.dart';
 import '../../utility/either.dart';
 import '../models/achievement.dart';
 import '../models/active_course.dart';
@@ -88,7 +89,6 @@ class Repository {
     var response = await _remoteSource.getRegisterationStatus(token);
 
     if (response.isData) {
-
       return Either.data(RegisterationStatus(
           registerationCompleted: response.data!.registerationCompleted));
     } else {
@@ -269,7 +269,8 @@ class Repository {
     }
   }
 
-  void saveTokenAccess(String token) async {
+
+  Future<void> saveTokenAccess(String token) async {
     _localSource.setTokenAccess(token);
   }
 

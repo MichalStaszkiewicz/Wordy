@@ -90,8 +90,6 @@ class _AuthScreenState extends State<AuthScreen> {
                 print(state.token);
                 socketManager.initialize(state.token);
 
-                socketManager.joinRoom(state.token);
-
                 state.registerCompleted
                     ? context.pushNamed(AppRouter.home)
                     : context.pushNamed(AppRouter.initialSettings);

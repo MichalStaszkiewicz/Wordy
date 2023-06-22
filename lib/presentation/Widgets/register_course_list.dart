@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
+import 'package:get/get.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/utility/dialog_manager.dart';
@@ -39,7 +40,8 @@ class _RegisterCourseListState extends State<RegisterCourseList> {
                     child: ListView.builder(
                         itemCount: widget.languages.length,
                         itemBuilder: (context, index) => LanguageTile(
-                              language: widget.languages[index].name,
+                              language:
+                                  widget.languages[index].name.capitalize!,
                               imagePath: widget.languages[index].image,
                               onSelect: () {
                                 context.read<RegisterBloc>().add(

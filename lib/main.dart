@@ -23,6 +23,8 @@ void main() {
     locator.registerLazySingleton<SocketManager>(
         () => SocketManager(locator<Socket>()));
 
-    runApp(const App());
+    runApp(App(
+      key: Key("App"),
+    ));
   });
 }

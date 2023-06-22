@@ -6,7 +6,7 @@ import '../../const/urls.dart';
 import '../../data/local/local_storage.dart';
 import '../../data/network/api_service.dart';
 import '../../data/network/remote_source.dart';
-import '../../data/network/socket_event_emitter.dart';
+
 import '../../domain/logic/quiz_logic.dart';
 import '../../domain/logic/settings_logic.dart';
 import '../../domain/logic/user_service.dart';
@@ -44,6 +44,4 @@ Future<void> serviceLocator() async {
   locator.registerSingleton<SocketManager>(SocketManager(locator<Socket>()));
 
   locator.registerLazySingleton(() => StreamRepository());
-
-  locator.registerLazySingleton(() => SocketEventEmitter());
 }

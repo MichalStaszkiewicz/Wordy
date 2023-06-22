@@ -155,6 +155,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                       ],
                     ),
                   );
+
+                  return Container();
                 } else if (state is VocabularyInitial) {
                   return const LoadingData();
                 } else {

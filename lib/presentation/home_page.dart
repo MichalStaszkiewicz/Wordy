@@ -62,49 +62,46 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => NotificationProvider(),
-      builder: (context, child) => Scaffold(
-          bottomNavigationBar: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 20,
-                  color: Colors.black.withOpacity(.1),
-                )
-              ],
-            ),
-            child: SafeArea(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 22),
-                child: GNav(
-                    tabActiveBorder: Border.all(color: Colors.indigo[400]!),
-                    gap: 10,
-                    color: Colors.grey[600],
-                    activeColor: Colors.indigo[400],
-                    rippleColor: Colors.grey[300]!,
-                    hoverColor: Colors.grey[100]!,
-                    iconSize: 20,
-                    textStyle:
-                        TextStyle(fontSize: 16, color: Colors.indigo[400]),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 14.5),
-                    duration: const Duration(milliseconds: 800),
-                    selectedIndex: _currentScreenIndex,
-                    onTabChange: (index) {
-                      setState(() {
-                        if (mounted) {
-                          _currentScreenIndex = index;
-                        }
-                      });
-                    },
-                    tabs: navBarsItems('english')),
-              ),
+    return Scaffold(
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 20,
+                color: Colors.black.withOpacity(.1),
+              )
+            ],
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 22),
+              child: GNav(
+                  tabActiveBorder: Border.all(color: Colors.indigo[400]!),
+                  gap: 10,
+                  color: Colors.grey[600],
+                  activeColor: Colors.indigo[400],
+                  rippleColor: Colors.grey[300]!,
+                  hoverColor: Colors.grey[100]!,
+                  iconSize: 20,
+                  textStyle:
+                      TextStyle(fontSize: 16, color: Colors.indigo[400]),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20, vertical: 14.5),
+                  duration: const Duration(milliseconds: 800),
+                  selectedIndex: _currentScreenIndex,
+                  onTabChange: (index) {
+                    setState(() {
+                      if (mounted) {
+                        _currentScreenIndex = index;
+                      }
+                    });
+                  },
+                  tabs: navBarsItems('english')),
             ),
           ),
-          body: _currentScreen[_currentScreenIndex]),
-    );
+        ),
+        body: _currentScreen[_currentScreenIndex]);
   }
 }

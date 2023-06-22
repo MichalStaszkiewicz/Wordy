@@ -33,10 +33,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => NotificationProvider(),
-      builder: (context, child) => Scaffold(
-          body: BlocProvider(
+    return Scaffold(
+      body: BlocProvider(
         create: (context) => CoursesUpdateBloc(locator<StreamRepository>())
           ..add(CurrentCourseInitial()),
         child: BlocBuilder<CoursesUpdateBloc, CoursesUpdateState>(
@@ -90,9 +88,22 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
                                       mainAxisSpacing: 20, crossAxisCount: 2),
                               itemBuilder: (context, index) => GestureDetector(
                                     onTap: () {
-                                      context.pushNamed(AppRouter.quizScreen,
-                                          extra: state.course
-                                              .topicProgress[index].name);
+                                      print(state
+                                          .course.topicProgress[index].name);
+                                      if (state.course.topicProgress[index]
+                                              .knownWords <
+                                          state.course.topicProgress[index]
+                                              .wordsCount) {
+                                        context.go(AppRouter.quizScreen,
+                                            extra: state.course
+                                                .topicProgress[index].name);
+                                      } else {
+                                        DialogManager.showSuccessDialog(
+                                            'You have been Completed this topic. if you would like to repeat them you can do this in review mode',
+                                            'Congratulations !',
+                                            context,
+                                            () {});
+                                      }
                                     },
                                     child: _buildTopicItem(
                                         context,
@@ -118,7 +129,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen> {
             }
           },
         ),
-      )),
+      ),
     );
   }
 

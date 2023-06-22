@@ -28,6 +28,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
     return BlocBuilder<QuizBloc, QuizState>(
       builder: (context, state) {
         state as BeginnerQuizLoaded;
+
         return SafeArea(
           child: Stack(children: [
             Container(
@@ -57,8 +58,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions> {
                                 'If you will quit now all progress you have made will be lost!',
                                 'Are you sure ? ',
                                 context, () {
-                              AppRouter.popUntil(
-                                  context, AppRouter.selectedCourse);
+                              context.go(AppRouter.selectedCourse);
                             }, () {});
                           },
                           child: ExitButton(),

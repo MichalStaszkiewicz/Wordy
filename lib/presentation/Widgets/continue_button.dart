@@ -29,7 +29,7 @@ class _ContinueButtonState extends State<ContinueButton>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(AppRouter.selectedCourse);
+        context.go(AppRouter.selectedCourse);
       },
       child: Container(
         width: 130,

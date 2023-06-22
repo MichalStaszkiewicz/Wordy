@@ -124,7 +124,8 @@ class CurrentCourseWidget extends StatelessWidget {
                                               ],
                                               nonProgressionColor:
                                                   Colors.white.withOpacity(0.6),
-                                              progress: 90,
+                                              progress:
+                                                  currentCourse.totalProgress,
                                               width: 200,
                                             ),
                                           ),
