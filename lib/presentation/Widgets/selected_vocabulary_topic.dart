@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
 import 'package:wordy/const/app_router.dart';
@@ -81,18 +82,31 @@ class _SelectedVocabularyTopicState extends State<SelectedVocabularyTopic> {
                         flex: 6,
                         child: Container(
                           child: GridView.builder(
-                              itemCount: state.flashCards.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2),
-                              itemBuilder: (context, index) => FlipCards(
-                                    front: VocabularyFrontCard(
-                                      label: state.flashCards[index].answer,
-                                    ),
-                                    back: VocabularyBackCard(
-                                      label: state.flashCards[index].question,
-                                    ),
-                                  )),
+                            itemCount: state.flashCards.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
+                            itemBuilder: (context, index) =>
+                                AnimationConfiguration.staggeredGrid(
+                                    columnCount: 2,
+                                    position: index,
+                                    child: ScaleAnimation(
+                                      scale: 0.1,
+                                      child: SlideAnimation(
+                                        horizontalOffset: 50,
+                                        child: FlipCards(
+                                          front: VocabularyFrontCard(
+                                            label:
+                                                state.flashCards[index].answer,
+                                          ),
+                                          back: VocabularyBackCard(
+                                            label: state
+                                                .flashCards[index].question,
+                                          ),
+                                        ),
+                                      ),
+                                    )),
+                          ),
                         ),
                       ),
                     ],

@@ -1,7 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:get/utils.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
@@ -9,11 +11,12 @@ import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/enums.dart';
 import 'package:wordy/global/notification_provider.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
-import 'package:wordy/presentation/Widgets/quiz_next_button.dart';
+
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
 import 'package:wordy/presentation/widgets/exit_button.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 import 'package:wordy/presentation/widgets/quiz_answear.dart';
+import 'package:wordy/presentation/widgets/quiz_next_button.dart';
 import 'package:wordy/utility/utility.dart';
 
 class QuizScreenQuestions extends StatefulWidget {
@@ -135,7 +138,9 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              AutoSizeText(
+                                maxLines: 2,
+                                textAlign: TextAlign.center,
                                 state.questions[state.currentQuestionIndex]
                                     .question,
                                 style: Theme.of(context)
@@ -206,8 +211,8 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                           child: Container(
                             alignment: Alignment.center,
                             height: 130,
-                            child: QuizButton(
-                              function: () {
+                            child: CustomAnimatedButton(
+                              onTap: () {
                                 Utility.quizAnswerValidationLogic(
                                     context, state, notification, widget.topic);
                               },
@@ -218,7 +223,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                   state.currentQuestionIndex,
                                   state.questions.length),
                               margin: EdgeInsets.zero,
-                              selectedAnswer:
+                              filled:
                                   state.selectedIndex == null ? false : true,
                             ),
                           ),

@@ -32,7 +32,7 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
       } else {
         List<Vocabulary> list = [
           Vocabulary(
-            topic: ui_lang[course.data!.course.name]!['topic_label'][0],
+            topic: ui_lang['english']!['topic_label'][0],
             image: "assets/dailyusage.png",
           ),
         ];

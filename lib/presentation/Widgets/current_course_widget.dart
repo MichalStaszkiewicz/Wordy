@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/const/urls.dart';
+import 'package:wordy/presentation/widgets/bouncing_widget.dart';
 import 'package:wordy/presentation/widgets/continue_button.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 
@@ -94,10 +95,13 @@ class CurrentCourseWidget extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                          child: Container(
-                              width: double.infinity,
-                              alignment: Alignment.bottomLeft,
-                              child: ContinueButton()),
+                          child: BouncingWidget(
+                            onPress: () {},
+                            child: Container(
+                                width: double.infinity,
+                                alignment: Alignment.bottomLeft,
+                                child: ContinueButton()),
+                          ),
                         ),
                         Expanded(
                           flex: 2,

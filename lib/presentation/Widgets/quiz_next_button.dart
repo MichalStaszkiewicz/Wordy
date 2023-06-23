@@ -3,27 +3,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wordy/domain/models/beginner.dart';
 import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
 
-class QuizButton extends StatefulWidget {
-  QuizButton(
+class CustomAnimatedButton extends StatefulWidget {
+  CustomAnimatedButton(
       {super.key,
-      required this.function,
+      required this.onTap,
       required this.height,
       required this.width,
       required this.margin,
       required this.label,
-      required this.selectedAnswer});
-  bool? selectedAnswer;
-  Function function;
+      required this.filled});
+  bool? filled;
+  Function onTap;
   double height;
   double width;
   String label;
   EdgeInsets margin;
 
   @override
-  State<QuizButton> createState() => _QuizButtonState();
+  State<CustomAnimatedButton> createState() => _CustomAnimatedButtonState();
 }
 
-class _QuizButtonState extends State<QuizButton>
+class _CustomAnimatedButtonState extends State<CustomAnimatedButton>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<Color?> _buttonColorAnimationFirstColor;
@@ -38,32 +38,32 @@ class _QuizButtonState extends State<QuizButton>
       duration: const Duration(milliseconds: 500),
     );
     _buttonColorAnimationFirstColor = ColorTween(
-            begin: widget.selectedAnswer == true
+            begin: widget.filled == true
                 ? Color.fromARGB(255, 99, 155, 252)
                 : Colors.white,
-            end: widget.selectedAnswer == true
+            end: widget.filled == true
                 ? Colors.white
                 : Color.fromARGB(255, 99, 155, 252))
         .animate(_animationController);
     _buttonColorAnimationSecondColor = ColorTween(
-      begin: widget.selectedAnswer == true
+      begin: widget.filled == true
           ? Color.fromRGBO(158, 149, 248, 1)
           : Colors.white,
-      end: widget.selectedAnswer == true
+      end: widget.filled == true
           ? Colors.white
           : Color.fromRGBO(158, 149, 248, 1),
     ).animate(_animationController);
     _textColorAnimation = ColorTween(
-      begin: widget.selectedAnswer == true ? Colors.white : Colors.indigoAccent,
-      end: widget.selectedAnswer == true ? Colors.white : Colors.white,
+      begin: widget.filled == true ? Colors.white : Colors.indigoAccent,
+      end: widget.filled == true ? Colors.white : Colors.white,
     ).animate(_animationController);
   }
 
   @override
-  void didUpdateWidget(covariant QuizButton oldWidget) {
+  void didUpdateWidget(covariant CustomAnimatedButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.selectedAnswer != oldWidget.selectedAnswer) {
-      if (widget.selectedAnswer == true) {
+    if (widget.filled != oldWidget.filled) {
+      if (widget.filled == true) {
         _animationController.forward();
       } else {
         _animationController.reverse();
@@ -81,7 +81,7 @@ class _QuizButtonState extends State<QuizButton>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        widget.function();
+        widget.onTap();
       },
       child: AnimatedBuilder(
         animation: _animationController,

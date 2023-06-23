@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class VocabularyBackCard extends StatefulWidget {
@@ -26,9 +27,17 @@ class _VocabularyBackCardState extends State<VocabularyBackCard> {
       height: 100,
       width: 100,
       child: Center(
-        child: Text(
-          widget.label,
-          style: Theme.of(context).textTheme.titleSmall,
+        child: Container(
+          height: 100,
+          width: 200,
+          child: Center(
+            child: AutoSizeText(
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              widget.label,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ),
         ),
       ),
     );

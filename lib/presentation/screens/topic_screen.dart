@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,7 @@ import 'package:wordy/Utility/dialog_manager.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/global/notification_provider.dart';
+import 'package:wordy/presentation/widgets/bouncing_widget.dart';
 import 'package:wordy/utility/socket_manager.dart';
 
 import '../../Utility/locator/service_locator.dart';
@@ -190,43 +192,56 @@ class _TopicScreenState extends State<TopicScreen>
                                             },
                                             child: const AddNewCourseItem());
                                       } else {
-                                        return GestureDetector(
-                                            onTap: () async {
-                                              await locator<UserService>()
-                                                  .updateUserCurrentCourse(state
-                                                      .courses
-                                                      .activeCourses[index]
-                                                      .userCourse
-                                                      .course
-                                                      .name)
-                                                  .then((value) {
-                                                context.go(
-                                                    AppRouter.selectedCourse);
-                                              });
-                                            },
-                                            child: CourseItem(
-                                                courseLevel: state
-                                                    .courses
-                                                    .activeCourses[index]
-                                                    .userCourse
-                                                    .difficulty
-                                                    .beginner
-                                                    .name,
-                                                courseName: state
-                                                    .courses
-                                                    .activeCourses[index]
-                                                    .userCourse
-                                                    .course
-                                                    .name,
-                                                progress: state
-                                                    .courses
-                                                    .activeCourses[index]
-                                                    .totalProgress,
-                                                topic: state
-                                                    .courses
-                                                    .activeCourses[index]
-                                                    .userCourse
-                                                    .lastTopic));
+                                        return AnimationConfiguration
+                                            .staggeredGrid(
+                                          position: index,
+                                          columnCount: 2,
+                                          child: GestureDetector(
+                                              onTap: () async {
+                                                await locator<UserService>()
+                                                    .updateUserCurrentCourse(
+                                                        state
+                                                            .courses
+                                                            .activeCourses[
+                                                                index]
+                                                            .userCourse
+                                                            .course
+                                                            .name)
+                                                    .then((value) {
+                                                  context.go(
+                                                      AppRouter.selectedCourse);
+                                                });
+                                              },
+                                              child: ScaleAnimation(
+                                                scale: 0.1,
+                                                child: BouncingWidget(
+                                                  onPress: () {},
+                                                  child: CourseItem(
+                                                      courseLevel: state
+                                                          .courses
+                                                          .activeCourses[index]
+                                                          .userCourse
+                                                          .difficulty
+                                                          .beginner
+                                                          .name,
+                                                      courseName: state
+                                                          .courses
+                                                          .activeCourses[index]
+                                                          .userCourse
+                                                          .course
+                                                          .name,
+                                                      progress: state
+                                                          .courses
+                                                          .activeCourses[index]
+                                                          .totalProgress,
+                                                      topic: state
+                                                          .courses
+                                                          .activeCourses[index]
+                                                          .userCourse
+                                                          .lastTopic),
+                                                ),
+                                              )),
+                                        );
                                       }
                                     },
                                     gridDelegate:

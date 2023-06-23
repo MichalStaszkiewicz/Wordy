@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/repositiories/stream_repository.dart';
+import 'package:wordy/presentation/widgets/bouncing_widget.dart';
+import 'package:wordy/presentation/widgets/quiz_next_button.dart';
 
 import '../../Utility/dialog_manager.dart';
 
@@ -60,20 +62,26 @@ class _SelectCourseDialogState extends State<SelectCourseDialog> {
                               selectedLangauge: state.selectedCourse,
                             )),
                   ),
-                  const SizedBox(height: 20),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (state.selectedCourse != '') {
-                        context.read<CoursesUpdateBloc>().add(
-                            AddNewCourse(selectedCourse: state.selectedCourse));
+                  const SizedBox(height: 40),
+                  BouncingWidget(
+                    onPress: () {},
+                    child: CustomAnimatedButton(
+                      height: 40,
+                      label: 'Start',
+                      margin: EdgeInsets.zero,
+                      onTap: () {
+                        if (state.selectedCourse != '') {
+                          context.read<CoursesUpdateBloc>().add(AddNewCourse(
+                              selectedCourse: state.selectedCourse));
 
-                        context.pop();
-                      } else {
-                        context.pop();
-                      }
-                    },
-                    child: const Text('Start'),
+                          context.pop();
+                        } else {
+                          context.pop();
+                        }
+                      },
+                      filled: state.selectedCourse != '' ? true : false,
+                      width: 300,
+                    ),
                   ),
                 ],
               ),
