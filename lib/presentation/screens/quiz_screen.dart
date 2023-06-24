@@ -50,7 +50,7 @@ class _QuizScreenState extends State<QuizScreen> {
               builder: (context, state) {
                 if (state is InProgress || state is QuizInitial) {
                   return const LoadingData();
-                } else if (state is BeginnerQuizLoaded) {
+                } else if (state is QuizQuestionState) {
                   return QuizScreenQuestions(
                     topic: widget.topic,
                   );

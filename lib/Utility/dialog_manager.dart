@@ -107,6 +107,7 @@ class DialogManager {
             const CircularProgressIndicator(),
             const SizedBox(height: 16),
             Text(
+              textAlign: TextAlign.center,
               message,
               style: const TextStyle(fontSize: 16),
             ),

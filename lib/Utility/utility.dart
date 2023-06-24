@@ -11,6 +11,7 @@ import 'package:wordy/utility/toast_manager.dart';
 
 import '../const/enums.dart';
 import '../domain/models/achievement.dart';
+import '../domain/models/beginner_question.dart';
 import '../global/notification_provider.dart';
 import '../presentation/Bloc/quiz/quiz_bloc.dart';
 
@@ -35,41 +36,62 @@ class Utility {
   }
 
   static void quizAnswerValidationLogic(
-      BuildContext context,
-      BeginnerQuizLoaded state,
-      NotificationProvider notification,
-      String topic) {
+    BuildContext context,
+    QuizQuestionState state,
+    NotificationProvider notification,
+    String topic,
+  ) {
+    int currentQuestionIndex = context.read<QuizBloc>().currentQuestionIndex;
+    List<BeginnerQuestion> questions = context.read<QuizBloc>().questions;
     if (state.selectedIndex != null && !state.answerChecked) {
       if (state.selectedIndex ==
-          state.questions[state.currentQuestionIndex].correctAnswerIndex) {
+          context
+              .read<QuizBloc>()
+              .questions[currentQuestionIndex]
+              .correctAnswerIndex) {
         notification.showInformationAboutChoosenAnswer(
             QuizAnswerStatus.success,
-            state.questions[state.currentQuestionIndex]
-                .answers[state.selectedIndex!],
-            state.questions[state.currentQuestionIndex].answers[
-                state.questions[state.currentQuestionIndex].correctAnswerIndex],
+            questions[currentQuestionIndex].answers[state.selectedIndex!],
+            questions[currentQuestionIndex]
+                .answers[questions[currentQuestionIndex].correctAnswerIndex],
             context);
-        context.read<QuizBloc>().add(CheckAnswer());
+        context.read<QuizBloc>().add(CheckAnswer(
+            questionIndex: currentQuestionIndex,
+            selectedIndex: state.selectedIndex!));
+        context.read<QuizBloc>().correctAnswersCount.add(1);
       } else {
         notification.showInformationAboutChoosenAnswer(
             QuizAnswerStatus.failure,
-            state.questions[state.currentQuestionIndex]
-                .answers[state.selectedIndex!],
-            state.questions[state.currentQuestionIndex].answers[
-                state.questions[state.currentQuestionIndex].correctAnswerIndex],
+            questions[currentQuestionIndex].answers[state.selectedIndex!],
+            questions[currentQuestionIndex]
+                .answers[questions[currentQuestionIndex].correctAnswerIndex],
             context);
-        context.read<QuizBloc>().add(CheckAnswer());
+        context.read<QuizBloc>().add(CheckAnswer(
+            questionIndex: currentQuestionIndex,
+            selectedIndex: state.selectedIndex!));
+        context.read<QuizBloc>().incorrectAnsersCount.add(1);
       }
     } else if (state.selectedIndex != null && state.answerChecked == true) {
-      if (state.currentQuestionIndex == state.questions.length - 1 &&
+      if (currentQuestionIndex == questions.length - 1 &&
           state.selectedIndex ==
-              state.questions[state.currentQuestionIndex].correctAnswerIndex) {
+              questions[currentQuestionIndex].correctAnswerIndex) {
         context.go(AppRouter.quizCompleted, extra: {
           'topic': topic,
-          'maximumPoints': state.questions,
-          'correctAnswers': state.correctAnswersWordIndexes,
+          'learnedWords': questions.length,
+          'score': (context.read<QuizBloc>().correctAnswersCount.length /
+                      (context.read<QuizBloc>().correctAnswersCount.length +
+                          context.read<QuizBloc>().incorrectAnsersCount.length))
+                  .toDouble() *
+              100,
         });
 
+        context.read<QuizBloc>().add(FinishQuiz(
+            topic: topic,
+            wordIds: List.from(context
+                .read<QuizBloc>()
+                .questions
+                .map((e) => e.wordId)
+                .toList())));
         notification.clearChoosenAnswerNotification();
       } else {
         context.read<QuizBloc>().add(LoadNextQuestion());

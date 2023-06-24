@@ -78,7 +78,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
   void initialCourses() {
     on<InitialCourses>((event, emit) async {
       final userId = await locator<Repository>().getTokenAccess();
-   
+
       if (userId.isError) {
         emit(CourseUpdateError(
             error: ExceptionHelper.getErrorMessage(userId.error!)));

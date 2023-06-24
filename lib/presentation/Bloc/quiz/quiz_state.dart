@@ -25,34 +25,28 @@ class QuizError extends QuizState {
   CustomError error;
 }
 
-class BeginnerQuizLoaded extends QuizState {
-  BeginnerQuizLoaded(
-      {required this.questions,
-      required this.currentQuestionIndex,
+class QuizQuestionState extends QuizState {
+  QuizQuestionState(
+      {required this.question,
       required this.selectedIndex,
-      required this.correctAnswersWordIndexes,
-      required this.courseName,
       required this.answerChecked});
-  List<BeginnerQuestion> questions;
-  int currentQuestionIndex;
+  BeginnerQuestion question;
   int? selectedIndex;
-  List<int> correctAnswersWordIndexes;
-  String courseName;
   bool answerChecked;
 
   @override
-  List<Object?> get props => [
-        questions,
-        answerChecked,
-        currentQuestionIndex,
-        selectedIndex,
-        correctAnswersWordIndexes,
-        courseName,
-      ];
+  List<Object?> get props => [question, selectedIndex, answerChecked];
+}
+
+class AnswerChecked extends QuizState {
+  AnswerChecked({required this.selectedAnswer, required this.correctAnswer});
+
+  String selectedAnswer;
+  String correctAnswer;
 }
 
 class QuizCompleted extends QuizState {
-  QuizCompleted({required this.topicCompleted});
+  QuizCompleted({required this.topicCompleted, });
   bool topicCompleted = false;
 
   @override

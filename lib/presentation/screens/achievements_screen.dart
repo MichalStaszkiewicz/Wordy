@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/data/network/exceptions/unexpected_error.dart';
@@ -59,20 +60,31 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2),
-                          itemBuilder: (context, index) => FlipCards(
-                                back: AchievementItemBack(
-                                  description: state.achievements[index]
-                                      .achievement.description!,
-                                  achieved: state.achievements[index].achieved,
-                                ),
-                                front: AchievementItemFront(
-                                  image: "assets/medal.png",
-                                  name: state
-                                      .achievements[index].achievement.name!,
-                                  currentProgress:
-                                      state.achievements[index].progress,
-                                  maximum: state
-                                      .achievements[index].achievement.goal,
+                          itemBuilder: (context, index) =>
+                              AnimationConfiguration.staggeredGrid(
+                                position: index,
+                                columnCount: 2,
+                                child: ScaleAnimation(
+                                  scale: 0,
+                                  duration: Duration(milliseconds: 500),
+                                  curve: Curves.decelerate,
+                                  child: FlipCards(
+                                    back: AchievementItemBack(
+                                      description: state.achievements[index]
+                                          .achievement.description!,
+                                      achieved:
+                                          state.achievements[index].achieved,
+                                    ),
+                                    front: AchievementItemFront(
+                                      image: "assets/medal.png",
+                                      name: state.achievements[index]
+                                          .achievement.name!,
+                                      currentProgress:
+                                          state.achievements[index].progress,
+                                      maximum: state
+                                          .achievements[index].achievement.goal,
+                                    ),
+                                  ),
                                 ),
                               )),
                     ),

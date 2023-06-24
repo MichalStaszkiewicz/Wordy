@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/enums.dart';
+import 'package:wordy/domain/models/quiz_question.dart';
 import 'package:wordy/global/notification_provider.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 
@@ -18,6 +19,8 @@ import 'package:wordy/presentation/widgets/progression_bar.dart';
 import 'package:wordy/presentation/widgets/quiz_answear.dart';
 import 'package:wordy/presentation/widgets/quiz_next_button.dart';
 import 'package:wordy/utility/utility.dart';
+
+import '../../domain/models/beginner_question.dart';
 
 class QuizScreenQuestions extends StatefulWidget {
   QuizScreenQuestions({
@@ -46,8 +49,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
   Widget build(BuildContext context) {
     return BlocBuilder<QuizBloc, QuizState>(
       builder: (context, state) {
-        state as BeginnerQuizLoaded;
-
+        state as QuizQuestionState;
         return Consumer<NotificationProvider>(
           builder: (context, notification, child) => SafeArea(
             child: Stack(children: [
@@ -95,24 +97,39 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                     Color.fromRGBO(158, 149, 248, 1),
                                   ],
                                   nonProgressionColor: Colors.white,
-                                  progress:
-                                      ((animation) / state.questions.length) *
-                                          100,
+                                  progress: ((animation) /
+                                          context
+                                              .read<QuizBloc>()
+                                              .questions
+                                              .length) *
+                                      100,
                                   width: 250),
                           duration: Duration(milliseconds: 500),
                           tween: Tween(
-                              begin: state.currentQuestionIndex == 0
+                              begin: context
+                                          .read<QuizBloc>()
+                                          .currentQuestionIndex ==
+                                      0
                                   ? 0.0000001
-                                  : (state.currentQuestionIndex).toDouble(),
-                              end: state.currentQuestionIndex == 0
+                                  : (context
+                                          .read<QuizBloc>()
+                                          .currentQuestionIndex)
+                                      .toDouble(),
+                              end: context
+                                          .read<QuizBloc>()
+                                          .currentQuestionIndex ==
+                                      0
                                   ? 0.0000002
-                                  : (state.currentQuestionIndex + 1)
+                                  : (context
+                                              .read<QuizBloc>()
+                                              .currentQuestionIndex +
+                                          1)
                                       .toDouble()),
                         ),
                         Container(
                           width: 50,
                           child: Text(
-                            ' ${state.currentQuestionIndex + 1} / ${state.questions.length.toString()}',
+                            ' ${context.read<QuizBloc>().currentQuestionIndex + 1} / ${context.read<QuizBloc>().questions.length.toString()}',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium!
@@ -141,7 +158,11 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                               AutoSizeText(
                                 maxLines: 2,
                                 textAlign: TextAlign.center,
-                                state.questions[state.currentQuestionIndex]
+                                context
+                                    .read<QuizBloc>()
+                                    .questions[context
+                                        .read<QuizBloc>()
+                                        .currentQuestionIndex]
                                     .question,
                                 style: Theme.of(context)
                                     .textTheme
@@ -156,7 +177,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                   children: [
                                     _buildDivider(),
                                     Text(
-                                      'in ${state.courseName.capitalize}',
+                                      'in ${context.read<QuizBloc>().courseName.capitalize}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelLarge!
@@ -177,8 +198,11 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                         flex: 1,
                         child: Container(
                             child: GridView.builder(
-                                itemCount: state
-                                    .questions[state.currentQuestionIndex]
+                                itemCount: context
+                                    .read<QuizBloc>()
+                                    .questions[context
+                                        .read<QuizBloc>()
+                                        .currentQuestionIndex]
                                     .answers
                                     .length,
                                 gridDelegate:
@@ -191,15 +215,14 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                     duration: Duration(milliseconds: 375),
                                     child: BouncingWidget(
                                       onPress: () {},
-                                      child: ScaleAnimation(
-                                        scale: 0.1,
-                                        child: QuizAnswear(
-                                          answer: state
-                                              .questions[
-                                                  state.currentQuestionIndex]
-                                              .answers[index],
-                                          index: index,
-                                        ),
+                                      child: QuizAnswear(
+                                        answer: context
+                                            .read<QuizBloc>()
+                                            .questions[context
+                                                .read<QuizBloc>()
+                                                .currentQuestionIndex]
+                                            .answers[index],
+                                        index: index,
                                       ),
                                     ),
                                   );
@@ -220,8 +243,8 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                               width: 350,
                               label: _buttonLabelCheck(
                                   state.answerChecked,
-                                  state.currentQuestionIndex,
-                                  state.questions.length),
+                                  context.read<QuizBloc>().currentQuestionIndex,
+                                  context.read<QuizBloc>().questions.length),
                               margin: EdgeInsets.zero,
                               filled:
                                   state.selectedIndex == null ? false : true,

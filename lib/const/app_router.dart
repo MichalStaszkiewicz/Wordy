@@ -71,16 +71,19 @@ class AppRouter {
     Map<String, dynamic> data = state.extra as Map<String, dynamic>;
     return QuizFinishScreen(
       topic: data['topic']!,
-      correctAnswers: data['correctAnswers']! as List<int>,
-      questions: data['maximumPoints']! as List<BeginnerQuestion>,
+      learnedWords: data['learnedWords']! as int,
+      score: data['score']! as double,
     );
   }
 
   static Widget _quizScreenRouteBuilder(
-          BuildContext context, GoRouterState state) =>
-      QuizScreen(
-        topic: state.extra as String,
-      );
+      BuildContext context, GoRouterState state) {
+    Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+    return QuizScreen(
+      topic: data['topic'] as String,
+    );
+  }
+
   static Widget _selectedCourseScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
       const SelectedCourseScreen();

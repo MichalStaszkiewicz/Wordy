@@ -21,11 +21,11 @@ class QuizFinishScreen extends StatefulWidget {
   QuizFinishScreen(
       {super.key,
       required this.topic,
-      required this.correctAnswers,
-      required this.questions});
+      required this.score,
+      required this.learnedWords});
   String topic;
-  List<BeginnerQuestion> questions;
-  List<int> correctAnswers;
+  int learnedWords;
+  double score;
 
   @override
   State<QuizFinishScreen> createState() => _QuizFinishScreenState();
@@ -79,11 +79,11 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
           ..addListener(() {
             setState(() {});
           });
-    _scoreLabelAnimation =
-        Tween<double>(begin: 0, end: 100).animate(_scoreLabelController)
-          ..addListener(() {
-            setState(() {});
-          });
+    _scoreLabelAnimation = Tween<double>(begin: 0, end: widget.score)
+        .animate(_scoreLabelController)
+      ..addListener(() {
+        setState(() {});
+      });
     _learnedWordsLabelAnimation =
         Tween<double>(begin: 0, end: 10).animate(_learnedWordsLabelController)
           ..addListener(() {
@@ -201,7 +201,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                               onTap: () {
                                 if (!_topicCompleted) {
                                   context.go(AppRouter.quizScreen,
-                                      extra: widget.topic);
+                                      extra: {'topic': widget.topic});
                                 } else {
                                   DialogManager.showSuccessDialog(
                                       "You have completed this module",

@@ -96,15 +96,6 @@ class _SuccessToastState extends State<SuccessToast>
                           SizedBox(
                             height: 10,
                           ),
-                          AutoSizeText(
-                            maxLines: 1,
-                            'Good morning in Polish means Dzień dobry !',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                    color: Colors.white, letterSpacing: 0.5),
-                          )
                         ],
                       ),
                     ),

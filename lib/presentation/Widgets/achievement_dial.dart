@@ -20,11 +20,13 @@ class _AchievementDialState extends State<AchievementDial> {
     return BlocBuilder<AchievementsFilterBloc, AchievementsFilterState>(
       builder: (context, aachievementState) {
         return SpeedDial(
+          openBackgroundColor: Colors.indigo,
+          closedBackgroundColor: Colors.indigo,
           speedDialChildren: [
             SpeedDialChild(
               child: const Icon(Icons.star),
               foregroundColor: Colors.white,
-              backgroundColor: Colors.blueAccent,
+              backgroundColor: Colors.indigoAccent,
               label: 'Only achieved already',
               onPressed: () {
                 context.read<AchievementsFilterBloc>().add(FilterAchievements(
@@ -38,7 +40,7 @@ class _AchievementDialState extends State<AchievementDial> {
             SpeedDialChild(
               child: const Icon(Icons.lock),
               foregroundColor: Colors.white,
-              backgroundColor: Colors.blueAccent,
+              backgroundColor: Colors.indigoAccent,
               label: 'Only no achieved',
               onPressed: () {
                 context.read<AchievementsFilterBloc>().add(FilterAchievements(
@@ -52,7 +54,7 @@ class _AchievementDialState extends State<AchievementDial> {
             SpeedDialChild(
               child: const Icon(Icons.folder),
               foregroundColor: Colors.white,
-              backgroundColor: Colors.blueAccent,
+              backgroundColor: Colors.indigoAccent,
               label: 'All achievements',
               onPressed: () {
                 context.read<AchievementsFilterBloc>().add(FilterAchievements(

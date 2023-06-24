@@ -29,15 +29,13 @@ class SelectAnswer extends QuizEvent {
 }
 
 class CheckAnswer extends QuizEvent {
-  CheckAnswer();
+  CheckAnswer({required this.questionIndex, required this.selectedIndex});
+  int questionIndex;
+  int selectedIndex;
 }
 
 class FinishQuiz extends QuizEvent {
-  FinishQuiz(
-      {required this.wordIds,
-      required this.maximumPoints,
-      required this.topic});
+  FinishQuiz({required this.wordIds, required this.topic});
   List<int> wordIds;
   String topic;
-  int maximumPoints;
 }

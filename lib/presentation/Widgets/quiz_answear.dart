@@ -22,7 +22,7 @@ class _QuizAnswearState extends State<QuizAnswear> {
   Widget build(BuildContext context) {
     return BlocBuilder<QuizBloc, QuizState>(
       builder: (context, state) {
-        if (state is BeginnerQuizLoaded) {
+        if (state is QuizQuestionState) {
           return GestureDetector(
             onTap: () {
               if (!state.answerChecked) {

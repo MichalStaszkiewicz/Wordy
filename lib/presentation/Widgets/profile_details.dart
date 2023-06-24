@@ -78,10 +78,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
               image: 'assets/award.png',
               label:
                   ui_lang[language]!['profile_screen_achievements'].toString(),
-              statisticsCount: state.achievements
-                  .where((e) => e.achieved == true)
-                  .toList()
-                  .length,
+              statisticsCount:
+                  state.achievements.where((e) => e.achieved == true).length,
             ),
           );
         },

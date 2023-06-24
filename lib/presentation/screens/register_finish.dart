@@ -4,7 +4,6 @@ import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:wordy/presentation/widgets/confirm_button.dart';
 import 'package:wordy/const/consts.dart';
 
-
 class RegisterFinish extends StatefulWidget {
   RegisterFinish({super.key, required this.onFinish});
 
@@ -36,8 +35,8 @@ class _RegisterFinishState extends State<RegisterFinish> {
               flex: 5,
               child: SizedBox(
                   width: 500,
-                  child: Image(
-                      image: AssetImage("assets/newserinishmage.png")))),
+                  child:
+                      Image(image: AssetImage("assets/newserinishmage.png")))),
           Expanded(
             flex: 2,
             child: Center(
@@ -55,7 +54,8 @@ class _RegisterFinishState extends State<RegisterFinish> {
             ),
           ),
           GestureDetector(
-              onTap: widget.onFinish, child: const ConfirmButton(selected: true)),
+              onTap: widget.onFinish,
+              child: const ConfirmButton(selected: true)),
         ],
       ),
     );
