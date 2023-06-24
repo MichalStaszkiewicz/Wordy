@@ -8,7 +8,9 @@ abstract class QuizEvent extends Equatable {
 }
 
 class LoadBeginnerQuiz extends QuizEvent {
-  LoadBeginnerQuiz({required this.topic});
+  LoadBeginnerQuiz({
+    required this.topic,
+  });
   String topic;
 }
 
@@ -35,7 +37,10 @@ class CheckAnswer extends QuizEvent {
 }
 
 class FinishQuiz extends QuizEvent {
-  FinishQuiz({required this.wordIds, required this.topic});
+  FinishQuiz({
+    required this.wordIds,
+    required this.topic,
+  });
   List<int> wordIds;
   String topic;
 }

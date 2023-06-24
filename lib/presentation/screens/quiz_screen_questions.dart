@@ -96,7 +96,8 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                     Color.fromARGB(255, 99, 155, 252),
                                     Color.fromRGBO(158, 149, 248, 1),
                                   ],
-                                  nonProgressionColor: Colors.white,
+                                  nonProgressionColor:
+                                      const Color.fromARGB(255, 231, 227, 227),
                                   progress: ((animation) /
                                           context
                                               .read<QuizBloc>()

@@ -25,6 +25,7 @@ mixin _$ProfileData {
   List<ActiveCourse> get beginnerProgress => throw _privateConstructorUsedError;
   List<UserAchievement> get achievements => throw _privateConstructorUsedError;
   int get hotStreak => throw _privateConstructorUsedError;
+  String get fullName => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,8 @@ abstract class $ProfileDataCopyWith<$Res> {
       int learnedWords,
       List<ActiveCourse> beginnerProgress,
       List<UserAchievement> achievements,
-      int hotStreak});
+      int hotStreak,
+      String fullName});
 }
 
 /// @nodoc
@@ -64,6 +66,7 @@ class _$ProfileDataCopyWithImpl<$Res, $Val extends ProfileData>
     Object? beginnerProgress = null,
     Object? achievements = null,
     Object? hotStreak = null,
+    Object? fullName = null,
   }) {
     return _then(_value.copyWith(
       finishedCourses: null == finishedCourses
@@ -86,6 +89,10 @@ class _$ProfileDataCopyWithImpl<$Res, $Val extends ProfileData>
           ? _value.hotStreak
           : hotStreak // ignore: cast_nullable_to_non_nullable
               as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -103,7 +110,8 @@ abstract class _$$_ProfileDataCopyWith<$Res>
       int learnedWords,
       List<ActiveCourse> beginnerProgress,
       List<UserAchievement> achievements,
-      int hotStreak});
+      int hotStreak,
+      String fullName});
 }
 
 /// @nodoc
@@ -122,6 +130,7 @@ class __$$_ProfileDataCopyWithImpl<$Res>
     Object? beginnerProgress = null,
     Object? achievements = null,
     Object? hotStreak = null,
+    Object? fullName = null,
   }) {
     return _then(_$_ProfileData(
       finishedCourses: null == finishedCourses
@@ -144,6 +153,10 @@ class __$$_ProfileDataCopyWithImpl<$Res>
           ? _value.hotStreak
           : hotStreak // ignore: cast_nullable_to_non_nullable
               as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -156,7 +169,8 @@ class _$_ProfileData implements _ProfileData {
       required this.learnedWords,
       required final List<ActiveCourse> beginnerProgress,
       required final List<UserAchievement> achievements,
-      required this.hotStreak})
+      required this.hotStreak,
+      required this.fullName})
       : _beginnerProgress = beginnerProgress,
         _achievements = achievements;
 
@@ -186,10 +200,12 @@ class _$_ProfileData implements _ProfileData {
 
   @override
   final int hotStreak;
+  @override
+  final String fullName;
 
   @override
   String toString() {
-    return 'ProfileData(finishedCourses: $finishedCourses, learnedWords: $learnedWords, beginnerProgress: $beginnerProgress, achievements: $achievements, hotStreak: $hotStreak)';
+    return 'ProfileData(finishedCourses: $finishedCourses, learnedWords: $learnedWords, beginnerProgress: $beginnerProgress, achievements: $achievements, hotStreak: $hotStreak, fullName: $fullName)';
   }
 
   @override
@@ -206,7 +222,9 @@ class _$_ProfileData implements _ProfileData {
             const DeepCollectionEquality()
                 .equals(other._achievements, _achievements) &&
             (identical(other.hotStreak, hotStreak) ||
-                other.hotStreak == hotStreak));
+                other.hotStreak == hotStreak) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName));
   }
 
   @JsonKey(ignore: true)
@@ -217,7 +235,8 @@ class _$_ProfileData implements _ProfileData {
       learnedWords,
       const DeepCollectionEquality().hash(_beginnerProgress),
       const DeepCollectionEquality().hash(_achievements),
-      hotStreak);
+      hotStreak,
+      fullName);
 
   @JsonKey(ignore: true)
   @override
@@ -239,7 +258,8 @@ abstract class _ProfileData implements ProfileData {
       required final int learnedWords,
       required final List<ActiveCourse> beginnerProgress,
       required final List<UserAchievement> achievements,
-      required final int hotStreak}) = _$_ProfileData;
+      required final int hotStreak,
+      required final String fullName}) = _$_ProfileData;
 
   factory _ProfileData.fromJson(Map<String, dynamic> json) =
       _$_ProfileData.fromJson;
@@ -254,6 +274,8 @@ abstract class _ProfileData implements ProfileData {
   List<UserAchievement> get achievements;
   @override
   int get hotStreak;
+  @override
+  String get fullName;
   @override
   @JsonKey(ignore: true)
   _$$_ProfileDataCopyWith<_$_ProfileData> get copyWith =>

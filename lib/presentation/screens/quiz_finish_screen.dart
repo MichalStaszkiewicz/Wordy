@@ -115,7 +115,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => QuizBloc(locator<StreamRepository>()),
+      create: (context) => QuizBloc(locator<StreamRepository>(), ''),
       child: BlocListener<QuizBloc, QuizState>(
         listener: (context, state) {
           if (state is QuizCompleted) {

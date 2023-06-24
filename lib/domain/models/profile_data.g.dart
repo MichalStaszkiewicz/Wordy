@@ -17,6 +17,7 @@ _$_ProfileData _$$_ProfileDataFromJson(Map<String, dynamic> json) =>
           .map((e) => UserAchievement.fromJson(e as Map<String, dynamic>))
           .toList(),
       hotStreak: json['hotStreak'] as int,
+      fullName: json['fullName'] as String,
     );
 
 Map<String, dynamic> _$$_ProfileDataToJson(_$_ProfileData instance) =>
@@ -26,4 +27,5 @@ Map<String, dynamic> _$$_ProfileDataToJson(_$_ProfileData instance) =>
       'beginnerProgress': instance.beginnerProgress,
       'achievements': instance.achievements,
       'hotStreak': instance.hotStreak,
+      'fullName': instance.fullName,
     };

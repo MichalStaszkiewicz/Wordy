@@ -25,13 +25,14 @@ class ProfileDataReady extends ProfileState {
       required this.hotStreak,
       required this.learnedWords,
       required this.achievements,
-      required this.beginnerProgress});
+      required this.beginnerProgress,
+      required this.fullName});
 
   int finishedCourses;
   int hotStreak;
   int learnedWords;
   List<UserAchievement> achievements;
-
+  String fullName;
   List<ActiveCourse> beginnerProgress;
 
   @override
@@ -40,6 +41,7 @@ class ProfileDataReady extends ProfileState {
         hotStreak,
         learnedWords,
         beginnerProgress,
-        achievements
+        achievements,
+        fullName
       ];
 }

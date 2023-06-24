@@ -81,6 +81,7 @@ class AppRouter {
     Map<String, dynamic> data = state.extra as Map<String, dynamic>;
     return QuizScreen(
       topic: data['topic'] as String,
+      quizType:data['quizType'] as String,
     );
   }
 

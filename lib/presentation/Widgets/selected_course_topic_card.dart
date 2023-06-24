@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/domain/models/active_course.dart';
 import 'package:wordy/domain/models/progress_in_topic.dart';
 import 'package:wordy/global/course_progress_tracker.dart';
+import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 import 'package:wordy/utility/locator/service_locator.dart';
 
+import '../../Utility/dialog_manager.dart';
+
 class SelectedCourseTopicCard extends StatefulWidget {
-  SelectedCourseTopicCard({required this.progress, required this.beforeQuiz});
+  SelectedCourseTopicCard(
+      {required this.progress,
+      required this.beforeQuiz,
+      required this.quizType});
   ProgressInTopic progress;
   ActiveCourse? beforeQuiz;
+  String quizType;
   @override
   State<SelectedCourseTopicCard> createState() =>
       _SelectedCourseTopicCardState();
@@ -56,8 +64,25 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(AppRouter.quizScreen,
-            extra: {'topic': widget.progress.name});
+        if (widget.quizType == 'Learning' &&
+            widget.progress.knownWords < widget.progress.wordsCount) {
+          context.pushNamed(AppRouter.quizScreen, extra: {
+            'topic': widget.progress.name,
+            'quizType': widget.quizType
+          });
+        } else if (widget.quizType == 'Learning' &&
+            widget.progress.knownWords == widget.progress.wordsCount) {
+          DialogManager.showSuccessDialog(
+              "You have completed this module if you want to review this topic again please switch mode to review",
+              'Congratulations !',
+              context,
+              () {});
+        } else {
+          context.pushNamed(AppRouter.quizScreen, extra: {
+            'topic': widget.progress.name,
+            'quizType': widget.quizType
+          });
+        }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

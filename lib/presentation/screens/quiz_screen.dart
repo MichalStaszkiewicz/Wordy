@@ -17,8 +17,9 @@ import '../../global/notification_provider.dart';
 import '../Bloc/quiz/quiz_bloc.dart';
 
 class QuizScreen extends StatefulWidget {
-  QuizScreen({super.key, required this.topic});
+  QuizScreen({super.key, required this.topic, required this.quizType});
   String topic;
+  String quizType;
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -32,8 +33,9 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => QuizBloc(locator<StreamRepository>())
-        ..add(LoadBeginnerQuiz(topic: widget.topic)),
+      create: (context) =>
+          QuizBloc(locator<StreamRepository>(), widget.quizType)
+            ..add(LoadBeginnerQuiz(topic: widget.topic)),
       child: Scaffold(
         body: Container(
           child: BlocListener<QuizBloc, QuizState>(

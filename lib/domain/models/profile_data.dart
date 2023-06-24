@@ -15,6 +15,7 @@ class ProfileData with _$ProfileData {
     required List<ActiveCourse> beginnerProgress,
     required List<UserAchievement> achievements,
     required int hotStreak,
+    required String fullName,
   }) = _ProfileData;
 
   factory ProfileData.fromJson(Map<String, dynamic> json) =>

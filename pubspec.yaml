@@ -70,6 +70,7 @@ dependencies:
   flutter_background_service: ^3.0.1
   mockito: ^5.4.2
   flutter_staggered_animations: ^1.1.1
+  random_avatar: ^0.0.8
  
 
   

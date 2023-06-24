@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get/get.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/course_basic.dart';
@@ -24,17 +25,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<LoadProfileData>((event, emit) async {
       var profileData = await locator<UserService>().getProfileData();
       if (profileData.isError) {
-        print("ERROR IN BLOC PROFILE");
         emit(ProfileDataError(
             error: ExceptionHelper.getErrorMessage(profileData.error!)));
       } else {
-        print("DATA IS READY");
         emit(ProfileDataReady(
           finishedCourses: profileData.data!.finishedCourses,
           hotStreak: profileData.data!.hotStreak,
           learnedWords: profileData.data!.learnedWords,
           beginnerProgress: profileData.data!.beginnerProgress,
           achievements: profileData.data!.achievements,
+          fullName: profileData.data!.fullName.capitalize!,
         ));
       }
     });

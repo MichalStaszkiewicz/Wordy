@@ -29,13 +29,14 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   final socketManager = locator<SocketManager>();
   final userService = locator<UserService>();
   final quizLogic = locator<QuizLogic>();
+  String quizType = '';
   List<int> correctAnswersCount = [];
   List<int> incorrectAnsersCount = [];
   int currentQuestionIndex = 0;
   late final String courseName;
   late List<BeginnerQuestion> questions;
   final List<int> learnedWordsIds = [];
-  QuizBloc(this.socketRepository) : super(const QuizInitial()) {
+  QuizBloc(this.socketRepository, this.quizType) : super(const QuizInitial()) {
     loadBeginnerQuiz();
     loadNextQuestion();
     finishQuiz();
@@ -46,7 +47,14 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   void loadBeginnerQuiz() {
     on<LoadBeginnerQuiz>((event, emit) async {
       emit(const InProgress());
-      var questionsData = await quizLogic.createBeginnerQuiz(event.topic);
+      var questionsData;
+      if (quizType == "Learning") {
+        questionsData = await quizLogic.createLearningQuiz(event.topic);
+      }
+      if (quizType == "Review") {
+        questionsData = await quizLogic.createReviewQuiz(event.topic);
+      }
+
       final courseNameData = await userService.getUserCurrentCourse();
       if (courseNameData.isError) {
         emit(QuizError(
@@ -54,6 +62,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       }
 
       if (questionsData.isData) {
+        print("QUIZ TYPE : " + quizType);
+        print("QUESTION COUNT : " + questionsData.data.length.toString());
         courseName = courseNameData.data!.course.name;
         questions = questionsData.data!;
         emit(QuizQuestionState(
@@ -119,42 +129,34 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       if (token.isError) {
         emit(QuizError(error: ExceptionHelper.getErrorMessage(token.error!)));
       }
+      if (quizType == "Learning") {
+        await quizLogic.insertLearnedWords(event.wordIds).then((value) async {
+          socketManager
+              .quizSummary(QuizSummary(token: token.data!, topic: event.topic));
+          var currentCourse = await userService.getUserCurrentCourseProgress();
 
-      await quizLogic.insertLearnedWords(event.wordIds).then((value) async {
-        socketManager
-            .quizSummary(QuizSummary(token: token.data!, topic: event.topic));
-        var currentCourse = await userService.getUserCurrentCourseProgress();
-
-        if (currentCourse.isError) {
-          emit(QuizError(
-              error: ExceptionHelper.getErrorMessage(currentCourse.error!)));
-        } else {
-          locator<CourseProgressTracker>().afterQuiz = currentCourse.data;
-          print("Data before: " +
-              locator<CourseProgressTracker>()
-                  .beforeQuiz!
-                  .topicProgress[0]
-                  .knownWords
-                  .toString());
-          print("Data after: " +
-              locator<CourseProgressTracker>()
-                  .afterQuiz!
-                  .topicProgress[0]
-                  .knownWords
-                  .toString());
-          ProgressInTopic progress = currentCourse.data!.topicProgress
-              .firstWhere((element) => element.name == event.topic);
-          if (progress.knownWords == progress.wordsCount) {
-            emit(QuizCompleted(
-              topicCompleted: true,
-            ));
+          if (currentCourse.isError) {
+            emit(QuizError(
+                error: ExceptionHelper.getErrorMessage(currentCourse.error!)));
           } else {
-            emit(QuizCompleted(
-              topicCompleted: false,
-            ));
+            locator<CourseProgressTracker>().afterQuiz = currentCourse.data;
+
+            ProgressInTopic progress = currentCourse.data!.topicProgress
+                .firstWhere((element) => element.name == event.topic);
+            if (progress.knownWords == progress.wordsCount) {
+              emit(QuizCompleted(
+                topicCompleted: true,
+              ));
+            } else {
+              emit(QuizCompleted(
+                topicCompleted: false,
+              ));
+            }
           }
-        }
-      });
+        });
+      } else {
+        emit(QuizCompleted(topicCompleted: false));
+      }
     });
   }
 }

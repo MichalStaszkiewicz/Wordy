@@ -85,10 +85,10 @@ class _CourseItemState extends State<CourseItem> {
                   progressColor: Colors.white,
                   backgroundColor: Colors.white54,
                   strokeWidth: 2.0,
-                  textStyle: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: Colors.white),
+                  textStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: Colors.white,
+                      letterSpacing: 1,
+                      fontWeight: FontWeight.bold),
                   optionalWidget: null,
                 ),
               ),

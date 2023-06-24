@@ -31,6 +31,8 @@ class SelectedCourseScreen extends StatefulWidget {
 
 class _SelectedCourseScreenState extends State<SelectedCourseScreen>
     with TickerProviderStateMixin {
+  String quizType = "Learning";
+  bool isListExpanded = false;
   late AnimationController _courseProgressController;
   late Animation? _courseProgressAnimation;
   void initState() {
@@ -68,6 +70,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
       result.add(SelectedCourseTopicCard(
         progress: topic,
         beforeQuiz: course,
+        quizType: quizType,
       ));
     }
     return result;
@@ -97,76 +100,210 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                 child: SafeArea(
                   child: Container(
                     padding: const EdgeInsets.only(top: 20),
-                    child: Column(
+                    child: Stack(
                       children: [
-                        Expanded(
-                          child: Container(
-                            child: CustomScrollView(slivers: [
-                              SliverAppBar(
-                                flexibleSpace: Container(
-                                  color: Colors.amber,
+                        Column(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                child: CustomScrollView(slivers: [
+                                  SliverAppBar(
+                                    flexibleSpace: Container(
+                                      color: Colors.amber,
+                                    ),
+                                    pinned: true,
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            context.go(AppRouter.home);
+                                          },
+                                          child: Container(
+                                            margin:
+                                                const EdgeInsets.only(left: 10),
+                                            child: const Icon(
+                                              Icons.arrow_back_ios_new_rounded,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          'Course',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge!
+                                              .copyWith(color: Colors.white),
+                                        ),
+                                        Container(
+                                          margin:
+                                              const EdgeInsets.only(right: 10),
+                                          height: 50,
+                                          width: 50,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SliverToBoxAdapter(
+                                    child: _buildCurrentCourseInformations(
+                                        context,
+                                        state.course,
+                                        _courseProgressAnimation != null
+                                            ? _courseProgressAnimation!.value
+                                            : state.course.totalProgress),
+                                  ),
+                                  SliverToBoxAdapter(
+                                    child: Container(
+                                      height: (150 *
+                                                  state.course.topicProgress
+                                                      .length)
+                                              .toDouble() +
+                                          80,
+                                      child: GridView(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                                          children: [
+                                            ..._buildTopics(
+                                                state.course.topicProgress,
+                                                context,
+                                                beforeQuizCopy)
+                                          ]),
+                                    ),
+                                  ),
+                                ]),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Positioned(
+                          left: MediaQuery.of(context).size.width / 9,
+                          top: MediaQuery.of(context).size.height / 4.8,
+                          child: AnimatedContainer(
+                            height: isListExpanded ? 100 : 0,
+                            width: 153,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              ),
+                            ),
+                            child: ListView(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isListExpanded = !isListExpanded;
+                                      quizType = "Learning";
+                                    });
+                                  },
+                                  child: AnimatedOpacity(
+                                    opacity: isListExpanded ? 1.0 : 0.0,
+                                    duration: const Duration(milliseconds: 300),
+                                    child: Container(
+                                      margin:
+                                          EdgeInsets.only(top: 20, left: 20),
+                                      child: Text(
+                                        'Learning',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
+                                            .copyWith(color: Colors.amber),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                pinned: true,
-                                title: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isListExpanded = !isListExpanded;
+                                      quizType = "Review";
+                                    });
+                                  },
+                                  child: AnimatedOpacity(
+                                    opacity: isListExpanded ? 1.0 : 0.0,
+                                    duration: const Duration(milliseconds: 300),
+                                    child: Container(
+                                      margin:
+                                          EdgeInsets.only(top: 20, left: 20),
+                                      child: Text(
+                                        'Review',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
+                                            .copyWith(color: Colors.amber),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 155,
+                          left: 45,
+                          child: GestureDetector(
+                            onTap: () {
+                              if (isListExpanded) {
+                                isListExpanded = false;
+                              } else {
+                                isListExpanded = true;
+                              }
+
+                              setState(() {});
+                            },
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              decoration: BoxDecoration(
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(0, 2),
+                                      blurRadius: 6.0,
+                                    ),
+                                  ],
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20)),
+                              height: 40,
+                              width: 155,
+                              child: Center(
+                                child: Row(
                                   children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        context.go(AppRouter.home);
-                                      },
+                                    Expanded(
+                                      flex: 4,
                                       child: Container(
-                                        margin: const EdgeInsets.only(left: 10),
-                                        child: const Icon(
-                                          Icons.arrow_back_ios_new_rounded,
-                                          color: Colors.white,
+                                        child: Text(
+                                          quizType,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge!
+                                              .copyWith(color: Colors.amber),
                                         ),
                                       ),
                                     ),
-                                    Text(
-                                      'Course',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge!
-                                          .copyWith(color: Colors.white),
+                                    const SizedBox(
+                                      width: 5,
                                     ),
-                                    Container(
-                                      margin: const EdgeInsets.only(right: 10),
-                                      height: 50,
-                                      width: 50,
+                                    Expanded(
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        child: const Icon(
+                                          Icons.keyboard_arrow_down_rounded,
+                                          color: Colors.amber,
+                                        ),
+                                      ),
                                     )
                                   ],
                                 ),
                               ),
-                              SliverToBoxAdapter(
-                                child: _buildCurrentCourseInformations(
-                                    context,
-                                    state.course,
-                                    _courseProgressAnimation != null
-                                        ? _courseProgressAnimation!.value
-                                        : state.course.totalProgress),
-                              ),
-                              SliverToBoxAdapter(
-                                child: Container(
-                                  height:
-                                      (150 * state.course.topicProgress.length)
-                                              .toDouble() +
-                                          80,
-                                  child: GridView(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      children: [
-                                        ..._buildTopics(
-                                            state.course.topicProgress,
-                                            context,
-                                            beforeQuizCopy)
-                                      ],
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 2)),
-                                ),
-                              ),
-                            ]),
+                            ),
                           ),
                         ),
                       ],
@@ -208,33 +345,9 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(20)),
                   height: 40,
-                  child: Center(
-                    child: Row(
-                      children: [
-                        Text(
-                          'Learning',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(color: Colors.amber),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          child: const Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: Colors.amber,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
                 ),
               ],
             ),
