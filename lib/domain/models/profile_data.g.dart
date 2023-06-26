@@ -9,8 +9,8 @@ part of 'profile_data.dart';
 _$_ProfileData _$$_ProfileDataFromJson(Map<String, dynamic> json) =>
     _$_ProfileData(
       finishedCourses: json['finishedCourses'] as int,
-      learnedWords: json['learnedWords'] as int,
-      beginnerProgress: (json['beginnerProgress'] as List<dynamic>)
+      knownWords: json['knownWords'] as int,
+      vocabularyProgress: (json['vocabularyProgress'] as List<dynamic>)
           .map((e) => ActiveCourse.fromJson(e as Map<String, dynamic>))
           .toList(),
       achievements: (json['achievements'] as List<dynamic>)
@@ -23,8 +23,8 @@ _$_ProfileData _$$_ProfileDataFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_ProfileDataToJson(_$_ProfileData instance) =>
     <String, dynamic>{
       'finishedCourses': instance.finishedCourses,
-      'learnedWords': instance.learnedWords,
-      'beginnerProgress': instance.beginnerProgress,
+      'knownWords': instance.knownWords,
+      'vocabularyProgress': instance.vocabularyProgress,
       'achievements': instance.achievements,
       'hotStreak': instance.hotStreak,
       'fullName': instance.fullName,

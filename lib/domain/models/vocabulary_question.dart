@@ -1,7 +1,7 @@
 import 'package:wordy/domain/models/question.dart';
 
-class BeginnerQuestion extends Question {
-  BeginnerQuestion({
+class VocabularyQuestion extends Question {
+  VocabularyQuestion({
     required String question,
     required List<String> answers,
     required this.correctAnswerIndex,

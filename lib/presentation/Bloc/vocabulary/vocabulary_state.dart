@@ -14,8 +14,8 @@ class VocabularyLoaded extends VocabularyState {
       {required this.vocabularyList,
       required this.vocabularyListSearched,
       required this.language});
-  List<Vocabulary> vocabularyList;
-  List<Vocabulary> vocabularyListSearched;
+  List<WordCollection> vocabularyList;
+  List<WordCollection> vocabularyListSearched;
   String language;
 
   @override

@@ -11,7 +11,7 @@ _$_ActiveCourse _$$_ActiveCourseFromJson(Map<String, dynamic> json) =>
       userCourse:
           UserCourse.fromJson(json['userCourse'] as Map<String, dynamic>),
       finishedTopics: json['finishedTopics'] as int,
-      wordsLearned: json['wordsLearned'] as int,
+      knownWords: json['knownWords'] as int,
       totalProgress: (json['totalProgress'] as num).toDouble(),
       topicsCount: json['topicsCount'] as int,
       topicProgress: (json['topicProgress'] as List<dynamic>)
@@ -24,7 +24,7 @@ Map<String, dynamic> _$$_ActiveCourseToJson(_$_ActiveCourse instance) =>
     <String, dynamic>{
       'userCourse': instance.userCourse,
       'finishedTopics': instance.finishedTopics,
-      'wordsLearned': instance.wordsLearned,
+      'knownWords': instance.knownWords,
       'totalProgress': instance.totalProgress,
       'topicsCount': instance.topicsCount,
       'topicProgress': instance.topicProgress,

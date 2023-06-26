@@ -7,7 +7,8 @@ import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/utility/either.dart';
 
 import '../../data/network/request/models/insert_learned_words.request.model.dart';
-import '../models/beginner_question.dart';
+
+import '../models/vocabulary_question.dart';
 import '../models/word.dart';
 
 class QuizLogic {
@@ -32,9 +33,9 @@ class QuizLogic {
     }
   }
 
-  Future<Either<Exception, List<BeginnerQuestion>>> createLearningQuiz(
+  Future<Either<Exception, List<VocabularyQuestion>>> createLearningQuiz(
       String topic) async {
-    List<BeginnerQuestion> quizQuestions = [];
+    List<VocabularyQuestion> quizQuestions = [];
     final token = await _userService.getTokenAccess();
     if (token.isError) {
       return Either.error(token.error);
@@ -97,7 +98,7 @@ class QuizLogic {
           correctAnswerIndex = random.nextInt(3);
           answers[correctAnswerIndex] = filteredQuestions[i].answer;
         }
-        quizQuestions.add(BeginnerQuestion(
+        quizQuestions.add(VocabularyQuestion(
             question: filteredQuestions[i].question,
             answers: answers,
             correctAnswerIndex: correctAnswerIndex,
@@ -126,7 +127,7 @@ class QuizLogic {
         }
 
         quizQuestions.add(
-          BeginnerQuestion(
+          VocabularyQuestion(
               question: question.question,
               answers: answers,
               correctAnswerIndex: correctAnswerIndex,
@@ -138,9 +139,9 @@ class QuizLogic {
     return Either.data(quizQuestions);
   }
 
-  Future<Either<Exception, List<BeginnerQuestion>>> createReviewQuiz(
+  Future<Either<Exception, List<VocabularyQuestion>>> createReviewQuiz(
       String topic) async {
-    List<BeginnerQuestion> quizQuestions = [];
+    List<VocabularyQuestion> quizQuestions = [];
     final token = await _userService.getTokenAccess();
     if (token.isError) {
       return Either.error(token.error);
@@ -187,7 +188,7 @@ class QuizLogic {
           correctAnswerIndex = random.nextInt(3);
           answers[correctAnswerIndex] = questions.data![i].answer;
         }
-        quizQuestions.add(BeginnerQuestion(
+        quizQuestions.add(VocabularyQuestion(
             question: questions.data![i].question,
             answers: answers,
             correctAnswerIndex: correctAnswerIndex,
@@ -216,7 +217,7 @@ class QuizLogic {
         }
 
         quizQuestions.add(
-          BeginnerQuestion(
+          VocabularyQuestion(
               question: question.question,
               answers: answers,
               correctAnswerIndex: correctAnswerIndex,

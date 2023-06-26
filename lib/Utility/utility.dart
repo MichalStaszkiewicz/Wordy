@@ -5,13 +5,15 @@ import 'package:wordy/const/app_router.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/domain/logic/user_service.dart';
+import 'package:wordy/domain/models/vocabulary.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 import 'package:wordy/utility/locator/service_locator.dart';
 import 'package:wordy/utility/toast_manager.dart';
 
 import '../const/enums.dart';
 import '../domain/models/achievement.dart';
-import '../domain/models/beginner_question.dart';
+
+import '../domain/models/vocabulary_question.dart';
 import '../global/notification_provider.dart';
 import '../presentation/Bloc/quiz/quiz_bloc.dart';
 
@@ -42,7 +44,7 @@ class Utility {
     String topic,
   ) {
     int currentQuestionIndex = context.read<QuizBloc>().currentQuestionIndex;
-    List<BeginnerQuestion> questions = context.read<QuizBloc>().questions;
+    List<VocabularyQuestion> questions = context.read<QuizBloc>().questions;
     if (state.selectedIndex != null && !state.answerChecked) {
       if (state.selectedIndex ==
           context
@@ -75,16 +77,6 @@ class Utility {
       if (currentQuestionIndex == questions.length - 1 &&
           state.selectedIndex ==
               questions[currentQuestionIndex].correctAnswerIndex) {
-        context.go(AppRouter.quizCompleted, extra: {
-          'topic': topic,
-          'learnedWords': questions.length,
-          'score': (context.read<QuizBloc>().correctAnswersCount.length /
-                      (context.read<QuizBloc>().correctAnswersCount.length +
-                          context.read<QuizBloc>().incorrectAnsersCount.length))
-                  .toDouble() *
-              100,
-        });
-
         context.read<QuizBloc>().add(FinishQuiz(
             topic: topic,
             wordIds: List.from(context
@@ -103,8 +95,7 @@ class Utility {
   static Future<void> showAchievementNotifications(
       List<Achievement> notifications, BuildContext context) async {
     for (int i = 0; i < notifications.length; i++) {
-      await Future.delayed(
-          Duration(seconds: 3)); // Opóźnienie 3 sekundy między notyfikacjami
+      await Future.delayed(Duration(seconds: 3));
       if (context.mounted) {
         ToastManager.achievementNotification(context, notifications[i]);
       }

@@ -32,7 +32,7 @@ class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
         },
         child: LearnedWordsStatisticCard(
             maximum: course.totalWordsCount,
-            current: course.wordsLearned,
+            current: course.knownWords,
             image: course.userCourse.course.circularImage),
       ));
     }

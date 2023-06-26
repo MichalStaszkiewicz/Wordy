@@ -1,13 +1,12 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Vocabulary extends Equatable {
-  const Vocabulary({
-    required this.topic,
-    required this.image,
-  });
-  final String topic;
-  final String image;
+part 'vocabulary.freezed.dart';
+part 'vocabulary.g.dart';
 
-  @override
-  List<Object?> get props => [topic, image];
+@freezed
+class Vocabulary with _$Vocabulary {
+  factory Vocabulary() = _Vocabulary;
+
+  factory Vocabulary.fromJson(Map<String, dynamic> json) =>
+      _$VocabularyFromJson(json);
 }

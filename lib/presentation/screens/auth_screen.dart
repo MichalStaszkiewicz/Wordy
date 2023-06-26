@@ -6,6 +6,7 @@ import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/widgets/login_form.dart';
+import 'package:wordy/presentation/widgets/token_sended_form.dart';
 
 import '../../Utility/dialog_manager.dart';
 
@@ -18,6 +19,7 @@ import '../../domain/models/custom_error.dart';
 import '../bloc/login/login_bloc.dart';
 import '../widgets/register_form.dart';
 import '../widgets/reset_password_form.dart';
+import '../widgets/update_password_form.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -54,6 +56,27 @@ class _AuthScreenState extends State<AuthScreen> {
                       context, () {
                     locator.get<Repository>().cancelRequest();
                   });
+                } else if (state is UpdateUserPasswordState) {
+                  DialogManager.showSuccessDialog(
+                      'Successfully verified your token', 'Success', context,
+                      () {
+                    currentForm = AuthFormType.typeNewPassword;
+                    setState(() {});
+                  });
+                } else if (state is RecoverAccountMessageSended) {
+                  DialogManager.showSuccessDialog(
+                      'We sended you email with token . Please check your also spam',
+                      'Success',
+                      context, () {
+                    currentForm = AuthFormType.resetTokenSended;
+                    setState(() {});
+                  });
+                } else if (state is UserPasswordUpdated) {
+                  DialogManager.showSuccessDialog(
+                      'Successfully updated password', 'Success', context, () {
+                    currentForm = AuthFormType.login;
+                    setState(() {});
+                  });
                 } else if (state is RegisterSuccess) {
                   if (context.canPop()) {
                     Navigator.pop(context);
@@ -70,7 +93,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     Navigator.pop(context);
                   }
                   DialogManager.showErrorDialog(state.error, context, () {
-                    currentForm = AuthFormType.register;
+                    context.read<RegisterBloc>().add(RegisterInit());
                   });
                 } else {}
               },
@@ -169,6 +192,23 @@ class _AuthScreenState extends State<AuthScreen> {
         );
       case AuthFormType.resetPassword:
         return ResetPasswordForm(
+          onSwitchToLogin: () {
+            setState(() {
+              currentForm = AuthFormType.login;
+            });
+          },
+        );
+      case AuthFormType.resetTokenSended:
+        return TokenSendedForm(
+          onSwitchToLogin: () {
+            setState(() {
+              currentForm = AuthFormType.login;
+            });
+          },
+        );
+
+      case AuthFormType.typeNewPassword:
+        return UpdatePasswordForm(
           onSwitchToLogin: () {
             setState(() {
               currentForm = AuthFormType.login;

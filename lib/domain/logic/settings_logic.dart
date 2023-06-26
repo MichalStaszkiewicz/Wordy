@@ -1,7 +1,8 @@
-import 'package:wordy/domain/repositiories/repository.dart';
+
 
 import '../../utility/either.dart';
 import '../models/interface_language.dart';
+import '../repositiories/repository.dart';
 
 class SettingsLogic {
   SettingsLogic(this._repository);

@@ -22,6 +22,9 @@ class ExceptionHelper implements Exception {
             title: 'Error',
             message: ServerMessages.MESSAGE_REQUEST_CANCELED_BY_USER,
             critical: false);
+      } else if (exception.type == DioErrorType.response) {
+        return CustomError(
+            title: 'Error', message: exception.message, critical: false);
       } else if (exception.type == DioErrorType.connectTimeout) {
         return const CustomError(
             title: "Error",

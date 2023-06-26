@@ -7,7 +7,7 @@ import '../../data/network/request/register_user_request.dart';
 import '../../data/network/response/course_list_response.dart';
 import '../../data/network/response/flash_card_list_response.dart';
 import '../../data/network/response/language_list_response.dart';
-import '../../data/network/response/learned_words_list.dart';
+import '../../data/network/response/known_word_list.dart';
 import '../../data/network/response/login_user_response.dart';
 import '../../data/network/response/refresh_token_response.dart';
 import '../../data/network/response/register_user_response.dart';
@@ -24,12 +24,18 @@ import '../models/user_settings.dart';
 import '../models/word.dart';
 
 abstract class ServerInterface {
+  Future<Either<DioError, String>> recoverAccount(String email);
+  Future<Either<DioError, String>> validateResetPassword(
+      String email, String resetPasswordToken);
+  Future<Either<DioError, String>> updateUserPassword(
+      String email, String password);
+
   Future<Either<DioError, RefreshTokenResponse>> refreshToken(
       String refreshToken);
   Future<Either<DioError, ProfileData>> getProfileData(String token);
-  Future<Either<DioError, LearnedWordsList>> getWordsByTopic(String topic);
+  Future<Either<DioError, KnownWordList>> getWordsByTopic(String topic);
 
-  Future<Either<DioError, LearnedWordsList>> getLearnedWordsByTopic(
+  Future<Either<DioError, KnownWordList>> getLearnedWordsByTopic(
       String topic, String token);
 
   Future<Either<DioError, RegisterUserResponse>> registerUser(
@@ -52,7 +58,7 @@ abstract class ServerInterface {
 
   Future<Either<DioError, FlashCardListResponse>> getBeginnerQuizWordList(
       String topic, String token);
-  Future<Either<DioError, LearnedWordsList>> getLearnedWordList(String token);
+  Future<Either<DioError, KnownWordList>> getLearnedWordList(String token);
   Future<Either<DioError, void>> insertLearnedWordList(
       List<int> wordIds, String token);
   Future<Either<DioError, UserSettings>> getUserSettings(String token);

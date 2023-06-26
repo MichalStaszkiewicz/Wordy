@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
+import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/widgets/login_button.dart';
 
 import '../../utility/validator.dart';
-import '../bloc/register/register_bloc.dart';
 
-class ResetPasswordForm extends StatefulWidget {
-  ResetPasswordForm({super.key, required this.onSwitchToLogin});
+class TokenSendedForm extends StatefulWidget {
+  TokenSendedForm({super.key, required this.onSwitchToLogin});
   VoidCallBack onSwitchToLogin;
   @override
-  State<ResetPasswordForm> createState() => _ResetPasswordFormState();
+  State<TokenSendedForm> createState() => _TokenSendedFormState();
 }
 
-class _ResetPasswordFormState extends State<ResetPasswordForm> {
-  late TextEditingController _emailController;
-  String? _emailErrorText;
+class _TokenSendedFormState extends State<TokenSendedForm> {
+  late TextEditingController _tokenController;
+
   @override
   void initState() {
-    _emailController = TextEditingController();
+    _tokenController = TextEditingController();
     super.initState();
   }
 
@@ -28,26 +28,24 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          'Reset Password',
+          'Type Reset Password Token ',
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         SizedBox(
             width: 250,
             child: TextField(
               keyboardType: TextInputType.emailAddress,
-              controller: _emailController,
+              controller: _tokenController,
               decoration: InputDecoration(
-                  errorText: _emailErrorText,
-                  prefixIcon: const Icon(Icons.email),
-                  hintText: "Email"),
+                  prefixIcon: const Icon(Icons.security_rounded),
+                  hintText: "token"),
             )),
         LoginButton(
           label: 'Submit',
           onPressed: () {
-            _emailErrorText = Validator.emailValidate(_emailController.text);
             context
                 .read<RegisterBloc>()
-                .add(RecoverAccount(email: _emailController.text));
+                .add(ValidateResetPasswordToken(token: _tokenController.text));
             setState(() {});
           },
         ),

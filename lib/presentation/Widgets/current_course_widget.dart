@@ -11,10 +11,12 @@ import '../../domain/models/active_course.dart';
 import 'difficulty_level_widget.dart';
 
 class CurrentCourseWidget extends StatelessWidget {
-  CurrentCourseWidget(
-      {super.key, required this.currentCourse, required this.label});
+  CurrentCourseWidget({
+    super.key,
+    required this.currentCourse,
+  });
   ActiveCourse currentCourse;
-  String label;
+
   @override
   Widget build(BuildContext context) {
     return Container(

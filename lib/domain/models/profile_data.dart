@@ -11,8 +11,8 @@ part 'profile_data.g.dart';
 class ProfileData with _$ProfileData {
   factory ProfileData({
     required int finishedCourses,
-    required int learnedWords,
-    required List<ActiveCourse> beginnerProgress,
+    required int knownWords,
+    required List<ActiveCourse> vocabularyProgress,
     required List<UserAchievement> achievements,
     required int hotStreak,
     required String fullName,

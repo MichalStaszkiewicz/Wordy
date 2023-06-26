@@ -33,6 +33,15 @@ class Repository {
   );
   final LocalStorage _localSource;
   final RemoteSource _remoteSource;
+  Future<Either<DioError, String>> recoverAccount(String email) async {
+    var profileData = await _remoteSource.recoverAccount(email);
+    if (profileData.isData) {
+      return Either.data(profileData.data!);
+    } else {
+      return Either.error(profileData.error);
+    }
+  }
+
   Future<Either<DioError, ProfileData>> getProfileData(String token) async {
     var profileData = await _remoteSource.getProfileData(token);
     if (profileData.isData) {
@@ -40,6 +49,24 @@ class Repository {
     } else {
       return Either.error(profileData.error);
     }
+  }
+
+  Future<Either<Exception, String>> validateResetPasswordToken(
+      String email, String token) async {
+    var tokenState = await _remoteSource.validateResetPassword(email, token);
+    if (tokenState.isError) {
+      return Either.error(tokenState.error);
+    }
+    return Either.data(tokenState.data!);
+  }
+
+  Future<Either<Exception, String>> updatePassword(
+      String email, String password) async {
+    var updateState = await _remoteSource.updateUserPassword(email, password);
+    if (updateState.isError) {
+      return Either.error(updateState.error);
+    }
+    return Either.data(updateState.data!);
   }
 
   Future<Either<DioError, ActiveCourse>> getUserCurrentCourseProgress(
@@ -118,7 +145,7 @@ class Repository {
   Future<Either<DioError, List<Word>>> getLearnedWordList(String token) async {
     var response = await _remoteSource.getLearnedWordList(token);
     if (response.isData) {
-      return Either.data(response.data!.learnedWords);
+      return Either.data(response.data!.knownWords);
     } else {
       return Either.error(response.error);
     }
@@ -210,7 +237,7 @@ class Repository {
       String topic, String token) async {
     var response = await _remoteSource.getLearnedWordsByTopic(topic, token);
     if (response.isData) {
-      return Either.data(response.data!.learnedWords);
+      return Either.data(response.data!.knownWords);
     } else {
       return Either.error(response.error);
     }
@@ -219,7 +246,7 @@ class Repository {
   Future<Either<DioError, List<Word>>> getWordsByTopic(String topic) async {
     var response = await _remoteSource.getWordsByTopic(topic);
     if (response.isData) {
-      return Either.data(response.data!.learnedWords);
+      return Either.data(response.data!.knownWords);
     } else {
       return Either.error(response.error);
     }

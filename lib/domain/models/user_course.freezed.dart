@@ -21,7 +21,7 @@ UserCourse _$UserCourseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserCourse {
   Course get course => throw _privateConstructorUsedError;
-  Difficulty get difficulty => throw _privateConstructorUsedError;
+  Mode get mode => throw _privateConstructorUsedError;
   InterfaceLanguage get interfaceLanguage => throw _privateConstructorUsedError;
   Topic? get lastTopic => throw _privateConstructorUsedError;
 
@@ -39,12 +39,12 @@ abstract class $UserCourseCopyWith<$Res> {
   @useResult
   $Res call(
       {Course course,
-      Difficulty difficulty,
+      Mode mode,
       InterfaceLanguage interfaceLanguage,
       Topic? lastTopic});
 
   $CourseCopyWith<$Res> get course;
-  $DifficultyCopyWith<$Res> get difficulty;
+  $ModeCopyWith<$Res> get mode;
   $InterfaceLanguageCopyWith<$Res> get interfaceLanguage;
 }
 
@@ -62,7 +62,7 @@ class _$UserCourseCopyWithImpl<$Res, $Val extends UserCourse>
   @override
   $Res call({
     Object? course = null,
-    Object? difficulty = null,
+    Object? mode = null,
     Object? interfaceLanguage = null,
     Object? lastTopic = freezed,
   }) {
@@ -71,10 +71,10 @@ class _$UserCourseCopyWithImpl<$Res, $Val extends UserCourse>
           ? _value.course
           : course // ignore: cast_nullable_to_non_nullable
               as Course,
-      difficulty: null == difficulty
-          ? _value.difficulty
-          : difficulty // ignore: cast_nullable_to_non_nullable
-              as Difficulty,
+      mode: null == mode
+          ? _value.mode
+          : mode // ignore: cast_nullable_to_non_nullable
+              as Mode,
       interfaceLanguage: null == interfaceLanguage
           ? _value.interfaceLanguage
           : interfaceLanguage // ignore: cast_nullable_to_non_nullable
@@ -96,9 +96,9 @@ class _$UserCourseCopyWithImpl<$Res, $Val extends UserCourse>
 
   @override
   @pragma('vm:prefer-inline')
-  $DifficultyCopyWith<$Res> get difficulty {
-    return $DifficultyCopyWith<$Res>(_value.difficulty, (value) {
-      return _then(_value.copyWith(difficulty: value) as $Val);
+  $ModeCopyWith<$Res> get mode {
+    return $ModeCopyWith<$Res>(_value.mode, (value) {
+      return _then(_value.copyWith(mode: value) as $Val);
     });
   }
 
@@ -121,14 +121,14 @@ abstract class _$$_UserCourseCopyWith<$Res>
   @useResult
   $Res call(
       {Course course,
-      Difficulty difficulty,
+      Mode mode,
       InterfaceLanguage interfaceLanguage,
       Topic? lastTopic});
 
   @override
   $CourseCopyWith<$Res> get course;
   @override
-  $DifficultyCopyWith<$Res> get difficulty;
+  $ModeCopyWith<$Res> get mode;
   @override
   $InterfaceLanguageCopyWith<$Res> get interfaceLanguage;
 }
@@ -145,7 +145,7 @@ class __$$_UserCourseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? course = null,
-    Object? difficulty = null,
+    Object? mode = null,
     Object? interfaceLanguage = null,
     Object? lastTopic = freezed,
   }) {
@@ -154,10 +154,10 @@ class __$$_UserCourseCopyWithImpl<$Res>
           ? _value.course
           : course // ignore: cast_nullable_to_non_nullable
               as Course,
-      difficulty: null == difficulty
-          ? _value.difficulty
-          : difficulty // ignore: cast_nullable_to_non_nullable
-              as Difficulty,
+      mode: null == mode
+          ? _value.mode
+          : mode // ignore: cast_nullable_to_non_nullable
+              as Mode,
       interfaceLanguage: null == interfaceLanguage
           ? _value.interfaceLanguage
           : interfaceLanguage // ignore: cast_nullable_to_non_nullable
@@ -175,7 +175,7 @@ class __$$_UserCourseCopyWithImpl<$Res>
 class _$_UserCourse implements _UserCourse {
   _$_UserCourse(
       {required this.course,
-      required this.difficulty,
+      required this.mode,
       required this.interfaceLanguage,
       this.lastTopic});
 
@@ -185,7 +185,7 @@ class _$_UserCourse implements _UserCourse {
   @override
   final Course course;
   @override
-  final Difficulty difficulty;
+  final Mode mode;
   @override
   final InterfaceLanguage interfaceLanguage;
   @override
@@ -193,7 +193,7 @@ class _$_UserCourse implements _UserCourse {
 
   @override
   String toString() {
-    return 'UserCourse(course: $course, difficulty: $difficulty, interfaceLanguage: $interfaceLanguage, lastTopic: $lastTopic)';
+    return 'UserCourse(course: $course, mode: $mode, interfaceLanguage: $interfaceLanguage, lastTopic: $lastTopic)';
   }
 
   @override
@@ -202,8 +202,7 @@ class _$_UserCourse implements _UserCourse {
         (other.runtimeType == runtimeType &&
             other is _$_UserCourse &&
             (identical(other.course, course) || other.course == course) &&
-            (identical(other.difficulty, difficulty) ||
-                other.difficulty == difficulty) &&
+            (identical(other.mode, mode) || other.mode == mode) &&
             (identical(other.interfaceLanguage, interfaceLanguage) ||
                 other.interfaceLanguage == interfaceLanguage) &&
             (identical(other.lastTopic, lastTopic) ||
@@ -212,8 +211,8 @@ class _$_UserCourse implements _UserCourse {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, course, difficulty, interfaceLanguage, lastTopic);
+  int get hashCode =>
+      Object.hash(runtimeType, course, mode, interfaceLanguage, lastTopic);
 
   @JsonKey(ignore: true)
   @override
@@ -232,7 +231,7 @@ class _$_UserCourse implements _UserCourse {
 abstract class _UserCourse implements UserCourse {
   factory _UserCourse(
       {required final Course course,
-      required final Difficulty difficulty,
+      required final Mode mode,
       required final InterfaceLanguage interfaceLanguage,
       final Topic? lastTopic}) = _$_UserCourse;
 
@@ -242,7 +241,7 @@ abstract class _UserCourse implements UserCourse {
   @override
   Course get course;
   @override
-  Difficulty get difficulty;
+  Mode get mode;
   @override
   InterfaceLanguage get interfaceLanguage;
   @override

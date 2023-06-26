@@ -1,4 +1,10 @@
-enum AuthFormType { register, login, resetPassword }
+enum AuthFormType {
+  register,
+  login,
+  resetPassword,
+  resetTokenSended,
+  typeNewPassword
+}
 
 enum InitialSetupStatus {
   choosingNativeLanguage,

@@ -9,7 +9,7 @@ import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/data/network/response/course_list_response.dart';
 import 'package:wordy/data/network/response/flash_card_list_response.dart';
 import 'package:wordy/data/network/response/language_list_response.dart';
-import 'package:wordy/data/network/response/learned_words_list.dart';
+import 'package:wordy/data/network/response/known_word_list.dart';
 import 'package:wordy/data/network/response/login_user_response.dart';
 import 'package:wordy/data/network/response/refresh_token_response.dart';
 import 'package:wordy/data/network/response/register_user_response.dart';
@@ -32,30 +32,28 @@ class RemoteSource implements ServerInterface {
   final ApiService _apiService;
 
   @override
-  Future<Either<DioError, LearnedWordsList>> getLearnedWordsByTopic(
+  Future<Either<DioError, KnownWordList>> getLearnedWordsByTopic(
     String topic,
     String token,
   ) async {
     try {
-      var response = await _apiService.get(
-          '/v1/learnedWords/get/by/topic/$topic',
+      var response = await _apiService.get('/v1/knownWords/get/by/topic/$topic',
           options: Options(headers: {'authorization': token}));
 
-      return Either.data(LearnedWordsList.fromJson(response.data));
+      return Either.data(KnownWordList.fromJson(response.data));
     } on DioError catch (exception) {
       return Either.error(exception);
     }
   }
 
   @override
-  Future<Either<DioError, LearnedWordsList>> getWordsByTopic(
-      String topic) async {
+  Future<Either<DioError, KnownWordList>> getWordsByTopic(String topic) async {
     try {
       var response = await _apiService.get(
         'v1/words/$topic',
       );
 
-      return Either.data(LearnedWordsList.fromJson(response.data));
+      return Either.data(KnownWordList.fromJson(response.data));
     } on DioError catch (exception) {
       return Either.error(exception);
     }
@@ -178,13 +176,13 @@ class RemoteSource implements ServerInterface {
   }
 
   @override
-  Future<Either<DioError, LearnedWordsList>> getLearnedWordList(
+  Future<Either<DioError, KnownWordList>> getLearnedWordList(
       String token) async {
     try {
-      var response = await _apiService.get('/v1/user/learnedWords/get',
+      var response = await _apiService.get('/v1/user/knownWords/get',
           options: Options(headers: {'authorization': token}));
       print(response.data);
-      return Either.data(LearnedWordsList.fromJson(response.data));
+      return Either.data(KnownWordList.fromJson(response.data));
     } on DioError catch (exception) {
       return Either.error(exception);
     }
@@ -194,7 +192,7 @@ class RemoteSource implements ServerInterface {
   Future<Either<DioError, void>> insertLearnedWordList(
       List<int> wordIdList, String token) async {
     try {
-      await _apiService.post("/v1/user/learnedWords/insert",
+      await _apiService.post("/v1/user/knownWords/insert",
           options: Options(headers: {'authorization': token}),
           payload: {'wordIdList': wordIdList});
       return Either.data(null);
@@ -295,6 +293,44 @@ class RemoteSource implements ServerInterface {
           .post('/v1/refreshToken', payload: {'token': refreshToken});
 
       return Either.data(RefreshTokenResponse.fromJson(response.data));
+    } on DioError catch (e) {
+      return Either.error(e);
+    }
+  }
+
+  @override
+  Future<Either<DioError, String>> recoverAccount(String email) async {
+    try {
+      var response =
+          await _apiService.post('/v1/user/recover', payload: {'email': email});
+
+      return Either.data('');
+    } on DioError catch (e) {
+      return Either.error(e);
+    }
+  }
+
+  @override
+  Future<Either<DioError, String>> updateUserPassword(
+      String email, String password) async {
+    try {
+      var response = await _apiService.post('/v1/user/updateUserPassword',
+          payload: {'email': email, 'newPassword': password});
+
+      return Either.data(response.data['message']);
+    } on DioError catch (e) {
+      return Either.error(e);
+    }
+  }
+
+  @override
+  Future<Either<DioError, String>> validateResetPassword(
+      String email, String resetPasswordToken) async {
+    try {
+      var response = await _apiService.post('/v1/user/validateResetPassword',
+          payload: {'email': email, 'token': resetPasswordToken});
+
+      return Either.data(response.data['message']);
     } on DioError catch (e) {
       return Either.error(e);
     }

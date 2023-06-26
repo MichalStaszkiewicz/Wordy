@@ -15,6 +15,25 @@ class RegisterUser extends RegisterEvent {
   String password;
 }
 
+class RegisterInit extends RegisterEvent {
+  RegisterInit();
+}
+
+class RecoverAccount extends RegisterEvent {
+  RecoverAccount({required this.email});
+  String email;
+}
+
+class ValidateResetPasswordToken extends RegisterEvent {
+  ValidateResetPasswordToken({required this.token});
+  String token;
+}
+
+class UpdateUserPassword extends RegisterEvent {
+  UpdateUserPassword({required this.password});
+  String password;
+}
+
 class FinishInitialSetup extends RegisterEvent {
   FinishInitialSetup({required this.currentCourse});
   String currentCourse;

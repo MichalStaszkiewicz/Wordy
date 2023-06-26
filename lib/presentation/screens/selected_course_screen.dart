@@ -23,7 +23,7 @@ import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/selected_course_background.dart';
 
 class SelectedCourseScreen extends StatefulWidget {
-  const SelectedCourseScreen({super.key});
+  SelectedCourseScreen();
 
   @override
   State<SelectedCourseScreen> createState() => _SelectedCourseScreenState();
@@ -31,7 +31,6 @@ class SelectedCourseScreen extends StatefulWidget {
 
 class _SelectedCourseScreenState extends State<SelectedCourseScreen>
     with TickerProviderStateMixin {
-  String quizType = "Learning";
   bool isListExpanded = false;
   late AnimationController _courseProgressController;
   late Animation? _courseProgressAnimation;
@@ -70,7 +69,6 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
       result.add(SelectedCourseTopicCard(
         progress: topic,
         beforeQuiz: course,
-        quizType: quizType,
       ));
     }
     return result;
@@ -118,6 +116,12 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                       children: [
                                         GestureDetector(
                                           onTap: () {
+                                            locator<CourseProgressTracker>()
+                                                .beforeQuiz = null;
+                                            locator<CourseProgressTracker>()
+                                                .afterQuiz = null;
+                                            locator<CourseProgressTracker>()
+                                                .quizType = 'Learning';
                                             context.go(AppRouter.home);
                                           },
                                           child: Container(
@@ -199,7 +203,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                   onTap: () {
                                     setState(() {
                                       isListExpanded = !isListExpanded;
-                                      quizType = "Learning";
+                                      locator<CourseProgressTracker>()
+                                          .quizType = "Learning";
                                     });
                                   },
                                   child: AnimatedOpacity(
@@ -222,7 +227,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                   onTap: () {
                                     setState(() {
                                       isListExpanded = !isListExpanded;
-                                      quizType = "Review";
+                                      locator<CourseProgressTracker>()
+                                          .quizType = "Review";
                                     });
                                   },
                                   child: AnimatedOpacity(
@@ -280,7 +286,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                       flex: 4,
                                       child: Container(
                                         child: Text(
-                                          quizType,
+                                          locator<CourseProgressTracker>()
+                                              .quizType,
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge!

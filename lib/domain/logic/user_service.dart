@@ -25,6 +25,7 @@ import '../models/user_course.dart';
 class UserService {
   UserService(this._repository);
   final Repository _repository;
+
   Future<Either<Exception, ProfileData>> getProfileData() async {
     var token = await _repository.getTokenAccess();
     if (token.isError) {
@@ -44,6 +45,24 @@ class UserService {
       return Either.error(token.error);
     }
     return Either.data(token.data!);
+  }
+
+  Future<Either<Exception, String>> validateResetPasswordToken(
+      String email, String token) async {
+    var tokenState = await _repository.validateResetPasswordToken(email, token);
+    if (tokenState.isError) {
+      return Either.error(tokenState.error);
+    }
+    return Either.data(tokenState.data!);
+  }
+
+  Future<Either<Exception, String>> updateUserPassword(
+      String email, String password) async {
+    var updateState = await _repository.updatePassword(email, password);
+    if (updateState.isError) {
+      return Either.error(updateState.error);
+    }
+    return Either.data(updateState.data!);
   }
 
   Future<Either<Exception, String>> getTokenRefresh() async {
@@ -210,6 +229,26 @@ class UserService {
   Future<void> logOut() async {
     var token = await getTokenAccess();
     locator<SocketManager>().logOut(token.data!);
+  }
+
+  Future<Either<Exception, String>> recoverAccount(String email) async {
+    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+    if (email == '') {
+      return Either.error(
+          ValidationError('Validation Error', message: 'Fill all fields'));
+    }
+
+    if (!emailRegExp.hasMatch(email)) {
+      return Either.error(
+          ValidationError('Validation Error', message: 'Bad email format'));
+    }
+    var responseMessage = await _repository.recoverAccount(email);
+    if (responseMessage.isData) {
+      return Either.data(responseMessage.data);
+    } else {
+      return Either.error(responseMessage.error!);
+    }
   }
 
   Future<Either<Exception, String>> registerUser(

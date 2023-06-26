@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wordy/domain/models/beginner.dart';
+import 'package:wordy/domain/models/vocabulary.dart';
 import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
 
 class CustomAnimatedButton extends StatefulWidget {

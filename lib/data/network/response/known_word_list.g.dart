@@ -1,19 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'learned_words_list.dart';
+part of 'known_word_list.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_LearnedWordsList _$$_LearnedWordsListFromJson(Map<String, dynamic> json) =>
-    _$_LearnedWordsList(
-      learnedWords: (json['learnedWords'] as List<dynamic>)
+_$_KnownWordList _$$_KnownWordListFromJson(Map<String, dynamic> json) =>
+    _$_KnownWordList(
+      knownWords: (json['knownWords'] as List<dynamic>)
           .map((e) => Word.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$_LearnedWordsListToJson(_$_LearnedWordsList instance) =>
+Map<String, dynamic> _$$_KnownWordListToJson(_$_KnownWordList instance) =>
     <String, dynamic>{
-      'learnedWords': instance.learnedWords,
+      'knownWords': instance.knownWords,
     };

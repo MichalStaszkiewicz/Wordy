@@ -22,7 +22,7 @@ ActiveCourse _$ActiveCourseFromJson(Map<String, dynamic> json) {
 mixin _$ActiveCourse {
   UserCourse get userCourse => throw _privateConstructorUsedError;
   int get finishedTopics => throw _privateConstructorUsedError;
-  int get wordsLearned => throw _privateConstructorUsedError;
+  int get knownWords => throw _privateConstructorUsedError;
   double get totalProgress => throw _privateConstructorUsedError;
   int get topicsCount => throw _privateConstructorUsedError;
   List<ProgressInTopic> get topicProgress => throw _privateConstructorUsedError;
@@ -43,7 +43,7 @@ abstract class $ActiveCourseCopyWith<$Res> {
   $Res call(
       {UserCourse userCourse,
       int finishedTopics,
-      int wordsLearned,
+      int knownWords,
       double totalProgress,
       int topicsCount,
       List<ProgressInTopic> topicProgress,
@@ -67,7 +67,7 @@ class _$ActiveCourseCopyWithImpl<$Res, $Val extends ActiveCourse>
   $Res call({
     Object? userCourse = null,
     Object? finishedTopics = null,
-    Object? wordsLearned = null,
+    Object? knownWords = null,
     Object? totalProgress = null,
     Object? topicsCount = null,
     Object? topicProgress = null,
@@ -82,9 +82,9 @@ class _$ActiveCourseCopyWithImpl<$Res, $Val extends ActiveCourse>
           ? _value.finishedTopics
           : finishedTopics // ignore: cast_nullable_to_non_nullable
               as int,
-      wordsLearned: null == wordsLearned
-          ? _value.wordsLearned
-          : wordsLearned // ignore: cast_nullable_to_non_nullable
+      knownWords: null == knownWords
+          ? _value.knownWords
+          : knownWords // ignore: cast_nullable_to_non_nullable
               as int,
       totalProgress: null == totalProgress
           ? _value.totalProgress
@@ -125,7 +125,7 @@ abstract class _$$_ActiveCourseCopyWith<$Res>
   $Res call(
       {UserCourse userCourse,
       int finishedTopics,
-      int wordsLearned,
+      int knownWords,
       double totalProgress,
       int topicsCount,
       List<ProgressInTopic> topicProgress,
@@ -148,7 +148,7 @@ class __$$_ActiveCourseCopyWithImpl<$Res>
   $Res call({
     Object? userCourse = null,
     Object? finishedTopics = null,
-    Object? wordsLearned = null,
+    Object? knownWords = null,
     Object? totalProgress = null,
     Object? topicsCount = null,
     Object? topicProgress = null,
@@ -163,9 +163,9 @@ class __$$_ActiveCourseCopyWithImpl<$Res>
           ? _value.finishedTopics
           : finishedTopics // ignore: cast_nullable_to_non_nullable
               as int,
-      wordsLearned: null == wordsLearned
-          ? _value.wordsLearned
-          : wordsLearned // ignore: cast_nullable_to_non_nullable
+      knownWords: null == knownWords
+          ? _value.knownWords
+          : knownWords // ignore: cast_nullable_to_non_nullable
               as int,
       totalProgress: null == totalProgress
           ? _value.totalProgress
@@ -193,7 +193,7 @@ class _$_ActiveCourse implements _ActiveCourse {
   _$_ActiveCourse(
       {required this.userCourse,
       required this.finishedTopics,
-      required this.wordsLearned,
+      required this.knownWords,
       required this.totalProgress,
       required this.topicsCount,
       required final List<ProgressInTopic> topicProgress,
@@ -208,7 +208,7 @@ class _$_ActiveCourse implements _ActiveCourse {
   @override
   final int finishedTopics;
   @override
-  final int wordsLearned;
+  final int knownWords;
   @override
   final double totalProgress;
   @override
@@ -226,7 +226,7 @@ class _$_ActiveCourse implements _ActiveCourse {
 
   @override
   String toString() {
-    return 'ActiveCourse(userCourse: $userCourse, finishedTopics: $finishedTopics, wordsLearned: $wordsLearned, totalProgress: $totalProgress, topicsCount: $topicsCount, topicProgress: $topicProgress, totalWordsCount: $totalWordsCount)';
+    return 'ActiveCourse(userCourse: $userCourse, finishedTopics: $finishedTopics, knownWords: $knownWords, totalProgress: $totalProgress, topicsCount: $topicsCount, topicProgress: $topicProgress, totalWordsCount: $totalWordsCount)';
   }
 
   @override
@@ -238,8 +238,8 @@ class _$_ActiveCourse implements _ActiveCourse {
                 other.userCourse == userCourse) &&
             (identical(other.finishedTopics, finishedTopics) ||
                 other.finishedTopics == finishedTopics) &&
-            (identical(other.wordsLearned, wordsLearned) ||
-                other.wordsLearned == wordsLearned) &&
+            (identical(other.knownWords, knownWords) ||
+                other.knownWords == knownWords) &&
             (identical(other.totalProgress, totalProgress) ||
                 other.totalProgress == totalProgress) &&
             (identical(other.topicsCount, topicsCount) ||
@@ -256,7 +256,7 @@ class _$_ActiveCourse implements _ActiveCourse {
       runtimeType,
       userCourse,
       finishedTopics,
-      wordsLearned,
+      knownWords,
       totalProgress,
       topicsCount,
       const DeepCollectionEquality().hash(_topicProgress),
@@ -280,7 +280,7 @@ abstract class _ActiveCourse implements ActiveCourse {
   factory _ActiveCourse(
       {required final UserCourse userCourse,
       required final int finishedTopics,
-      required final int wordsLearned,
+      required final int knownWords,
       required final double totalProgress,
       required final int topicsCount,
       required final List<ProgressInTopic> topicProgress,
@@ -294,7 +294,7 @@ abstract class _ActiveCourse implements ActiveCourse {
   @override
   int get finishedTopics;
   @override
-  int get wordsLearned;
+  int get knownWords;
   @override
   double get totalProgress;
   @override

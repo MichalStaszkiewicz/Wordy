@@ -21,8 +21,9 @@ ProfileData _$ProfileDataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ProfileData {
   int get finishedCourses => throw _privateConstructorUsedError;
-  int get learnedWords => throw _privateConstructorUsedError;
-  List<ActiveCourse> get beginnerProgress => throw _privateConstructorUsedError;
+  int get knownWords => throw _privateConstructorUsedError;
+  List<ActiveCourse> get vocabularyProgress =>
+      throw _privateConstructorUsedError;
   List<UserAchievement> get achievements => throw _privateConstructorUsedError;
   int get hotStreak => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
@@ -41,8 +42,8 @@ abstract class $ProfileDataCopyWith<$Res> {
   @useResult
   $Res call(
       {int finishedCourses,
-      int learnedWords,
-      List<ActiveCourse> beginnerProgress,
+      int knownWords,
+      List<ActiveCourse> vocabularyProgress,
       List<UserAchievement> achievements,
       int hotStreak,
       String fullName});
@@ -62,8 +63,8 @@ class _$ProfileDataCopyWithImpl<$Res, $Val extends ProfileData>
   @override
   $Res call({
     Object? finishedCourses = null,
-    Object? learnedWords = null,
-    Object? beginnerProgress = null,
+    Object? knownWords = null,
+    Object? vocabularyProgress = null,
     Object? achievements = null,
     Object? hotStreak = null,
     Object? fullName = null,
@@ -73,13 +74,13 @@ class _$ProfileDataCopyWithImpl<$Res, $Val extends ProfileData>
           ? _value.finishedCourses
           : finishedCourses // ignore: cast_nullable_to_non_nullable
               as int,
-      learnedWords: null == learnedWords
-          ? _value.learnedWords
-          : learnedWords // ignore: cast_nullable_to_non_nullable
+      knownWords: null == knownWords
+          ? _value.knownWords
+          : knownWords // ignore: cast_nullable_to_non_nullable
               as int,
-      beginnerProgress: null == beginnerProgress
-          ? _value.beginnerProgress
-          : beginnerProgress // ignore: cast_nullable_to_non_nullable
+      vocabularyProgress: null == vocabularyProgress
+          ? _value.vocabularyProgress
+          : vocabularyProgress // ignore: cast_nullable_to_non_nullable
               as List<ActiveCourse>,
       achievements: null == achievements
           ? _value.achievements
@@ -107,8 +108,8 @@ abstract class _$$_ProfileDataCopyWith<$Res>
   @useResult
   $Res call(
       {int finishedCourses,
-      int learnedWords,
-      List<ActiveCourse> beginnerProgress,
+      int knownWords,
+      List<ActiveCourse> vocabularyProgress,
       List<UserAchievement> achievements,
       int hotStreak,
       String fullName});
@@ -126,8 +127,8 @@ class __$$_ProfileDataCopyWithImpl<$Res>
   @override
   $Res call({
     Object? finishedCourses = null,
-    Object? learnedWords = null,
-    Object? beginnerProgress = null,
+    Object? knownWords = null,
+    Object? vocabularyProgress = null,
     Object? achievements = null,
     Object? hotStreak = null,
     Object? fullName = null,
@@ -137,13 +138,13 @@ class __$$_ProfileDataCopyWithImpl<$Res>
           ? _value.finishedCourses
           : finishedCourses // ignore: cast_nullable_to_non_nullable
               as int,
-      learnedWords: null == learnedWords
-          ? _value.learnedWords
-          : learnedWords // ignore: cast_nullable_to_non_nullable
+      knownWords: null == knownWords
+          ? _value.knownWords
+          : knownWords // ignore: cast_nullable_to_non_nullable
               as int,
-      beginnerProgress: null == beginnerProgress
-          ? _value._beginnerProgress
-          : beginnerProgress // ignore: cast_nullable_to_non_nullable
+      vocabularyProgress: null == vocabularyProgress
+          ? _value._vocabularyProgress
+          : vocabularyProgress // ignore: cast_nullable_to_non_nullable
               as List<ActiveCourse>,
       achievements: null == achievements
           ? _value._achievements
@@ -166,12 +167,12 @@ class __$$_ProfileDataCopyWithImpl<$Res>
 class _$_ProfileData implements _ProfileData {
   _$_ProfileData(
       {required this.finishedCourses,
-      required this.learnedWords,
-      required final List<ActiveCourse> beginnerProgress,
+      required this.knownWords,
+      required final List<ActiveCourse> vocabularyProgress,
       required final List<UserAchievement> achievements,
       required this.hotStreak,
       required this.fullName})
-      : _beginnerProgress = beginnerProgress,
+      : _vocabularyProgress = vocabularyProgress,
         _achievements = achievements;
 
   factory _$_ProfileData.fromJson(Map<String, dynamic> json) =>
@@ -180,14 +181,14 @@ class _$_ProfileData implements _ProfileData {
   @override
   final int finishedCourses;
   @override
-  final int learnedWords;
-  final List<ActiveCourse> _beginnerProgress;
+  final int knownWords;
+  final List<ActiveCourse> _vocabularyProgress;
   @override
-  List<ActiveCourse> get beginnerProgress {
-    if (_beginnerProgress is EqualUnmodifiableListView)
-      return _beginnerProgress;
+  List<ActiveCourse> get vocabularyProgress {
+    if (_vocabularyProgress is EqualUnmodifiableListView)
+      return _vocabularyProgress;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_beginnerProgress);
+    return EqualUnmodifiableListView(_vocabularyProgress);
   }
 
   final List<UserAchievement> _achievements;
@@ -205,7 +206,7 @@ class _$_ProfileData implements _ProfileData {
 
   @override
   String toString() {
-    return 'ProfileData(finishedCourses: $finishedCourses, learnedWords: $learnedWords, beginnerProgress: $beginnerProgress, achievements: $achievements, hotStreak: $hotStreak, fullName: $fullName)';
+    return 'ProfileData(finishedCourses: $finishedCourses, knownWords: $knownWords, vocabularyProgress: $vocabularyProgress, achievements: $achievements, hotStreak: $hotStreak, fullName: $fullName)';
   }
 
   @override
@@ -215,10 +216,10 @@ class _$_ProfileData implements _ProfileData {
             other is _$_ProfileData &&
             (identical(other.finishedCourses, finishedCourses) ||
                 other.finishedCourses == finishedCourses) &&
-            (identical(other.learnedWords, learnedWords) ||
-                other.learnedWords == learnedWords) &&
+            (identical(other.knownWords, knownWords) ||
+                other.knownWords == knownWords) &&
             const DeepCollectionEquality()
-                .equals(other._beginnerProgress, _beginnerProgress) &&
+                .equals(other._vocabularyProgress, _vocabularyProgress) &&
             const DeepCollectionEquality()
                 .equals(other._achievements, _achievements) &&
             (identical(other.hotStreak, hotStreak) ||
@@ -232,8 +233,8 @@ class _$_ProfileData implements _ProfileData {
   int get hashCode => Object.hash(
       runtimeType,
       finishedCourses,
-      learnedWords,
-      const DeepCollectionEquality().hash(_beginnerProgress),
+      knownWords,
+      const DeepCollectionEquality().hash(_vocabularyProgress),
       const DeepCollectionEquality().hash(_achievements),
       hotStreak,
       fullName);
@@ -255,8 +256,8 @@ class _$_ProfileData implements _ProfileData {
 abstract class _ProfileData implements ProfileData {
   factory _ProfileData(
       {required final int finishedCourses,
-      required final int learnedWords,
-      required final List<ActiveCourse> beginnerProgress,
+      required final int knownWords,
+      required final List<ActiveCourse> vocabularyProgress,
       required final List<UserAchievement> achievements,
       required final int hotStreak,
       required final String fullName}) = _$_ProfileData;
@@ -267,9 +268,9 @@ abstract class _ProfileData implements ProfileData {
   @override
   int get finishedCourses;
   @override
-  int get learnedWords;
+  int get knownWords;
   @override
-  List<ActiveCourse> get beginnerProgress;
+  List<ActiveCourse> get vocabularyProgress;
   @override
   List<UserAchievement> get achievements;
   @override

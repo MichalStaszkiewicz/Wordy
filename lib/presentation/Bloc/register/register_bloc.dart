@@ -15,14 +15,77 @@ part 'register_event.dart';
 part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
+  String email = '';
   RegisterBloc() : super(const RegisterInitial()) {
+    registerInit();
     register();
-
     settingUpProfileBegin();
     switchInterfaceLanguage();
     finishInitialSetup();
     cancelLanguageChange();
     initialSetupStateUpdate();
+    recoverAccount();
+    confirmTokenReset();
+    updatePassword();
+  }
+  void registerInit() {
+    on<RegisterEvent>((event, emit) {
+      emit(RegisterInitial());
+    });
+  }
+
+  void recoverAccount() {
+    on<RecoverAccount>((event, emit) async {
+      try {
+        var recoverState =
+            await locator<UserService>().recoverAccount(event.email);
+
+        if (recoverState.isError) {
+          emit(RegisterError(
+              error: ExceptionHelper.getErrorMessage(recoverState.error!)));
+        } else {
+          email = event.email;
+          emit(RecoverAccountMessageSended());
+        }
+      } on Exception catch (e) {
+        emit(RegisterError(error: ExceptionHelper.getErrorMessage(e)));
+      }
+    });
+  }
+
+  void confirmTokenReset() {
+    on<ValidateResetPasswordToken>((event, emit) async {
+      try {
+        var validation = await locator<UserService>()
+            .validateResetPasswordToken(email, event.token);
+
+        if (validation.isError) {
+          emit(RegisterError(
+              error: ExceptionHelper.getErrorMessage(validation.error!)));
+        } else {
+          emit(UpdateUserPasswordState());
+        }
+      } on Exception catch (e) {
+        emit(RegisterError(error: ExceptionHelper.getErrorMessage(e)));
+      }
+    });
+  }
+
+  void updatePassword() {
+    on<UpdateUserPassword>((event, emit) async {
+      try {
+        var validation = await locator<UserService>()
+            .updateUserPassword(email, event.password);
+        if (validation.isError) {
+          emit(RegisterError(
+              error: ExceptionHelper.getErrorMessage(validation.error!)));
+        } else {
+          emit(UserPasswordUpdated());
+        }
+      } on Exception catch (e) {
+        emit(RegisterError(error: ExceptionHelper.getErrorMessage(e)));
+      }
+    });
   }
 
   void cancelLanguageChange() {
@@ -73,7 +136,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           var userCourseData = await userLogic.updateUserCurrentCourse(
             event.currentCourse,
           );
-          print("after UserCourseData ");
 
           if (userCourseData.isError) {
             emit(RegisterError(

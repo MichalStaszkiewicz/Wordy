@@ -17,9 +17,11 @@ import '../../global/notification_provider.dart';
 import '../Bloc/quiz/quiz_bloc.dart';
 
 class QuizScreen extends StatefulWidget {
-  QuizScreen({super.key, required this.topic, required this.quizType});
+  QuizScreen({
+    super.key,
+    required this.topic,
+  });
   String topic;
-  String quizType;
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -33,9 +35,9 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          QuizBloc(locator<StreamRepository>(), widget.quizType)
-            ..add(LoadBeginnerQuiz(topic: widget.topic)),
+      create: (context) => QuizBloc(
+        locator<StreamRepository>(),
+      )..add(LoadBeginnerQuiz(topic: widget.topic,)),
       child: Scaffold(
         body: Container(
           child: BlocListener<QuizBloc, QuizState>(
@@ -45,6 +47,26 @@ class _QuizScreenState extends State<QuizScreen> {
                   if (state.error.critical) {
                     context.go(AppRouter.authScreen);
                   }
+                });
+              }
+              if (state is QuizCompleted) {
+                context.go(AppRouter.quizCompleted, extra: {
+                  'topicCompleted': state.topicCompleted,
+                  'topic': widget.topic,
+                  'learnedWords':
+                      context.read<QuizBloc>().learnedWordsIds.length,
+                  'score':
+                      (context.read<QuizBloc>().correctAnswersCount.length /
+                                  (context
+                                          .read<QuizBloc>()
+                                          .correctAnswersCount
+                                          .length +
+                                      context
+                                          .read<QuizBloc>()
+                                          .incorrectAnsersCount
+                                          .length))
+                              .toDouble() *
+                          100,
                 });
               }
             },

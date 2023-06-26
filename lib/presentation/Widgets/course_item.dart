@@ -7,13 +7,13 @@ import 'circular_precentage_chart.dart';
 class CourseItem extends StatefulWidget {
   CourseItem(
       {super.key,
-      required this.courseLevel,
+ 
       required this.courseName,
       required this.progress,
       required this.topic});
 
   String courseName;
-  String courseLevel;
+
   Topic? topic;
   double progress;
 

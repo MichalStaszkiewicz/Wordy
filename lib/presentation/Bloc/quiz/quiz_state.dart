@@ -30,7 +30,7 @@ class QuizQuestionState extends QuizState {
       {required this.question,
       required this.selectedIndex,
       required this.answerChecked});
-  BeginnerQuestion question;
+  VocabularyQuestion question;
   int? selectedIndex;
   bool answerChecked;
 
@@ -46,7 +46,9 @@ class AnswerChecked extends QuizState {
 }
 
 class QuizCompleted extends QuizState {
-  QuizCompleted({required this.topicCompleted, });
+  QuizCompleted({
+    required this.topicCompleted,
+  });
   bool topicCompleted = false;
 
   @override

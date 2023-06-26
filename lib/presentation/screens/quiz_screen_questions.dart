@@ -20,7 +20,7 @@ import 'package:wordy/presentation/widgets/quiz_answear.dart';
 import 'package:wordy/presentation/widgets/quiz_next_button.dart';
 import 'package:wordy/utility/utility.dart';
 
-import '../../domain/models/beginner_question.dart';
+import '../../domain/models/vocabulary_question.dart';
 
 class QuizScreenQuestions extends StatefulWidget {
   QuizScreenQuestions({
@@ -82,7 +82,9 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                   'Are you sure ? ',
                                   context, () {
                                 notification.clearChoosenAnswerNotification();
-                                context.go(AppRouter.selectedCourse);
+                                context.go(
+                                  AppRouter.selectedCourse,
+                                );
                               }, () {});
                             },
                             child: ExitButton(),

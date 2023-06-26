@@ -13,6 +13,7 @@ import 'package:wordy/const/consts.dart';
 import '../../Utility/locator/service_locator.dart';
 import '../../domain/logic/user_service.dart';
 import '../../domain/models/vocabulary.dart';
+import '../../domain/models/word_collection.dart';
 import '../../global/notification_provider.dart';
 import '../bloc/courses_update/courses_update_bloc.dart';
 
@@ -38,9 +39,9 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     super.dispose();
   }
 
-  List<GestureDetector> vocabularyItems(List<Vocabulary> vocabularyList) {
+  List<GestureDetector> vocabularyItems(List<WordCollection> vocabularyList) {
     List<GestureDetector> result = [];
-    for (Vocabulary vocabulary in vocabularyList) {
+    for (WordCollection vocabulary in vocabularyList) {
       result.add(GestureDetector(
           onTap: () {
             context.pushNamed(AppRouter.vocabularyTopicSelectedScreen,
@@ -155,8 +156,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                       ],
                     ),
                   );
-
-                  return Container();
                 } else if (state is VocabularyInitial) {
                   return const LoadingData();
                 } else {

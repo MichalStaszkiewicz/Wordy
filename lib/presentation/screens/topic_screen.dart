@@ -14,6 +14,7 @@ import 'package:wordy/utility/socket_manager.dart';
 import '../../Utility/locator/service_locator.dart';
 import '../../const/app_router.dart';
 import '../../domain/repositiories/stream_repository.dart';
+import '../../global/course_progress_tracker.dart';
 import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/add_new_course_item.dart';
 import '../widgets/course_item.dart';
@@ -139,8 +140,6 @@ class _TopicScreenState extends State<TopicScreen>
                             SliverToBoxAdapter(
                               child: CurrentCourseWidget(
                                 currentCourse: state.courses.currentCourse,
-                                label: state.courses.currentCourse.userCourse
-                                    .difficulty.beginner.name.capitalize!,
                               ),
                             ),
                             /*
@@ -198,6 +197,8 @@ class _TopicScreenState extends State<TopicScreen>
                                           columnCount: 2,
                                           child: GestureDetector(
                                               onTap: () async {
+                                                locator<CourseProgressTracker>()
+                                                    .quizType = 'Learning';
                                                 await locator<UserService>()
                                                     .updateUserCurrentCourse(
                                                         state
@@ -209,7 +210,8 @@ class _TopicScreenState extends State<TopicScreen>
                                                             .name)
                                                     .then((value) {
                                                   context.go(
-                                                      AppRouter.selectedCourse);
+                                                    AppRouter.selectedCourse,
+                                                  );
                                                 });
                                               },
                                               child: ScaleAnimation(
@@ -217,13 +219,6 @@ class _TopicScreenState extends State<TopicScreen>
                                                 child: BouncingWidget(
                                                   onPress: () {},
                                                   child: CourseItem(
-                                                      courseLevel: state
-                                                          .courses
-                                                          .activeCourses[index]
-                                                          .userCourse
-                                                          .difficulty
-                                                          .beginner
-                                                          .name,
                                                       courseName: state
                                                           .courses
                                                           .activeCourses[index]

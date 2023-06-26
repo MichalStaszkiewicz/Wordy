@@ -31,8 +31,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(ProfileDataReady(
           finishedCourses: profileData.data!.finishedCourses,
           hotStreak: profileData.data!.hotStreak,
-          learnedWords: profileData.data!.learnedWords,
-          beginnerProgress: profileData.data!.beginnerProgress,
+          learnedWords: profileData.data!.knownWords,
+          beginnerProgress: profileData.data!.vocabularyProgress,
           achievements: profileData.data!.achievements,
           fullName: profileData.data!.fullName.capitalize!,
         ));

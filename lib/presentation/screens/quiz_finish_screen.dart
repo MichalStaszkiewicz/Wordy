@@ -13,17 +13,21 @@ import 'package:wordy/presentation/widgets/bouncing_widget.dart';
 import 'package:wordy/presentation/widgets/quiz_next_button.dart';
 
 import '../../Utility/locator/service_locator.dart';
-import '../../domain/models/beginner_question.dart';
+
 import '../../domain/repositiories/stream_repository.dart';
 import '../../utility/dialog_manager.dart';
 
 class QuizFinishScreen extends StatefulWidget {
-  QuizFinishScreen(
-      {super.key,
-      required this.topic,
-      required this.score,
-      required this.learnedWords});
+  QuizFinishScreen({
+    super.key,
+    required this.topic,
+    required this.score,
+    required this.learnedWords,
+    required this.topicCompleted,
+  });
   String topic;
+
+  bool topicCompleted;
   int learnedWords;
   double score;
 
@@ -111,140 +115,130 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
     super.dispose();
   }
 
-  bool _topicCompleted = false;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => QuizBloc(locator<StreamRepository>(), ''),
-      child: BlocListener<QuizBloc, QuizState>(
-        listener: (context, state) {
-          if (state is QuizCompleted) {
-            _topicCompleted = state.topicCompleted;
-          }
-        },
-        child: Scaffold(
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Expanded(child: Container()),
-              Expanded(
-                flex: 5,
-                child: ScaleTransition(
-                  scale: _scaleAnimation,
-                  child: Container(
-                    margin: const EdgeInsets.all(30),
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 60,
-                        ),
-                        Text(
-                          widget.topic,
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        const SizedBox(
-                            height: 100,
-                            child:
-                                Image(image: AssetImage('assets/perfect.png'))),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Opacity(
-                                    opacity: _learnedWordsAnimation.value,
-                                    child: _buildStatisticWidget(
-                                        context,
-                                        "New learned words: ",
-                                        "${_learnedWordsLabelAnimation.value.toInt()}"),
-                                  ),
-                                  Opacity(
-                                    opacity: _scoreAnimation.value,
-                                    child: _buildStatisticWidget(
-                                        context,
-                                        "Score ",
-                                        "${_scoreLabelAnimation.value.toInt()} %"),
-                                  ),
-                                ],
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(child: Container()),
+          Expanded(
+            flex: 5,
+            child: ScaleTransition(
+              scale: _scaleAnimation,
+              child: Container(
+                margin: const EdgeInsets.all(30),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 60,
+                    ),
+                    Text(
+                      widget.topic,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    const SizedBox(
+                        height: 100,
+                        child: Image(image: AssetImage('assets/perfect.png'))),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Opacity(
+                                opacity: _learnedWordsAnimation.value,
+                                child: _buildStatisticWidget(
+                                    context,
+                                    "New learned words: ",
+                                    "${_learnedWordsLabelAnimation.value.toInt()}"),
                               ),
-                            ),
+                              Opacity(
+                                opacity: _scoreAnimation.value,
+                                child: _buildStatisticWidget(context, "Score ",
+                                    "${_scoreLabelAnimation.value.toInt()} %"),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
-              Expanded(
-                flex: 2,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        BouncingWidget(
-                          onPress: () {},
-                          child: Opacity(
-                            opacity: _buttonOpacityAnimation.value,
-                            child: CustomAnimatedButton(
-                              onTap: () {
-                                if (!_topicCompleted) {
-                                  context.go(AppRouter.quizScreen,
-                                      extra: {'topic': widget.topic});
-                                } else {
-                                  DialogManager.showSuccessDialog(
-                                      "You have completed this module",
-                                      'Congratulations !',
-                                      context, () {
-                                    context.go(AppRouter.selectedCourse);
-                                  });
-                                }
-                              },
-                              filled: true,
-                              label: ui_lang['english']!['quiz_finish_repeat']
-                                  .toString(),
-                              height: 50,
-                              width: 350,
-                              margin: const EdgeInsets.only(bottom: 0),
-                            ),
-                          ),
-                        ),
-                        BouncingWidget(
-                          onPress: () {},
-                          child: Opacity(
-                            opacity: _buttonOpacityAnimation.value,
-                            child: CustomAnimatedButton(
-                              onTap: () {
-                                context.go(AppRouter.selectedCourse);
-                              },
-                              filled: true,
-                              label: ui_lang['english']!['quiz_finish_home']
-                                  .toString(),
-                              height: 50,
-                              width: 350,
-                              margin: const EdgeInsets.only(bottom: 0),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          Expanded(
+            flex: 2,
+            child: SizedBox(
+              width: double.infinity,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    BouncingWidget(
+                      onPress: () {},
+                      child: Opacity(
+                        opacity: _buttonOpacityAnimation.value,
+                        child: CustomAnimatedButton(
+                          onTap: () {
+                            if (!widget.topicCompleted) {
+                              context.go(AppRouter.quizScreen, extra: {
+                                'topic': widget.topic,
+                              });
+                            } else {
+                              DialogManager.showSuccessDialog(
+                                  "You have completed this module",
+                                  'Congratulations !',
+                                  context, () {
+                                context.go(
+                                  AppRouter.selectedCourse,
+                                );
+                              });
+                            }
+                          },
+                          filled: true,
+                          label: ui_lang['english']!['quiz_finish_repeat']
+                              .toString(),
+                          height: 50,
+                          width: 350,
+                          margin: const EdgeInsets.only(bottom: 0),
+                        ),
+                      ),
+                    ),
+                    BouncingWidget(
+                      onPress: () {},
+                      child: Opacity(
+                        opacity: _buttonOpacityAnimation.value,
+                        child: CustomAnimatedButton(
+                          onTap: () {
+                            context.go(
+                              AppRouter.selectedCourse,
+                            );
+                          },
+                          filled: true,
+                          label: ui_lang['english']!['quiz_finish_home']
+                              .toString(),
+                          height: 50,
+                          width: 350,
+                          margin: const EdgeInsets.only(bottom: 0),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -256,7 +250,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
       height: 55,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          gradient: LinearGradient(colors: [
+          gradient: const LinearGradient(colors: [
             Color.fromARGB(255, 99, 155, 252),
             Color.fromRGBO(158, 149, 248, 1),
           ])),
@@ -267,10 +261,9 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
           width: 295,
           height: 50,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Expanded(
-                flex: 3,
+                flex: 5,
                 child: Container(
                   margin: EdgeInsets.only(left: 10),
                   child: Text(
@@ -284,19 +277,18 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                 ),
               ),
               Expanded(
-                flex: 1,
+                flex: 3,
                 child: Container(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Icon(Icons.school),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        child: Text(
-                          score,
-                          style: Theme.of(context).textTheme.labelLarge,
+                      Expanded(child: Container(child: Icon(Icons.school))),
+                      Expanded(
+                        child: Container(
+                          child: Text(
+                            score,
+                            style: Theme.of(context).textTheme.labelLarge,
+                          ),
                         ),
                       ),
                     ],

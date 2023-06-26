@@ -10,7 +10,7 @@ class ActiveCourse with _$ActiveCourse {
   factory ActiveCourse({
     required UserCourse userCourse,
     required int finishedTopics,
-    required int wordsLearned,
+    required int knownWords,
     required double totalProgress,
     required int topicsCount,
     required List<ProgressInTopic> topicProgress,

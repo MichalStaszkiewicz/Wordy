@@ -16,8 +16,9 @@ import '../../../data/network/exceptions/exception_helper.dart';
 import '../../../data/network/request/quiz_summary_request.dart';
 import '../../../data/network/response/achievement_list_response.dart';
 import '../../../domain/logic/quiz_logic.dart';
-import '../../../domain/models/beginner_question.dart';
+
 import '../../../domain/models/user_active_courses_progress.dart';
+import '../../../domain/models/vocabulary_question.dart';
 import '../../../domain/repositiories/stream_repository.dart';
 import '../../../global/course_progress_tracker.dart';
 
@@ -29,14 +30,16 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   final socketManager = locator<SocketManager>();
   final userService = locator<UserService>();
   final quizLogic = locator<QuizLogic>();
-  String quizType = '';
+
   List<int> correctAnswersCount = [];
   List<int> incorrectAnsersCount = [];
   int currentQuestionIndex = 0;
   late final String courseName;
-  late List<BeginnerQuestion> questions;
+  late List<VocabularyQuestion> questions;
   final List<int> learnedWordsIds = [];
-  QuizBloc(this.socketRepository, this.quizType) : super(const QuizInitial()) {
+  QuizBloc(
+    this.socketRepository,
+  ) : super(const QuizInitial()) {
     loadBeginnerQuiz();
     loadNextQuestion();
     finishQuiz();
@@ -48,6 +51,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     on<LoadBeginnerQuiz>((event, emit) async {
       emit(const InProgress());
       var questionsData;
+      var quizType = locator<CourseProgressTracker>().quizType;
+
       if (quizType == "Learning") {
         questionsData = await quizLogic.createLearningQuiz(event.topic);
       }
@@ -110,7 +115,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
             selectedIndex: null,
             answerChecked: false));
       } else {
-        BeginnerQuestion question = questions.elementAt(currentQuestionIndex);
+        VocabularyQuestion question = questions.elementAt(currentQuestionIndex);
 
         questions = List.from(questions)..removeAt(currentQuestionIndex);
         questions.add(question);
@@ -126,6 +131,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   void finishQuiz() {
     on<FinishQuiz>((event, emit) async {
       final token = await userService.getTokenAccess();
+      var quizType = locator<CourseProgressTracker>().quizType;
       if (token.isError) {
         emit(QuizError(error: ExceptionHelper.getErrorMessage(token.error!)));
       }

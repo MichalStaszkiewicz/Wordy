@@ -12,13 +12,13 @@ import 'package:wordy/utility/locator/service_locator.dart';
 import '../../Utility/dialog_manager.dart';
 
 class SelectedCourseTopicCard extends StatefulWidget {
-  SelectedCourseTopicCard(
-      {required this.progress,
-      required this.beforeQuiz,
-      required this.quizType});
+  SelectedCourseTopicCard({
+    required this.progress,
+    required this.beforeQuiz,
+  });
   ProgressInTopic progress;
   ActiveCourse? beforeQuiz;
-  String quizType;
+
   @override
   State<SelectedCourseTopicCard> createState() =>
       _SelectedCourseTopicCardState();
@@ -64,13 +64,14 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.quizType == 'Learning' &&
+        var quizType = locator<CourseProgressTracker>().quizType;
+
+        if (quizType == 'Learning' &&
             widget.progress.knownWords < widget.progress.wordsCount) {
           context.pushNamed(AppRouter.quizScreen, extra: {
             'topic': widget.progress.name,
-            'quizType': widget.quizType
           });
-        } else if (widget.quizType == 'Learning' &&
+        } else if (quizType == 'Learning' &&
             widget.progress.knownWords == widget.progress.wordsCount) {
           DialogManager.showSuccessDialog(
               "You have completed this module if you want to review this topic again please switch mode to review",
@@ -80,7 +81,6 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
         } else {
           context.pushNamed(AppRouter.quizScreen, extra: {
             'topic': widget.progress.name,
-            'quizType': widget.quizType
           });
         }
       },

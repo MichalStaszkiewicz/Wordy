@@ -36,7 +36,7 @@ class StreamRepository {
 
   void initialize() {
     _socket.on('loadCourses', (data) {
-      print("LOAD COURSES DATA RECIEVED FROM SERVER");
+   
 
       _courseStreamController.add(UserActiveCoursesProgress.fromJson(data));
     });
@@ -45,7 +45,7 @@ class StreamRepository {
           .add(ActiveCourse.fromJson(data['activeCourse']));
     });
     _socket.on('got_new_achievement', (data) {
-      print("GOT NEW ACHIEVEMENTS!!!!!!!!!!!!");
+
       List<UserAchievement> list =
           AchievementListResponse.fromJson(data).achievements;
 

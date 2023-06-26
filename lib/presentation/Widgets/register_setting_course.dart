@@ -83,7 +83,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                               currentCourse: state.languageToLearn));
                         } else {
                           DialogManager.showErrorDialog(
-                              CustomError(
+                              const CustomError(
                                   title: 'Error',
                                   message:
                                       'You have to select a language you want to learn',

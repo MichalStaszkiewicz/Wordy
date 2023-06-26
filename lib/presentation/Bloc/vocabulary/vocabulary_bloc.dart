@@ -5,6 +5,7 @@ import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/custom_error.dart';
 import 'package:wordy/const/consts.dart';
+import 'package:wordy/domain/models/word_collection.dart';
 
 import '../../../Utility/locator/service_locator.dart';
 import '../../../const/shared_preferences_keys.dart';
@@ -30,8 +31,8 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
         emit(VocabularyError(
             error: ExceptionHelper.getErrorMessage(course.error!)));
       } else {
-        List<Vocabulary> list = [
-          Vocabulary(
+        List<WordCollection> list = [
+          WordCollection(
             topic: ui_lang['english']!['topic_label'][0],
             image: "assets/dailyusage.png",
           ),
@@ -47,7 +48,7 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
 
   void updateVocabulary() {
     return on<SearchForSpecificVocabulary>((event, emit) {
-      List<Vocabulary> updatedList = [];
+      List<WordCollection> updatedList = [];
       if (state is VocabularyLoaded) {
         final state = this.state as VocabularyLoaded;
         for (int i = 0; i < state.vocabularyList.length; i++) {
