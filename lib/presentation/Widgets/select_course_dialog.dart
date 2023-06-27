@@ -9,10 +9,12 @@ import 'package:wordy/presentation/widgets/quiz_next_button.dart';
 import '../../Utility/dialog_manager.dart';
 
 import '../../Utility/locator/service_locator.dart';
+import '../../const/consts.dart';
 import '../../data/network/exceptions/exception_helper.dart';
 import '../../data/network/exceptions/unexpected_error.dart';
 
 import '../../domain/models/course.dart';
+import '../../global/global_data_manager.dart';
 import '../bloc/courses_update/courses_update_bloc.dart';
 import 'language_tile.dart';
 import 'loading_data.dart';
@@ -42,8 +44,9 @@ class _SelectCourseDialogState extends State<SelectCourseDialog> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
+                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                        'select_course'],
                     textAlign: TextAlign.center,
-                    'Select Course',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   SizedBox(
@@ -52,7 +55,9 @@ class _SelectCourseDialogState extends State<SelectCourseDialog> {
                         itemCount: widget.availableCourses.length,
                         itemBuilder: (context, index) => LanguageTile(
                               imagePath: widget.availableCourses[index].image,
-                              language: widget.availableCourses[index].name,
+                              language: ui_lang[locator<GlobalDataManager>()
+                                      .interfaceLanguage]![
+                                  widget.availableCourses[index].name],
                               onSelect: () {
                                 context.read<CoursesUpdateBloc>().add(
                                     UpdateSelectedCourse(
@@ -67,7 +72,8 @@ class _SelectCourseDialogState extends State<SelectCourseDialog> {
                     onPress: () {},
                     child: CustomAnimatedButton(
                       height: 40,
-                      label: 'Start',
+                      label: ui_lang[locator<GlobalDataManager>()
+                          .interfaceLanguage]!['start'],
                       margin: EdgeInsets.zero,
                       onTap: () {
                         if (state.selectedCourse != '') {

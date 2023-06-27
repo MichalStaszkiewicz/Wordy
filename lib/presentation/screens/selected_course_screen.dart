@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -13,11 +14,13 @@ import 'package:wordy/presentation/widgets/selected_course_topic_card.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 
 import '../../Utility/locator/service_locator.dart';
+import '../../const/consts.dart';
 import '../../domain/models/active_course.dart';
 
 import '../../domain/models/progress_in_topic.dart';
 import '../../domain/repositiories/stream_repository.dart';
 
+import '../../global/global_data_manager.dart';
 import '../../global/notification_provider.dart';
 import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/selected_course_background.dart';
@@ -68,7 +71,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
     for (ProgressInTopic topic in progress) {
       result.add(SelectedCourseTopicCard(
         progress: topic,
-        beforeQuiz: course,
+        beforeQuiz: course, topic:topic.topic,
       ));
     }
     return result;
@@ -134,7 +137,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                           ),
                                         ),
                                         Text(
-                                          'Course',
+                                          ui_lang[locator<GlobalDataManager>()
+                                              .interfaceLanguage]!['course'],
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge!
@@ -214,7 +218,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                       margin:
                                           EdgeInsets.only(top: 20, left: 20),
                                       child: Text(
-                                        'Learning',
+                                        ui_lang[locator<GlobalDataManager>()
+                                            .interfaceLanguage]!['learning'],
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleLarge!
@@ -238,7 +243,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                       margin:
                                           EdgeInsets.only(top: 20, left: 20),
                                       child: Text(
-                                        'Review',
+                                        ui_lang[locator<GlobalDataManager>()
+                                            .interfaceLanguage]!['review'],
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleLarge!
@@ -285,9 +291,13 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                     Expanded(
                                       flex: 4,
                                       child: Container(
-                                        child: Text(
-                                          locator<CourseProgressTracker>()
-                                              .quizType,
+                                        child: AutoSizeText(
+                                          ui_lang[locator<GlobalDataManager>()
+                                                  .interfaceLanguage]![
+                                              locator<CourseProgressTracker>()
+                                                  .quizType
+                                                  .toLowerCase()],
+                                          maxLines: 1,
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge!
@@ -344,7 +354,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  course.userCourse.course.name.capitalize!,
+                  ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                      course.userCourse.course.name],
                   style: Theme.of(context)
                       .textTheme
                       .headlineMedium!
@@ -374,7 +385,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
               optionalWidget: SizedBox(
                 height: 20,
                 child: Text(
-                  'completed',
+                  ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                      'completed'],
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall!

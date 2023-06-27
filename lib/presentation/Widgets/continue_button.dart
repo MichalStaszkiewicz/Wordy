@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../Utility/locator/service_locator.dart';
 import '../../const/app_router.dart';
+import '../../const/consts.dart';
+import '../../global/global_data_manager.dart';
 
 class ContinueButton extends StatefulWidget {
   const ContinueButton({super.key});
@@ -55,8 +58,9 @@ class _ContinueButtonState extends State<ContinueButton>
               Container(
                 alignment: Alignment.center,
                 child: AutoSizeText(
+                  ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                      'continue'],
                   maxLines: 1,
-                  'Continue',
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         color: Colors.white,
                       ),

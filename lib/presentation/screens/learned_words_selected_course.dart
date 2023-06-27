@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/domain/models/progress_in_topic.dart';
 
+import '../../Utility/locator/service_locator.dart';
+import '../../const/consts.dart';
 import '../../domain/models/active_course.dart';
+import '../../global/global_data_manager.dart';
 import '../widgets/exit_button.dart';
 import '../widgets/learned_words_statistic_card.dart';
 
@@ -50,13 +53,14 @@ class _LearnedWordsSelectedCourseState
                                   onTap: () {
                                     context.pop();
                                   },
-                                  child: ExitButton())))),
+                                  child: const ExitButton())))),
                   Expanded(
                     flex: 3,
                     child: Container(
                       child: Center(
                         child: Text(
-                          'Learned Words',
+                          ui_lang[locator<GlobalDataManager>()
+                              .interfaceLanguage]!['learned_words'],
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall!

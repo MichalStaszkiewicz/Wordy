@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wordy/const/consts.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
 import 'package:wordy/presentation/widgets/continue_button.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 
+import '../../Utility/locator/service_locator.dart';
 import '../../const/app_router.dart';
 import '../../domain/models/active_course.dart';
+import '../../global/global_data_manager.dart';
 import 'difficulty_level_widget.dart';
 
 class CurrentCourseWidget extends StatelessWidget {
@@ -87,8 +90,10 @@ class CurrentCourseWidget extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             width: double.infinity,
                             child: Text(
+                              ui_lang[locator<GlobalDataManager>()
+                                      .interfaceLanguage]![
+                                  currentCourse.userCourse.course.name],
                               textAlign: TextAlign.left,
-                              currentCourse.userCourse.course.name.capitalize!,
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineLarge!
@@ -120,20 +125,17 @@ class CurrentCourseWidget extends StatelessWidget {
                                     child: Center(
                                       child: Row(
                                         children: [
-                                          Expanded(
-                                            flex: 3,
-                                            child: ProgressionBar(
-                                              height: 5,
-                                              gradient: [
-                                                Colors.white,
-                                                Colors.white
-                                              ],
-                                              nonProgressionColor:
-                                                  Colors.white.withOpacity(0.6),
-                                              progress:
-                                                  currentCourse.totalProgress,
-                                              width: 200,
-                                            ),
+                                          ProgressionBar(
+                                            height: 5,
+                                            gradient: [
+                                              Colors.white,
+                                              Colors.white
+                                            ],
+                                            nonProgressionColor:
+                                                Colors.white.withOpacity(0.6),
+                                            progress:
+                                                currentCourse.totalProgress,
+                                            width: 200,
                                           ),
                                           Expanded(
                                             child: Container(

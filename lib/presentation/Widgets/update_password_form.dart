@@ -5,6 +5,7 @@ import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/widgets/login_button.dart';
 
 import '../../utility/validator.dart';
+import '../bloc/reset_password/reset_password_bloc.dart';
 
 class UpdatePasswordForm extends StatefulWidget {
   UpdatePasswordForm({super.key, required this.onSwitchToLogin});
@@ -37,14 +38,14 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
               keyboardType: TextInputType.emailAddress,
               controller: _passwordController,
               decoration: const InputDecoration(
-                  prefixIcon:  Icon(Icons.security_rounded),
+                  prefixIcon: Icon(Icons.security_rounded),
                   hintText: "password"),
             )),
         LoginButton(
           label: 'Submit',
           onPressed: () {
             context
-                .read<RegisterBloc>()
+                .read<ResetPasswordBloc>()
                 .add(UpdateUserPassword(password: _passwordController.text));
             setState(() {});
           },

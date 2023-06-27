@@ -14,7 +14,10 @@ import 'package:wordy/presentation/widgets/quiz_next_button.dart';
 
 import '../../Utility/locator/service_locator.dart';
 
+import '../../const/urls.dart';
+import '../../domain/models/topic.dart';
 import '../../domain/repositiories/stream_repository.dart';
+import '../../global/global_data_manager.dart';
 import '../../utility/dialog_manager.dart';
 
 class QuizFinishScreen extends StatefulWidget {
@@ -25,7 +28,7 @@ class QuizFinishScreen extends StatefulWidget {
     required this.learnedWords,
     required this.topicCompleted,
   });
-  String topic;
+  Topic topic;
 
   bool topicCompleted;
   int learnedWords;
@@ -134,15 +137,18 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                       height: 60,
                     ),
                     Text(
-                      widget.topic,
+                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                          'topic_label'][widget.topic.name.toLowerCase()],
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(
                       height: 50,
                     ),
-                    const SizedBox(
+                    SizedBox(
                         height: 100,
-                        child: Image(image: AssetImage('assets/perfect.png'))),
+                        child: Image(
+                            image: NetworkImage(
+                                Urls.kImageUrl + widget.topic.image))),
                     const SizedBox(
                       height: 50,
                     ),
@@ -158,12 +164,19 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                                 opacity: _learnedWordsAnimation.value,
                                 child: _buildStatisticWidget(
                                     context,
-                                    "New learned words: ",
+                                    ui_lang[locator<GlobalDataManager>()
+                                            .interfaceLanguage]![
+                                        'new_learned_words'],
                                     "${_learnedWordsLabelAnimation.value.toInt()}"),
                               ),
                               Opacity(
                                 opacity: _scoreAnimation.value,
-                                child: _buildStatisticWidget(context, "Score ",
+                                child: _buildStatisticWidget(
+                                    context,
+                                    ui_lang[locator<GlobalDataManager>()
+                                                .interfaceLanguage]![
+                                            'quiz_finish_your_score'] +
+                                        '',
                                     "${_scoreLabelAnimation.value.toInt()} %"),
                               ),
                             ],
@@ -196,8 +209,10 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                               });
                             } else {
                               DialogManager.showSuccessDialog(
-                                  "You have completed this module",
-                                  'Congratulations !',
+                                  ui_lang[locator<GlobalDataManager>()
+                                      .interfaceLanguage]!['completed_topic'],
+                                  ui_lang[locator<GlobalDataManager>()
+                                      .interfaceLanguage]!['congratulations'],
                                   context, () {
                                 context.go(
                                   AppRouter.selectedCourse,
@@ -206,7 +221,8 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                             }
                           },
                           filled: true,
-                          label: ui_lang['english']!['quiz_finish_repeat']
+                          label: ui_lang[locator<GlobalDataManager>()
+                                  .interfaceLanguage]!['quiz_finish_repeat']
                               .toString(),
                           height: 50,
                           width: 350,
@@ -225,7 +241,8 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                             );
                           },
                           filled: true,
-                          label: ui_lang['english']!['quiz_finish_home']
+                          label: ui_lang[locator<GlobalDataManager>()
+                                  .interfaceLanguage]!['quiz_finish_home']
                               .toString(),
                           height: 50,
                           width: 350,

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_speed_dial/simple_speed_dial.dart';
 
+import '../../Utility/locator/service_locator.dart';
+import '../../const/consts.dart';
 import '../../domain/models/achievement.dart';
 import '../../domain/models/user_achievement.dart';
+import '../../global/global_data_manager.dart';
 import '../bloc/achievements/achievements_filter_bloc.dart';
 
 class AchievementDial extends StatefulWidget {
@@ -27,13 +30,15 @@ class _AchievementDialState extends State<AchievementDial> {
               child: const Icon(Icons.star),
               foregroundColor: Colors.white,
               backgroundColor: Colors.indigoAccent,
-              label: 'Only achieved already',
+              label: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                  'achievements_only_achieved'],
               onPressed: () {
                 context.read<AchievementsFilterBloc>().add(FilterAchievements(
                       achievements: widget.achievements
                           .where((e) => e.achieved == true)
                           .toList(),
-                      filter: 'Achievements - Achieved',
+                      filter: ui_lang[locator<GlobalDataManager>()
+                          .interfaceLanguage]!['achievements_only_achieved'],
                     ));
               },
             ),
@@ -41,13 +46,15 @@ class _AchievementDialState extends State<AchievementDial> {
               child: const Icon(Icons.lock),
               foregroundColor: Colors.white,
               backgroundColor: Colors.indigoAccent,
-              label: 'Only no achieved',
+              label: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                  'achievements_locked'],
               onPressed: () {
                 context.read<AchievementsFilterBloc>().add(FilterAchievements(
                       achievements: widget.achievements
                           .where((e) => e.achieved == false)
                           .toList(),
-                      filter: 'Achievements - Achievable',
+                      filter: ui_lang[locator<GlobalDataManager>()
+                          .interfaceLanguage]!['achievements_locked'],
                     ));
               },
             ),
@@ -55,11 +62,14 @@ class _AchievementDialState extends State<AchievementDial> {
               child: const Icon(Icons.folder),
               foregroundColor: Colors.white,
               backgroundColor: Colors.indigoAccent,
-              label: 'All achievements',
+              label: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                  'achievements_everything'],
               onPressed: () {
                 context.read<AchievementsFilterBloc>().add(FilterAchievements(
-                    achievements: widget.achievements,
-                    filter: 'Achievements - Everything'));
+                      achievements: widget.achievements,
+                      filter: ui_lang[locator<GlobalDataManager>()
+                          .interfaceLanguage]!['achievements_everything'],
+                    ));
               },
             ),
           ],

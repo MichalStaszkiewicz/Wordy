@@ -12,6 +12,7 @@ import '../../data/network/response/login_user_response.dart';
 import '../../data/network/response/refresh_token_response.dart';
 import '../../data/network/response/register_user_response.dart';
 import '../../data/network/response/registeration_response.dart';
+import '../../data/network/response/topic_list_response.dart';
 import '../../data/network/response/update_registeration_status_response.dart';
 import '../../data/network/response/update_user_current_course_response.dart';
 import '../../data/network/response/update_user_interface_language_response.dart';
@@ -24,6 +25,7 @@ import '../models/user_settings.dart';
 import '../models/word.dart';
 
 abstract class ServerInterface {
+  Future<Either<DioError, TopicListResponse>> getTopics();
   Future<Either<DioError, String>> recoverAccount(String email);
   Future<Either<DioError, String>> validateResetPassword(
       String email, String resetPasswordToken);

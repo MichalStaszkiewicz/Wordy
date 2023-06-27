@@ -8,6 +8,7 @@ import 'package:wordy/utility/dialog_manager.dart';
 import 'package:wordy/utility/utility.dart';
 
 import '../../Utility/locator/service_locator.dart';
+import '../../domain/models/course.dart';
 import '../../domain/models/interface_language.dart';
 import 'confirm_button.dart';
 import 'language_tile.dart';
@@ -18,7 +19,7 @@ class RegisterCourseList extends StatefulWidget {
       required this.languages,
       required this.onNextStep,
       required this.currentLanguage});
-  List<InterfaceLanguage> languages;
+  List<Course> languages;
   VoidCallBack onNextStep;
   String currentLanguage;
 

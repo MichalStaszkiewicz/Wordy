@@ -10,6 +10,7 @@ import 'package:wordy/Utility/dialog_manager.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/enums.dart';
 import 'package:wordy/domain/models/quiz_question.dart';
+import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/global/notification_provider.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 
@@ -20,6 +21,8 @@ import 'package:wordy/presentation/widgets/quiz_answear.dart';
 import 'package:wordy/presentation/widgets/quiz_next_button.dart';
 import 'package:wordy/utility/utility.dart';
 
+import '../../Utility/locator/service_locator.dart';
+import '../../const/consts.dart';
 import '../../domain/models/vocabulary_question.dart';
 
 class QuizScreenQuestions extends StatefulWidget {
@@ -37,11 +40,12 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
     with TickerProviderStateMixin {
   String _buttonLabelCheck(bool checkedAnswer, int currentIndex, int maxIndex) {
     if (checkedAnswer) {
-      return "Continue";
+      return ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+          'continue'];
     } else if (checkedAnswer && currentIndex + 1 == maxIndex) {
-      return "Finish";
+      return ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['finish'];
     } else {
-      return "Check";
+      return ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['check'];
     }
   }
 
@@ -64,7 +68,8 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                       height: 30,
                       child: Center(
                         child: Text(
-                          widget.topic,
+                          ui_lang[locator<GlobalDataManager>()
+                              .interfaceLanguage]!['topic_label'][widget.topic],
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
@@ -78,8 +83,10 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                           child: GestureDetector(
                             onTap: () {
                               DialogManager.showQuestionDialog(
-                                  'If you will quit now all progress you have made will be lost!',
-                                  'Are you sure ? ',
+                                  ui_lang[locator<GlobalDataManager>()
+                                      .interfaceLanguage]!['quiting_quiz'],
+                                  ui_lang[locator<GlobalDataManager>()
+                                      .interfaceLanguage]!['are_you_sure'],
                                   context, () {
                                 notification.clearChoosenAnswerNotification();
                                 context.go(
@@ -142,7 +149,8 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                         )
                       ],
                     ),
-                    Text('Choose the correct translation')
+                    Text(ui_lang[locator<GlobalDataManager>()
+                        .interfaceLanguage]!['choose_correct_translation'])
                   ],
                 ),
               ),
@@ -180,7 +188,9 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                   children: [
                                     _buildDivider(),
                                     Text(
-                                      'in ${context.read<QuizBloc>().courseName.capitalize}',
+                                      ui_lang[locator<GlobalDataManager>()
+                                              .interfaceLanguage]!['in'] +
+                                          ' ${ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['${context.read<QuizBloc>().courseName}_quiz']}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelLarge!

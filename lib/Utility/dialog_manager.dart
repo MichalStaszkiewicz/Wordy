@@ -2,10 +2,13 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 
+import '../const/consts.dart';
 import '../domain/models/course.dart';
 import '../domain/models/custom_error.dart';
+import '../global/global_data_manager.dart';
 import '../presentation/widgets/custom_dialog_button.dart';
 import '../presentation/widgets/select_course_dialog.dart';
+import 'locator/service_locator.dart';
 
 class DialogManager {
   static Dialog editProfileDialog(
@@ -129,6 +132,10 @@ class DialogManager {
     VoidCallback onCancelPress,
   ) {
     AwesomeDialog(
+            btnCancelText: ui_lang[
+                locator<GlobalDataManager>().interfaceLanguage]!['btn_cancel'],
+            btnOkText: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                'btn_ok'],
             context: context,
             title: title,
             desc: message,

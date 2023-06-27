@@ -6,6 +6,7 @@ import 'package:socket_io_client/socket_io_client.dart';
 import 'package:wordy/data/network/response/achievement_list_response.dart';
 import 'package:wordy/data/network/response/refresh_room_request.dart';
 import 'package:wordy/domain/logic/user_service.dart';
+import 'package:wordy/domain/models/interface_language.dart';
 import 'package:wordy/domain/models/user_achievement.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/global/notification_provider.dart';
@@ -13,6 +14,7 @@ import 'package:wordy/utility/either.dart';
 import 'package:wordy/utility/socket_manager.dart';
 
 import '../../Utility/locator/service_locator.dart';
+import '../../data/network/response/language_list_response.dart';
 import '../../utility/toast_manager.dart';
 import '../models/achievement.dart';
 import '../models/active_course.dart';
@@ -29,6 +31,7 @@ class StreamRepository {
 
   StreamController<UserActiveCoursesProgress> get courseStreamController =>
       _courseStreamController;
+
   StreamController<ActiveCourse> get currentCourseStreamController =>
       _currentCourseStreamController;
   StreamController<dynamic> get notificationController =>
@@ -36,16 +39,14 @@ class StreamRepository {
 
   void initialize() {
     _socket.on('loadCourses', (data) {
-   
-
       _courseStreamController.add(UserActiveCoursesProgress.fromJson(data));
     });
+
     _socket.on('current_course', (data) {
       currentCourseStreamController
           .add(ActiveCourse.fromJson(data['activeCourse']));
     });
     _socket.on('got_new_achievement', (data) {
-
       List<UserAchievement> list =
           AchievementListResponse.fromJson(data).achievements;
 

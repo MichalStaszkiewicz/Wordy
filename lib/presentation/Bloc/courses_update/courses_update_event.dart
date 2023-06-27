@@ -28,6 +28,11 @@ class LoadCourses extends CoursesUpdateEvent {
   UserActiveCoursesProgress courses;
 }
 
+class SwitchInterfaceLanguage extends CoursesUpdateEvent {
+  SwitchInterfaceLanguage({required this.languageName});
+  String languageName;
+}
+
 class LoadCurrentCourse extends CoursesUpdateEvent {
   LoadCurrentCourse({required this.course});
   ActiveCourse course;

@@ -11,6 +11,7 @@ _$_ProgressInTopic _$$_ProgressInTopicFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       knownWords: json['knownWords'] as int,
       wordsCount: json['wordsCount'] as int,
+      topic: Topic.fromJson(json['topic'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_ProgressInTopicToJson(_$_ProgressInTopic instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$$_ProgressInTopicToJson(_$_ProgressInTopic instance) =>
       'name': instance.name,
       'knownWords': instance.knownWords,
       'wordsCount': instance.wordsCount,
+      'topic': instance.topic,
     };

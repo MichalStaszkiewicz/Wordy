@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
+import 'package:wordy/presentation/bloc/reset_password/reset_password_bloc.dart';
 import 'package:wordy/presentation/widgets/login_button.dart';
 
 import '../../utility/validator.dart';
@@ -44,7 +45,7 @@ class _TokenSendedFormState extends State<TokenSendedForm> {
           label: 'Submit',
           onPressed: () {
             context
-                .read<RegisterBloc>()
+                .read<ResetPasswordBloc>()
                 .add(ValidateResetPasswordToken(token: _tokenController.text));
             setState(() {});
           },

@@ -23,6 +23,7 @@ mixin _$ProgressInTopic {
   String get name => throw _privateConstructorUsedError;
   int get knownWords => throw _privateConstructorUsedError;
   int get wordsCount => throw _privateConstructorUsedError;
+  Topic get topic => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +37,7 @@ abstract class $ProgressInTopicCopyWith<$Res> {
           ProgressInTopic value, $Res Function(ProgressInTopic) then) =
       _$ProgressInTopicCopyWithImpl<$Res, ProgressInTopic>;
   @useResult
-  $Res call({String name, int knownWords, int wordsCount});
+  $Res call({String name, int knownWords, int wordsCount, Topic topic});
 }
 
 /// @nodoc
@@ -55,6 +56,7 @@ class _$ProgressInTopicCopyWithImpl<$Res, $Val extends ProgressInTopic>
     Object? name = null,
     Object? knownWords = null,
     Object? wordsCount = null,
+    Object? topic = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -69,6 +71,10 @@ class _$ProgressInTopicCopyWithImpl<$Res, $Val extends ProgressInTopic>
           ? _value.wordsCount
           : wordsCount // ignore: cast_nullable_to_non_nullable
               as int,
+      topic: null == topic
+          ? _value.topic
+          : topic // ignore: cast_nullable_to_non_nullable
+              as Topic,
     ) as $Val);
   }
 }
@@ -81,7 +87,7 @@ abstract class _$$_ProgressInTopicCopyWith<$Res>
       __$$_ProgressInTopicCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, int knownWords, int wordsCount});
+  $Res call({String name, int knownWords, int wordsCount, Topic topic});
 }
 
 /// @nodoc
@@ -98,6 +104,7 @@ class __$$_ProgressInTopicCopyWithImpl<$Res>
     Object? name = null,
     Object? knownWords = null,
     Object? wordsCount = null,
+    Object? topic = null,
   }) {
     return _then(_$_ProgressInTopic(
       name: null == name
@@ -112,6 +119,10 @@ class __$$_ProgressInTopicCopyWithImpl<$Res>
           ? _value.wordsCount
           : wordsCount // ignore: cast_nullable_to_non_nullable
               as int,
+      topic: null == topic
+          ? _value.topic
+          : topic // ignore: cast_nullable_to_non_nullable
+              as Topic,
     ));
   }
 }
@@ -120,7 +131,10 @@ class __$$_ProgressInTopicCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_ProgressInTopic implements _ProgressInTopic {
   _$_ProgressInTopic(
-      {required this.name, required this.knownWords, required this.wordsCount});
+      {required this.name,
+      required this.knownWords,
+      required this.wordsCount,
+      required this.topic});
 
   factory _$_ProgressInTopic.fromJson(Map<String, dynamic> json) =>
       _$$_ProgressInTopicFromJson(json);
@@ -131,10 +145,12 @@ class _$_ProgressInTopic implements _ProgressInTopic {
   final int knownWords;
   @override
   final int wordsCount;
+  @override
+  final Topic topic;
 
   @override
   String toString() {
-    return 'ProgressInTopic(name: $name, knownWords: $knownWords, wordsCount: $wordsCount)';
+    return 'ProgressInTopic(name: $name, knownWords: $knownWords, wordsCount: $wordsCount, topic: $topic)';
   }
 
   @override
@@ -146,12 +162,14 @@ class _$_ProgressInTopic implements _ProgressInTopic {
             (identical(other.knownWords, knownWords) ||
                 other.knownWords == knownWords) &&
             (identical(other.wordsCount, wordsCount) ||
-                other.wordsCount == wordsCount));
+                other.wordsCount == wordsCount) &&
+            (identical(other.topic, topic) || other.topic == topic));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, knownWords, wordsCount);
+  int get hashCode =>
+      Object.hash(runtimeType, name, knownWords, wordsCount, topic);
 
   @JsonKey(ignore: true)
   @override
@@ -171,7 +189,8 @@ abstract class _ProgressInTopic implements ProgressInTopic {
   factory _ProgressInTopic(
       {required final String name,
       required final int knownWords,
-      required final int wordsCount}) = _$_ProgressInTopic;
+      required final int wordsCount,
+      required final Topic topic}) = _$_ProgressInTopic;
 
   factory _ProgressInTopic.fromJson(Map<String, dynamic> json) =
       _$_ProgressInTopic.fromJson;
@@ -182,6 +201,8 @@ abstract class _ProgressInTopic implements ProgressInTopic {
   int get knownWords;
   @override
   int get wordsCount;
+  @override
+  Topic get topic;
   @override
   @JsonKey(ignore: true)
   _$$_ProgressInTopicCopyWith<_$_ProgressInTopic> get copyWith =>

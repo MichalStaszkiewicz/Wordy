@@ -2,6 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../Utility/locator/service_locator.dart';
+import '../../const/consts.dart';
+import '../../global/global_data_manager.dart';
+
 class SuccessToast extends StatefulWidget {
   SuccessToast({required this.deviceDimensions});
   Size deviceDimensions;
@@ -87,7 +91,8 @@ class _SuccessToastState extends State<SuccessToast>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Correct answer !',
+                            ui_lang[locator<GlobalDataManager>()
+                                .interfaceLanguage]!['correct_answer'],
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge!

@@ -1,9 +1,12 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
+import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/const/app_router.dart';
+import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/widgets/flip_cards.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
@@ -13,6 +16,7 @@ import 'package:wordy/presentation/widgets/vocabulary_front_card.dart';
 
 import '../../data/network/exceptions/exception_helper.dart';
 import '../../data/network/exceptions/unexpected_error.dart';
+import '../../global/global_data_manager.dart';
 
 class SelectedVocabularyTopic extends StatefulWidget {
   SelectedVocabularyTopic({super.key, required this.topic});
@@ -62,8 +66,12 @@ class _SelectedVocabularyTopicState extends State<SelectedVocabularyTopic> {
                                 flex: 3,
                                 child: Container(
                                   child: Center(
-                                    child: Text(
-                                      widget.topic,
+                                    child: AutoSizeText(
+                                      ui_lang[locator<GlobalDataManager>()
+                                                  .interfaceLanguage]![
+                                              'topic_label']
+                                          [widget.topic.toLowerCase()],
+                                      maxLines: 1,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineSmall,
@@ -96,12 +104,11 @@ class _SelectedVocabularyTopicState extends State<SelectedVocabularyTopic> {
                                         horizontalOffset: 50,
                                         child: FlipCards(
                                           front: VocabularyFrontCard(
+                                              label: state
+                                                  .flashCards[index].question),
+                                          back: VocabularyBackCard(
                                             label:
                                                 state.flashCards[index].answer,
-                                          ),
-                                          back: VocabularyBackCard(
-                                            label: state
-                                                .flashCards[index].question,
                                           ),
                                         ),
                                       ),

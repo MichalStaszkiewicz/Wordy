@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wordy/domain/models/profile_data.dart';
+import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/bloc/profile/profile_bloc.dart';
 
 import 'package:wordy/presentation/widgets/statistics_item.dart';
@@ -12,6 +13,7 @@ import 'package:wordy/presentation/screens/words_learned_screen.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 
+import '../../Utility/locator/service_locator.dart';
 import '../../const/app_router.dart';
 
 class ProfileDetails extends StatefulWidget {
@@ -100,7 +102,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             return Column(
               children: [
                 Text(
-                  "Profile",
+                  ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                      'profile_screen_app_bar'],
                   style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                         fontSize: 20,
                         letterSpacing: 0.5,
@@ -182,7 +185,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                 ),
                 Text(
                   textAlign: TextAlign.left,
-                  ui_lang['english']!['profile_screen_statistics_header']
+                  ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                          'profile_screen_statistics_header']
                       .toString(),
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
@@ -191,12 +195,13 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   child: GridView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     controller: _scrollStatisticsController,
-                    itemCount: statItems('english').length,
+                    itemCount: statItems(
+                            locator<GlobalDataManager>().interfaceLanguage)
+                        .length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2),
-                    itemBuilder: (context, index) =>
-                        statItems('english')[index],
+                    itemBuilder: (context, index) => statItems('polish')[index],
                   ),
                 )
               ],

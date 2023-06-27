@@ -1,0 +1,3 @@
+class GlobalDataManager {
+  String interfaceLanguage = '';
+}

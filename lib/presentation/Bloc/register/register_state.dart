@@ -19,18 +19,6 @@ class RegisterInProgress extends RegisterState {
   String password;
 }
 
-class UserPasswordUpdated extends RegisterState {
-  UserPasswordUpdated();
-}
-
-class UpdateUserPasswordState extends RegisterState {
-  UpdateUserPasswordState();
-}
-
-class RecoverAccountMessageSended extends RegisterState {
-  RecoverAccountMessageSended();
-}
-
 class InitialSetupLoading extends RegisterState {
   const InitialSetupLoading();
 }

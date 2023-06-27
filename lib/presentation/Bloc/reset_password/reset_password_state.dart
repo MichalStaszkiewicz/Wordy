@@ -11,10 +11,21 @@ class ResetPasswordInitial extends ResetPasswordState {
   const ResetPasswordInitial();
 }
 
-class ResetPasswordSended extends ResetPasswordState {
-  const ResetPasswordSended();
+class ResetPasswordError extends ResetPasswordState {
+  ResetPasswordError({required this.error});
+  CustomError error;
+  @override
+  List<Object> get props => [error];
 }
 
-class ResetPasswordError extends ResetPasswordState {
-  const ResetPasswordError();
+class UserPasswordUpdated extends ResetPasswordState {
+  UserPasswordUpdated();
+}
+
+class UpdateUserPasswordState extends ResetPasswordState {
+  UpdateUserPasswordState();
+}
+
+class RecoverAccountMessageSended extends ResetPasswordState {
+  RecoverAccountMessageSended();
 }

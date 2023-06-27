@@ -2,6 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../Utility/locator/service_locator.dart';
+import '../../const/consts.dart';
+import '../../global/global_data_manager.dart';
+
 class FailureToast extends StatefulWidget {
   FailureToast(
       {required this.deviceDimensions,
@@ -92,7 +96,8 @@ class _FailureToastState extends State<FailureToast>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Incorrect answer !',
+                            ui_lang[locator<GlobalDataManager>()
+                                .interfaceLanguage]!['incorrect_answer'],
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge!
@@ -103,7 +108,7 @@ class _FailureToastState extends State<FailureToast>
                           ),
                           AutoSizeText(
                             maxLines: 1,
-                            'Correct Answer:  ${widget.correctAnswer}',
+                            '${ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['correct_answer']}:  ${widget.correctAnswer}',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!

@@ -44,15 +44,15 @@ class Validator {
             userInterfaceLanguage.data!.toLowerCase() == 'polish') {
           var message = await locator
               .get<UserService>()
-              .switchInterfaceLangauge(token.data!, 'english');
+              .switchInterfaceLangauge('english');
 
           if (message.isData) {
             locator.get<Repository>().synchronizeUserInterfaceLanguage();
           }
         } else {
           var message = await locator
-              .get<Repository>()
-              .switchInterfaceLangauge(token.data!, 'polish');
+              .get<UserService>()
+              .switchInterfaceLangauge('polish');
           if (message.isData) {
             locator.get<Repository>().synchronizeUserInterfaceLanguage();
           }

@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:wordy/global/course_progress_tracker.dart';
+import 'package:wordy/global/global_data_manager.dart';
 
 import '../../const/urls.dart';
 import '../../data/local/local_storage.dart';
@@ -27,6 +28,7 @@ Future<void> serviceLocator() async {
   locator.registerLazySingleton(() => SettingsLogic(locator<Repository>()));
   locator.registerLazySingleton(() => ApiService(baseUrl: Urls.kBaseUrl));
   locator.registerLazySingleton(() => CourseProgressTracker());
+  locator.registerLazySingleton(() => GlobalDataManager());
   locator.registerLazySingleton(() => io(Urls.kBaseUrl, <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': false,

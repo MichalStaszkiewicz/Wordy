@@ -14,6 +14,7 @@ import 'package:wordy/data/network/response/login_user_response.dart';
 import 'package:wordy/data/network/response/refresh_token_response.dart';
 import 'package:wordy/data/network/response/register_user_response.dart';
 import 'package:wordy/data/network/response/registeration_response.dart';
+import 'package:wordy/data/network/response/topic_list_response.dart';
 import 'package:wordy/data/network/response/update_registeration_status_response.dart';
 import 'package:wordy/data/network/response/update_user_current_course_response.dart';
 import 'package:wordy/data/network/response/update_user_interface_language_response.dart';
@@ -154,7 +155,7 @@ class RemoteSource implements ServerInterface {
       String topic, String token) async {
     try {
       var response = await _apiService.get(
-        '/v1/words/flashCards/by/topic/$topic',
+        '/v1/words/flashCards/by/topic/${topic.toLowerCase()}',
         options: Options(headers: {'authorization': token}),
       );
       return Either.data(FlashCardListResponse.fromJson(response.data));
@@ -331,6 +332,19 @@ class RemoteSource implements ServerInterface {
           payload: {'email': email, 'token': resetPasswordToken});
 
       return Either.data(response.data['message']);
+    } on DioError catch (e) {
+      return Either.error(e);
+    }
+  }
+
+  @override
+  Future<Either<DioError, TopicListResponse>> getTopics() async {
+    try {
+      var response = await _apiService.get(
+        '/v1/topic/',
+      );
+
+      return Either.data(TopicListResponse.fromJson(response.data));
     } on DioError catch (e) {
       return Either.error(e);
     }

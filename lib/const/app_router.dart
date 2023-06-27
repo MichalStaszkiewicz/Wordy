@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wordy/domain/models/topic.dart';
 
 import 'package:wordy/presentation/home_page.dart';
 import 'package:wordy/presentation/screens/auth_screen.dart';
@@ -69,9 +70,8 @@ class AppRouter {
       BuildContext context, GoRouterState state) {
     Map<String, dynamic> data = state.extra as Map<String, dynamic>;
     return QuizFinishScreen(
-    
       topicCompleted: data['topicCompleted'],
-      topic: data['topic']!,
+      topic: data['topic']! as Topic,
       learnedWords: data['learnedWords']! as int,
       score: data['score']! as double,
     );
@@ -81,7 +81,7 @@ class AppRouter {
       BuildContext context, GoRouterState state) {
     Map<String, dynamic> data = state.extra as Map<String, dynamic>;
     return QuizScreen(
-      topic: data['topic'] as String,
+      topic: data['topic'] as Topic,
     );
   }
 

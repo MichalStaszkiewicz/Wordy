@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
+import 'package:wordy/data/network/response/language_list_response.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/custom_error.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
@@ -15,7 +16,9 @@ import '../../../../domain/models/user_active_courses_progress.dart';
 
 import '../../../Utility/locator/service_locator.dart';
 
+import '../../../domain/models/interface_language.dart';
 import '../../../domain/repositiories/stream_repository.dart';
+import '../../../global/global_data_manager.dart';
 
 part 'courses_update_event.dart';
 part 'courses_update_state.dart';
@@ -27,6 +30,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
 
   late StreamSubscription<UserActiveCoursesProgress> _activeCoursesSub;
   late StreamSubscription<ActiveCourse> _currentCourseSub;
+
   CoursesUpdateBloc(this.socketRepository) : super(CoursesUpdateInitial()) {
     _activeCoursesSub =
         socketRepository.courseStreamController.stream.listen((data) {
@@ -53,6 +57,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
     initialCurrentCourse();
     loadCourses();
     addNewCourse();
+    switchInterfaceLanguage();
   }
 
   @override
@@ -71,7 +76,33 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
         emit(CourseUpdateError(
             error: ExceptionHelper.getErrorMessage(token.error!)));
       }
+
       socketManager.loadCurrentCourse(token.data!);
+    });
+  }
+
+  void switchInterfaceLanguage() {
+    on<SwitchInterfaceLanguage>((event, emit) async {
+      var token = await locator<UserService>().getTokenAccess();
+      if (token.isError) {
+        emit(CourseUpdateError(
+            error: ExceptionHelper.getErrorMessage(token.error!)));
+      }
+      await locator<UserService>()
+          .switchInterfaceLangauge(event.languageName)
+          .then((updateInterfaceData) => locator<Repository>()
+                  .synchronizeUserInterfaceLanguage()
+                  .then((value) {
+                {
+                  locator<GlobalDataManager>().interfaceLanguage =
+                      updateInterfaceData.data!.updatedLanguageName;
+                  if (updateInterfaceData.data!.userCoursesInThisLanguage > 0) {
+                    locator<SocketManager>().loadTopics(token.data!);
+                  } else {
+                    emit(UserNoCoursesInSelectedInterfaceLanguage());
+                  }
+                }
+              }));
     });
   }
 
@@ -107,6 +138,12 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
           await locator<UserService>().getAvailableCourses();
       final userInterfaceLanguage =
           await locator<UserService>().getUserInterfaceLanguage();
+      final languages = await locator<Repository>().getAvailableLanguages();
+      if (languages.isError) {
+        emit(CourseUpdateError(
+            error:
+                ExceptionHelper.getErrorMessage(userInterfaceLanguage.error!)));
+      }
       if (userInterfaceLanguage.isError) {
         emit(CourseUpdateError(
             error:
@@ -120,7 +157,9 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
         final UserActiveCoursesProgress coursesData = event.courses;
 
         emit(CoursesLoaded(
-            courses: coursesData, availableCourses: availableCourses.data!));
+            courses: coursesData,
+            availableCourses: availableCourses.data!,
+            interfaceLanguages: languages.data!));
       }
     });
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/global/notification_provider.dart';
 import 'package:wordy/presentation/Bloc/settings/settings_bloc.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
@@ -14,6 +15,7 @@ import 'package:wordy/const/consts.dart';
 
 import '../Utility/locator/service_locator.dart';
 import '../domain/repositiories/stream_repository.dart';
+import '../global/global_data_manager.dart';
 import 'bloc/courses_update/courses_update_bloc.dart';
 import 'screens/topic_screen.dart';
 
@@ -85,8 +87,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   rippleColor: Colors.grey[300]!,
                   hoverColor: Colors.grey[100]!,
                   iconSize: 20,
-                  textStyle:
-                      TextStyle(fontSize: 16, color: Colors.indigo[400]),
+                  textStyle: TextStyle(fontSize: 16, color: Colors.indigo[400]),
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20, vertical: 14.5),
                   duration: const Duration(milliseconds: 800),
@@ -98,7 +99,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       }
                     });
                   },
-                  tabs: navBarsItems('english')),
+                  tabs: navBarsItems(
+                      locator<GlobalDataManager>().interfaceLanguage)),
             ),
           ),
         ),

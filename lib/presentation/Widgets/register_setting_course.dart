@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:wordy/domain/logic/settings_logic.dart';
+import 'package:wordy/domain/logic/user_service.dart';
+import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/custom_error.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/presentation/widgets/register_course_list.dart';
@@ -26,10 +28,8 @@ class RegisterSettingCourse extends StatefulWidget {
 class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<InterfaceLanguage>>(
-        future: RepositoryProvider.of<SettingsLogic>(context)
-            .getAvailableLanguages()
-            .then((value) {
+    return FutureBuilder<List<Course>>(
+        future: locator<UserService>().getAvailableCourses().then((value) {
           if (value.isError) {
             throw Exception(
                 "There was some server issue. Please try again later");

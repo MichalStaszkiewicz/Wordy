@@ -11,7 +11,9 @@ import '../../../Utility/locator/service_locator.dart';
 import '../../../const/shared_preferences_keys.dart';
 import '../../../domain/logic/vocabulary_logic.dart';
 import '../../../domain/models/flash_card_data.dart';
+import '../../../domain/models/topic.dart';
 import '../../../domain/models/vocabulary.dart';
+import '../../../domain/repositiories/repository.dart';
 
 part 'vocabulary_event.dart';
 part 'vocabulary_state.dart';
@@ -27,17 +29,31 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
     return on<LoadVocabulary>((event, emit) async {
       emit(VocabularyInitial());
       final course = await locator<UserService>().getUserCurrentCourse();
+      final topics = await locator<Repository>().getTopics();
+      final userInterfaceLanguage =
+          await locator<UserService>().getUserInterfaceLanguage();
+      if (userInterfaceLanguage.isError) {
+        emit(VocabularyError(
+            error:
+                ExceptionHelper.getErrorMessage(userInterfaceLanguage.error!)));
+      }
+      if (topics.isError) {
+        emit(VocabularyError(
+            error: ExceptionHelper.getErrorMessage(topics.error!)));
+      }
       if (course.isError) {
         emit(VocabularyError(
             error: ExceptionHelper.getErrorMessage(course.error!)));
       } else {
-        List<WordCollection> list = [
-          WordCollection(
-            topic: ui_lang['english']!['topic_label'][0],
-            image: "assets/dailyusage.png",
-          ),
-        ];
-
+        List<WordCollection> list = [];
+        for (Topic topic in topics.data!) {
+          list.add(
+            WordCollection(
+              topic: ui_lang['english']!['topic_label'][topic.name],
+              image: topic.image,
+            ),
+          );
+        }
         emit(VocabularyLoaded(
             vocabularyList: list,
             vocabularyListSearched: list,

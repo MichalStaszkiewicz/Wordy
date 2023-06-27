@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../Utility/locator/service_locator.dart';
+import '../../const/consts.dart';
 import '../../domain/models/topic.dart';
+import '../../global/global_data_manager.dart';
 import 'circular_precentage_chart.dart';
 
 class CourseItem extends StatefulWidget {
   CourseItem(
       {super.key,
- 
       required this.courseName,
       required this.progress,
       required this.topic});
@@ -53,7 +55,8 @@ class _CourseItemState extends State<CourseItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.courseName.capitalize!,
+                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                        widget.courseName],
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -61,7 +64,9 @@ class _CourseItemState extends State<CourseItem> {
                   ),
                   widget.topic != null
                       ? Text(
-                          widget.topic!.name.capitalize!,
+                          ui_lang[locator<GlobalDataManager>()
+                                  .interfaceLanguage]!['topic_label']
+                              [widget.topic!.name],
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium!

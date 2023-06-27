@@ -5,6 +5,7 @@ import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
+import 'package:wordy/presentation/bloc/reset_password/reset_password_bloc.dart';
 import 'package:wordy/presentation/widgets/login_form.dart';
 import 'package:wordy/presentation/widgets/token_sended_form.dart';
 
@@ -21,6 +22,7 @@ import '../widgets/register_form.dart';
 import '../widgets/reset_password_form.dart';
 import '../widgets/update_password_form.dart';
 
+//TODO BLOC SEPARETE FOR EACH TYPE OF AUTH OR PUT EVERY TOGETHER!
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
 
@@ -39,6 +41,7 @@ class _AuthScreenState extends State<AuthScreen> {
           create: (context) => RegisterBloc(),
         ),
         BlocProvider(create: (context) => LoginBloc()),
+        BlocProvider(create: (context) => ResetPasswordBloc()),
       ],
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -112,7 +115,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 final socketManager = locator<SocketManager>();
                 print(state.token);
                 socketManager.initialize(state.token);
-
+                
                 state.registerCompleted
                     ? context.pushNamed(AppRouter.home)
                     : context.pushNamed(AppRouter.initialSettings);

@@ -47,7 +47,7 @@ class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
         child: Column(
           children: [
             TitleWithBackButton(
-              title: "Learned Words",
+              title: ui_lang['polish']!['known_words'],
             ),
             Expanded(
               child: Container(

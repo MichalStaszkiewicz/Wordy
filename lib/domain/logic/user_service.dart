@@ -6,6 +6,7 @@ import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/course_entry.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
+import 'package:wordy/global/global_data_manager.dart';
 
 import '../../Utility/locator/service_locator.dart';
 
@@ -13,6 +14,7 @@ import '../../Utility/socket_manager.dart';
 import '../../data/network/exceptions/validation_error.dart';
 import '../../data/network/request/models/login_user_request_model.dart';
 
+import '../../data/network/response/update_user_interface_language_response.dart';
 import '../../utility/either.dart';
 
 import '../models/active_course.dart';
@@ -73,10 +75,16 @@ class UserService {
     return Either.data(token.data!);
   }
 
-  Future<Either<Exception, String>> switchInterfaceLangauge(
-      String languageName, String token) async {
+  Future<Either<Exception, UpdateUserInterfaceLanguageResponse>>
+      switchInterfaceLangauge(
+    String languageName,
+  ) async {
+    var token = await _repository.getTokenAccess();
+    if (token.isError) {
+      return Either.error(token.error);
+    }
     var interfaceLanguage =
-        await _repository.switchInterfaceLangauge(token, languageName);
+        await _repository.switchInterfaceLangauge(token.data!, languageName);
     if (interfaceLanguage.isError) {
       return Either.error(interfaceLanguage.error);
     } else {
@@ -223,6 +231,14 @@ class UserService {
     }
 
     await _repository.synchronizeUserInterfaceLanguage();
+
+    var userInterfaceLanguage = await _repository.getUserInterfaceLanguage();
+    if (userInterfaceLanguage.isError) {
+      return Either.error(userInterfaceLanguage.error);
+    }
+    locator<GlobalDataManager>().interfaceLanguage =
+        userInterfaceLanguage.data!;
+
     return Either.data(response.data!.accessToken);
   }
 

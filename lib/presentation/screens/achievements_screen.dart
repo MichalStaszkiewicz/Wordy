@@ -14,7 +14,9 @@ import 'package:wordy/presentation/widgets/flip_cards.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 
+import '../../Utility/locator/service_locator.dart';
 import '../../domain/models/user_achievement.dart';
+import '../../global/global_data_manager.dart';
 import '../widgets/achievement_dial.dart';
 import '../widgets/achievement_item_front.dart';
 import '../widgets/loading_data.dart';
@@ -35,8 +37,9 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
     return BlocProvider(
       create: (context) => AchievementsFilterBloc()
         ..add(FilterAchievements(
-            achievements: widget.achievements,
-            filter: 'Achievements - Everything')),
+          achievements: widget.achievements,
+          filter: ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['achievements_everything'],
+        )),
       child: Scaffold(
         floatingActionButton: AchievementDial(
           achievements: widget.achievements,

@@ -2,21 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/const/app_router.dart';
+import 'package:wordy/const/urls.dart';
 import 'package:wordy/domain/models/active_course.dart';
 import 'package:wordy/domain/models/progress_in_topic.dart';
 import 'package:wordy/global/course_progress_tracker.dart';
+import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 import 'package:wordy/utility/locator/service_locator.dart';
 
 import '../../Utility/dialog_manager.dart';
+import '../../const/consts.dart';
+import '../../domain/models/topic.dart';
 
 class SelectedCourseTopicCard extends StatefulWidget {
   SelectedCourseTopicCard({
     required this.progress,
     required this.beforeQuiz,
+    required this.topic,
   });
   ProgressInTopic progress;
+  Topic topic;
   ActiveCourse? beforeQuiz;
 
   @override
@@ -69,19 +75,20 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
         if (quizType == 'Learning' &&
             widget.progress.knownWords < widget.progress.wordsCount) {
           context.pushNamed(AppRouter.quizScreen, extra: {
-            'topic': widget.progress.name,
+            'topic': widget.topic,
           });
         } else if (quizType == 'Learning' &&
             widget.progress.knownWords == widget.progress.wordsCount) {
           DialogManager.showSuccessDialog(
-              "You have completed this module if you want to review this topic again please switch mode to review",
-              'Congratulations !',
+              ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                  'completed_topic'],
+              ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                  'congratulations'],
               context,
               () {});
         } else {
-          context.pushNamed(AppRouter.quizScreen, extra: {
-            'topic': widget.progress.name,
-          });
+          context
+              .pushNamed(AppRouter.quizScreen, extra: {'topic': widget.topic});
         }
       },
       child: Container(
@@ -116,15 +123,15 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
                   )
                 ],
               ),
-              child: const Center(
-                child: Icon(
-                  Icons.apple_outlined,
-                  color: Colors.blueAccent,
-                ),
-              ),
+              child: Center(
+                  child: Image(
+                      image:
+                          NetworkImage(Urls.kImageUrl + widget.topic.image))),
             ),
             Text(
-              widget.progress.name,
+              ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                  'topic_label'][widget.progress.name],
+              textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!

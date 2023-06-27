@@ -13,6 +13,7 @@ import '../../data/network/request/models/begginer_quiz_request_model.dart';
 
 import '../../data/network/response/login_user_response.dart';
 import '../../data/network/response/refresh_room_request.dart';
+import '../../data/network/response/update_user_interface_language_response.dart';
 import '../../utility/either.dart';
 import '../models/achievement.dart';
 import '../models/active_course.dart';
@@ -21,6 +22,7 @@ import '../models/interface_language.dart';
 import '../models/profile_data.dart';
 import '../models/registeration_status.dart';
 
+import '../models/topic.dart';
 import '../models/user_active_courses_progress.dart';
 import '../models/user_course.dart';
 import '../models/user_settings.dart';
@@ -33,6 +35,15 @@ class Repository {
   );
   final LocalStorage _localSource;
   final RemoteSource _remoteSource;
+  Future<Either<DioError, List<Topic>>> getTopics() async {
+    var topics = await _remoteSource.getTopics();
+    if (topics.isData) {
+      return Either.data(topics.data!.topics);
+    } else {
+      return Either.error(topics.error);
+    }
+  }
+
   Future<Either<DioError, String>> recoverAccount(String email) async {
     var profileData = await _remoteSource.recoverAccount(email);
     if (profileData.isData) {
@@ -100,12 +111,12 @@ class Repository {
     }
   }
 
-  Future<Either<DioError, String>> switchInterfaceLangauge(
-      String token, String languageName) async {
+  Future<Either<DioError, UpdateUserInterfaceLanguageResponse>>
+      switchInterfaceLangauge(String token, String languageName) async {
     var response =
         await _remoteSource.switchInterfaceLanguage(token, languageName);
     if (response.isData) {
-      return Either.data(response.data!.updatedLanguageName.toString());
+      return Either.data(response.data!);
     } else {
       return Either.error(response.error);
     }

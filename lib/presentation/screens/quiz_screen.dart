@@ -13,6 +13,7 @@ import '../../Utility/locator/service_locator.dart';
 import '../../const/app_router.dart';
 import '../../data/network/exceptions/exception_helper.dart';
 import '../../data/network/exceptions/unexpected_error.dart';
+import '../../domain/models/topic.dart';
 import '../../global/notification_provider.dart';
 import '../Bloc/quiz/quiz_bloc.dart';
 
@@ -21,7 +22,7 @@ class QuizScreen extends StatefulWidget {
     super.key,
     required this.topic,
   });
-  String topic;
+  Topic topic;
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -37,7 +38,9 @@ class _QuizScreenState extends State<QuizScreen> {
     return BlocProvider(
       create: (context) => QuizBloc(
         locator<StreamRepository>(),
-      )..add(LoadBeginnerQuiz(topic: widget.topic,)),
+      )..add(LoadBeginnerQuiz(
+          topic: widget.topic.name,
+        )),
       child: Scaffold(
         body: Container(
           child: BlocListener<QuizBloc, QuizState>(
@@ -76,7 +79,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   return const LoadingData();
                 } else if (state is QuizQuestionState) {
                   return QuizScreenQuestions(
-                    topic: widget.topic,
+                    topic: widget.topic.name,
                   );
                 } else {
                   return Container();

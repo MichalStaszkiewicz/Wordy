@@ -17,12 +17,20 @@ class CourseUpdateError extends CoursesUpdateState {
 }
 
 class CoursesLoaded extends CoursesUpdateState {
-  CoursesLoaded({required this.courses, required this.availableCourses});
+  CoursesLoaded(
+      {required this.courses,
+      required this.availableCourses,
+      required this.interfaceLanguages});
   UserActiveCoursesProgress courses;
   List<Course> availableCourses;
+  List<InterfaceLanguage> interfaceLanguages;
 
   @override
   List<Object> get props => [courses, availableCourses];
+}
+
+class UserNoCoursesInSelectedInterfaceLanguage extends CoursesUpdateState {
+  UserNoCoursesInSelectedInterfaceLanguage();
 }
 
 class AvailableCoursesLoaded extends CoursesUpdateState {

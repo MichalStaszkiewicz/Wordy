@@ -5,6 +5,7 @@ import 'package:wordy/presentation/widgets/login_button.dart';
 
 import '../../utility/validator.dart';
 import '../bloc/register/register_bloc.dart';
+import '../bloc/reset_password/reset_password_bloc.dart';
 
 class ResetPasswordForm extends StatefulWidget {
   ResetPasswordForm({super.key, required this.onSwitchToLogin});
@@ -46,7 +47,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
           onPressed: () {
             _emailErrorText = Validator.emailValidate(_emailController.text);
             context
-                .read<RegisterBloc>()
+                .read<ResetPasswordBloc>()
                 .add(RecoverAccount(email: _emailController.text));
             setState(() {});
           },

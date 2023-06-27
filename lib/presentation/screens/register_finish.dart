@@ -4,6 +4,9 @@ import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:wordy/presentation/widgets/confirm_button.dart';
 import 'package:wordy/const/consts.dart';
 
+import '../../Utility/locator/service_locator.dart';
+import '../../global/global_data_manager.dart';
+
 class RegisterFinish extends StatefulWidget {
   RegisterFinish({super.key, required this.onFinish});
 
@@ -25,7 +28,9 @@ class _RegisterFinishState extends State<RegisterFinish> {
             flex: 1,
             child: Container(
               child: Center(
-                child: Text(ui_lang['English']!['register_account_is_ready'],
+                child: Text(
+                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                        'register_account_is_ready'],
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                         color: ktitlecolor, fontWeight: FontWeight.bold)),
               ),
@@ -43,7 +48,7 @@ class _RegisterFinishState extends State<RegisterFinish> {
               child: SizedBox(
                 width: 350,
                 child: Text(
-                  ui_lang['English']!['register_finish_text'],
+                  ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['register_finish_text'],
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
