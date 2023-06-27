@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
-import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/bloc/reset_password/reset_password_bloc.dart';
 import 'package:wordy/presentation/widgets/login_button.dart';
 
-import '../../utility/validator.dart';
 
 class TokenSendedForm extends StatefulWidget {
   TokenSendedForm({super.key, required this.onSwitchToLogin});
@@ -37,8 +35,8 @@ class _TokenSendedFormState extends State<TokenSendedForm> {
             child: TextField(
               keyboardType: TextInputType.emailAddress,
               controller: _tokenController,
-              decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.security_rounded),
+              decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.security_rounded),
                   hintText: "token"),
             )),
         LoginButton(

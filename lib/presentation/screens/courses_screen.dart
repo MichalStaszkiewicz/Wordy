@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
@@ -9,7 +8,6 @@ import 'package:wordy/const/urls.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/global/notification_provider.dart';
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
-import 'package:wordy/utility/socket_manager.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../const/app_router.dart';
@@ -21,18 +19,18 @@ import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/add_new_course_item.dart';
 import '../widgets/course_item.dart';
 import '../widgets/current_course_widget.dart';
-import '../widgets/daily_challange_widget.dart';
 import '../widgets/loading_data.dart';
 
-class TopicScreen extends StatefulWidget {
-  const TopicScreen({super.key});
+class CoursesScreen extends StatefulWidget {
+  const CoursesScreen({super.key});
 
   @override
-  State<TopicScreen> createState() => _TopicScreenState();
+  State<CoursesScreen> createState() => _CoursesScreenState();
 }
 
-class _TopicScreenState extends State<TopicScreen>
+class _CoursesScreenState extends State<CoursesScreen>
     with TickerProviderStateMixin {
+  @override
   void initState() {
     super.initState();
   }
@@ -45,7 +43,7 @@ class _TopicScreenState extends State<TopicScreen>
         create: (BuildContext context) => NotificationProvider(),
         child: BlocProvider<CoursesUpdateBloc>(
           create: (context) => CoursesUpdateBloc(locator<StreamRepository>())
-            ..add(InitialCourses()),
+            ..add(const InitialCourses()),
           child: BlocListener<CoursesUpdateBloc, CoursesUpdateState>(
             listener: (context, state) {
               if (state is UserNoCoursesInSelectedInterfaceLanguage) {
@@ -79,7 +77,7 @@ class _TopicScreenState extends State<TopicScreen>
                                         child: Container(
                                           alignment: Alignment.topLeft,
                                           child: IconButton(
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.logout_rounded,
                                               color: Colors.black,
                                             ),
@@ -92,9 +90,13 @@ class _TopicScreenState extends State<TopicScreen>
                                                       'log_out'],
                                                   context, () async {
                                                 await locator<UserService>()
+                                                    .cleanUpLocalStorage();
+                                                await locator<UserService>()
                                                     .logOut()
-                                                    .then((value) => context.go(
-                                                        AppRouter.authScreen));
+                                                    .then((value) {
+                                                  context
+                                                      .go(AppRouter.authScreen);
+                                                });
                                               }, () {});
                                             },
                                           ),
@@ -163,13 +165,6 @@ class _TopicScreenState extends State<TopicScreen>
                                   currentCourse: state.courses.currentCourse,
                                 ),
                               ),
-                              /*
-                                                    SliverToBoxAdapter(
-                                                      child: DailyChallangeWidget(
-                                                        difficultyLevel: "Expert",
-                                                      ),
-                                                    ),
-                                                    */
                               const SliverToBoxAdapter(
                                 child: SizedBox(
                                   height: 20,
@@ -271,7 +266,7 @@ class _TopicScreenState extends State<TopicScreen>
                                         }
                                       },
                                       gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 2),
                                     )),
                               ),
@@ -338,19 +333,19 @@ class _TopicScreenState extends State<TopicScreen>
                 opacity: isListExpanded ? 1.0 : 0.0,
                 duration: const Duration(milliseconds: 300),
                 child: Container(
-                  margin: EdgeInsets.only(top: 0, left: 20),
+                  margin: const EdgeInsets.only(top: 0, left: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
-                        child: Container(
+                        child: SizedBox(
                           height: 40,
                           width: 30,
                           child: Image.network(Urls.kImageUrl +
                               state.interfaceLanguages[0].image),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Expanded(
@@ -391,19 +386,19 @@ class _TopicScreenState extends State<TopicScreen>
                 opacity: isListExpanded ? 1.0 : 0.0,
                 duration: const Duration(milliseconds: 300),
                 child: Container(
-                  margin: EdgeInsets.only(top: 20, left: 20),
+                  margin: const EdgeInsets.only(top: 20, left: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
-                        child: Container(
+                        child: SizedBox(
                           height: 40,
                           width: 30,
                           child: Image.network(Urls.kImageUrl +
                               state.interfaceLanguages[1].image),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Expanded(
@@ -430,4 +425,3 @@ class _TopicScreenState extends State<TopicScreen>
     );
   }
 }
-//TODO rename ExceptionHelper to ExceptionHandler

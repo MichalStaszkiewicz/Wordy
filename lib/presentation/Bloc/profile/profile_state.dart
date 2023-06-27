@@ -8,7 +8,7 @@ abstract class ProfileState extends Equatable {
 }
 
 class ProfileDataInit extends ProfileState {
-  ProfileDataInit();
+  const ProfileDataInit();
 }
 
 class ProfileDataError extends ProfileState {

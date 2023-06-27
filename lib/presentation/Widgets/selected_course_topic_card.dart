@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/urls.dart';
@@ -7,7 +6,6 @@ import 'package:wordy/domain/models/active_course.dart';
 import 'package:wordy/domain/models/progress_in_topic.dart';
 import 'package:wordy/global/course_progress_tracker.dart';
 import 'package:wordy/global/global_data_manager.dart';
-import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 import 'package:wordy/utility/locator/service_locator.dart';
 
@@ -16,7 +14,7 @@ import '../../const/consts.dart';
 import '../../domain/models/topic.dart';
 
 class SelectedCourseTopicCard extends StatefulWidget {
-  SelectedCourseTopicCard({
+  SelectedCourseTopicCard({super.key, 
     required this.progress,
     required this.beforeQuiz,
     required this.topic,
@@ -37,7 +35,7 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
   @override
   void initState() {
     _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
 
     ActiveCourse? afterQuiz = locator<CourseProgressTracker>().afterQuiz;
     if (widget.beforeQuiz != null && afterQuiz != null) {
@@ -160,7 +158,7 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
             )),
             ProgressionBar(
               height: 10,
-              gradient: [
+              gradient: const [
                 Color.fromARGB(255, 99, 155, 252),
                 Color.fromRGBO(158, 149, 248, 1),
               ],

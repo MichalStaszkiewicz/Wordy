@@ -1,10 +1,7 @@
-import 'package:get/get.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 import 'package:wordy/data/network/exceptions/session_verification_error.dart';
 import 'package:wordy/data/network/request/login_user_request.dart';
 import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/domain/models/course.dart';
-import 'package:wordy/domain/models/course_entry.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/global/global_data_manager.dart';
 
@@ -18,7 +15,6 @@ import '../../data/network/response/update_user_interface_language_response.dart
 import '../../utility/either.dart';
 
 import '../models/active_course.dart';
-import '../models/course_basic.dart';
 
 import '../models/profile_data.dart';
 import '../models/user_active_courses_progress.dart';
@@ -27,6 +23,9 @@ import '../models/user_course.dart';
 class UserService {
   UserService(this._repository);
   final Repository _repository;
+  Future<void> cleanUpLocalStorage() async {
+    await _repository.cleanUpLocalStorate();
+  }
 
   Future<Either<Exception, ProfileData>> getProfileData() async {
     var token = await _repository.getTokenAccess();
@@ -222,8 +221,7 @@ class UserService {
     var response =
         await _repository.loginUser(LoginUserRequest.fromJson(userAuthData));
     if (response.isData) {
-      print("Access Token : " + response.data!.accessToken);
-      print("Refresh Token : " + response.data!.refreshToken);
+
       _repository.saveTokenAccess(response.data!.accessToken);
       _repository.saveTokenRefresh(response.data!.refreshToken);
     } else {

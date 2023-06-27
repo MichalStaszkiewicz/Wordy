@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wordy/domain/models/vocabulary.dart';
-import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
 
 class CustomAnimatedButton extends StatefulWidget {
   CustomAnimatedButton(
@@ -39,19 +36,19 @@ class _CustomAnimatedButtonState extends State<CustomAnimatedButton>
     );
     _buttonColorAnimationFirstColor = ColorTween(
             begin: widget.filled == true
-                ? Color.fromARGB(255, 99, 155, 252)
+                ? const Color.fromARGB(255, 99, 155, 252)
                 : Colors.white,
             end: widget.filled == true
                 ? Colors.white
-                : Color.fromARGB(255, 99, 155, 252))
+                : const Color.fromARGB(255, 99, 155, 252))
         .animate(_animationController);
     _buttonColorAnimationSecondColor = ColorTween(
       begin: widget.filled == true
-          ? Color.fromRGBO(158, 149, 248, 1)
+          ? const Color.fromRGBO(158, 149, 248, 1)
           : Colors.white,
       end: widget.filled == true
           ? Colors.white
-          : Color.fromRGBO(158, 149, 248, 1),
+          : const Color.fromRGBO(158, 149, 248, 1),
     ).animate(_animationController);
     _textColorAnimation = ColorTween(
       begin: widget.filled == true ? Colors.white : Colors.indigoAccent,

@@ -5,7 +5,7 @@ import '../../const/urls.dart';
 
 class LearnedWordsStatisticCard extends StatefulWidget {
   LearnedWordsStatisticCard(
-      {required this.maximum, required this.current, required this.image});
+      {super.key, required this.maximum, required this.current, required this.image});
   int maximum;
   int current;
   String image;
@@ -20,7 +20,7 @@ class _LearnedWordsStatisticCardState extends State<LearnedWordsStatisticCard> {
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -28,7 +28,7 @@ class _LearnedWordsStatisticCardState extends State<LearnedWordsStatisticCard> {
             color: Colors.indigoAccent.withOpacity(0.1),
             spreadRadius: 5,
             blurRadius: 7,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
         borderRadius: BorderRadius.circular(20),
@@ -48,11 +48,11 @@ class _LearnedWordsStatisticCardState extends State<LearnedWordsStatisticCard> {
           ProgressionBar(
             progress: (widget.current / widget.maximum) * 100,
             width: 230,
-            gradient: [
+            gradient: const [
               Color.fromARGB(255, 99, 155, 252),
               Color.fromRGBO(158, 149, 248, 1),
             ],
-            nonProgressionColor: Color.fromARGB(255, 214, 198, 198),
+            nonProgressionColor: const Color.fromARGB(255, 214, 198, 198),
             height: 10,
           ),
           Text(

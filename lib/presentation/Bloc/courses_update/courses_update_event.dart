@@ -13,7 +13,7 @@ class UpdateUserCourseList extends CoursesUpdateEvent {
 }
 
 class InitialCourses extends CoursesUpdateEvent {
-  InitialCourses();
+  const InitialCourses();
 }
 
 class AddNewCourse extends CoursesUpdateEvent {
@@ -45,7 +45,7 @@ class ErrorEvent extends CoursesUpdateEvent {
 }
 
 class CurrentCourseInitial extends CoursesUpdateEvent {
-  CurrentCourseInitial();
+  const CurrentCourseInitial();
 }
 
 class LoadAvailableCourses extends CoursesUpdateEvent {

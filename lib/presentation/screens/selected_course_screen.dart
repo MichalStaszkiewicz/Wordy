@@ -1,15 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/global/course_progress_tracker.dart';
 
 import 'package:wordy/presentation/widgets/circular_precentage_chart.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
-import 'package:wordy/presentation/widgets/progression_bar.dart';
 import 'package:wordy/presentation/widgets/selected_course_topic_card.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 
@@ -21,12 +18,11 @@ import '../../domain/models/progress_in_topic.dart';
 import '../../domain/repositiories/stream_repository.dart';
 
 import '../../global/global_data_manager.dart';
-import '../../global/notification_provider.dart';
 import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/selected_course_background.dart';
 
 class SelectedCourseScreen extends StatefulWidget {
-  SelectedCourseScreen();
+  const SelectedCourseScreen({super.key});
 
   @override
   State<SelectedCourseScreen> createState() => _SelectedCourseScreenState();
@@ -37,6 +33,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
   bool isListExpanded = false;
   late AnimationController _courseProgressController;
   late Animation? _courseProgressAnimation;
+  @override
   void initState() {
     ActiveCourse? beforeQuiz = locator<CourseProgressTracker>().beforeQuiz;
     ActiveCourse? afterQuiz = locator<CourseProgressTracker>().afterQuiz;
@@ -46,8 +43,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
       _courseProgressAnimation = null;
     } else {
       _courseProgressAnimation = Tween<double>(
-              begin: beforeQuiz!.totalProgress ?? 0,
-              end: afterQuiz!.totalProgress ?? 0)
+              begin: beforeQuiz.totalProgress ?? 0,
+              end: afterQuiz.totalProgress ?? 0)
           .animate(_courseProgressController)
         ..addListener(() {
           setState(() {});
@@ -60,6 +57,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
     super.initState();
   }
 
+  @override
   void dispose() {
     _courseProgressController.dispose();
     super.dispose();
@@ -71,7 +69,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
     for (ProgressInTopic topic in progress) {
       result.add(SelectedCourseTopicCard(
         progress: topic,
-        beforeQuiz: course, topic:topic.topic,
+        beforeQuiz: course,
+        topic: topic.topic,
       ));
     }
     return result;
@@ -82,11 +81,11 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
     return Scaffold(
       body: BlocProvider(
         create: (context) => CoursesUpdateBloc(locator<StreamRepository>())
-          ..add(CurrentCourseInitial()),
+          ..add(const CurrentCourseInitial()),
         child: BlocBuilder<CoursesUpdateBloc, CoursesUpdateState>(
           builder: (context, state) {
             if (state is CourseTopicsLoaded) {
-              var beforeQuizCopy;
+              ActiveCourse? beforeQuizCopy;
               if (locator<CourseProgressTracker>().beforeQuiz == null) {
                 locator<CourseProgressTracker>().beforeQuiz = state.course;
                 beforeQuizCopy = locator<CourseProgressTracker>().beforeQuiz;
@@ -162,7 +161,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                             : state.course.totalProgress),
                                   ),
                                   SliverToBoxAdapter(
-                                    child: Container(
+                                    child: SizedBox(
                                       height: (150 *
                                                   state.course.topicProgress
                                                       .length)
@@ -172,7 +171,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                           shrinkWrap: true,
                                           physics:
                                               const NeverScrollableScrollPhysics(),
-                                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                                           children: [
                                             ..._buildTopics(
                                                 state.course.topicProgress,
@@ -215,8 +214,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                     opacity: isListExpanded ? 1.0 : 0.0,
                                     duration: const Duration(milliseconds: 300),
                                     child: Container(
-                                      margin:
-                                          EdgeInsets.only(top: 20, left: 20),
+                                      margin: const EdgeInsets.only(
+                                          top: 20, left: 20),
                                       child: Text(
                                         ui_lang[locator<GlobalDataManager>()
                                             .interfaceLanguage]!['learning'],
@@ -240,8 +239,8 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                     opacity: isListExpanded ? 1.0 : 0.0,
                                     duration: const Duration(milliseconds: 300),
                                     child: Container(
-                                      margin:
-                                          EdgeInsets.only(top: 20, left: 20),
+                                      margin: const EdgeInsets.only(
+                                          top: 20, left: 20),
                                       child: Text(
                                         ui_lang[locator<GlobalDataManager>()
                                             .interfaceLanguage]!['review'],

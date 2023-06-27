@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wordy/data/network/response/achievement_list_response.dart';
 import 'package:wordy/domain/models/user_achievement.dart';
 
 import 'active_course.dart';

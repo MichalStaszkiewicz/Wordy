@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../const/consts.dart';
@@ -8,7 +7,7 @@ import '../../global/global_data_manager.dart';
 
 class FailureToast extends StatefulWidget {
   FailureToast(
-      {required this.deviceDimensions,
+      {super.key, required this.deviceDimensions,
       required this.choosenAnswer,
       required this.correctAnswer});
   Size deviceDimensions;
@@ -27,7 +26,7 @@ class _FailureToastState extends State<FailureToast>
   @override
   void initState() {
     _positionController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500));
+        vsync: this, duration: const Duration(milliseconds: 200));
     _animatePosition = Tween<double>(
       begin: widget.deviceDimensions.height,
       end: widget.deviceDimensions.height / 1.34,
@@ -51,7 +50,7 @@ class _FailureToastState extends State<FailureToast>
     return Positioned(
       top: _animatePosition.value,
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
                 colors: [Color(0xFF11998E), Color.fromARGB(255, 28, 199, 94)])),
         height: MediaQuery.of(context).size.height / 4.79,
@@ -71,7 +70,7 @@ class _FailureToastState extends State<FailureToast>
                         Expanded(
                           child: Container(
                             alignment: Alignment.center,
-                            child: Icon(
+                            child: const Icon(
                               Icons.highlight_remove,
                               color: Colors.white,
                             ),
@@ -88,7 +87,7 @@ class _FailureToastState extends State<FailureToast>
                   flex: 3,
                   child: Container(
                     alignment: Alignment.topCenter,
-                    child: Container(
+                    child: SizedBox(
                       height: 100,
                       width: double.infinity,
                       child: Column(

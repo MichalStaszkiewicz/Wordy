@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:get/get.dart';
-import 'package:wordy/domain/logic/user_service.dart';
+import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
-import 'package:wordy/utility/dialog_manager.dart';
-import 'package:wordy/utility/utility.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../domain/models/course.dart';
-import '../../domain/models/interface_language.dart';
+import '../../global/global_data_manager.dart';
 import 'confirm_button.dart';
 import 'language_tile.dart';
 
@@ -41,8 +39,9 @@ class _RegisterCourseListState extends State<RegisterCourseList> {
                     child: ListView.builder(
                         itemCount: widget.languages.length,
                         itemBuilder: (context, index) => LanguageTile(
-                              language:
-                                  widget.languages[index].name.capitalize!,
+                              language: ui_lang[locator<GlobalDataManager>()
+                                      .interfaceLanguage]![
+                                  widget.languages[index].name],
                               imagePath: widget.languages[index].image,
                               onSelect: () {
                                 context.read<RegisterBloc>().add(

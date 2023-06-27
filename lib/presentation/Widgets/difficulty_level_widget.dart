@@ -10,7 +10,7 @@ class DifficultyLevelWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             colors: [
               Color.fromARGB(255, 99, 155, 252),
               Color.fromRGBO(158, 149, 248, 1),

@@ -4,13 +4,12 @@ import 'package:simple_speed_dial/simple_speed_dial.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../const/consts.dart';
-import '../../domain/models/achievement.dart';
 import '../../domain/models/user_achievement.dart';
 import '../../global/global_data_manager.dart';
 import '../bloc/achievements/achievements_filter_bloc.dart';
 
 class AchievementDial extends StatefulWidget {
-  AchievementDial({required this.achievements});
+  AchievementDial({super.key, required this.achievements});
   List<UserAchievement> achievements;
 
   @override

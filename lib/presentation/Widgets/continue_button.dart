@@ -1,7 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../Utility/locator/service_locator.dart';
@@ -23,10 +21,6 @@ class _ContinueButtonState extends State<ContinueButton>
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +60,7 @@ class _ContinueButtonState extends State<ContinueButton>
                       ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               const Icon(

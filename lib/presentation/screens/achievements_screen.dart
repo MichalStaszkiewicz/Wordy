@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/data/network/exceptions/unexpected_error.dart';
-import 'package:wordy/domain/models/achievement.dart';
 import 'package:wordy/presentation/bloc/achievements/achievements_filter_bloc.dart';
 
 import 'package:wordy/presentation/widgets/achievement_item_back.dart';
-import 'package:wordy/presentation/widgets/exit_button.dart';
 import 'package:wordy/presentation/widgets/flip_cards.dart';
 
 import 'package:wordy/const/consts.dart';
@@ -23,7 +20,7 @@ import '../widgets/loading_data.dart';
 import '../widgets/title_with_back_button.dart';
 
 class AchievementsScreen extends StatefulWidget {
-  AchievementsScreen({required this.achievements});
+  AchievementsScreen({super.key, required this.achievements});
   List<UserAchievement> achievements;
 
   @override
@@ -33,12 +30,13 @@ class AchievementsScreen extends StatefulWidget {
 class _AchievementsScreenState extends State<AchievementsScreen> {
   @override
   Widget build(BuildContext context) {
-    print(widget.achievements.length.toString());
+
     return BlocProvider(
       create: (context) => AchievementsFilterBloc()
         ..add(FilterAchievements(
           achievements: widget.achievements,
-          filter: ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['achievements_everything'],
+          filter: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+              'achievements_everything'],
         )),
       child: Scaffold(
         floatingActionButton: AchievementDial(
@@ -69,19 +67,31 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                                 columnCount: 2,
                                 child: ScaleAnimation(
                                   scale: 0,
-                                  duration: Duration(milliseconds: 500),
+                                  duration: const Duration(milliseconds: 500),
                                   curve: Curves.decelerate,
                                   child: FlipCards(
                                     back: AchievementItemBack(
-                                      description: state.achievements[index]
-                                          .achievement.description!,
+                                      description: ui_lang[
+                                                  locator<GlobalDataManager>()
+                                                      .interfaceLanguage]![
+                                              'achievements'][
+                                          state.achievements[index].achievement
+                                              .name!
+                                              .toLowerCase()
+                                              .replaceAll(
+                                                  ' ', '_')]['description'],
                                       achieved:
                                           state.achievements[index].achieved,
                                     ),
                                     front: AchievementItemFront(
                                       image: "assets/medal.png",
-                                      name: state.achievements[index]
-                                          .achievement.name!,
+                                      name: ui_lang[locator<GlobalDataManager>()
+                                                  .interfaceLanguage]![
+                                              'achievements'][
+                                          state.achievements[index].achievement
+                                              .name!
+                                              .toLowerCase()
+                                              .replaceAll(' ', '_')]['name'],
                                       currentProgress:
                                           state.achievements[index].progress,
                                       maximum: state
@@ -103,7 +113,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
               });
               return Container();
             } else {
-              return LoadingData();
+              return const LoadingData();
             }
           }),
         ),

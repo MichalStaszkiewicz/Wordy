@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dropdown_alert/alert_controller.dart';
 
 class StatisticsItem extends StatelessWidget {
   StatisticsItem({

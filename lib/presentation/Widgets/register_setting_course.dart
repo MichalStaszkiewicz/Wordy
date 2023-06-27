@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:wordy/domain/logic/settings_logic.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/custom_error.dart';
@@ -12,9 +11,6 @@ import 'package:wordy/utility/dialog_manager.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../const/app_router.dart';
-import '../../data/network/exceptions/exception_helper.dart';
-import '../../data/network/exceptions/unexpected_error.dart';
-import '../../domain/models/interface_language.dart';
 import '../../domain/repositiories/repository.dart';
 import '../bloc/register/register_bloc.dart';
 
@@ -94,7 +90,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                       },
                     );
                   } else {
-                    return LoadingData();
+                    return const LoadingData();
                   }
                 },
               ),
@@ -102,7 +98,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
           } else {
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
               DialogManager.showErrorDialog(
-                  CustomError(
+                  const CustomError(
                       critical: true,
                       title: "Error",
                       message:

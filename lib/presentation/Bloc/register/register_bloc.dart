@@ -26,7 +26,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
   void registerInit() {
     on<RegisterEvent>((event, emit) {
-      emit(RegisterInitial());
+      emit(const RegisterInitial());
     });
   }
 

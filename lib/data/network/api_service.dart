@@ -59,10 +59,8 @@ class ApiService {
           queryParameters: payload, cancelToken: cancelToken, options: options);
     } on DioError catch (e) {
       if (e is BadNetworkApiError) {
-        print("Bad network");
         throw BadNetworkException();
       } else {
-        print("something else");
         rethrow;
       }
     }
@@ -76,10 +74,8 @@ class ApiService {
           data: payload, cancelToken: cancelToken, options: options);
     } on DioError catch (e) {
       if (e is BadNetworkApiError) {
-        print("Bad network");
         throw BadNetworkException();
       } else {
-        print("something else");
         rethrow;
       }
     }

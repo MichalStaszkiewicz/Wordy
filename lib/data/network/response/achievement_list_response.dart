@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:wordy/domain/models/achievement.dart';
 
 import '../../../domain/models/user_achievement.dart';
 

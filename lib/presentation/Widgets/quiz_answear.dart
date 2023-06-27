@@ -39,8 +39,8 @@ class _QuizAnswearState extends State<QuizAnswear> {
                 gradient: LinearGradient(
                   colors: state.selectedIndex == widget.index
                       ? [
-                          Color.fromARGB(255, 99, 155, 252),
-                          Color.fromRGBO(158, 149, 248, 1),
+                          const Color.fromARGB(255, 99, 155, 252),
+                          const Color.fromRGBO(158, 149, 248, 1),
                         ]
                       : [Colors.white, Colors.white], // kolory gradientu
                   begin: Alignment.topLeft, // początek gradientu

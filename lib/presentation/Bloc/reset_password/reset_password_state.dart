@@ -8,7 +8,7 @@ abstract class ResetPasswordState extends Equatable {
 }
 
 class ResetPasswordInitial extends ResetPasswordState {
-  const ResetPasswordInitial();
+  ResetPasswordInitial();
 }
 
 class ResetPasswordError extends ResetPasswordState {
@@ -19,13 +19,13 @@ class ResetPasswordError extends ResetPasswordState {
 }
 
 class UserPasswordUpdated extends ResetPasswordState {
-  UserPasswordUpdated();
+  const UserPasswordUpdated();
 }
 
 class UpdateUserPasswordState extends ResetPasswordState {
-  UpdateUserPasswordState();
+  const UpdateUserPasswordState();
 }
 
 class RecoverAccountMessageSended extends ResetPasswordState {
-  RecoverAccountMessageSended();
+  const RecoverAccountMessageSended();
 }

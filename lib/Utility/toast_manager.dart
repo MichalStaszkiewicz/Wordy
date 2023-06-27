@@ -1,7 +1,5 @@
 import 'package:achievement_view/achievement_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dropdown_alert/alert_controller.dart';
-import 'package:flutter_dropdown_alert/model/data_alert.dart';
 import 'package:wordy/presentation/widgets/failure_toast.dart';
 
 import '../domain/models/achievement.dart';
@@ -11,7 +9,7 @@ class ToastManager {
   static void achievementNotification(
       BuildContext context, Achievement achievement) {
     AchievementView(
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
       title: achievement.name,
       subTitle: achievement.description,
       isCircle: false,

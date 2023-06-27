@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
-import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/widgets/login_button.dart';
+import 'package:wordy/utility/validator.dart';
 
-import '../../utility/validator.dart';
 import '../bloc/reset_password/reset_password_bloc.dart';
 
 class UpdatePasswordForm extends StatefulWidget {
@@ -16,11 +15,17 @@ class UpdatePasswordForm extends StatefulWidget {
 
 class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
   late TextEditingController _passwordController;
-
+  String? _passwordErrorText;
   @override
   void initState() {
     _passwordController = TextEditingController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -34,16 +39,27 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
         ),
         SizedBox(
             width: 250,
-            child: TextField(
+            child: TextFormField(
+              validator: (value) {
+                if (value != null) {
+                  Validator.passwordValidate(value);
+                } else {
+                  return "This field is required";
+                }
+                return null;
+              },
               keyboardType: TextInputType.emailAddress,
               controller: _passwordController,
-              decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.security_rounded),
-                  hintText: "password"),
+              decoration: InputDecoration(
+                  errorText: _passwordErrorText,
+                  prefixIcon: const Icon(Icons.security_rounded),
+                  hintText: "Password"),
             )),
         LoginButton(
           label: 'Submit',
           onPressed: () {
+            _passwordErrorText =
+                Validator.passwordValidate(_passwordController.text);
             context
                 .read<ResetPasswordBloc>()
                 .add(UpdateUserPassword(password: _passwordController.text));

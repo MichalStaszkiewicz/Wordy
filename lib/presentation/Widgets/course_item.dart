@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../const/consts.dart';
@@ -75,7 +74,7 @@ class _CourseItemState extends State<CourseItem> {
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 1.5),
                         )
-                      : Text(''),
+                      : const Text(''),
                 ],
               ),
             ),

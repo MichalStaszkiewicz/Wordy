@@ -1,13 +1,11 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../const/consts.dart';
 import '../../global/global_data_manager.dart';
 
 class SuccessToast extends StatefulWidget {
-  SuccessToast({required this.deviceDimensions});
+  SuccessToast({super.key, required this.deviceDimensions});
   Size deviceDimensions;
 
   @override
@@ -22,7 +20,7 @@ class _SuccessToastState extends State<SuccessToast>
   @override
   void initState() {
     _positionController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500));
+        vsync: this, duration: const Duration(milliseconds: 200));
     _animatePosition = Tween<double>(
       begin: widget.deviceDimensions.height,
       end: widget.deviceDimensions.height / 1.34,
@@ -46,7 +44,7 @@ class _SuccessToastState extends State<SuccessToast>
     return Positioned(
       top: _animatePosition.value,
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
                 colors: [Color(0xFF11998E), Color.fromARGB(255, 28, 199, 94)])),
         height: MediaQuery.of(context).size.height / 4.79,
@@ -66,7 +64,7 @@ class _SuccessToastState extends State<SuccessToast>
                         Expanded(
                           child: Container(
                             alignment: Alignment.center,
-                            child: Icon(
+                            child: const Icon(
                               Icons.check,
                               color: Colors.white,
                             ),
@@ -83,7 +81,7 @@ class _SuccessToastState extends State<SuccessToast>
                   flex: 3,
                   child: Container(
                     alignment: Alignment.topCenter,
-                    child: Container(
+                    child: SizedBox(
                       height: 100,
                       width: double.infinity,
                       child: Column(
@@ -98,7 +96,7 @@ class _SuccessToastState extends State<SuccessToast>
                                 .titleLarge!
                                 .copyWith(color: Colors.white),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                         ],

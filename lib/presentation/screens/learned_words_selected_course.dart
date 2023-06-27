@@ -11,7 +11,7 @@ import '../widgets/exit_button.dart';
 import '../widgets/learned_words_statistic_card.dart';
 
 class LearnedWordsSelectedCourse extends StatefulWidget {
-  LearnedWordsSelectedCourse({required this.course});
+  LearnedWordsSelectedCourse({super.key, required this.course});
   ActiveCourse course;
 
   @override
@@ -41,7 +41,8 @@ class _LearnedWordsSelectedCourseState
       child: Container(
         child: Column(
           children: [
-            Container(
+            SizedBox(
+              height: 100,
               child: Center(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -72,7 +73,6 @@ class _LearnedWordsSelectedCourseState
                   Expanded(child: Container()),
                 ],
               )),
-              height: 100,
             ),
             Expanded(
               child: Container(

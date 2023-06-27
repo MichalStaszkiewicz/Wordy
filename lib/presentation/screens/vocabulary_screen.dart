@@ -5,8 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/urls.dart';
-import 'package:wordy/data/network/exceptions/exception_helper.dart';
-import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
@@ -14,10 +12,7 @@ import 'package:wordy/const/consts.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../domain/logic/user_service.dart';
-import '../../domain/models/vocabulary.dart';
 import '../../domain/models/word_collection.dart';
-import '../../global/notification_provider.dart';
-import '../bloc/courses_update/courses_update_bloc.dart';
 
 class VocabularyScreen extends StatefulWidget {
   const VocabularyScreen({super.key});
@@ -26,7 +21,8 @@ class VocabularyScreen extends StatefulWidget {
   State<VocabularyScreen> createState() => _VocabularyScreenState();
 }
 
-class _VocabularyScreenState extends State<VocabularyScreen> {
+class _VocabularyScreenState extends State<VocabularyScreen>
+    with TickerProviderStateMixin {
   late TextEditingController _textEditingController;
   @override
   void initState() {
@@ -54,7 +50,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
           },
           child: Container(
             height: 100,
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [
@@ -62,7 +58,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   color: Colors.indigoAccent.withOpacity(0.1),
                   spreadRadius: 5,
                   blurRadius: 7,
-                  offset: Offset(0, 3),
+                  offset: const Offset(0, 3),
                 ),
               ],
               borderRadius: BorderRadius.circular(20),
@@ -99,7 +95,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     return Scaffold(
       body: SafeArea(
         child: BlocProvider(
-          create: (context) => VocabularyBloc()..add(LoadVocabulary()),
+          create: (context) => VocabularyBloc()..add(const LoadVocabulary()),
           child: BlocListener<VocabularyBloc, VocabularyState>(
             listener: (context, state) {
               if (state is VocabularyError) {
@@ -131,7 +127,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                 .copyWith(
                                   fontSize: 20,
                                   letterSpacing: 0.5,
-                                  color: Color.fromRGBO(30, 30, 30, 1.0),
+                                  color: const Color.fromRGBO(30, 30, 30, 1.0),
                                 ),
                           ),
                         ),

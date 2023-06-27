@@ -6,6 +6,11 @@ class LocalStorage {
   SharedPreferences sharedPreferences;
 
   LocalStorage(this.sharedPreferences);
+  Future<void> cleanup() async {
+    setTokenAccess('');
+    setTokenRefresh('');
+    setUserInterfaceLanguage('');
+  }
 
   Future<String?> getUserInterfaceLanguage() async {
     final pref = sharedPreferences;

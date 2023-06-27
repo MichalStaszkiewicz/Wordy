@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomDialogButton extends StatelessWidget {
-  CustomDialogButton({required this.label, required this.colors});
+  CustomDialogButton({super.key, required this.label, required this.colors});
   String label;
   List<Color> colors;
   @override
@@ -15,7 +15,7 @@ class CustomDialogButton extends StatelessWidget {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 2,
               blurRadius: 5,
-              offset: Offset(0, 3), // przesunięcie cienia w poziomie i pionie
+              offset: const Offset(0, 3), // przesunięcie cienia w poziomie i pionie
             ),
           ],
           gradient: LinearGradient(

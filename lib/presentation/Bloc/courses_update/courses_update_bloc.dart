@@ -3,11 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
-import 'package:wordy/data/network/response/language_list_response.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/custom_error.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
-import 'package:wordy/presentation/bloc/settings/settings_bloc.dart';
 import 'package:wordy/utility/socket_manager.dart';
 
 import '../../../../domain/models/active_course.dart';
@@ -56,6 +54,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
     initialCourses();
     initialCurrentCourse();
     loadCourses();
+
     addNewCourse();
     switchInterfaceLanguage();
   }
@@ -83,6 +82,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
 
   void switchInterfaceLanguage() {
     on<SwitchInterfaceLanguage>((event, emit) async {
+      emit(LoadingCoursesDataState());
       var token = await locator<UserService>().getTokenAccess();
       if (token.isError) {
         emit(CourseUpdateError(
@@ -99,7 +99,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
                   if (updateInterfaceData.data!.userCoursesInThisLanguage > 0) {
                     locator<SocketManager>().loadTopics(token.data!);
                   } else {
-                    emit(UserNoCoursesInSelectedInterfaceLanguage());
+                    emit(const UserNoCoursesInSelectedInterfaceLanguage());
                   }
                 }
               }));
@@ -121,7 +121,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
   void addNewCourse() {
     on<AddNewCourse>((event, emit) async {
       final userId = await locator<Repository>().getTokenAccess();
-
+      emit(LoadingCoursesDataState());
       if (userId.isError) {
         emit(CourseUpdateError(
             error: ExceptionHelper.getErrorMessage(userId.error!)));

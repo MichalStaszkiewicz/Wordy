@@ -5,17 +5,13 @@ import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/word.dart';
 
-import '../../const/shared_preferences_keys.dart';
 import '../../data/local/local_storage.dart';
 import '../../data/network/remote_source.dart';
 import '../../data/network/request/login_user_request.dart';
-import '../../data/network/request/models/begginer_quiz_request_model.dart';
 
 import '../../data/network/response/login_user_response.dart';
-import '../../data/network/response/refresh_room_request.dart';
 import '../../data/network/response/update_user_interface_language_response.dart';
 import '../../utility/either.dart';
-import '../models/achievement.dart';
 import '../models/active_course.dart';
 import '../models/flash_card_data.dart';
 import '../models/interface_language.dart';
@@ -26,7 +22,6 @@ import '../models/topic.dart';
 import '../models/user_active_courses_progress.dart';
 import '../models/user_course.dart';
 import '../models/user_settings.dart';
-import '../models/word.dart';
 
 class Repository {
   Repository(
@@ -35,6 +30,10 @@ class Repository {
   );
   final LocalStorage _localSource;
   final RemoteSource _remoteSource;
+  Future<void> cleanUpLocalStorate() async {
+    await _localSource.cleanup();
+  }
+
   Future<Either<DioError, List<Topic>>> getTopics() async {
     var topics = await _remoteSource.getTopics();
     if (topics.isData) {

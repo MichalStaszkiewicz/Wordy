@@ -30,7 +30,7 @@ class CoursesLoaded extends CoursesUpdateState {
 }
 
 class UserNoCoursesInSelectedInterfaceLanguage extends CoursesUpdateState {
-  UserNoCoursesInSelectedInterfaceLanguage();
+  const UserNoCoursesInSelectedInterfaceLanguage();
 }
 
 class AvailableCoursesLoaded extends CoursesUpdateState {
@@ -41,6 +41,10 @@ class AvailableCoursesLoaded extends CoursesUpdateState {
   String userInterfaceLanguage;
   @override
   List<Object> get props => [selectedCourse, userInterfaceLanguage];
+}
+
+class LoadingCoursesDataState extends CoursesUpdateState {
+  LoadingCoursesDataState();
 }
 
 class CourseTopicsLoaded extends CoursesUpdateState {

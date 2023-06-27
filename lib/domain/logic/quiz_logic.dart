@@ -1,12 +1,9 @@
 import 'dart:math';
 
-import 'package:wordy/data/network/request/models/begginer_quiz_request_model.dart';
 import 'package:wordy/domain/logic/user_service.dart';
-import 'package:wordy/domain/models/quiz_question.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/utility/either.dart';
 
-import '../../data/network/request/models/insert_learned_words.request.model.dart';
 
 import '../models/vocabulary_question.dart';
 import '../models/word.dart';

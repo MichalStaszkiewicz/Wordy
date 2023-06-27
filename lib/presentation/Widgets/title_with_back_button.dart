@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wordy/presentation/widgets/exit_button.dart';
 
 class TitleWithBackButton extends StatelessWidget {
-  TitleWithBackButton({required this.title});
+  TitleWithBackButton({super.key, required this.title});
   String title;
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class TitleWithBackButton extends StatelessWidget {
                           onTap: () {
                             context.pop();
                           },
-                          child: ExitButton())))),
+                          child: const ExitButton())))),
           Expanded(
             flex: 3,
             child: Container(

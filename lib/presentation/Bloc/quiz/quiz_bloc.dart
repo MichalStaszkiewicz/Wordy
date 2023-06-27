@@ -67,8 +67,6 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       }
 
       if (questionsData.isData) {
-        print("QUIZ TYPE : " + quizType);
-        print("QUESTION COUNT : " + questionsData.data.length.toString());
         courseName = courseNameData.data!.course.name;
         questions = questionsData.data!;
         emit(QuizQuestionState(
@@ -130,6 +128,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
   void finishQuiz() {
     on<FinishQuiz>((event, emit) async {
+      emit(InProgress());
       final token = await userService.getTokenAccess();
       var quizType = locator<CourseProgressTracker>().quizType;
       if (token.isError) {

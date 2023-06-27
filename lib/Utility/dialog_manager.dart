@@ -15,7 +15,7 @@ class DialogManager {
     BuildContext context,
   ) {
     return Dialog(
-      child: Container(
+      child: SizedBox(
         height: 300,
         width: 350,
         child: Column(
@@ -29,12 +29,12 @@ class DialogManager {
               height: 70,
               width: 70,
               decoration: BoxDecoration(
-                  image: DecorationImage(
+                  image: const DecorationImage(
                       image: NetworkImage(
                           'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cb6d15ee-9f60-434a-9a5d-d91026e33e0a/d7til5w-2f3260a3-7092-47b4-aad3-d921b361cc4b.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2NiNmQxNWVlLTlmNjAtNDM0YS05YTVkLWQ5MTAyNmUzM2UwYVwvZDd0aWw1dy0yZjMyNjBhMy03MDkyLTQ3YjQtYWFkMy1kOTIxYjM2MWNjNGIuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.pD52YTUbCEL4DLf6lnWcLUJFI9gpFglFsfO5xLAMErQ')),
                   borderRadius: BorderRadius.circular(50)),
             ),
-            Container(
+            const SizedBox(
                 width: 200,
                 height: 80,
                 child: TextField(
@@ -48,11 +48,11 @@ class DialogManager {
                 children: [
                   CustomDialogButton(
                     label: 'Cancel',
-                    colors: [Colors.redAccent, Colors.redAccent],
+                    colors: const [Colors.redAccent, Colors.redAccent],
                   ),
                   CustomDialogButton(
                     label: 'Apply',
-                    colors: [Colors.blueAccent, Colors.blueAccent],
+                    colors: const [Colors.blueAccent, Colors.blueAccent],
                   ),
                 ],
               ),
@@ -95,6 +95,33 @@ class DialogManager {
             dialogType: DialogType.info,
             dismissOnTouchOutside: true)
         .show();
+  }
+
+  static void showLoadingDialog(
+    String title,
+    BuildContext context,
+  ) {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.scale,
+      dialogType: DialogType.noHeader,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              textAlign: TextAlign.center,
+              title,
+              style: const TextStyle(fontSize: 16),
+            ),
+            const CircularProgressIndicator(),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+      dismissOnBackKeyPress: false,
+      dismissOnTouchOutside: false,
+    ).show();
   }
 
   static void showLoadingDialogWithCancelButton(String message, String title,

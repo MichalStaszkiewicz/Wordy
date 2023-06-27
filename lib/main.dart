@@ -1,9 +1,6 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import 'package:wordy/app.dart';
@@ -23,7 +20,7 @@ void main() {
     locator.registerLazySingleton<SocketManager>(
         () => SocketManager(locator<Socket>()));
 
-    runApp(App(
+    runApp(const App(
       key: Key("App"),
     ));
   });

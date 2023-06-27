@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wordy/data/network/exceptions/exception_helper.dart';
-import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/bloc/reset_password/reset_password_bloc.dart';
@@ -16,7 +14,6 @@ import '../../Utility/socket_manager.dart';
 import '../../const/app_router.dart';
 import '../../const/enums.dart';
 
-import '../../domain/models/custom_error.dart';
 import '../bloc/login/login_bloc.dart';
 import '../widgets/register_form.dart';
 import '../widgets/reset_password_form.dart';
@@ -47,6 +44,34 @@ class _AuthScreenState extends State<AuthScreen> {
         resizeToAvoidBottomInset: false,
         body: MultiBlocListener(
           listeners: [
+            BlocListener<ResetPasswordBloc, ResetPasswordState>(
+                listener: (context, state) {
+              if (state is ResetPasswordError) {
+                DialogManager.showErrorDialog(state.error, context, () {
+                  context.read<ResetPasswordBloc>().add(InitialResetPassword());
+                });
+              } else if (state is UpdateUserPasswordState) {
+                DialogManager.showSuccessDialog(
+                    'Successfully verified your token', 'Success', context, () {
+                  currentForm = AuthFormType.typeNewPassword;
+                  setState(() {});
+                });
+              } else if (state is RecoverAccountMessageSended) {
+                DialogManager.showSuccessDialog(
+                    'We sended you email with token . Please check your also spam',
+                    'Success',
+                    context, () {
+                  currentForm = AuthFormType.resetTokenSended;
+                  setState(() {});
+                });
+              } else if (state is UserPasswordUpdated) {
+                DialogManager.showSuccessDialog(
+                    'Successfully updated password', 'Success', context, () {
+                  currentForm = AuthFormType.login;
+                  setState(() {});
+                });
+              }
+            }),
             BlocListener<RegisterBloc, RegisterState>(
               listener: (context, state) {
                 if (state is RegisterInProgress) {
@@ -58,27 +83,6 @@ class _AuthScreenState extends State<AuthScreen> {
                       'Loading in progress',
                       context, () {
                     locator.get<Repository>().cancelRequest();
-                  });
-                } else if (state is UpdateUserPasswordState) {
-                  DialogManager.showSuccessDialog(
-                      'Successfully verified your token', 'Success', context,
-                      () {
-                    currentForm = AuthFormType.typeNewPassword;
-                    setState(() {});
-                  });
-                } else if (state is RecoverAccountMessageSended) {
-                  DialogManager.showSuccessDialog(
-                      'We sended you email with token . Please check your also spam',
-                      'Success',
-                      context, () {
-                    currentForm = AuthFormType.resetTokenSended;
-                    setState(() {});
-                  });
-                } else if (state is UserPasswordUpdated) {
-                  DialogManager.showSuccessDialog(
-                      'Successfully updated password', 'Success', context, () {
-                    currentForm = AuthFormType.login;
-                    setState(() {});
                   });
                 } else if (state is RegisterSuccess) {
                   if (context.canPop()) {
@@ -96,7 +100,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     Navigator.pop(context);
                   }
                   DialogManager.showErrorDialog(state.error, context, () {
-                    context.read<RegisterBloc>().add(RegisterInit());
+                    context.read<RegisterBloc>().add(const RegisterInit());
                   });
                 } else {}
               },
@@ -113,9 +117,9 @@ class _AuthScreenState extends State<AuthScreen> {
               } else if (state is Authenticated) {
                 context.pop();
                 final socketManager = locator<SocketManager>();
-                print(state.token);
+
                 socketManager.initialize(state.token);
-                
+
                 state.registerCompleted
                     ? context.pushNamed(AppRouter.home)
                     : context.pushNamed(AppRouter.initialSettings);
@@ -139,15 +143,9 @@ class _AuthScreenState extends State<AuthScreen> {
                 child: Column(
               children: [
                 Expanded(
-                    flex: 3,
-                    child: Container(
-                      child: const Center(
-                          child: Image(image: AssetImage(('assets/logo.png')))),
-                    )),
-                Expanded(
                   flex: 7,
                   child: Container(
-                      alignment: Alignment.topCenter,
+                      alignment: Alignment.center,
                       child: Container(
                           height: 450,
                           width: 350,

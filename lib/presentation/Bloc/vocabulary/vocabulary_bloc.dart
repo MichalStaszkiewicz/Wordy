@@ -1,4 +1,3 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
@@ -8,11 +7,9 @@ import 'package:wordy/const/consts.dart';
 import 'package:wordy/domain/models/word_collection.dart';
 
 import '../../../Utility/locator/service_locator.dart';
-import '../../../const/shared_preferences_keys.dart';
 import '../../../domain/logic/vocabulary_logic.dart';
 import '../../../domain/models/flash_card_data.dart';
 import '../../../domain/models/topic.dart';
-import '../../../domain/models/vocabulary.dart';
 import '../../../domain/repositiories/repository.dart';
 
 part 'vocabulary_event.dart';

@@ -1,14 +1,8 @@
-import 'dart:collection';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/consts.dart';
-import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
 import 'package:wordy/presentation/widgets/quiz_next_button.dart';
 
@@ -16,7 +10,6 @@ import '../../Utility/locator/service_locator.dart';
 
 import '../../const/urls.dart';
 import '../../domain/models/topic.dart';
-import '../../domain/repositiories/stream_repository.dart';
 import '../../global/global_data_manager.dart';
 import '../../utility/dialog_manager.dart';
 
@@ -282,7 +275,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
               Expanded(
                 flex: 5,
                 child: Container(
-                  margin: EdgeInsets.only(left: 10),
+                  margin: const EdgeInsets.only(left: 10),
                   child: Text(
                     textAlign: TextAlign.left,
                     label,
@@ -299,7 +292,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Expanded(child: Container(child: Icon(Icons.school))),
+                      Expanded(child: Container(child: const Icon(Icons.school))),
                       Expanded(
                         child: Container(
                           child: Text(

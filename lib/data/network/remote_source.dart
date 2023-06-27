@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:dio/dio.dart';
 
@@ -182,7 +181,7 @@ class RemoteSource implements ServerInterface {
     try {
       var response = await _apiService.get('/v1/user/knownWords/get',
           options: Options(headers: {'authorization': token}));
-      print(response.data);
+
       return Either.data(KnownWordList.fromJson(response.data));
     } on DioError catch (exception) {
       return Either.error(exception);

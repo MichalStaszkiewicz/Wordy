@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_dropdown_alert/dropdown_alert.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/const/app_router.dart';
-import 'package:wordy/domain/models/achievement.dart';
 import 'package:wordy/global/notification_provider.dart';
-import 'package:wordy/presentation/widgets/success_toast.dart';
-import 'package:wordy/utility/toast_manager.dart';
 import 'package:wordy/utility/utility.dart';
 
 import 'Utility/locator/service_locator.dart';
@@ -77,7 +72,7 @@ class _AppState extends State<App> {
                   );
 
                   return Container(
-                    child: Stack(children: [
+                    child: const Stack(children: [
                    
                     ]),
                   );

@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -8,8 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
 import 'package:wordy/const/app_router.dart';
-import 'package:wordy/const/enums.dart';
-import 'package:wordy/domain/models/quiz_question.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/global/notification_provider.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
@@ -23,7 +20,6 @@ import 'package:wordy/utility/utility.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../const/consts.dart';
-import '../../domain/models/vocabulary_question.dart';
 
 class QuizScreenQuestions extends StatefulWidget {
   QuizScreenQuestions({
@@ -64,7 +60,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 30,
                       child: Center(
                         child: Text(
@@ -94,14 +90,14 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                 );
                               }, () {});
                             },
-                            child: ExitButton(),
+                            child: const ExitButton(),
                           ),
                         )),
                         TweenAnimationBuilder(
                           builder: (BuildContext context, animation, __) =>
                               ProgressionBar(
                                   height: 10,
-                                  gradient: [
+                                  gradient: const [
                                     Color.fromARGB(255, 99, 155, 252),
                                     Color.fromRGBO(158, 149, 248, 1),
                                   ],
@@ -114,7 +110,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                               .length) *
                                       100,
                                   width: 250),
-                          duration: Duration(milliseconds: 500),
+                          duration: const Duration(milliseconds: 500),
                           tween: Tween(
                               begin: context
                                           .read<QuizBloc>()
@@ -136,7 +132,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                           1)
                                       .toDouble()),
                         ),
-                        Container(
+                        SizedBox(
                           width: 50,
                           child: Text(
                             ' ${context.read<QuizBloc>().currentQuestionIndex + 1} / ${context.read<QuizBloc>().questions.length.toString()}',
@@ -144,7 +140,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                 .textTheme
                                 .titleMedium!
                                 .copyWith(
-                                    color: Color.fromARGB(255, 93, 104, 129)),
+                                    color: const Color.fromARGB(255, 93, 104, 129)),
                           ),
                         )
                       ],
@@ -161,7 +157,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                       Container(
                         height: 250,
                         alignment: Alignment.bottomCenter,
-                        child: Container(
+                        child: SizedBox(
                           height: 100,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -180,7 +176,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                     .titleLarge!
                                     .copyWith(letterSpacing: 1),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Container(
@@ -196,7 +192,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                           .labelLarge!
                                           .copyWith(
                                               letterSpacing: 1,
-                                              color: Color.fromARGB(
+                                              color: const Color.fromARGB(
                                                   255, 164, 164, 165)),
                                     ),
                                     _buildDivider(),
@@ -225,7 +221,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                   return AnimationConfiguration.staggeredGrid(
                                     columnCount: 2,
                                     position: index,
-                                    duration: Duration(milliseconds: 375),
+                                    duration: const Duration(milliseconds: 375),
                                     child: BouncingWidget(
                                       onPress: () {},
                                       child: QuizAnswear(
@@ -278,10 +274,10 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
     return Expanded(
       child: Container(
         height: 1,
-        margin: EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
-            color: Color.fromARGB(255, 221, 221, 221)),
+            color: const Color.fromARGB(255, 221, 221, 221)),
       ),
     );
   }

@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:random_avatar/random_avatar.dart';
-import 'package:wordy/domain/models/profile_data.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/bloc/profile/profile_bloc.dart';
 
 import 'package:wordy/presentation/widgets/statistics_item.dart';
 
-import 'package:wordy/presentation/screens/achievements_screen.dart';
-import 'package:wordy/presentation/screens/words_learned_screen.dart';
 import 'package:wordy/const/consts.dart';
-import 'package:wordy/utility/dialog_manager.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../const/app_router.dart';
@@ -107,10 +103,10 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                         fontSize: 20,
                         letterSpacing: 0.5,
-                        color: Color.fromRGBO(30, 30, 30, 1.0),
+                        color: const Color.fromRGBO(30, 30, 30, 1.0),
                       ),
                 ),
-                Container(
+                SizedBox(
                   height: 100,
                   child: Row(
                     children: [
@@ -145,9 +141,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50),
                                         color:
-                                            Color.fromARGB(255, 57, 211, 116),
+                                            const Color.fromARGB(255, 57, 211, 116),
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                           child: Icon(
                                         Icons.camera_alt,
                                         color: Colors.white,
@@ -167,14 +163,14 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(left: 3),
+                                  margin: const EdgeInsets.only(left: 3),
                                   child: Text(
                                     state.fullName,
                                     style:
                                         Theme.of(context).textTheme.titleLarge,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                               ],
@@ -190,10 +186,10 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       .toString(),
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                Container(
+                SizedBox(
                   height: 400,
                   child: GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     controller: _scrollStatisticsController,
                     itemCount: statItems(
                             locator<GlobalDataManager>().interfaceLanguage)
@@ -201,7 +197,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2),
-                    itemBuilder: (context, index) => statItems('polish')[index],
+                    itemBuilder: (context, index) => statItems(
+                        locator<GlobalDataManager>().interfaceLanguage)[index],
                   ),
                 )
               ],

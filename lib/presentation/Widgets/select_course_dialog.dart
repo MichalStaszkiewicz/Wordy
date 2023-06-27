@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/repositiories/stream_repository.dart';
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
 import 'package:wordy/presentation/widgets/quiz_next_button.dart';
@@ -20,7 +19,7 @@ import 'language_tile.dart';
 import 'loading_data.dart';
 
 class SelectCourseDialog extends StatefulWidget {
-  SelectCourseDialog({required this.availableCourses});
+  SelectCourseDialog({super.key, required this.availableCourses});
   List<Course> availableCourses;
 
   @override
@@ -33,7 +32,7 @@ class _SelectCourseDialogState extends State<SelectCourseDialog> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => CoursesUpdateBloc(locator<StreamRepository>())
-        ..add(LoadAvailableCourses()),
+        ..add(const LoadAvailableCourses()),
       child: Dialog(child: BlocBuilder<CoursesUpdateBloc, CoursesUpdateState>(
         builder: (context, state) {
           if (state is AvailableCoursesLoaded) {

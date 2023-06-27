@@ -7,7 +7,7 @@ enum AuthFormType {
 }
 
 enum InitialSetupStatus {
-  choosingNativeLanguage,
+  choosingCourse,
 }
 
 enum QuizAnswerStatus { success, failure }

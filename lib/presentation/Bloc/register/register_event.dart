@@ -16,7 +16,7 @@ class RegisterUser extends RegisterEvent {
 }
 
 class RegisterInit extends RegisterEvent {
-  RegisterInit();
+  const RegisterInit();
 }
 
 

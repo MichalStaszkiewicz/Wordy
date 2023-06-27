@@ -87,7 +87,7 @@ class AppRouter {
 
   static Widget _selectedCourseScreenRouteBuilder(
       BuildContext context, GoRouterState state) {
-    return SelectedCourseScreen();
+    return const SelectedCourseScreen();
   }
 
   static Widget _authScreenRouteBuilder(

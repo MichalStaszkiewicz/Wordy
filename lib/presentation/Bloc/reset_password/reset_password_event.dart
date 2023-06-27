@@ -7,6 +7,10 @@ abstract class ResetPasswordEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class InitialResetPassword extends ResetPasswordEvent {
+  InitialResetPassword();
+}
+
 class RecoverAccount extends ResetPasswordEvent {
   RecoverAccount({required this.email});
   String email;

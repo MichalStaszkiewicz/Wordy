@@ -27,7 +27,7 @@ class _VocabularyBackCardState extends State<VocabularyBackCard> {
       height: 100,
       width: 100,
       child: Center(
-        child: Container(
+        child: SizedBox(
           height: 100,
           width: 200,
           child: Center(

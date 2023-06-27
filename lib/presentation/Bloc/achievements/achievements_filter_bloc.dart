@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:wordy/presentation/Bloc/achievements/achievements_filter_bloc.dart';
 
-import '../../../domain/models/achievement.dart';
 import '../../../domain/models/custom_error.dart';
 import '../../../domain/models/user_achievement.dart';
 

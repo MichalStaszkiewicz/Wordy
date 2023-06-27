@@ -22,7 +22,6 @@ import '../models/profile_data.dart';
 import '../models/user_active_courses_progress.dart';
 import '../models/user_course.dart';
 import '../models/user_settings.dart';
-import '../models/word.dart';
 
 abstract class ServerInterface {
   Future<Either<DioError, TopicListResponse>> getTopics();

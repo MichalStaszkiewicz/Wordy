@@ -4,7 +4,7 @@ class BouncingWidget extends StatefulWidget {
   final Widget child;
   final VoidCallback onPress;
 
-  BouncingWidget({required this.child, required this.onPress});
+  const BouncingWidget({super.key, required this.child, required this.onPress});
 
   @override
   State<BouncingWidget> createState() => _BouncingWidgetState();

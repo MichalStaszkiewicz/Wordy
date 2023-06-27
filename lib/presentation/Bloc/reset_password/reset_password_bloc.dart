@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:wordy/data/network/exceptions/validation_error.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 
 import '../../../Utility/locator/service_locator.dart';
@@ -11,11 +12,18 @@ part 'reset_password_state.dart';
 
 class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
   String email = '';
-  ResetPasswordBloc() : super(const ResetPasswordInitial()) {
+  ResetPasswordBloc() : super(ResetPasswordInitial()) {
+    initialResetPassword();
     recoverAccount();
     confirmTokenReset();
     updatePassword();
   }
+  void initialResetPassword() {
+    on<InitialResetPassword>((event, emit) {
+      emit(ResetPasswordInitial());
+    });
+  }
+
   void recoverAccount() {
     on<RecoverAccount>((event, emit) async {
       try {
@@ -27,7 +35,7 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
               error: ExceptionHelper.getErrorMessage(recoverState.error!)));
         } else {
           email = event.email;
-          emit(RecoverAccountMessageSended());
+          emit(const RecoverAccountMessageSended());
         }
       } on Exception catch (e) {
         emit(ResetPasswordError(error: ExceptionHelper.getErrorMessage(e)));
@@ -45,7 +53,7 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
           emit(ResetPasswordError(
               error: ExceptionHelper.getErrorMessage(validation.error!)));
         } else {
-          emit(UpdateUserPasswordState());
+          emit(const UpdateUserPasswordState());
         }
       } on Exception catch (e) {
         emit(ResetPasswordError(error: ExceptionHelper.getErrorMessage(e)));
@@ -56,13 +64,21 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
   void updatePassword() {
     on<UpdateUserPassword>((event, emit) async {
       try {
+        if (event.password.length < 5) {
+          emit(ResetPasswordError(
+              error: ExceptionHelper.getErrorMessage(ValidationError(
+                  'Too Short Password',
+                  message:
+                      'The password is too short must be at least 5 characters'))));
+          return;
+        }
         var validation = await locator<UserService>()
             .updateUserPassword(email, event.password);
         if (validation.isError) {
           emit(ResetPasswordError(
               error: ExceptionHelper.getErrorMessage(validation.error!)));
         } else {
-          emit(UserPasswordUpdated());
+          emit(const UserPasswordUpdated());
         }
       } on Exception catch (e) {
         emit(ResetPasswordError(error: ExceptionHelper.getErrorMessage(e)));

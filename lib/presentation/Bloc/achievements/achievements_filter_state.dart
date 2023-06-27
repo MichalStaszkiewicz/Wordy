@@ -21,7 +21,7 @@ class AchievementsLoaded extends AchievementsFilterState {
 }
 
 class AchievementsLoading extends AchievementsFilterState {
-  AchievementsLoading();
+  const AchievementsLoading();
 }
 
 class AchievementError extends AchievementsFilterState {

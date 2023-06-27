@@ -4,8 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
 import 'package:wordy/const/consts.dart';
 
-import 'package:wordy/domain/logic/settings_logic.dart';
-
 import 'package:wordy/presentation/widgets/register_setting_course.dart';
 
 import '../../Utility/locator/service_locator.dart';
@@ -26,7 +24,7 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
     InitialSetupStatus registerStatus,
   ) {
     switch (registerStatus) {
-      case InitialSetupStatus.choosingNativeLanguage:
+      case InitialSetupStatus.choosingCourse:
         return const RegisterSettingCourse();
 
       default:
@@ -35,7 +33,7 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
   }
 
   final InitialSetupStatus _registerationStatus =
-      InitialSetupStatus.choosingNativeLanguage;
+      InitialSetupStatus.choosingCourse;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +56,8 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
                       child: Container(
                           child: Center(
                               child: Text(
-                        ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['choose_your_course'],
+                        ui_lang[locator<GlobalDataManager>()
+                            .interfaceLanguage]!['choose_your_course'],
                         style: Theme.of(context).textTheme.headlineSmall,
                       )))),
                   _buildSettingUpProfileForm(

@@ -57,7 +57,7 @@ class _AchievementItemBackState extends State<AchievementItemBack> {
                 flex: 4,
                 child: Container(
                   width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: AutoSizeText(
                     maxLines: 5,
                     textAlign: TextAlign.center,

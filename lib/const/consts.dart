@@ -57,6 +57,33 @@ Map<String, Map<String, dynamic>> ui_lang = {
     'achievements_everything': "Osiągnięcia - Wszystkie",
     'achievements_only_achieved': "Osiągnięcia - Zdobyte",
     'achievements_locked': "Osiągnięcia - Zablokowane",
+    'achievements': {
+      'beginner': {'name': 'Początkujący', 'description': 'Naucz się 10 słów'},
+      'intermediate': {
+        'name': 'Średnio zaawansowany',
+        'description': 'Naucz się 50 słów'
+      },
+      'advanced': {'name': 'Zaawansowany', 'description': 'Naucz się 100 słów'},
+      'expert': {'name': 'Ekspert', 'description': 'Naucz się 200 słów'},
+      'master': {'name': 'Mistrz', 'description': 'Naucz się 300 słów'},
+      'grandmaster': {
+        'name': 'Arcymistrz',
+        'description': 'Naucz się 500 słów'
+      },
+      'legend': {'name': 'Legenda', 'description': 'Naucz się 1000 słów'},
+      'language_master': {
+        'name': 'Mistrz Języka',
+        'description': 'Naucz się 5000 słów'
+      },
+      'language_guru': {
+        'name': 'Językowy Guru',
+        'description': 'Naucz się 10000 słów'
+      },
+      'linguistics_master': {
+        'name': 'Mistrz Lingwistyki',
+        'description': 'Naucz się 25000 słów'
+      }
+    },
     'choose_your_course': "Wybierz swój kurs",
     'are_you_sure': 'Jesteś pewny?',
     'vocabulary': 'Słownictwo',
@@ -139,6 +166,27 @@ Map<String, Map<String, dynamic>> ui_lang = {
     'completed': "Completed",
     'review': "Review",
     'start': 'Start',
+    'achievements': {
+      'beginner': {'name': 'Beginner', 'description': 'Learn 10 words'},
+      'intermediate': {'name': 'Intermediate', 'description': 'Learn 50 words'},
+      'advanced': {'name': 'Advanced', 'description': 'Learn 100 words'},
+      'expert': {'name': 'Expert', 'description': 'Learn 200 words'},
+      'master': {'name': 'Master', 'description': 'Learn 300 words'},
+      'grandmaster': {'name': 'Grandmaster', 'description': 'Learn 500 words'},
+      'legend': {'name': 'Legend', 'description': 'Learn 1000 words'},
+      'language_master': {
+        'name': 'Language Master',
+        'description': 'Learn 5000 words'
+      },
+      'language_guru': {
+        'name': 'Language Guru',
+        'description': 'Learn 10000 words'
+      },
+      'linguistics_master': {
+        'name': 'Linguistics Master',
+        'description': 'Learn 25000 words'
+      }
+    },
     'finish': 'Finish',
     'check': 'Check',
     'confirm': "Confirm",
