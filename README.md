@@ -10,6 +10,27 @@ To install the Wordy application, follow these steps:
 3. Open a terminal and navigate to the project directory.
 4. Run the command `flutter run` to launch the application on your device/emulator.
 
+**Note:** Before running the application, you need to update the `urls.dart` file. Change the `kImageUrl` and `kBaseUrl` variables to your IP address as the server is hosted locally on your computer. Also, ensure that the Wordy-Server is running.
+
+### Finding your IP address
+
+#### Windows:
+1. Open the Command Prompt by pressing `Win + R` and typing `cmd`, then press Enter.
+2. In the Command Prompt, type `ipconfig` and press Enter.
+3. Look for the "IPv4 Address" under the network adapter you are connected to. It will be listed as a series of numbers separated by periods (e.g., 192.168.0.1).
+
+#### Mac:
+1. Open the Terminal by going to Applications -> Utilities -> Terminal.
+2. In the Terminal, type `ifconfig` and press Enter.
+3. Look for the "inet" or "inet addr" entry under the network adapter you are connected to. It will be listed as a series of numbers separated by periods (e.g., 192.168.0.1).
+
+#### Linux:
+1. Open the Terminal.
+2. In the Terminal, type `ifconfig` or `ip addr show` and press Enter.
+3. Look for the "inet" or "inet addr" entry under the network adapter you are connected to. It will be listed as a series of numbers separated by periods (e.g., 192.168.0.1).
+
+Once you have obtained your IP address, update the `kImageUrl` and `kBaseUrl` variables in the `urls.dart` file with your IP address.
+
 ## Usage Examples
 1. Upon launching the application, you will be prompted to create an account or log in.
 2. After creating an account or logging in, you can access the main menu.
