@@ -135,7 +135,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       if (token.isError) {
         emit(QuizError(error: ExceptionHelper.getErrorMessage(token.error!)));
       }
-      if (quizType == "Learning") {
+      if (quizType == QuizType.learning) {
         await quizLogic.insertLearnedWords(event.wordIds).then((value) async {
           socketManager
               .quizSummary(QuizSummary(token: token.data!, topic: event.topic));
