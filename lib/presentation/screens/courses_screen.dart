@@ -4,6 +4,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
+import 'package:wordy/const/enums.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/global/notification_provider.dart';
@@ -221,7 +222,8 @@ class _CoursesScreenState extends State<CoursesScreen>
                                             child: GestureDetector(
                                                 onTap: () async {
                                                   locator<CourseProgressTracker>()
-                                                      .quizType = 'Learning';
+                                                          .quizType =
+                                                      QuizType.learning;
                                                   await locator<UserService>()
                                                       .updateUserCurrentCourse(
                                                           state

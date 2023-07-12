@@ -7,6 +7,7 @@ import 'package:wordy/domain/models/user_achievement.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 
 import '../../Utility/locator/service_locator.dart';
+import '../../const/scoket_events.dart';
 import '../models/active_course.dart';
 import '../models/user_active_courses_progress.dart';
 
@@ -28,34 +29,28 @@ class StreamRepository {
       _notificationController;
 
   void initialize() {
-    _socket.on('loadCourses', (data) {
+    _socket.on(SocketEvents.LOAD_COURSES, (data) {
       _courseStreamController.add(UserActiveCoursesProgress.fromJson(data));
     });
 
-    _socket.on('current_course', (data) {
+    _socket.on(SocketEvents.CURRENT_COURSE, (data) {
       currentCourseStreamController
           .add(ActiveCourse.fromJson(data['activeCourse']));
     });
-    _socket.on('got_new_achievement', (data) {
-      List<UserAchievement> list =
-          AchievementListResponse.fromJson(data).achievements;
-
+    _socket.on(SocketEvents.GOT_NEW_ACHIEVEMENT, (data) {
       _notificationController.add(AchievementListResponse.fromJson(data));
     });
-    _socket.on('logout_success', (data) {
+    _socket.on(SocketEvents.LOGOUT_SUCCESS, (data) {
       _notificationController.add("loggedOut");
     });
-    _socket.on('token_expired', (data) async {
- 
-
-
+    _socket.on(SocketEvents.TOKEN_EXPIRED, (data) async {
       await locator<Repository>().saveTokenAccess(data['token']);
     });
-    _socket.on('request_refresh_token', (data) async {
+    _socket.on(SocketEvents.REQUEST_REFRESH_TOKEN, (data) async {
       var refreshToken = await locator<UserService>().getTokenRefresh();
 
-
-      _socket.emit('refresh_token', {"refreshToken": refreshToken.data!});
+      _socket.emit(
+          SocketEvents.REFRESH_TOKEN, {"refreshToken": refreshToken.data!});
     });
   }
 }

@@ -12,6 +12,7 @@ import 'package:wordy/domain/models/question.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 
 import '../../../Utility/locator/service_locator.dart';
+import '../../../const/enums.dart';
 import '../../../data/network/exceptions/exception_helper.dart';
 import '../../../data/network/request/quiz_summary_request.dart';
 import '../../../data/network/response/achievement_list_response.dart';
@@ -51,12 +52,12 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     on<LoadBeginnerQuiz>((event, emit) async {
       emit(const InProgress());
       var questionsData;
-      var quizType = locator<CourseProgressTracker>().quizType;
+      QuizType quizType = locator<CourseProgressTracker>().quizType;
 
-      if (quizType == "Learning") {
+      if (quizType == QuizType.learning) {
         questionsData = await quizLogic.createLearningQuiz(event.topic);
       }
-      if (quizType == "Review") {
+      if (quizType == QuizType.review) {
         questionsData = await quizLogic.createReviewQuiz(event.topic);
       }
 

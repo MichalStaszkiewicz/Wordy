@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/const/app_router.dart';
+import 'package:wordy/const/enums.dart';
 import 'package:wordy/global/course_progress_tracker.dart';
 
 import 'package:wordy/presentation/widgets/circular_precentage_chart.dart';
@@ -33,8 +35,19 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
   bool isListExpanded = false;
   late AnimationController _courseProgressController;
   late Animation? _courseProgressAnimation;
+  ScrollController _scrollController = ScrollController();
   @override
   void initState() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection ==
+              ScrollDirection.forward ||
+          _scrollController.position.userScrollDirection ==
+              ScrollDirection.reverse) {
+        setState(() {
+          isListExpanded = false;
+        });
+      }
+    });
     ActiveCourse? beforeQuiz = locator<CourseProgressTracker>().beforeQuiz;
     ActiveCourse? afterQuiz = locator<CourseProgressTracker>().afterQuiz;
     _courseProgressController = AnimationController(
@@ -60,6 +73,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
   @override
   void dispose() {
     _courseProgressController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -106,91 +120,102 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                           children: [
                             Expanded(
                               child: Container(
-                                child: CustomScrollView(slivers: [
-                                  SliverAppBar(
-                                    flexibleSpace: Container(
-                                      color: Colors.amber,
-                                    ),
-                                    pinned: true,
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            locator<CourseProgressTracker>()
-                                                .beforeQuiz = null;
-                                            locator<CourseProgressTracker>()
-                                                .afterQuiz = null;
-                                            locator<CourseProgressTracker>()
-                                                .quizType = 'Learning';
-                                            context.go(AppRouter.home);
-                                          },
-                                          child: Container(
-                                            margin:
-                                                const EdgeInsets.only(left: 10),
-                                            child: const Icon(
-                                              Icons.arrow_back_ios_new_rounded,
-                                              color: Colors.white,
-                                            ),
-                                          ),
+                                child: CustomScrollView(
+                                    physics: isListExpanded
+                                        ? const NeverScrollableScrollPhysics()
+                                        : null,
+                                    controller: _scrollController,
+                                    slivers: [
+                                      SliverAppBar(
+                                        flexibleSpace: Container(
+                                          color: Colors.amber,
                                         ),
-                                        Text(
-                                          ui_lang[locator<GlobalDataManager>()
-                                              .interfaceLanguage]!['course'],
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge!
-                                              .copyWith(color: Colors.white),
-                                        ),
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 10),
-                                          height: 50,
-                                          width: 50,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  SliverToBoxAdapter(
-                                    child: _buildCurrentCourseInformations(
-                                        context,
-                                        state.course,
-                                        _courseProgressAnimation != null
-                                            ? _courseProgressAnimation!.value
-                                            : state.course.totalProgress),
-                                  ),
-                                  SliverToBoxAdapter(
-                                    child: SizedBox(
-                                      height: (150 *
-                                                  state.course.topicProgress
-                                                      .length)
-                                              .toDouble() +
-                                          80,
-                                      child: GridView(
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                                        pinned: true,
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            ..._buildTopics(
-                                                state.course.topicProgress,
-                                                context,
-                                                beforeQuizCopy)
-                                          ]),
-                                    ),
-                                  ),
-                                ]),
+                                            GestureDetector(
+                                              onTap: () {
+                                                locator<CourseProgressTracker>()
+                                                    .beforeQuiz = null;
+                                                locator<CourseProgressTracker>()
+                                                    .afterQuiz = null;
+                                                locator<CourseProgressTracker>()
+                                                        .quizType =
+                                                    QuizType.learning;
+                                                context.go(AppRouter.home);
+                                              },
+                                              child: Container(
+                                                margin: const EdgeInsets.only(
+                                                    left: 10),
+                                                child: const Icon(
+                                                  Icons
+                                                      .arrow_back_ios_new_rounded,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              ui_lang[locator<
+                                                          GlobalDataManager>()
+                                                      .interfaceLanguage]![
+                                                  'course'],
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleLarge!
+                                                  .copyWith(
+                                                      color: Colors.white),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  right: 10),
+                                              height: 50,
+                                              width: 50,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      SliverToBoxAdapter(
+                                        child: _buildCurrentCourseInformations(
+                                            context,
+                                            state.course,
+                                            _courseProgressAnimation != null
+                                                ? _courseProgressAnimation!
+                                                    .value
+                                                : state.course.totalProgress),
+                                      ),
+                                      SliverToBoxAdapter(
+                                        child: SizedBox(
+                                          height: (150 *
+                                                      state.course.topicProgress
+                                                          .length)
+                                                  .toDouble() +
+                                              80,
+                                          child: GridView(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                                              children: [
+                                                ..._buildTopics(
+                                                    state.course.topicProgress,
+                                                    context,
+                                                    beforeQuizCopy)
+                                              ]),
+                                        ),
+                                      ),
+                                    ]),
                               ),
                             ),
                           ],
                         ),
                         Positioned(
-                          left: MediaQuery.of(context).size.width / 9,
-                          top: MediaQuery.of(context).size.height / 4.8,
+                          left: MediaQuery.of(context).size.width / 8.7,
+                          top: MediaQuery.of(context).size.height / 4.3,
                           child: AnimatedContainer(
                             height: isListExpanded ? 100 : 0,
-                            width: 153,
+                            width: 155,
                             duration: const Duration(milliseconds: 300),
                             curve: Curves.easeInOut,
                             decoration: const BoxDecoration(
@@ -207,7 +232,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                     setState(() {
                                       isListExpanded = !isListExpanded;
                                       locator<CourseProgressTracker>()
-                                          .quizType = "Learning";
+                                          .quizType = QuizType.learning;
                                     });
                                   },
                                   child: AnimatedOpacity(
@@ -215,7 +240,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                     duration: const Duration(milliseconds: 300),
                                     child: Container(
                                       margin: const EdgeInsets.only(
-                                          top: 20, left: 20),
+                                          top: 10, left: 20),
                                       child: Text(
                                         ui_lang[locator<GlobalDataManager>()
                                             .interfaceLanguage]!['learning'],
@@ -232,7 +257,7 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                     setState(() {
                                       isListExpanded = !isListExpanded;
                                       locator<CourseProgressTracker>()
-                                          .quizType = "Review";
+                                          .quizType = QuizType.review;
                                     });
                                   },
                                   child: AnimatedOpacity(
@@ -253,72 +278,6 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                                   ),
                                 ),
                               ],
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 155,
-                          left: 45,
-                          child: GestureDetector(
-                            onTap: () {
-                              if (isListExpanded) {
-                                isListExpanded = false;
-                              } else {
-                                isListExpanded = true;
-                              }
-
-                              setState(() {});
-                            },
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Colors.black12,
-                                      offset: Offset(0, 2),
-                                      blurRadius: 6.0,
-                                    ),
-                                  ],
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20)),
-                              height: 40,
-                              width: 155,
-                              child: Center(
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 4,
-                                      child: Container(
-                                        child: AutoSizeText(
-                                          ui_lang[locator<GlobalDataManager>()
-                                                  .interfaceLanguage]![
-                                              locator<CourseProgressTracker>()
-                                                  .quizType
-                                                  .toLowerCase()],
-                                          maxLines: 1,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge!
-                                              .copyWith(color: Colors.amber),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        child: const Icon(
-                                          Icons.keyboard_arrow_down_rounded,
-                                          color: Colors.amber,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
                             ),
                           ),
                         ),
@@ -360,11 +319,87 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                       .headlineMedium!
                       .copyWith(color: Colors.white),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                  height: 40,
+                GestureDetector(
+                  onTap: () {
+                    _scrollController
+                        .animateTo(
+                      _scrollController.position.minScrollExtent,
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    )
+                        .then((value) {
+                      if (isListExpanded) {
+                        isListExpanded = false;
+                        setState(() {});
+                      } else {
+                        setState(() {});
+                        isListExpanded = true;
+                      }
+                    });
+
+                    setState(() {});
+                  },
+                  child: AnimatedContainer(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            offset: Offset(0, 2),
+                            blurRadius: 6.0,
+                          ),
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                          bottomLeft: isListExpanded
+                              ? Radius.zero
+                              : Radius.circular(20),
+                          bottomRight: isListExpanded
+                              ? Radius.zero
+                              : Radius.circular(20),
+                        )),
+                    height: 40,
+                    width: 155,
+                    duration: Duration(milliseconds: 20),
+                    child: Center(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 4,
+                            child: Container(
+                              child: AutoSizeText(
+                                ui_lang[locator<GlobalDataManager>()
+                                        .interfaceLanguage]![
+                                    locator<CourseProgressTracker>().quizType ==
+                                            QuizType.learning
+                                        ? "learning"
+                                        : "review"],
+                                maxLines: 1,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(color: Colors.amber),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: const Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color: Colors.amber,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

@@ -72,9 +72,7 @@ class _AppState extends State<App> {
                   );
 
                   return Container(
-                    child: const Stack(children: [
-                   
-                    ]),
+                    child: const Stack(children: []),
                   );
                 });
               },

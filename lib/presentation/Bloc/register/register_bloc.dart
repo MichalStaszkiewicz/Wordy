@@ -15,6 +15,7 @@ part 'register_event.dart';
 part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
+     final userLogic = locator<UserService>();
   RegisterBloc() : super(const RegisterInitial()) {
     registerInit();
     register();
@@ -123,7 +124,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           email: event.email,
           fullName: event.fullName,
           password: event.password));
-      final userLogic = locator<UserService>();
+   
 
       var result = await userLogic.registerUser({
         "fullName": event.fullName,

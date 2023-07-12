@@ -16,6 +16,7 @@ part 'vocabulary_event.dart';
 part 'vocabulary_state.dart';
 
 class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
+  final vocabService = locator<VocabularyService>();
   VocabularyBloc() : super(VocabularyInitial()) {
     loadVocabulary();
     updateVocabulary();
@@ -82,7 +83,6 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
 
   void showSpecificVocabularyList() {
     on<ListVocabularyWordsByTopic>((event, emit) async {
-      final vocabService = locator<VocabularyService>();
       final userId = await locator<UserService>().getTokenAccess();
 
       if (userId.isError) {
