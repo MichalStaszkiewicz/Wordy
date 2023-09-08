@@ -20,9 +20,9 @@ class _BouncingWidgetState extends State<BouncingWidget>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 50),
+      duration: const Duration(milliseconds: 45),
     );
-    _scale = Tween<double>(begin: 1.0, end: 0.95)
+    _scale = Tween<double>(begin: 1.0, end: 0.90)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.ease));
   }
 

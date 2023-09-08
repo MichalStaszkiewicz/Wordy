@@ -19,7 +19,7 @@ import '../widgets/register_form.dart';
 import '../widgets/reset_password_form.dart';
 import '../widgets/update_password_form.dart';
 
-//TODO BLOC SEPARETE FOR EACH TYPE OF AUTH OR PUT EVERY TOGETHER!
+
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
 
