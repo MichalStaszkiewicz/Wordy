@@ -37,12 +37,11 @@ class NotificationProvider with ChangeNotifier {
     BuildContext context,
   ) {
     if (answerStatus == QuizAnswerStatus.success) {
-      quizAnswerNotification = ToastManager.success(
-        context,
-      );
+      quizAnswerNotification =
+          ToastManager.quizAnswerToast(context, choosenAnswer, correctAnswer,true);
     } else {
       quizAnswerNotification =
-          ToastManager.error(context, choosenAnswer, correctAnswer);
+          ToastManager.quizAnswerToast(context, choosenAnswer, correctAnswer,false);
     }
     notifyListeners();
   }

@@ -8,7 +8,7 @@ import '../../const/consts.dart';
 import '../../global/global_data_manager.dart';
 
 class ContinueButton extends StatefulWidget {
-  const ContinueButton({super.key});
+  const ContinueButton();
 
   @override
   State<ContinueButton> createState() => _ContinueButtonState();
@@ -21,7 +21,6 @@ class _ContinueButtonState extends State<ContinueButton>
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -32,11 +31,7 @@ class _ContinueButtonState extends State<ContinueButton>
         width: 130,
         height: 40,
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.blue.shade400, Colors.blue.shade700],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+            color: Colors.blueAccent,
             boxShadow: const [
               BoxShadow(
                 color: Colors.black12,

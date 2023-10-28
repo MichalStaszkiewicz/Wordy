@@ -1,6 +1,8 @@
 import 'package:achievement_view/achievement_view.dart';
 import 'package:flutter/material.dart';
-import 'package:wordy/presentation/widgets/failure_toast.dart';
+import 'package:wordy/presentation/Widgets/quiz_answer_toast.dart';
+
+import 'package:wordy/presentation/widgets/quiz_answear.dart';
 
 import '../domain/models/achievement.dart';
 import '../presentation/widgets/success_toast.dart';
@@ -17,16 +19,13 @@ class ToastManager {
     ).show(context);
   }
 
-  static Widget success(BuildContext context) {
-    return SuccessToast(
+  static Widget quizAnswerToast(BuildContext context, String choosenAnswer,
+      String correctAnswer, bool correct) {
+    return QuizAnswerToast(
       deviceDimensions: MediaQuery.of(context).size,
-    );
-  }
-
-  static Widget error(
-      BuildContext context, String choosenAnswer, String correctAnswer) {
-    return FailureToast(
-      deviceDimensions: MediaQuery.of(context).size, choosenAnswer:choosenAnswer,  correctAnswer:correctAnswer
+      choosenAnswer: choosenAnswer,
+      correctAnswer: correctAnswer,
+      correct: correct,
     );
   }
 }

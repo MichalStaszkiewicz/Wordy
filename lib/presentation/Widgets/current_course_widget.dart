@@ -103,7 +103,7 @@ class CurrentCourseWidget extends StatelessWidget {
                             child: Container(
                                 width: double.infinity,
                                 alignment: Alignment.bottomLeft,
-                                child: const ContinueButton()),
+                                child: ContinueButton()),
                           ),
                         ),
                         Expanded(
@@ -140,8 +140,7 @@ class CurrentCourseWidget extends StatelessWidget {
                                               ),
                                               alignment: Alignment.center,
                                               child: Text(
-                                                "${currentCourse.totalProgress
-                                                        .round()}%",
+                                                "${currentCourse.totalProgress.round()}%",
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .titleSmall!

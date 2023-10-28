@@ -39,9 +39,8 @@ class _RegisterCourseListState extends State<RegisterCourseList> {
                     child: ListView.builder(
                         itemCount: widget.languages.length,
                         itemBuilder: (context, index) => LanguageTile(
-                              language: ui_lang[locator<GlobalDataManager>()
-                                      .interfaceLanguage]![
-                                  widget.languages[index].name],
+                              language: ui_lang['english']![
+                                  widget.languages[index].name.toLowerCase()],
                               imagePath: widget.languages[index].image,
                               onSelect: () {
                                 context.read<RegisterBloc>().add(

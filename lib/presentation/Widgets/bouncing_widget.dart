@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class BouncingWidget extends StatefulWidget {
   final Widget child;
   final VoidCallback onPress;
+  final double scaleValue;
 
-  const BouncingWidget({super.key, required this.child, required this.onPress});
+  const BouncingWidget({super.key, required this.child, required this.onPress,this.scaleValue = 0.95});
 
   @override
   State<BouncingWidget> createState() => _BouncingWidgetState();
@@ -22,8 +23,8 @@ class _BouncingWidgetState extends State<BouncingWidget>
       vsync: this,
       duration: const Duration(milliseconds: 45),
     );
-    _scale = Tween<double>(begin: 1.0, end: 0.90)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.ease));
+    _scale = Tween<double>(begin: 1.0, end: widget.scaleValue)
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
   }
 
   @override

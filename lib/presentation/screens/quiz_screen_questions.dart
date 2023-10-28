@@ -53,7 +53,6 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
         return Consumer<NotificationProvider>(
           builder: (context, notification, child) => SafeArea(
             child: Stack(children: [
-              notification.quizAnswerNotification ?? Container(),
               Container(
                 height: 120,
                 alignment: Alignment.topCenter,
@@ -140,7 +139,8 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                 .textTheme
                                 .titleMedium!
                                 .copyWith(
-                                    color: const Color.fromARGB(255, 93, 104, 129)),
+                                    color: const Color.fromARGB(
+                                        255, 93, 104, 129)),
                           ),
                         )
                       ],
@@ -207,6 +207,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                         flex: 1,
                         child: Container(
                             child: GridView.builder(
+                                physics: NeverScrollableScrollPhysics(),
                                 itemCount: context
                                     .read<QuizBloc>()
                                     .questions[context
@@ -237,31 +238,34 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                   );
                                 })),
                       ),
-                      Consumer<NotificationProvider>(
-                        builder: (context, value, child) => BouncingWidget(
-                          onPress: () {},
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 130,
-                            child: CustomAnimatedButton(
-                              onTap: () {
-                                Utility.quizAnswerValidationLogic(
-                                    context, state, notification, widget.topic);
-                              },
-                              height: 50,
-                              width: 350,
-                              label: _buttonLabelCheck(
-                                  state.answerChecked,
-                                  context.read<QuizBloc>().currentQuestionIndex,
-                                  context.read<QuizBloc>().questions.length),
-                              margin: EdgeInsets.zero,
-                              filled:
-                                  state.selectedIndex == null ? false : true,
-                            ),
-                          ),
-                        ),
-                      ),
                     ]),
+              ),
+              notification.quizAnswerNotification ?? Container(),
+              Consumer<NotificationProvider>(
+                builder: (context, value, child) => Transform.translate(
+                  offset: Offset(0, MediaQuery.of(context).size.height/1.25),
+                  child: BouncingWidget(
+                    onPress: () {},
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 130,
+                      child: CustomAnimatedButton(
+                        onTap: () {
+                          Utility.quizAnswerValidationLogic(
+                              context, state, notification, widget.topic);
+                        },
+                        height: 50,
+                        width: 350,
+                        label: _buttonLabelCheck(
+                            state.answerChecked,
+                            context.read<QuizBloc>().currentQuestionIndex,
+                            context.read<QuizBloc>().questions.length),
+                        margin: EdgeInsets.zero,
+                        filled: state.selectedIndex == null ? false : true,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ]),
           ),
