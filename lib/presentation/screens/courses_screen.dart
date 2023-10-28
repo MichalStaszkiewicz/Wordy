@@ -194,6 +194,8 @@ class _CoursesScreenState extends State<CoursesScreen>
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10),
                                     child: GridView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       scrollDirection: Axis.vertical,
                                       itemCount:
                                           state.availableCourses.isNotEmpty
@@ -239,30 +241,24 @@ class _CoursesScreenState extends State<CoursesScreen>
                                                     );
                                                   });
                                                 },
-                                                child: ScaleAnimation(
-                                                  scale: 0.1,
-                                                  child: BouncingWidget(
-                                                    onPress: () {},
-                                                    child: CourseItem(
-                                                        courseName: state
-                                                            .courses
-                                                            .activeCourses[
-                                                                index]
-                                                            .userCourse
-                                                            .course
-                                                            .name,
-                                                        progress: state
-                                                            .courses
-                                                            .activeCourses[
-                                                                index]
-                                                            .totalProgress,
-                                                        topic: state
-                                                            .courses
-                                                            .activeCourses[
-                                                                index]
-                                                            .userCourse
-                                                            .lastTopic),
-                                                  ),
+                                                child: BouncingWidget(
+                                                  onPress: () {},
+                                                  child: CourseItem(
+                                                      courseName: state
+                                                          .courses
+                                                          .activeCourses[index]
+                                                          .userCourse
+                                                          .course
+                                                          .name,
+                                                      progress: state
+                                                          .courses
+                                                          .activeCourses[index]
+                                                          .totalProgress,
+                                                      topic: state
+                                                          .courses
+                                                          .activeCourses[index]
+                                                          .userCourse
+                                                          .lastTopic),
                                                 )),
                                           );
                                         }
@@ -313,115 +309,60 @@ class _CoursesScreenState extends State<CoursesScreen>
             bottomRight: Radius.circular(10),
           ),
         ),
-        child: ListView(
-          children: [
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  DialogManager.showQuestionDialog(
-                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                          'asking_for_change_interface_language'],
-                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                          'are_you_sure'],
-                      context, () {
-                    context.read<CoursesUpdateBloc>().add(
-                        SwitchInterfaceLanguage(
-                            languageName: state.interfaceLanguages[0].name));
-                  }, () {});
-                  isListExpanded = false;
-                });
-              },
-              child: AnimatedOpacity(
-                opacity: isListExpanded ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 300),
-                child: Container(
-                  margin: const EdgeInsets.only(top: 0, left: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: SizedBox(
-                          height: 40,
-                          width: 30,
-                          child: Image.network(Urls.kImageUrl +
-                              state.interfaceLanguages[0].image),
+        child: ListView.builder(
+        itemCount: state.interfaceLanguages.length,
+          itemBuilder: (context, index) => GestureDetector(
+            onTap: () {
+              setState(() {
+                DialogManager.showQuestionDialog(
+                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                        'asking_for_change_interface_language'],
+                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                        'are_you_sure'],
+                    context, () {
+                  context.read<CoursesUpdateBloc>().add(SwitchInterfaceLanguage(
+                      languageName: state.interfaceLanguages[index].name));
+                }, () {});
+                isListExpanded = false;
+              });
+            },
+            child: AnimatedOpacity(
+              opacity: isListExpanded ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 300),
+              child: Container(
+                margin: const EdgeInsets.only(top: 0, left: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 40,
+                        width: 30,
+                        child: Image.network(
+                            Urls.kImageUrl + state.interfaceLanguages[index].image),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Container(
+                        child: Text(
+                          ui_lang[locator<GlobalDataManager>()
+                              .interfaceLanguage]![state.interfaceLanguages[index].name.toLowerCase()],
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(color: Colors.black),
                         ),
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          child: Text(
-                            ui_lang[locator<GlobalDataManager>()
-                                .interfaceLanguage]!['english'],
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(color: Colors.black),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  DialogManager.showQuestionDialog(
-                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                          'asking_for_change_interface_language'],
-                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                          'are_you_sure'],
-                      context, () {
-                    context.read<CoursesUpdateBloc>().add(
-                        SwitchInterfaceLanguage(
-                            languageName: state.interfaceLanguages[1].name));
-                  }, () {});
-                  isListExpanded = false;
-                });
-              },
-              child: AnimatedOpacity(
-                opacity: isListExpanded ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 300),
-                child: Container(
-                  margin: const EdgeInsets.only(top: 20, left: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: SizedBox(
-                          height: 40,
-                          width: 30,
-                          child: Image.network(Urls.kImageUrl +
-                              state.interfaceLanguages[1].image),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          child: Text(
-                            ui_lang[locator<GlobalDataManager>()
-                                .interfaceLanguage]!['polish'],
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(color: Colors.black),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

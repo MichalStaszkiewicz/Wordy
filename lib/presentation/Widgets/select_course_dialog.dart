@@ -54,10 +54,10 @@ class _SelectCourseDialogState extends State<SelectCourseDialog> {
                         itemCount: widget.availableCourses.length,
                         itemBuilder: (context, index) => LanguageTile(
                               imagePath: widget.availableCourses[index].image,
-                              language: ui_lang[locator<GlobalDataManager>()
-                                      .interfaceLanguage]![
+                              language: ui_lang['english']![
                                   widget.availableCourses[index].name],
                               onSelect: () {
+                            
                                 context.read<CoursesUpdateBloc>().add(
                                     UpdateSelectedCourse(
                                         courseName: widget

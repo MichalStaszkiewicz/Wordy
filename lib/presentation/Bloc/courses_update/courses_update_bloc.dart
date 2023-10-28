@@ -155,7 +155,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
             error: ExceptionHelper.getErrorMessage(availableCourses.error!)));
       } else {
         final UserActiveCoursesProgress coursesData = event.courses;
-
+       
         emit(CoursesLoaded(
             courses: coursesData,
             availableCourses: availableCourses.data!,

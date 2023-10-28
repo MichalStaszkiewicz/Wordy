@@ -56,7 +56,7 @@ class _CourseItemState extends State<CourseItem> {
                   Text(
                     ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
                         widget.courseName],
-                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.5),
