@@ -13,7 +13,7 @@ import '../domain/models/active_course.dart';
 import '../presentation/screens/achievements_screen.dart';
 import '../presentation/screens/initial_settings_screen.dart';
 import '../presentation/screens/learned_words_selected_course.dart';
-import '../presentation/screens/selected_course_screen.dart';
+import '../presentation/screens/selected_course_screen/selected_course_screen.dart';
 import '../presentation/screens/words_learned_screen.dart';
 import '../utility/observers/custom_route_observer.dart';
 

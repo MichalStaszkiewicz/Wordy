@@ -310,20 +310,32 @@ class _CoursesScreenState extends State<CoursesScreen>
           ),
         ),
         child: ListView.builder(
-        itemCount: state.interfaceLanguages.length,
+          itemCount: state.interfaceLanguages.length,
           itemBuilder: (context, index) => GestureDetector(
             onTap: () {
               setState(() {
-                DialogManager.showQuestionDialog(
-                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                        'asking_for_change_interface_language'],
-                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                        'are_you_sure'],
-                    context, () {
-                  context.read<CoursesUpdateBloc>().add(SwitchInterfaceLanguage(
-                      languageName: state.interfaceLanguages[index].name));
-                }, () {});
-                isListExpanded = false;
+                print("Current lang " + locator<GlobalDataManager>()
+                        .interfaceLanguage
+                        .toLowerCase());
+                        
+                if (locator<GlobalDataManager>()
+                        .interfaceLanguage
+                        .toLowerCase() ==
+                    state.interfaceLanguages[index].name.toLowerCase()) {
+                  isListExpanded = false;
+                } else {
+                  DialogManager.showQuestionDialog(
+                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                          'asking_for_change_interface_language'],
+                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                          'are_you_sure'],
+                      context, () {
+                    context.read<CoursesUpdateBloc>().add(
+                        SwitchInterfaceLanguage(
+                            languageName:
+                                state.interfaceLanguages[index].name));
+                  }, () {});
+                }
               });
             },
             child: AnimatedOpacity(
@@ -338,8 +350,8 @@ class _CoursesScreenState extends State<CoursesScreen>
                       child: SizedBox(
                         height: 40,
                         width: 30,
-                        child: Image.network(
-                            Urls.kImageUrl + state.interfaceLanguages[index].image),
+                        child: Image.network(Urls.kImageUrl +
+                            state.interfaceLanguages[index].image),
                       ),
                     ),
                     const SizedBox(
@@ -350,7 +362,9 @@ class _CoursesScreenState extends State<CoursesScreen>
                       child: Container(
                         child: Text(
                           ui_lang[locator<GlobalDataManager>()
-                              .interfaceLanguage]![state.interfaceLanguages[index].name.toLowerCase()],
+                                  .interfaceLanguage]![
+                              state.interfaceLanguages[index].name
+                                  .toLowerCase()],
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium!

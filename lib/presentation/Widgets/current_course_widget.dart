@@ -39,15 +39,7 @@ class CurrentCourseWidget extends StatelessWidget {
             ],
             borderRadius: BorderRadius.circular(10)),
         child: Stack(children: [
-          /*
-          Positioned(
-            left: 270,
-            top: 10,
-            child: DifficultyLevelWidget(
-              textColor: Colors.white,
-              label: label,
-            ),
-          ),*/
+       
           Container(
             child: Row(
               children: [
