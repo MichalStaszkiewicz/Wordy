@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
 import 'package:wordy/domain/models/active_course.dart';
 import 'package:wordy/domain/repositiories/stream_repository.dart';
@@ -23,33 +24,36 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => CoursesUpdateBloc(locator<StreamRepository>())
-          ..add(const CurrentCourseInitial()),
-        child: BlocBuilder<CoursesUpdateBloc, CoursesUpdateState>(
-          builder: (context, state) {
-            if (state is CourseTopicsLoaded) {
-              ActiveCourse? beforeQuizCopy;
-              if (locator<CourseProgressTracker>().beforeQuiz == null) {
-                locator<CourseProgressTracker>().beforeQuiz = state.course;
-                beforeQuizCopy = locator<CourseProgressTracker>().beforeQuiz;
-              } else {
-                beforeQuizCopy = locator<CourseProgressTracker>().beforeQuiz;
-                locator<CourseProgressTracker>().beforeQuiz = state.course;
-              }
+      body: ChangeNotifierProvider(
+        create: (BuildContext context) => CourseProgressTracker(),
+        child: BlocProvider(
+          create: (context) => CoursesUpdateBloc(locator<StreamRepository>())
+            ..add(const CurrentCourseInitial()),
+          child: BlocBuilder<CoursesUpdateBloc, CoursesUpdateState>(
+            builder: (context, state) {
+              if (state is CourseTopicsLoaded) {
+                ActiveCourse? beforeQuizCopy;
+                if (locator<CourseProgressTracker>().beforeQuiz == null) {
+                  locator<CourseProgressTracker>().beforeQuiz = state.course;
+                  beforeQuizCopy = locator<CourseProgressTracker>().beforeQuiz;
+                } else {
+                  beforeQuizCopy = locator<CourseProgressTracker>().beforeQuiz;
+                  locator<CourseProgressTracker>().beforeQuiz = state.course;
+                }
 
-              return SelectedCourseReady(
-                beforeQuizCopy: beforeQuizCopy,
-              );
-            } else if (state is CourseUpdateError) {
-              DialogManager.showErrorDialog(state.error, context, () {
-                context.pop();
-              });
-              return Container();
-            } else {
-              return const LoadingData();
-            }
-          },
+                return SelectedCourseReady(
+                  beforeQuizCopy: beforeQuizCopy,
+                );
+              } else if (state is CourseUpdateError) {
+                DialogManager.showErrorDialog(state.error, context, () {
+                  context.pop();
+                });
+                return Container();
+              } else {
+                return const LoadingData();
+              }
+            },
+          ),
         ),
       ),
     );
