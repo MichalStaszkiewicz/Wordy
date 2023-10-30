@@ -9,6 +9,21 @@ import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/Widgets/loading_data.dart';
 import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_ready.dart';
 
+
+
+import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_list_entry.dart';
+import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_ready.dart';
+
+
+import 'package:wordy/presentation/screens/vocabulary_screen/state/loaded.dart';
+
+import 'package:wordy/presentation/widgets/loading_data.dart';
+import 'package:wordy/const/consts.dart';
+
+import '../../../Utility/locator/service_locator.dart';
+import '../../../domain/logic/user_service.dart';
+import '../../../domain/models/word_collection.dart';
+
 class VocabularyScreen extends StatefulWidget {
   const VocabularyScreen({super.key});
 
