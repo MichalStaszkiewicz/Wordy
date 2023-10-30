@@ -126,7 +126,7 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "unexpected_error": "Coś poszło nie tak",
     "quiz_settings_learn": "Nauka",
     "quiz_settings_review": "Powtórka",
-    "finished_topic_announcement": "Gratulacje udało ci się ukończyć temat:",
+    "finished_topic_announcement": "Gratulacje udało ci się ukończyć temat",
     "no_words_to_review_announcement": "Nie masz słow do powtórki",
     "warning_dialog_header": "Uwaga!",
     "exit_dialog_description":
@@ -337,7 +337,7 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "unexpected_error": "Algo salió mal",
     "quiz_settings_learn": "Aprender",
     "quiz_settings_review": "Revisar",
-    "finished_topic_announcement": "¡Felicidades! Has completado el tema:",
+    "finished_topic_announcement": "¡Felicidades! Has completado el tema",
     "no_words_to_review_announcement": "No tienes palabras para revisar",
     "warning_dialog_header": "¡Advertencia!",
     "exit_dialog_description":
