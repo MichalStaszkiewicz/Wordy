@@ -74,7 +74,8 @@ class _ModeListState extends State<ModeList> {
                         child: Container(
                           child: AutoSizeText(
                             ui_lang[locator<GlobalDataManager>()
-                                .interfaceLanguage]![model.quizType.name],
+                                    .interfaceLanguage]![
+                               model.quizType.name],
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
