@@ -38,8 +38,9 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
                     model.beforeQuiz = state.course;
                     beforeQuizCopy = model.beforeQuiz;
                   } else {
-                    beforeQuizCopy = model.beforeQuiz;
-                    model.beforeQuiz = state.course;
+                    beforeQuizCopy =
+                       model.beforeQuiz;
+                    locator<CourseProgressTracker>().beforeQuiz = state.course;
                   }
 
                   return SelectedCourseReady(
