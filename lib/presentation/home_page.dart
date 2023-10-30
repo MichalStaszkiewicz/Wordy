@@ -72,10 +72,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           child: SafeArea(
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 22),
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               child: GNav(
                   tabActiveBorder: Border.all(color: Colors.indigo[400]!),
-                  gap: 10,
+                  gap: 4,
                   color: Colors.grey[600],
                   activeColor: Colors.indigo[400],
                   rippleColor: Colors.grey[300]!,
