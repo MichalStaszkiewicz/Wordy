@@ -141,7 +141,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50),
                                         color:
-                                            const Color.fromARGB(255, 57, 211, 116),
+                                            Color.fromARGB(255, 63, 238, 130),
                                       ),
                                       child: const Center(
                                           child: Icon(
