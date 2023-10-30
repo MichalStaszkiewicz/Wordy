@@ -113,7 +113,7 @@ Map<String, Map<String, dynamic>> ui_lang = {
     "profile_screen_courses_header": "Kursy",
     "profile_screen_statistics_header": "Statystyki",
     "profile_screen_days_in_a_row": "Dni z rzędu",
-    "profile_screen_learned_words": "Nauczone słowa",
+    "profile_screen_learned_words": "Poznane słowa",
     "profile_screen_finished_topics": "Ukończone kursy",
     "profile_screen_achievements": "Osiągnięcia",
     "settings_screen_app_bar": "Ustawienia",
