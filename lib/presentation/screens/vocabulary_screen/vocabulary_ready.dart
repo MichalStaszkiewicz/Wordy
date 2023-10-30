@@ -7,6 +7,7 @@ import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
+import 'package:wordy/presentation/screens/vocabulary_screen/state/loaded.dart';
 import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_list_entry.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/const/consts.dart';
@@ -15,13 +16,14 @@ import '../../../Utility/locator/service_locator.dart';
 import '../../../domain/logic/user_service.dart';
 import '../../../domain/models/word_collection.dart';
 
-class VocabularyReady extends StatelessWidget {
-  const VocabularyReady({
+class VocabularyScreenReady extends StatelessWidget {
+  VocabularyScreenReady({
     super.key,
-    required TextEditingController textEditingController, required this.items,
-  }) : _textEditingController = textEditingController;
+    required this.textEditingController,
+    required this.items,
+  });
 
-  final TextEditingController _textEditingController;
+  final TextEditingController textEditingController;
   final List<WordCollection> items;
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,7 @@ class VocabularyReady extends StatelessWidget {
                       .read<VocabularyBloc>()
                       .add(SearchForSpecificVocabulary(text: value));
                 },
-                controller: _textEditingController,
+                controller: textEditingController,
                 decoration: InputDecoration(
                   hintText: ui_lang[locator<GlobalDataManager>()
                       .interfaceLanguage]!['vocabulary_screen_search_hint'],
@@ -63,7 +65,7 @@ class VocabularyReady extends StatelessWidget {
           ),
           Expanded(
               child: ListView.builder(
-                itemCount: items.length,
+            itemCount: items.length,
             itemBuilder: (context, index) => VocabularyListEntry(
               vocabulary: items[index],
             ),
