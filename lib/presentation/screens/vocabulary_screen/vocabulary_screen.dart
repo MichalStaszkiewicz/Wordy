@@ -1,20 +1,20 @@
-import 'package:animation_list/animation_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
+import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/const/app_router.dart';
-import 'package:wordy/const/urls.dart';
-import 'package:wordy/global/global_data_manager.dart';
+import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
+import 'package:wordy/presentation/Widgets/loading_data.dart';
+import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_ready.dart';
+
+
 
 import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_list_entry.dart';
 import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_ready.dart';
 
-import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_list_entry.dart';
-import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_ready.dart';
 
-import 'package:wordy/presentation/screens/vocabulary_screen/list_entry.dart';
 import 'package:wordy/presentation/screens/vocabulary_screen/state/loaded.dart';
 
 import 'package:wordy/presentation/widgets/loading_data.dart';
@@ -70,9 +70,9 @@ class _VocabularyScreenState extends State<VocabularyScreen>
             child: BlocBuilder<VocabularyBloc, VocabularyState>(
               builder: (context, state) {
                 if (state is VocabularyLoaded) {
-                  return VocabularyLoadedScreen(
-                    textEditingController: _textEditingController,
+                  return VocabularyScreenReady(
                     items: state.vocabularyList,
+                    textEditingController: _textEditingController,
                   );
                 } else if (state is VocabularyInitial) {
                   return const LoadingData();

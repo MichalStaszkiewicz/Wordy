@@ -16,6 +16,7 @@ import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
+import 'package:wordy/presentation/screens/vocabulary_screen/state/loaded.dart';
 import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_list_entry.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/const/consts.dart';
@@ -24,14 +25,16 @@ import '../../../Utility/locator/service_locator.dart';
 import '../../../domain/logic/user_service.dart';
 import '../../../domain/models/word_collection.dart';
 
-class VocabularyReady extends StatelessWidget {
-  const VocabularyReady({
+class VocabularyScreenReady extends StatelessWidget {
+  VocabularyScreenReady({
     super.key,
+    required this.textEditingController,
     required this.items,
-    required TextEditingController textEditingController,
-  }) : _textEditingController = textEditingController;
+  });
+ 
+
   final List<WordCollection> items;
-  final TextEditingController _textEditingController;
+  final TextEditingController textEditingController;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +63,7 @@ class VocabularyReady extends StatelessWidget {
                       .read<VocabularyBloc>()
                       .add(SearchForSpecificVocabulary(text: value));
                 },
-                controller: _textEditingController,
+                controller: textEditingController,
                 decoration: InputDecoration(
                   hintText: ui_lang[locator<GlobalDataManager>()
                       .interfaceLanguage]!['vocabulary_screen_search_hint'],
