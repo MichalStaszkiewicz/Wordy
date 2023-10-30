@@ -314,10 +314,6 @@ class _CoursesScreenState extends State<CoursesScreen>
           itemBuilder: (context, index) => GestureDetector(
             onTap: () {
               setState(() {
-                print("Current lang " + locator<GlobalDataManager>()
-                        .interfaceLanguage
-                        .toLowerCase());
-                        
                 if (locator<GlobalDataManager>()
                         .interfaceLanguage
                         .toLowerCase() ==

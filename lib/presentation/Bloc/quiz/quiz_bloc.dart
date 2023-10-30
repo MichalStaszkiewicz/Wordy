@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:wordy/Utility/socket_manager.dart';
 import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/domain/logic/user_service.dart';
@@ -129,7 +132,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
   void finishQuiz() {
     on<FinishQuiz>((event, emit) async {
-      emit(InProgress());
+      emit(const InProgress());
       final token = await userService.getTokenAccess();
       var quizType = locator<CourseProgressTracker>().quizType;
       if (token.isError) {

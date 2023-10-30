@@ -26,33 +26,35 @@ class _SelectedCourseScreenState extends State<SelectedCourseScreen>
     return Scaffold(
       body: ChangeNotifierProvider(
         create: (BuildContext context) => CourseProgressTracker(),
-        child: BlocProvider(
-          create: (context) => CoursesUpdateBloc(locator<StreamRepository>())
-            ..add(const CurrentCourseInitial()),
-          child: BlocBuilder<CoursesUpdateBloc, CoursesUpdateState>(
-            builder: (context, state) {
-              if (state is CourseTopicsLoaded) {
-                ActiveCourse? beforeQuizCopy;
-                if (locator<CourseProgressTracker>().beforeQuiz == null) {
-                  locator<CourseProgressTracker>().beforeQuiz = state.course;
-                  beforeQuizCopy = locator<CourseProgressTracker>().beforeQuiz;
-                } else {
-                  beforeQuizCopy = locator<CourseProgressTracker>().beforeQuiz;
-                  locator<CourseProgressTracker>().beforeQuiz = state.course;
-                }
+        child: Consumer<CourseProgressTracker>(
+          builder: (context, model, child) => BlocProvider(
+            create: (context) => CoursesUpdateBloc(locator<StreamRepository>())
+              ..add(const CurrentCourseInitial()),
+            child: BlocBuilder<CoursesUpdateBloc, CoursesUpdateState>(
+              builder: (context, state) {
+                if (state is CourseTopicsLoaded) {
+                  ActiveCourse? beforeQuizCopy;
+                  if (model.beforeQuiz == null) {
+                    model.beforeQuiz = state.course;
+                    beforeQuizCopy = model.beforeQuiz;
+                  } else {
+                    beforeQuizCopy = model.beforeQuiz;
+                    model.beforeQuiz = state.course;
+                  }
 
-                return SelectedCourseReady(
-                  beforeQuizCopy: beforeQuizCopy,
-                );
-              } else if (state is CourseUpdateError) {
-                DialogManager.showErrorDialog(state.error, context, () {
-                  context.pop();
-                });
-                return Container();
-              } else {
-                return const LoadingData();
-              }
-            },
+                  return SelectedCourseReady(
+                    beforeQuizCopy: beforeQuizCopy,
+                  );
+                } else if (state is CourseUpdateError) {
+                  DialogManager.showErrorDialog(state.error, context, () {
+                    context.pop();
+                  });
+                  return Container();
+                } else {
+                  return const LoadingData();
+                }
+              },
+            ),
           ),
         ),
       ),
