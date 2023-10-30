@@ -39,7 +39,11 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
   void initState() {
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
+    print("BEFORE QUIZ : " +
+        locator<CourseProgressTracker>().beforeQuiz.toString());
 
+    print("AFTER QUIZ : " +
+        locator<CourseProgressTracker>().afterQuiz.toString());
     ActiveCourse? afterQuiz = locator<CourseProgressTracker>().afterQuiz;
     if (widget.beforeQuiz != null && afterQuiz != null) {
       ProgressInTopic progressBeforeQuiz = widget.beforeQuiz!.topicProgress
@@ -72,11 +76,12 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
     return Consumer<CourseProgressTracker>(
       builder: (context, model, child) => GestureDetector(
         onTap: () {
-          var quizType = model.quizType;
+          var quizType = locator<CourseProgressTracker>().quizType;
 
           if (quizType.name.toLowerCase() ==
                   QuizType.learning.name.toLowerCase() &&
               widget.progress.knownWords < widget.progress.wordsCount) {
+            locator<CourseProgressTracker>().beforeQuiz = widget.beforeQuiz;
             context.pushNamed(AppRouter.quizScreen, extra: {
               'topic': widget.topic,
             });
@@ -85,7 +90,8 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
               widget.progress.knownWords == widget.progress.wordsCount) {
             DialogManager.showSuccessDialog(
                 ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                    'completed_topic'],
+                        'finished_topic_announcement'] +
+                    " ${ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['topic_label'][widget.topic.name]}",
                 ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
                     'congratulations'],
                 context,
