@@ -21,19 +21,6 @@ class LearnedWordsSelectedCourse extends StatefulWidget {
 
 class _LearnedWordsSelectedCourseState
     extends State<LearnedWordsSelectedCourse> {
-  List<GestureDetector> _buildStats(BuildContext context) {
-    List<GestureDetector> list = [];
-    for (ProgressInTopic topic in widget.course.topicProgress) {
-      list.add(GestureDetector(
-        child: LearnedWordsStatisticCard(
-            maximum: topic.wordsCount,
-            current: topic.knownWords,
-            image: 'cooking-pot.png'),
-      ));
-    }
-    return list;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,10 +63,15 @@ class _LearnedWordsSelectedCourseState
             ),
             Expanded(
               child: Container(
-                  child: AnimationList(
-                duration: 1500,
-                reBounceDepth: 10,
-                children: [..._buildStats(context)],
+                  child: ListView.builder(
+                itemCount: widget.course.topicsCount,
+                itemBuilder: (BuildContext context, int index) =>
+                    GestureDetector(
+                  child: LearnedWordsStatisticCard(
+                      maximum: widget.course.totalWordsCount,
+                      current: widget.course.knownWords,
+                      image: widget.course.topicProgress[index].topic.image),
+                ),
               )),
             ),
           ],

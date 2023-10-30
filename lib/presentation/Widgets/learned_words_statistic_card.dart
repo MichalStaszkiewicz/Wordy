@@ -25,7 +25,7 @@ class _LearnedWordsStatisticCardState extends State<LearnedWordsStatisticCard> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.indigoAccent.withOpacity(0.1),
+            color: Colors.grey.withOpacity(0.1),
             spreadRadius: 5,
             blurRadius: 7,
             offset: const Offset(0, 3),

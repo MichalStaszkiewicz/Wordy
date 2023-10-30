@@ -1,7 +1,9 @@
 import 'package:animation_list/animation_list.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/const/consts.dart';
+import 'package:wordy/global/global_data_manager.dart';
 
 import '../../const/app_router.dart';
 import '../../domain/models/active_course.dart';
@@ -16,23 +18,6 @@ class WordsLearnedScreen extends StatefulWidget {
 }
 
 class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
-  List<GestureDetector> _buildStats(BuildContext context) {
-    List<GestureDetector> list = [];
-    for (ActiveCourse course in widget.beginnerProgress) {
-      list.add(GestureDetector(
-        onTap: () {
-          context.pushNamed(AppRouter.learnedWordsSelectedCourse,
-              extra: {'activeCourse': course});
-        },
-        child: LearnedWordsStatisticCard(
-            maximum: course.totalWordsCount,
-            current: course.knownWords,
-            image: course.userCourse.course.circularImage),
-      ));
-    }
-    return list;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,15 +26,30 @@ class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
         child: Column(
           children: [
             TitleWithBackButton(
-              title: ui_lang['polish']!['known_words'],
+              title: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                  'known_words'],
             ),
             Expanded(
               child: Container(
-                  child: AnimationList(
-                duration: 1500,
-                reBounceDepth: 10,
-                children: [..._buildStats(context)],
-              )),
+                  child: ListView.builder(
+                      itemCount: widget.beginnerProgress.length,
+                      itemBuilder: (context, index) => GestureDetector(
+                            onTap: () {
+                              context.pushNamed(
+                                  AppRouter.learnedWordsSelectedCourse,
+                                  extra: {
+                                    'activeCourse':
+                                        widget.beginnerProgress[index]
+                                  });
+                            },
+                            child: LearnedWordsStatisticCard(
+                                maximum: widget
+                                    .beginnerProgress[index].totalWordsCount,
+                                current:
+                                    widget.beginnerProgress[index].knownWords,
+                                image: widget.beginnerProgress[index].userCourse
+                                    .course.circularImage),
+                          ))),
             ),
           ],
         ),
