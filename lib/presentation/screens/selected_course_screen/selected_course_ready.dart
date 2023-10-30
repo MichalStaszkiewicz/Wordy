@@ -122,10 +122,8 @@ class _SelectedCourseReadyState extends State<SelectedCourseReady>
                                       children: [
                                         GestureDetector(
                                           onTap: () {
-                                            locator<CourseProgressTracker>()
-                                                .beforeQuiz = null;
-                                            locator<CourseProgressTracker>()
-                                                .afterQuiz = null;
+                                            model.setBeforeQuiz(null);
+                                            model.setAfterQuiz(null);
                                             model
                                                 .setQuizType(QuizType.learning);
                                             context.go(AppRouter.home);

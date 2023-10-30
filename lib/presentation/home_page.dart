@@ -6,7 +6,7 @@ import 'package:wordy/presentation/bloc/profile/profile_bloc.dart';
 
 import 'package:wordy/presentation/screens/profile_screen.dart';
 
-import 'package:wordy/presentation/screens/vocabulary_screen.dart';
+import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_screen.dart';
 import 'package:wordy/const/consts.dart';
 
 import '../Utility/locator/service_locator.dart';

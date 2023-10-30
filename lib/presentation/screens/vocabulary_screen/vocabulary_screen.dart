@@ -7,8 +7,16 @@ import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
+
 import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_list_entry.dart';
 import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_ready.dart';
+
+import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_list_entry.dart';
+import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_ready.dart';
+
+import 'package:wordy/presentation/screens/vocabulary_screen/list_entry.dart';
+import 'package:wordy/presentation/screens/vocabulary_screen/state/loaded.dart';
+
 import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/const/consts.dart';
 
@@ -62,7 +70,7 @@ class _VocabularyScreenState extends State<VocabularyScreen>
             child: BlocBuilder<VocabularyBloc, VocabularyState>(
               builder: (context, state) {
                 if (state is VocabularyLoaded) {
-                  return VocabularyReady(
+                  return VocabularyLoadedScreen(
                     textEditingController: _textEditingController,
                     items: state.vocabularyList,
                   );

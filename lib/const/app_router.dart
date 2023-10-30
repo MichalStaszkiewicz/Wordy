@@ -6,7 +6,7 @@ import 'package:wordy/presentation/home_page.dart';
 import 'package:wordy/presentation/screens/auth_screen.dart';
 import 'package:wordy/presentation/screens/quiz_finish_screen.dart';
 import 'package:wordy/presentation/screens/quiz_screen.dart';
-import 'package:wordy/presentation/screens/vocabulary_screen.dart';
+import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_screen.dart';
 import 'package:wordy/presentation/widgets/selected_vocabulary_topic.dart';
 
 import '../domain/models/active_course.dart';
