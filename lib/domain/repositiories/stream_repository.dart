@@ -7,7 +7,7 @@ import 'package:wordy/domain/models/user_achievement.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 
 import '../../Utility/locator/service_locator.dart';
-import '../../const/scoket_events.dart';
+import '../../const/socket_events.dart';
 import '../models/active_course.dart';
 import '../models/user_active_courses_progress.dart';
 
