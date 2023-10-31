@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
-import '../../utility/validator.dart';
-import '../bloc/register/register_bloc.dart';
-import 'login_button.dart';
+import 'package:wordy/Utility/locator/service_locator.dart';
+import 'package:wordy/const/consts.dart';
+import 'package:wordy/global/global_data_manager.dart';
+import '../../../../utility/validator.dart';
+import '../../../bloc/register/register_bloc.dart';
+import '../../../Widgets/login_button.dart';
 
 class RegisterForm extends StatefulWidget {
   RegisterForm({super.key, required this.onSwitchToLogin});
@@ -42,7 +45,8 @@ class _RegisterFormState extends State<RegisterForm> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          'Sign-Up',
+          ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['auth_form']
+              ['create_account'],
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         //full name
@@ -82,7 +86,8 @@ class _RegisterFormState extends State<RegisterForm> {
               decoration: InputDecoration(
                   errorText: _emailErrorText,
                   prefixIcon: const Icon(Icons.email),
-                  hintText: "Email"),
+                  hintText: ui_lang[locator<GlobalDataManager>()
+                      .interfaceLanguage]!['auth_form']['email']),
             )),
 
         //password
@@ -114,7 +119,8 @@ class _RegisterFormState extends State<RegisterForm> {
                   },
                   icon: const Icon(Icons.remove_red_eye)),
               prefixIcon: const Icon(Icons.password),
-              hintText: "Password",
+              hintText: ui_lang[locator<GlobalDataManager>()
+                  .interfaceLanguage]!['auth_form']['password'],
             ),
           ),
         ),
@@ -136,10 +142,11 @@ class _RegisterFormState extends State<RegisterForm> {
         ),
         GestureDetector(
           onTap: widget.onSwitchToLogin,
-          child: const Text(
+          child: Text(
             textAlign: TextAlign.center,
-            'Already registered ? Log-in',
-            style: TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
+            ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                'auth_form']['already_registered'],
+            style: const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
           ),
         )
       ],

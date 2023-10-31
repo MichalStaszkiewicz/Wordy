@@ -22,12 +22,16 @@ const Color ktitlecolor = Color.fromRGBO(51, 51, 51, 1.0);
 
 Map<String, Map<String, dynamic>> ui_lang = {
   "polish": {
-    'auth_form':{
-      'login':"Zaloguj",
-      'email':"Email",
-      'password':"Hasło",
-      'forgot_password':"Zapomniałeś hasła ?",
-      'first_time_user': "Nie masz konta ? Stwórz je "
+    'auth_form': {
+      'full_name':"Nazwa konta"
+      'login': "Zaloguj",
+      'email': "Email",
+      'password': "Hasło",
+      'forgot_password': "Zapomniałeś hasła ?",
+      'first_time_user': "Nie masz konta ? Stwórz je",
+      'create_account': "Stwórz konto",
+      'already_registered':"Masz już konto ? Zaloguj sie"
+
     },
     'in': 'w',
     'known_words': "Znane Słowa",

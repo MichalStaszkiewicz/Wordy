@@ -17,7 +17,7 @@ import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_ready.da
 
 import 'package:wordy/presentation/screens/vocabulary_screen/state/loaded.dart';
 
-import 'package:wordy/presentation/widgets/loading_data.dart';
+
 import 'package:wordy/const/consts.dart';
 
 import '../../../Utility/locator/service_locator.dart';

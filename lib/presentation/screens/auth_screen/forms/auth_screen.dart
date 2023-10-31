@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wordy/Utility/dialog_manager.dart';
+import 'package:wordy/Utility/locator/service_locator.dart';
+import 'package:wordy/Utility/socket_manager.dart';
+import 'package:wordy/const/app_router.dart';
+import 'package:wordy/const/enums.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
+import 'package:wordy/presentation/bloc/login/login_bloc.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/bloc/reset_password/reset_password_bloc.dart';
-import 'package:wordy/presentation/widgets/login_form.dart';
-import 'package:wordy/presentation/widgets/token_sended_form.dart';
+import 'package:wordy/presentation/screens/auth_screen/forms/login_form.dart';
+import 'package:wordy/presentation/screens/auth_screen/forms/register_form.dart';
+import 'package:wordy/presentation/screens/auth_screen/forms/reset_password_form.dart';
+import 'package:wordy/presentation/screens/auth_screen/forms/token_sended_form.dart';
+import 'package:wordy/presentation/screens/auth_screen/forms/update_password_form.dart';
 
-import '../../Utility/dialog_manager.dart';
-
-import '../../Utility/locator/service_locator.dart';
-import '../../Utility/socket_manager.dart';
-import '../../const/app_router.dart';
-import '../../const/enums.dart';
-
-import '../bloc/login/login_bloc.dart';
-import '../widgets/register_form.dart';
-import '../widgets/reset_password_form.dart';
-import '../widgets/update_password_form.dart';
 
 
 class AuthScreen extends StatefulWidget {

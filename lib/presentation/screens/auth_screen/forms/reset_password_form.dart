@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:wordy/presentation/widgets/login_button.dart';
 
-import '../../utility/validator.dart';
-import '../bloc/reset_password/reset_password_bloc.dart';
+import '../../../../utility/validator.dart';
+import '../../../bloc/reset_password/reset_password_bloc.dart';
 
 class ResetPasswordForm extends StatefulWidget {
   ResetPasswordForm({super.key, required this.onSwitchToLogin});
