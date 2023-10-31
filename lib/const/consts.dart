@@ -34,6 +34,7 @@ Map<String, Map<String, dynamic>> ui_lang = {
       'create_account': "Stwórz konto",
       'already_registered': "Masz już konto ? Zaloguj sie",
       'type_reset_password_token': "Podaj kod resetowania hasła",
+      'new_password': "Wpisz nowe hasło",
       'back_to_login': "Wróc do logowania"
     },
     'in': 'w',

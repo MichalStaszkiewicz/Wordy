@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
+import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/bloc/reset_password/reset_password_bloc.dart';
 import 'package:wordy/presentation/widgets/login_button.dart';
 import 'package:wordy/utility/validator.dart';
 
-
+import '../../../../Utility/locator/service_locator.dart';
+import '../../../../global/global_data_manager.dart';
 
 class UpdatePasswordForm extends StatefulWidget {
   UpdatePasswordForm({super.key, required this.onSwitchToLogin});
@@ -35,7 +37,8 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          'Type New Password',
+          ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['auth_form']
+              ['new_password'],
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         SizedBox(
@@ -54,10 +57,12 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
               decoration: InputDecoration(
                   errorText: _passwordErrorText,
                   prefixIcon: const Icon(Icons.security_rounded),
-                  hintText: "Password"),
+                  hintText: ui_lang[locator<GlobalDataManager>()
+                      .interfaceLanguage]!['auth_form']['password']),
             )),
         LoginButton(
-          label: 'Submit',
+          label: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+              'auth_form']['submit'],
           onPressed: () {
             _passwordErrorText =
                 Validator.passwordValidate(_passwordController.text);
@@ -69,10 +74,11 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
         ),
         GestureDetector(
           onTap: widget.onSwitchToLogin,
-          child: const Text(
+          child: Text(
             textAlign: TextAlign.center,
-            'Back to login',
-            style: TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
+            ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                'auth_form']['back_to_login'],
+            style: const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
           ),
         )
       ],
