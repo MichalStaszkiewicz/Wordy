@@ -71,7 +71,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       }
 
       if (questionsData.isData) {
-        print('QUIZ TYPE IS  ' + quizType.toString());
+       
         courseName = courseNameData.data!.course.name;
         questions = questionsData.data!;
 

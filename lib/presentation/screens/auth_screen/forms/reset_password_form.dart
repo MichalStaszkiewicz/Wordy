@@ -60,9 +60,9 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
         GestureDetector(
           onTap: widget.onSwitchToLogin,
           child: Text(
-            textAlign: TextAlign.center,
             ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
                 'auth_form']['back_to_login'],
+            textAlign: TextAlign.center,
             style: const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
           ),
         )
@@ -70,3 +70,5 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
     );
   }
 }
+
+

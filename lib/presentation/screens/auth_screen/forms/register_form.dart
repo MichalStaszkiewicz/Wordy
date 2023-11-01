@@ -143,9 +143,9 @@ class _RegisterFormState extends State<RegisterForm> {
         GestureDetector(
           onTap: widget.onSwitchToLogin,
           child: Text(
-            textAlign: TextAlign.center,
             ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
                 'auth_form']['already_registered'],
+            textAlign: TextAlign.center,
             style: const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
           ),
         )

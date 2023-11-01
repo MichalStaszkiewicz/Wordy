@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/const/app_router.dart';
+import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/global/notification_provider.dart';
 import 'package:wordy/utility/utility.dart';
 
@@ -42,6 +43,9 @@ class _AppState extends State<App> {
           primarySwatch: Colors.blue,
         ),
         builder: (context, router) {
+          final locale = Localizations.localeOf(context);
+          locator<GlobalDataManager>().languageFromCode(locale.languageCode);
+         
           return Stack(
             children: [
               router!,

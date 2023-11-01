@@ -101,16 +101,16 @@ class _LoginFormState extends State<LoginForm> {
                 child: GestureDetector(
                   onTap: widget.onSwitchToResetPassword,
                   child: Text(
-                    textAlign: TextAlign.right,
                     ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
                         'auth_form']['forgot_password'],
+                    textAlign: TextAlign.right,
                     style:
                         const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
                   ),
                 )),
             LoginButton(
                 label: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                    'auth_form']['Login'],
+                    'auth_form']['login'],
                 onPressed: () {
                   _emailErrorText =
                       Validator.emailValidate(_emailController.text);
@@ -123,9 +123,9 @@ class _LoginFormState extends State<LoginForm> {
             GestureDetector(
               onTap: widget.onSwitchToRegister,
               child: Text(
-                textAlign: TextAlign.center,
                 ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                    'auth_form']['first_time-user'],
+                    'auth_form']['first_time_user'],
+                textAlign: TextAlign.center,
                 style: const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
               ),
             )
