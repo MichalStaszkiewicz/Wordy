@@ -176,6 +176,7 @@ final Map<String, Map<String, dynamic>> ui_lang = {
         'creating_account_progress': "Creating your account please Wait",
         'loading_in_progress': "Loading in progress",
         'register_account_success': "You successfully registered an account",
+        'requried_field': "This field is required"
       },
       'full_name': "Full Name",
       'login': "Log In",
