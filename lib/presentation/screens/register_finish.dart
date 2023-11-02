@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 
-import 'package:wordy/presentation/widgets/confirm_button.dart';
+
 import 'package:wordy/const/consts.dart';
+import 'package:wordy/presentation/widgets/button/confirm_button.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../global/global_data_manager.dart';

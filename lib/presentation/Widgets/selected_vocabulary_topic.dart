@@ -8,15 +8,17 @@ import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
-import 'package:wordy/presentation/widgets/flip_cards.dart';
+import 'package:wordy/presentation/widgets/card/flip_cards.dart';
+import 'package:wordy/presentation/widgets/card/vocabulary_card/vocabulary_back_card.dart';
+import 'package:wordy/presentation/widgets/card/vocabulary_card/vocabulary_front_card.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
 
-import 'package:wordy/presentation/widgets/vocabulary_back_card.dart';
-import 'package:wordy/presentation/widgets/vocabulary_front_card.dart';
+
 
 import '../../data/network/exceptions/exception_helper.dart';
 import '../../data/network/exceptions/unexpected_error.dart';
 import '../../global/global_data_manager.dart';
+
 
 class SelectedVocabularyTopic extends StatefulWidget {
   SelectedVocabularyTopic({super.key, required this.topic});

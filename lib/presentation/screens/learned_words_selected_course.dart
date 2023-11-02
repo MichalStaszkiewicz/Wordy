@@ -2,13 +2,14 @@ import 'package:animation_list/animation_list.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/domain/models/progress_in_topic.dart';
+import 'package:wordy/presentation/widgets/button/exit_button.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../const/consts.dart';
 import '../../domain/models/active_course.dart';
 import '../../global/global_data_manager.dart';
-import '../widgets/exit_button.dart';
-import '../widgets/learned_words_statistic_card.dart';
+
+import '../widgets/card/learned_words_statistic_card.dart';
 
 class LearnedWordsSelectedCourse extends StatefulWidget {
   LearnedWordsSelectedCourse({super.key, required this.course});

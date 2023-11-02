@@ -1,9 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:wordy/Utility/locator/service_locator.dart';
+import 'package:wordy/const/consts.dart';
+import 'package:wordy/global/global_data_manager.dart';
 
-import '../../Utility/locator/service_locator.dart';
-import '../../const/consts.dart';
-import '../../global/global_data_manager.dart';
+
 
 class AchievementItemBack extends StatefulWidget {
   AchievementItemBack(

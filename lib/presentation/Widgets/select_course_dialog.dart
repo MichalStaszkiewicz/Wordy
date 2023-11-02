@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/domain/repositiories/stream_repository.dart';
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
-import 'package:wordy/presentation/widgets/quiz_next_button.dart';
+import 'package:wordy/presentation/widgets/button/quiz_next_button.dart';
 
 import '../../Utility/dialog_manager.dart';
 

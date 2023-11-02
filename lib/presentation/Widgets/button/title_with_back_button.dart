@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wordy/presentation/widgets/exit_button.dart';
+
+import 'exit_button.dart';
+
 
 class TitleWithBackButton extends StatelessWidget {
   TitleWithBackButton({super.key, required this.title});

@@ -4,9 +4,9 @@ import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/global/global_data_manager.dart';
+import 'package:wordy/presentation/widgets/button/login_button.dart';
 import '../../../../utility/validator.dart';
 import '../../../bloc/register/register_bloc.dart';
-import '../../../widgets/login_button.dart';
 
 class RegisterForm extends StatefulWidget {
   RegisterForm({super.key, required this.onSwitchToLogin});
