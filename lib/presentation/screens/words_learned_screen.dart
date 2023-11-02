@@ -7,8 +7,8 @@ import 'package:wordy/global/global_data_manager.dart';
 
 import '../../const/app_router.dart';
 import '../../domain/models/active_course.dart';
-import '../widgets/learned_words_statistic_card.dart';
-import '../widgets/title_with_back_button.dart';
+import '../widgets/card/learned_words_statistic_card.dart';
+import '../widgets/button/title_with_back_button.dart';
 
 class WordsLearnedScreen extends StatefulWidget {
   WordsLearnedScreen({super.key, required this.beginnerProgress});

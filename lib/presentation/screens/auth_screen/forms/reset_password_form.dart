@@ -4,7 +4,7 @@ import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/global/global_data_manager.dart';
-import 'package:wordy/presentation/widgets/login_button.dart';
+import 'package:wordy/presentation/widgets/button/login_button.dart';
 
 import '../../../../utility/validator.dart';
 import '../../../bloc/reset_password/reset_password_bloc.dart';

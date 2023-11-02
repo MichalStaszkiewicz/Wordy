@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
-import 'package:wordy/presentation/widgets/quiz_next_button.dart';
+import 'package:wordy/presentation/widgets/button/quiz_next_button.dart';
 
 import '../../Utility/locator/service_locator.dart';
 

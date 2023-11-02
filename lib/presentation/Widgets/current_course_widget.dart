@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
-import 'package:wordy/presentation/widgets/continue_button.dart';
+
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../domain/models/active_course.dart';
 import '../../global/global_data_manager.dart';
+import 'button/continue_button.dart';
 
 class CurrentCourseWidget extends StatelessWidget {
   CurrentCourseWidget({

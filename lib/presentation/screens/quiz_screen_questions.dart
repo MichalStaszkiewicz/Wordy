@@ -12,10 +12,11 @@ import 'package:wordy/global/notification_provider.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
-import 'package:wordy/presentation/widgets/exit_button.dart';
+import 'package:wordy/presentation/widgets/button/exit_button.dart';
+
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 import 'package:wordy/presentation/widgets/quiz_answear.dart';
-import 'package:wordy/presentation/widgets/quiz_next_button.dart';
+import 'package:wordy/presentation/widgets/button/quiz_next_button.dart';
 import 'package:wordy/utility/utility.dart';
 
 import '../../Utility/locator/service_locator.dart';
