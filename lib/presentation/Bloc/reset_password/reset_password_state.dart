@@ -22,8 +22,8 @@ class UserPasswordUpdated extends ResetPasswordState {
   const UserPasswordUpdated();
 }
 
-class UpdateUserPasswordState extends ResetPasswordState {
-  const UpdateUserPasswordState();
+class VerifiedToken extends ResetPasswordState {
+  const VerifiedToken();
 }
 
 class RecoverAccountMessageSended extends ResetPasswordState {

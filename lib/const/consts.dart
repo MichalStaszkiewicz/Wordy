@@ -25,7 +25,7 @@ final Map<String, Map<String, dynamic>> ui_lang = {
       'messages': {
         'verified_token': "Token został pomyślnie zweryfikowany",
         'sended_token':
-            "Wysłaliśmy Ci e-mail z tokenem. Sprawdź również swój spam",
+            "Wysłaliśmy e-mail z tokenem. Sprawdź również swój spam",
         'updated_password': "Hasło zostało pomyślnie zaktualizowane",
         'creating_account_progress': "Tworzenie konta, proszę czekać",
         'loading_in_progress': "Ładowanie w toku",
