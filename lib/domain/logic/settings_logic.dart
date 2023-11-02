@@ -23,7 +23,7 @@ class SettingsLogic {
     if (availableLanguages.isError) {
       return Either.error(availableLanguages.error!);
     }
-    var currentUserLanguage = await _repository.getUserInterfaceLanguage();
+    var currentUserLanguage =  _repository.getUserInterfaceLanguage();
     if (currentUserLanguage.isError) {
       return Either.error(currentUserLanguage.error);
     }

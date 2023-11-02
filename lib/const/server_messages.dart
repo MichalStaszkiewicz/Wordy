@@ -7,4 +7,6 @@ class ServerMessages {
 
   static const MESSAGE_POOR_CONNECTIVITY_BY_USER =
       'There was an error with your connection . please check your network';
+  
+
 }

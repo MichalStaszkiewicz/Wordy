@@ -12,7 +12,7 @@ class LocalStorage {
     setUserInterfaceLanguage('');
   }
 
-  Future<String?> getUserInterfaceLanguage() async {
+  String? getUserInterfaceLanguage() {
     final pref = sharedPreferences;
     final language = pref.getString(interfaceLanguage);
     return language;

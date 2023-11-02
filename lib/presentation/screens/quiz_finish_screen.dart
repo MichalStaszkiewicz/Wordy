@@ -50,7 +50,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
     _scaleAnimationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 600));
     _learnedWordsController = AnimationController(
-        vsync: this, duration: const Duration(microseconds: 1500));
+        vsync: this, duration: const Duration(milliseconds: 1500));
     _scoreController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 1500));
     _scoreLabelController = AnimationController(

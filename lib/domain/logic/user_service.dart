@@ -91,13 +91,8 @@ class UserService {
     }
   }
 
-  Future<Either<Exception, String>> getUserInterfaceLanguage() async {
-    var interfaceLanguage = await _repository.getUserInterfaceLanguage();
-    if (interfaceLanguage.isError) {
-      return Either.error(interfaceLanguage.error);
-    } else {
-      return Either.data(interfaceLanguage.data);
-    }
+  Either<Exception, String> getUserInterfaceLanguage() {
+    return _repository.getUserInterfaceLanguage();
   }
 
   Future<Either<Exception, ActiveCourse>> getUserCurrentCourseProgress() async {
@@ -115,7 +110,7 @@ class UserService {
 
   Future<Either<Exception, List<Course>>> getAvailableCourses() async {
     var token = await getTokenAccess();
-    var userInterfaceLanguage = await getUserInterfaceLanguage();
+    var userInterfaceLanguage = getUserInterfaceLanguage();
     if (token.isError) {
       return Either.error(token.error);
     }
@@ -129,8 +124,7 @@ class UserService {
       List<Course> availableCourses = [];
 
       for (Course course in availableCoursesData.data!) {
-        if (course.name.toLowerCase() !=
-            userInterfaceLanguage.data!.toLowerCase()) {
+        if (course.name.toLowerCase() != userInterfaceLanguage.data!.toLowerCase()) {
           availableCourses.add(course);
         }
       }
@@ -173,7 +167,7 @@ class UserService {
       return Either.error(token.error);
     }
 
-    var userInterfaceLanguage = await _repository.getUserInterfaceLanguage();
+    var userInterfaceLanguage = _repository.getUserInterfaceLanguage();
 
     if (userInterfaceLanguage.isError) {
       return Either.error(userInterfaceLanguage.error);
@@ -221,7 +215,6 @@ class UserService {
     var response =
         await _repository.loginUser(LoginUserRequest.fromJson(userAuthData));
     if (response.isData) {
-
       _repository.saveTokenAccess(response.data!.accessToken);
       _repository.saveTokenRefresh(response.data!.refreshToken);
     } else {
@@ -230,12 +223,11 @@ class UserService {
 
     await _repository.synchronizeUserInterfaceLanguage();
 
-    var userInterfaceLanguage = await _repository.getUserInterfaceLanguage();
+    var userInterfaceLanguage = _repository.getUserInterfaceLanguage();
     if (userInterfaceLanguage.isError) {
       return Either.error(userInterfaceLanguage.error);
     }
-    locator<GlobalDataManager>().interfaceLanguage =
-        userInterfaceLanguage.data!;
+    locator<GlobalDataManager>().interfaceLanguage = userInterfaceLanguage.data!;
 
     return Either.data(response.data!.accessToken);
   }

@@ -44,13 +44,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   void initialSetupStateUpdate() {
     on<InitialSetupStateUpdate>((event, emit) async {
       final userInterfaceLanguage =
-          await locator<UserService>().getUserInterfaceLanguage();
-      if (userInterfaceLanguage.isError) {
+           locator<UserService>().getUserInterfaceLanguage();
+      if (userInterfaceLanguage ==null) {
         emit(RegisterError(
             error: ExceptionHelper.getErrorMessage(UnexpectedError())));
       } else {
         if (event.updatedLanguage.toLowerCase() ==
-            userInterfaceLanguage.data!) {
+            userInterfaceLanguage!) {
           emit(InitialSetupState(
             languageToLearn: event.updatedLanguage,
             languageConflict: true,
