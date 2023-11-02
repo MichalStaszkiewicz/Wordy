@@ -5,8 +5,10 @@ import 'package:wordy/Utility/dialog_manager.dart';
 import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/Utility/socket_manager.dart';
 import 'package:wordy/const/app_router.dart';
+import 'package:wordy/const/consts.dart';
 import 'package:wordy/const/enums.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
+import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/bloc/login/login_bloc.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/bloc/reset_password/reset_password_bloc.dart';
@@ -15,8 +17,6 @@ import 'package:wordy/presentation/screens/auth_screen/forms/register_form.dart'
 import 'package:wordy/presentation/screens/auth_screen/forms/reset_password_form.dart';
 import 'package:wordy/presentation/screens/auth_screen/forms/token_sended_form.dart';
 import 'package:wordy/presentation/screens/auth_screen/forms/update_password_form.dart';
-
-
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -50,13 +50,17 @@ class _AuthScreenState extends State<AuthScreen> {
                 });
               } else if (state is UpdateUserPasswordState) {
                 DialogManager.showSuccessDialog(
-                    'Successfully verified your token', 'Success', context, () {
+                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                        'auth_form']['verified_token'],
+                    'Success',
+                    context, () {
                   currentForm = AuthFormType.typeNewPassword;
                   setState(() {});
                 });
               } else if (state is RecoverAccountMessageSended) {
                 DialogManager.showSuccessDialog(
-                    'We sended you email with token . Please check your also spam',
+                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                        'auth_form']['sended_token'],
                     'Success',
                     context, () {
                   currentForm = AuthFormType.resetTokenSended;
@@ -64,7 +68,10 @@ class _AuthScreenState extends State<AuthScreen> {
                 });
               } else if (state is UserPasswordUpdated) {
                 DialogManager.showSuccessDialog(
-                    'Successfully updated password', 'Success', context, () {
+                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                        'auth_form']['updated_password'],
+                    'Success',
+                    context, () {
                   currentForm = AuthFormType.login;
                   setState(() {});
                 });
@@ -77,8 +84,10 @@ class _AuthScreenState extends State<AuthScreen> {
                     Navigator.pop(context);
                   }
                   DialogManager.showLoadingDialogWithCancelButton(
-                      "Creating your account please Wait",
-                      'Loading in progress',
+                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                          'auth_form']['creating_account_progress'],
+                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                          'auth_form']['loading_in_progress'],
                       context, () {
                     locator.get<Repository>().cancelRequest();
                   });
@@ -87,7 +96,8 @@ class _AuthScreenState extends State<AuthScreen> {
                     Navigator.pop(context);
                   }
                   DialogManager.showSuccessDialog(
-                      'You successfully registered an account',
+                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                          'auth_form']['register_account_success'],
                       'Success',
                       context, () {
                     currentForm = AuthFormType.login;
@@ -107,7 +117,10 @@ class _AuthScreenState extends State<AuthScreen> {
               if (state is LoggedOut) {}
               if (state is Authenticating) {
                 DialogManager.showLoadingDialogWithCancelButton(
-                    "loading in progress", '', context, () {
+                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                        'auth_form']['loading_in_progress'],
+                    '',
+                    context, () {
                   locator<Repository>().cancelRequest().then((value) => context
                       .read<LoginBloc>()
                       .add(LogOut(errorMessage: 'Request Failed')));

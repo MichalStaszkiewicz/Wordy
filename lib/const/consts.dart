@@ -22,6 +22,15 @@ const Color ktitlecolor = Color.fromRGBO(51, 51, 51, 1.0);
 final Map<String, Map<String, dynamic>> ui_lang = {
   "polish": {
     'auth_form': {
+      'messages': {
+        'verified_token': "Token został pomyślnie zweryfikowany",
+        'sended_token':
+            "Wysłaliśmy Ci e-mail z tokenem. Sprawdź również swój spam",
+        'updated_password': "Hasło zostało pomyślnie zaktualizowane",
+        'creating_account_progress': "Tworzenie konta, proszę czekać",
+        'loading_in_progress': "Ładowanie w toku",
+        'register_account_success': "Twoje konto zostało pomyślnie utworzone",
+      },
       'full_name': "Nazwa konta",
       'login': "Zaloguj",
       'register': "Zarejestruj",
@@ -159,6 +168,15 @@ final Map<String, Map<String, dynamic>> ui_lang = {
   },
   "english": {
     'auth_form': {
+      'messages': {
+        'verified_token': "Successfully verified your token",
+        'sended_token':
+            "We sended you email with token . Please check your also spam",
+        'updated_password': "Successfully updated password",
+        'creating_account_progress': "Creating your account please Wait",
+        'loading_in_progress': "Loading in progress",
+        'register_account_success': "You successfully registered an account",
+      },
       'full_name': "Full Name",
       'login': "Log In",
       'register': "Register",
@@ -291,6 +309,15 @@ final Map<String, Map<String, dynamic>> ui_lang = {
   },
   "spanish": {
     'auth_form': {
+      'messages': {
+        'verified_token': "Token verificado con éxito",
+        'sended_token':
+            "Le enviamos un correo electrónico con el token. Compruebe también su spam",
+        'updated_password': "Contraseña actualizada con éxito",
+        'creating_account_progress': "Creando su cuenta, por favor espere",
+        'loading_in_progress': "Cargando en curso",
+        'register_account_success': "Se ha registrado con éxito una cuenta",
+      },
       'full_name': "Nombre completo",
       'login': "Iniciar sesión",
       'register': "Registrarse",
@@ -403,6 +430,16 @@ final Map<String, Map<String, dynamic>> ui_lang = {
   },
   "french": {
     'auth_form': {
+      'messages': {
+        'verified_token': "Token vérifié avec succès",
+        'sended_token':
+            "Nous vous avons envoyé un e-mail avec le token. Veuillez également vérifier votre spam",
+        'updated_password': "Mot de passe mis à jour avec succès",
+        'creating_account_progress':
+            "Création de votre compte, veuillez patienter",
+        'loading_in_progress': "Chargement en cours",
+        'register_account_success': "Vous avez créé un compte avec succès",
+      },
       'full_name': "Nom complet",
       'login': "Se connecter",
       'register': "S'enregistrer",
