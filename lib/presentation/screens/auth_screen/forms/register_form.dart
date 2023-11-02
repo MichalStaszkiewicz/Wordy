@@ -57,7 +57,8 @@ class _RegisterFormState extends State<RegisterForm> {
               controller: _fullNameController,
               validator: (value) {
                 if (value == null || value == "") {
-                  _fullNameErrorText = "This field is required";
+                  _fullNameErrorText = ui_lang[locator<GlobalDataManager>()
+                      .interfaceLanguage]!['auth_form']['requried_field'];
                 }
 
                 return _fullNameErrorText;
@@ -66,7 +67,8 @@ class _RegisterFormState extends State<RegisterForm> {
               decoration: InputDecoration(
                   errorText: _fullNameErrorText,
                   prefixIcon: const Icon(Icons.person),
-                  hintText: "Full Name"),
+                  hintText: ui_lang[locator<GlobalDataManager>()
+                      .interfaceLanguage]!['full_name']),
             )),
         //email
         SizedBox(
@@ -79,7 +81,8 @@ class _RegisterFormState extends State<RegisterForm> {
                 if (value != null) {
                   Validator.emailValidate(value);
                 } else {
-                  return "This field is required";
+                  return ui_lang[locator<GlobalDataManager>()
+                      .interfaceLanguage]!['auth_form']['requried_field'];
                 }
                 return null;
               },
@@ -102,7 +105,8 @@ class _RegisterFormState extends State<RegisterForm> {
               if (value != null) {
                 Validator.passwordValidate(value);
               } else {
-                return "This field is required";
+                return ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                    'auth_form']['requried_field'];
               }
               return null;
             },

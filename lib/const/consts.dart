@@ -30,6 +30,7 @@ final Map<String, Map<String, dynamic>> ui_lang = {
         'creating_account_progress': "Tworzenie konta, proszę czekać",
         'loading_in_progress': "Ładowanie w toku",
         'register_account_success': "Twoje konto zostało pomyślnie utworzone",
+        'requried_field': "Wymagane Pole"
       },
       'full_name': "Nazwa konta",
       'login': "Zaloguj",
@@ -176,6 +177,7 @@ final Map<String, Map<String, dynamic>> ui_lang = {
         'creating_account_progress': "Creating your account please Wait",
         'loading_in_progress': "Loading in progress",
         'register_account_success': "You successfully registered an account",
+        'requried_field': "This field is required"
       },
       'full_name': "Full Name",
       'login': "Log In",
@@ -317,6 +319,7 @@ final Map<String, Map<String, dynamic>> ui_lang = {
         'creating_account_progress': "Creando su cuenta, por favor espere",
         'loading_in_progress': "Cargando en curso",
         'register_account_success': "Se ha registrado con éxito una cuenta",
+        'requried_field': "Este campo es obligatorio"
       },
       'full_name': "Nombre completo",
       'login': "Iniciar sesión",
@@ -439,6 +442,7 @@ final Map<String, Map<String, dynamic>> ui_lang = {
             "Création de votre compte, veuillez patienter",
         'loading_in_progress': "Chargement en cours",
         'register_account_success': "Vous avez créé un compte avec succès",
+        'requried_field': "Ce champ est requis"
       },
       'full_name': "Nom complet",
       'login': "Se connecter",
