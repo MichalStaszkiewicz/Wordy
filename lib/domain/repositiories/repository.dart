@@ -265,7 +265,8 @@ class Repository {
 
 Either<Exception,String> getUserInterfaceLanguage() {
    var response = _localSource.getUserInterfaceLanguage();
-    if(response !=null){
+
+    if(response !=null && response != '' ){
       return Either.data(response);
     }
     return Either.error(Exception(ErrorMessages.ERROR_INTERFACE_LANGUAGE_NOT_SET)); 

@@ -6,7 +6,7 @@ import 'package:wordy/Utility/dialog_manager.dart';
 import 'package:wordy/domain/models/active_course.dart';
 import 'package:wordy/domain/repositiories/stream_repository.dart';
 import 'package:wordy/presentation/Bloc/courses_update/courses_update_bloc.dart';
-import 'package:wordy/presentation/Widgets/loading_data.dart';
+import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/presentation/screens/selected_course_screen/selected_course_ready.dart';
 
 import '../../../global/course_progress_tracker.dart';

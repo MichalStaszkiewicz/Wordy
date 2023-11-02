@@ -6,7 +6,7 @@ import 'package:wordy/const/consts.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import '../../../../utility/validator.dart';
 import '../../../bloc/register/register_bloc.dart';
-import '../../../Widgets/login_button.dart';
+import '../../../widgets/login_button.dart';
 
 class RegisterForm extends StatefulWidget {
   RegisterForm({super.key, required this.onSwitchToLogin});
@@ -126,7 +126,8 @@ class _RegisterFormState extends State<RegisterForm> {
         ),
 
         LoginButton(
-          label: 'Register',
+          label: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+              'auth_form']['register'],
           onPressed: () {
             context.read<RegisterBloc>().add((RegisterUser(
                 fullName: _fullNameController.text,

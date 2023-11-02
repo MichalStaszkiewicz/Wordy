@@ -24,6 +24,7 @@ final Map<String, Map<String, dynamic>> ui_lang = {
     'auth_form': {
       'full_name': "Nazwa konta",
       'login': "Zaloguj",
+      'register': "Zarejestruj",
       'email': "Email",
       'password': "Hasło",
       'submit': "Potwierdź",
@@ -160,6 +161,7 @@ final Map<String, Map<String, dynamic>> ui_lang = {
     'auth_form': {
       'full_name': "Full Name",
       'login': "Log In",
+      'register': "Register",
       'email': "Email",
       'password': "Password",
       'submit': "Submit",
@@ -291,6 +293,7 @@ final Map<String, Map<String, dynamic>> ui_lang = {
     'auth_form': {
       'full_name': "Nombre completo",
       'login': "Iniciar sesión",
+      'register': "Registrarse",
       'email': "Correo electrónico",
       'password': "Contraseña",
       'submit': "Enviar",
@@ -402,6 +405,7 @@ final Map<String, Map<String, dynamic>> ui_lang = {
     'auth_form': {
       'full_name': "Nom complet",
       'login': "Se connecter",
+      'register': "S'enregistrer",
       'email': "E-mail",
       'password': "Mot de passe",
       'submit': "Soumettre",

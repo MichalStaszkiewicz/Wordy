@@ -6,7 +6,7 @@ import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
-import 'package:wordy/presentation/Widgets/loading_data.dart';
+import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_ready.dart';
 
 

@@ -41,7 +41,7 @@ class _AppState extends State<App> {
         debugShowCheckedModeBanner: false,
         title: 'Wordy',
         theme: ThemeData(
-          textTheme: GoogleFonts.robotoSlabTextTheme(),
+          textTheme: GoogleFonts.lexendDecaTextTheme(),
           primarySwatch: Colors.blue,
         ),
         builder: (context, router) {
