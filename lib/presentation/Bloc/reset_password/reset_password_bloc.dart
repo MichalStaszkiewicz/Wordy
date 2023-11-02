@@ -53,7 +53,7 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
           emit(ResetPasswordError(
               error: ExceptionHelper.getErrorMessage(validation.error!)));
         } else {
-          emit(const UpdateUserPasswordState());
+          emit(const VerifiedToken());
         }
       } on Exception catch (e) {
         emit(ResetPasswordError(error: ExceptionHelper.getErrorMessage(e)));

@@ -12,6 +12,7 @@ import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/bloc/login/login_bloc.dart';
 import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import 'package:wordy/presentation/bloc/reset_password/reset_password_bloc.dart';
+
 import 'package:wordy/presentation/screens/auth_screen/forms/login_form.dart';
 import 'package:wordy/presentation/screens/auth_screen/forms/register_form.dart';
 import 'package:wordy/presentation/screens/auth_screen/forms/reset_password_form.dart';
@@ -48,7 +49,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 DialogManager.showErrorDialog(state.error, context, () {
                   context.read<ResetPasswordBloc>().add(InitialResetPassword());
                 });
-              } else if (state is UpdateUserPasswordState) {
+              } else if (state is VerifiedToken) {
                 DialogManager.showSuccessDialog(
                     ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
                         'auth_form']['verified_token'],
