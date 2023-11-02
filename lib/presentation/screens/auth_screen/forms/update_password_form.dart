@@ -48,7 +48,8 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
                 if (value != null) {
                   Validator.passwordValidate(value);
                 } else {
-                  return "This field is required";
+                  return ui_lang[locator<GlobalDataManager>()
+                      .interfaceLanguage]!['auth_form']['requried_field'];
                 }
                 return null;
               },
