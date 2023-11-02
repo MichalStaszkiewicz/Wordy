@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:wordy/const/error_messages.dart';
 import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/word.dart';
@@ -262,14 +263,13 @@ class Repository {
     }
   }
 
-  Future<Either<Exception, String>> getUserInterfaceLanguage() async {
-    var response = await _localSource.getUserInterfaceLanguage();
+Either<Exception,String> getUserInterfaceLanguage() {
+   var response = _localSource.getUserInterfaceLanguage();
 
-    if (response != null) {
+    if(response !=null && response != '' ){
       return Either.data(response);
-    } else {
-      return Either.error(Exception('User didnt set interface language'));
     }
+    return Either.error(Exception(ErrorMessages.ERROR_INTERFACE_LANGUAGE_NOT_SET)); 
   }
 
   Future<Either<Exception, String>> synchronizeUserInterfaceLanguage() async {

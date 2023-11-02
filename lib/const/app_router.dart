@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wordy/domain/models/topic.dart';
 
 import 'package:wordy/presentation/home_page.dart';
-import 'package:wordy/presentation/screens/auth_screen.dart';
+import 'package:wordy/presentation/screens/auth_screen/forms/auth_screen.dart';
 import 'package:wordy/presentation/screens/quiz_finish_screen.dart';
 import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_screen.dart';

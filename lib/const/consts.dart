@@ -19,9 +19,24 @@ final ThemeData darkTheme = ThemeData(
 const Color kdisabledcolor = Color.fromARGB(156, 212, 209, 209);
 const Color kactivestatuscolor = Color.fromARGB(255, 67, 165, 70);
 const Color ktitlecolor = Color.fromRGBO(51, 51, 51, 1.0);
-
-Map<String, Map<String, dynamic>> ui_lang = {
+final Map<String, Map<String, dynamic>> ui_lang = {
   "polish": {
+    'auth_form': {
+      'full_name': "Nazwa konta",
+      'login': "Zaloguj",
+      'register': "Zarejestruj",
+      'email': "Email",
+      'password': "Hasło",
+      'submit': "Potwierdź",
+      'reset_password': "Resetuj hasło",
+      'forgot_password': "Zapomniałeś hasła ?",
+      'first_time_user': "Nie masz konta ? Stwórz je",
+      'create_account': "Stwórz konto",
+      'already_registered': "Masz już konto ? Zaloguj sie",
+      'type_reset_password_token': "Podaj kod resetowania hasła",
+      'new_password': "Wpisz nowe hasło",
+      'back_to_login': "Wróc do logowania"
+    },
     'in': 'w',
     'known_words': "Znane Słowa",
     'choose_correct_translation': "Wybierz poprawne tłumaczenie",
@@ -143,6 +158,22 @@ Map<String, Map<String, dynamic>> ui_lang = {
         "Osiągnięcia nie przychodzą łatwo, ale to właśnie sprawia, że są warte poświęcenia. Nie poddawaj się i wkrótce będziesz miał pełną półkę trofeów i dokonań!",
   },
   "english": {
+    'auth_form': {
+      'full_name': "Full Name",
+      'login': "Log In",
+      'register': "Register",
+      'email': "Email",
+      'password': "Password",
+      'submit': "Submit",
+      'reset_password': "Reset Password",
+      'forgot_password': "Forgot Password ?",
+      'first_time_user': "Don't have an account? Create one",
+      'create_account': "Create Account",
+      'already_registered': "Already have an account? Log in",
+      'type_reset_password_token': "Enter reset password code",
+      'new_password': "Enter new password",
+      'back_to_login': "Back to login"
+    },
     'in': 'in',
     'known_words': "Known Words",
     'choose_correct_translation': "Choose the Correct Translation",
@@ -259,6 +290,23 @@ Map<String, Map<String, dynamic>> ui_lang = {
         "Achievements don't come easy, but that's what makes them worth it. Don't give up, and soon you'll have a full shelf of trophies and accomplishments!"
   },
   "spanish": {
+    'auth_form': {
+      'full_name': "Nombre completo",
+      'login': "Iniciar sesión",
+      'register': "Registrarse",
+      'email': "Correo electrónico",
+      'password': "Contraseña",
+      'submit': "Enviar",
+      'reset_password': "Restablecer contraseña",
+      'forgot_password': "¿Olvidaste la contraseña?",
+      'first_time_user': "¿No tienes una cuenta? Crea una",
+      'create_account': "Crear cuenta",
+      'already_registered': "¿Ya tienes una cuenta? Iniciar sesión",
+      'type_reset_password_token':
+          "Ingrese el código de restablecimiento de contraseña",
+      'new_password': "Ingrese una nueva contraseña",
+      'back_to_login': "Volver al inicio de sesión"
+    },
     'in': 'en',
     'known_words': "Palabras Conocidas",
     'choose_correct_translation': "Elije la Traducción Correcta",
@@ -354,6 +402,23 @@ Map<String, Map<String, dynamic>> ui_lang = {
         "Los logros no son fáciles de conseguir, pero eso es lo que los hace valer la pena. ¡No te rindas y pronto tendrás una estantería llena de trofeos y logros!",
   },
   "french": {
+    'auth_form': {
+      'full_name': "Nom complet",
+      'login': "Se connecter",
+      'register': "S'enregistrer",
+      'email': "E-mail",
+      'password': "Mot de passe",
+      'submit': "Soumettre",
+      'reset_password': "Réinitialiser le mot de passe",
+      'forgot_password': "Mot de passe oublié ?",
+      'first_time_user': "Vous n'avez pas de compte ? Créez-en un",
+      'create_account': "Créer un compte",
+      'already_registered': "Déjà un compte ? Connectez-vous",
+      'type_reset_password_token':
+          "Entrez le code de réinitialisation du mot de passe",
+      'new_password': "Entrez un nouveau mot de passe",
+      'back_to_login': "Retour à la connexion"
+    },
     'in': 'en',
     'known_words': "Mots Connus",
     'choose_correct_translation': "Choisissez la Bonne Traduction",

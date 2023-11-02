@@ -137,12 +137,11 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
       final availableCourses =
           await locator<UserService>().getAvailableCourses();
       final userInterfaceLanguage =
-          await locator<UserService>().getUserInterfaceLanguage();
+          locator<UserService>().getUserInterfaceLanguage();
       final languages = await locator<Repository>().getAvailableLanguages();
       if (languages.isError) {
         emit(CourseUpdateError(
-            error:
-                ExceptionHelper.getErrorMessage(userInterfaceLanguage.error!)));
+            error: ExceptionHelper.getErrorMessage(Exception())));
       }
       if (userInterfaceLanguage.isError) {
         emit(CourseUpdateError(
@@ -155,7 +154,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
             error: ExceptionHelper.getErrorMessage(availableCourses.error!)));
       } else {
         final UserActiveCoursesProgress coursesData = event.courses;
-       
+
         emit(CoursesLoaded(
             courses: coursesData,
             availableCourses: availableCourses.data!,
@@ -176,15 +175,17 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
   void loadAvailableCourses() {
     on<LoadAvailableCourses>((event, emit) async {
       final userInterfaceLanguage =
-          await locator<UserService>().getUserInterfaceLanguage();
+          locator<UserService>().getUserInterfaceLanguage();
       if (userInterfaceLanguage.isError) {
         emit(CourseUpdateError(
             error:
                 ExceptionHelper.getErrorMessage(userInterfaceLanguage.error!)));
+        return;
+      } else {
+        emit(AvailableCoursesLoaded(
+            selectedCourse: '',
+            userInterfaceLanguage: userInterfaceLanguage.data!));
       }
-      emit(AvailableCoursesLoaded(
-          selectedCourse: '',
-          userInterfaceLanguage: userInterfaceLanguage.data!));
     });
   }
 

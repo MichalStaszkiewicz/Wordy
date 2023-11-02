@@ -36,7 +36,7 @@ class Validator {
   static Future<String> interfaceLanguageChange(String choosenLanguage) async {
     final token = await locator.get<Repository>().getTokenAccess();
     var userInterfaceLanguage =
-        await locator.get<Repository>().getUserInterfaceLanguage();
+        locator.get<Repository>().getUserInterfaceLanguage();
     if (token.isData && userInterfaceLanguage.isData) {
       try {
         if (choosenLanguage.toLowerCase() ==

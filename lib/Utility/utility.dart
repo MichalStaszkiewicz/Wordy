@@ -20,8 +20,8 @@ class Utility {
   static Future<bool?> selectedCourseTheSameAsNativeLanguage(
       String courseName, BuildContext context) async {
     var userInterfaceLanguage =
-        await locator<UserService>().getUserInterfaceLanguage();
-    if (userInterfaceLanguage.isError && context.mounted) {
+        locator<UserService>().getUserInterfaceLanguage();
+    if (userInterfaceLanguage.isData && context.mounted) {
       DialogManager.showErrorDialog(
           ExceptionHelper.getErrorMessage(UnexpectedError()), context, () {
         context.go(AppRouter.authScreen);
