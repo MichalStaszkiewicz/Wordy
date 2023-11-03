@@ -104,6 +104,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           ['register_account_success'],
                       'Success',
                       context, () {
+                        
                     currentForm = AuthFormType.login;
                     setState(() {});
                   });

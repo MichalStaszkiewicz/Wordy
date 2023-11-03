@@ -12,10 +12,13 @@ import 'api_errors/api_error_message.dart';
 
 class ExceptionHelper implements Exception {
   static CustomError getErrorMessage(Exception exception) {
+    var title = translate[locator<GlobalDataManager>().interfaceLanguage]![
+        'server_messages']['error'];
     if (exception is DioError) {
       if (exception.type == DioErrorType.response) {
         var error = ApiErrorMessage.fromJson(
             exception.response!.data as Map<String, dynamic>);
+
         var message = error.message;
         if (error.message == ErrorCodes.ERROR_USER_WITH_EMAIL_EXISTS) {
           message = translate[locator<GlobalDataManager>().interfaceLanguage]![
@@ -29,24 +32,23 @@ class ExceptionHelper implements Exception {
           message = translate[locator<GlobalDataManager>().interfaceLanguage]![
               'server_messages']['invalid_password'];
         }
-        return CustomError(
-            title: error.error, message: message, critical: false);
+        return CustomError(title: title, message: message, critical: false);
       } else if (exception.type == DioErrorType.cancel) {
         String message = translate[locator<GlobalDataManager>()
             .interfaceLanguage]!['server_messages']['request_canceled']!;
-        return CustomError(title: 'Error', message: message, critical: false);
+        return CustomError(title: title, message: message, critical: false);
       } else if (exception.type == DioErrorType.response) {
         return CustomError(
-            title: 'Error', message: exception.message, critical: false);
+            title: title, message: exception.message, critical: false);
       } else if (exception.type == DioErrorType.connectTimeout) {
         String message = translate[locator<GlobalDataManager>()
             .interfaceLanguage]!['server_messages']['timeout']!;
-        return CustomError(title: "Error", message: message, critical: false);
+        return CustomError(title: title, message: message, critical: false);
       }
       if (exception.error is SocketException) {
         String message = translate[locator<GlobalDataManager>()
             .interfaceLanguage]!['server_messages']['lost_connection']!;
-        return CustomError(title: 'Error', message: message, critical: true);
+        return CustomError(title: title, message: message, critical: true);
       }
     }
 
@@ -63,8 +65,7 @@ class ExceptionHelper implements Exception {
           title: exception.title, message: exception.message, critical: false);
     } else {
       return CustomError(
-          title: translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'server_messages']['error'],
+          title: title,
           message: translate[locator<GlobalDataManager>().interfaceLanguage]![
               'server_messages']['unknown_error'],
           critical: true);
