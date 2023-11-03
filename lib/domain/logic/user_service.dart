@@ -24,8 +24,8 @@ import '../models/user_course.dart';
 class UserService {
   UserService(this._repository);
   final Repository _repository;
-  Future<void> cleanUpLocalStorage() async {
-    await _repository.cleanUpLocalStorate();
+  void cleanUpLocalStorage() {
+    _repository.cleanUpLocalStorate();
   }
 
   Future<Either<Exception, ProfileData>> getProfileData() async {
@@ -244,6 +244,7 @@ class UserService {
 
   Future<void> logOut() async {
     var token = await getTokenAccess();
+
     locator<SocketManager>().logOut(token.data!);
   }
 
