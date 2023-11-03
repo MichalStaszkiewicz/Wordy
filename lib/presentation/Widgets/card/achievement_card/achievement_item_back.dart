@@ -44,9 +44,9 @@ class _AchievementItemBackState extends State<AchievementItemBack> {
                   child: Center(
                     child: Text(
                       widget.achieved
-                          ? ui_lang[locator<GlobalDataManager>()
+                          ? translate[locator<GlobalDataManager>()
                               .interfaceLanguage]!['achieved']
-                          : ui_lang[locator<GlobalDataManager>()
+                          : translate[locator<GlobalDataManager>()
                               .interfaceLanguage]!['locked'],
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: widget.achieved ? Colors.green : Colors.red),

@@ -91,7 +91,7 @@ class _ConfirmButtonState extends State<ConfirmButton>
           ),
           child: Center(
             child: Text(
-              ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+              translate[locator<GlobalDataManager>().interfaceLanguage]![
                   'confirm'],
               style: Theme.of(context)
                   .textTheme

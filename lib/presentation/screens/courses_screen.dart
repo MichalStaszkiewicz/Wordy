@@ -85,7 +85,7 @@ class _CoursesScreenState extends State<CoursesScreen>
                                             onPressed: () {
                                               DialogManager.showQuestionDialog(
                                                   "",
-                                                  ui_lang[locator<
+                                                  translate[locator<
                                                               GlobalDataManager>()
                                                           .interfaceLanguage]![
                                                       'log_out'],
@@ -128,7 +128,7 @@ class _CoursesScreenState extends State<CoursesScreen>
                                                             .image),
                                                   ),
                                                   Text(
-                                                      ui_lang[locator<
+                                                      translate[locator<
                                                                   GlobalDataManager>()
                                                               .interfaceLanguage]![
                                                           state
@@ -176,7 +176,7 @@ class _CoursesScreenState extends State<CoursesScreen>
                                   width: double.infinity,
                                   margin: const EdgeInsets.only(left: 25),
                                   child: Text(
-                                    ui_lang[locator<GlobalDataManager>()
+                                    translate[locator<GlobalDataManager>()
                                         .interfaceLanguage]!['your_courses'],
                                     style:
                                         Theme.of(context).textTheme.titleLarge,
@@ -321,9 +321,9 @@ class _CoursesScreenState extends State<CoursesScreen>
                   isListExpanded = false;
                 } else {
                   DialogManager.showQuestionDialog(
-                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                      translate[locator<GlobalDataManager>().interfaceLanguage]![
                           'asking_for_change_interface_language'],
-                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                      translate[locator<GlobalDataManager>().interfaceLanguage]![
                           'are_you_sure'],
                       context, () {
                     context.read<CoursesUpdateBloc>().add(
@@ -357,7 +357,7 @@ class _CoursesScreenState extends State<CoursesScreen>
                       flex: 3,
                       child: Container(
                         child: Text(
-                          ui_lang[locator<GlobalDataManager>()
+                          translate[locator<GlobalDataManager>()
                                   .interfaceLanguage]![
                               state.interfaceLanguages[index].name
                                   .toLowerCase()],

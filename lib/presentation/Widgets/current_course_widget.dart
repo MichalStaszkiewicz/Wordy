@@ -79,7 +79,7 @@ class CurrentCourseWidget extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             width: double.infinity,
                             child: Text(
-                              ui_lang[locator<GlobalDataManager>()
+                              translate[locator<GlobalDataManager>()
                                       .interfaceLanguage]![
                                   currentCourse.userCourse.course.name],
                               textAlign: TextAlign.left,

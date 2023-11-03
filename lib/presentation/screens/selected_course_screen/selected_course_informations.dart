@@ -29,7 +29,7 @@ class _SelectedCourseInformationsState
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                  translate[locator<GlobalDataManager>().interfaceLanguage]![
                       widget.course.userCourse.course.name],
                   style: Theme.of(context)
                       .textTheme
@@ -57,7 +57,7 @@ class _SelectedCourseInformationsState
               optionalWidget: SizedBox(
                 height: 20,
                 child: Text(
-                  ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                  translate[locator<GlobalDataManager>().interfaceLanguage]![
                       'completed'],
                   style: Theme.of(context)
                       .textTheme

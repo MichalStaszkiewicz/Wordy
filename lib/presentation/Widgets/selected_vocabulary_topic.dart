@@ -69,7 +69,7 @@ class _SelectedVocabularyTopicState extends State<SelectedVocabularyTopic> {
                                 child: Container(
                                   child: Center(
                                     child: AutoSizeText(
-                                      ui_lang[locator<GlobalDataManager>()
+                                      translate[locator<GlobalDataManager>()
                                                   .interfaceLanguage]![
                                               'topic_label']
                                           [widget.topic.toLowerCase()],

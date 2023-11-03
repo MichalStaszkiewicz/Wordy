@@ -159,9 +159,9 @@ class DialogManager {
     VoidCallback onCancelPress,
   ) {
     AwesomeDialog(
-            btnCancelText: ui_lang[
+            btnCancelText: translate[
                 locator<GlobalDataManager>().interfaceLanguage]!['btn_cancel'],
-            btnOkText: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+            btnOkText: translate[locator<GlobalDataManager>().interfaceLanguage]![
                 'btn_ok'],
             context: context,
             title: title,

@@ -13,8 +13,6 @@ import '../Utility/locator/service_locator.dart';
 import '../global/global_data_manager.dart';
 import 'screens/courses_screen.dart';
 
-GlobalKey<_HomePageState> homePageKey = GlobalKey<_HomePageState>();
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -41,16 +39,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return [
       GButton(
           onPressed: () {},
-          text: ui_lang[language]!['home_screen_app_bar'],
+          text: translate[language]!['home_screen_app_bar'],
           icon: Icons.home),
       GButton(
         onPressed: () {},
-        text: ui_lang[language]!['vocabulary_screen_app_bar'],
+        text: translate[language]!['vocabulary_screen_app_bar'],
         icon: Icons.book,
       ),
       GButton(
         onPressed: () {},
-        text: ui_lang[language]!['profile_screen_app_bar'],
+        text: translate[language]!['profile_screen_app_bar'],
         icon: Icons.person,
       ),
     ];
@@ -71,8 +69,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
           child: SafeArea(
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               child: GNav(
                   tabActiveBorder: Border.all(color: Colors.indigo[400]!),
                   gap: 4,

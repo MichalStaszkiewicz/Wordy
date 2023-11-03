@@ -65,7 +65,7 @@ class _ModeListOptionState extends State<ModeListOption>
               alignment: Alignment.centerLeft,
               width: double.infinity,
               child: AutoSizeText(
-                ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                translate[locator<GlobalDataManager>().interfaceLanguage]![
                     widget.quizType.name],
                 maxLines: 1,
                 textAlign: TextAlign.start,

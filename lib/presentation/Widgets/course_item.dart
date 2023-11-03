@@ -54,7 +54,7 @@ class _CourseItemState extends State<CourseItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                    translate[locator<GlobalDataManager>().interfaceLanguage]![
                         widget.courseName],
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Colors.white,
@@ -63,7 +63,7 @@ class _CourseItemState extends State<CourseItem> {
                   ),
                   widget.topic != null
                       ? Text(
-                          ui_lang[locator<GlobalDataManager>()
+                          translate[locator<GlobalDataManager>()
                                   .interfaceLanguage]!['topic_label']
                               [widget.topic!.name],
                           style: Theme.of(context)

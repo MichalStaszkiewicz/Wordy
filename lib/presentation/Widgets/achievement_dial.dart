@@ -29,14 +29,14 @@ class _AchievementDialState extends State<AchievementDial> {
               child: const Icon(Icons.star),
               foregroundColor: Colors.white,
               backgroundColor: Colors.indigoAccent,
-              label: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+              label: translate[locator<GlobalDataManager>().interfaceLanguage]![
                   'achievements_only_achieved'],
               onPressed: () {
                 context.read<AchievementsFilterBloc>().add(FilterAchievements(
                       achievements: widget.achievements
                           .where((e) => e.achieved == true)
                           .toList(),
-                      filter: ui_lang[locator<GlobalDataManager>()
+                      filter: translate[locator<GlobalDataManager>()
                           .interfaceLanguage]!['achievements_only_achieved'],
                     ));
               },
@@ -45,14 +45,14 @@ class _AchievementDialState extends State<AchievementDial> {
               child: const Icon(Icons.lock),
               foregroundColor: Colors.white,
               backgroundColor: Colors.indigoAccent,
-              label: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+              label: translate[locator<GlobalDataManager>().interfaceLanguage]![
                   'achievements_locked'],
               onPressed: () {
                 context.read<AchievementsFilterBloc>().add(FilterAchievements(
                       achievements: widget.achievements
                           .where((e) => e.achieved == false)
                           .toList(),
-                      filter: ui_lang[locator<GlobalDataManager>()
+                      filter: translate[locator<GlobalDataManager>()
                           .interfaceLanguage]!['achievements_locked'],
                     ));
               },
@@ -61,12 +61,12 @@ class _AchievementDialState extends State<AchievementDial> {
               child: const Icon(Icons.folder),
               foregroundColor: Colors.white,
               backgroundColor: Colors.indigoAccent,
-              label: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+              label: translate[locator<GlobalDataManager>().interfaceLanguage]![
                   'achievements_everything'],
               onPressed: () {
                 context.read<AchievementsFilterBloc>().add(FilterAchievements(
                       achievements: widget.achievements,
-                      filter: ui_lang[locator<GlobalDataManager>()
+                      filter: translate[locator<GlobalDataManager>()
                           .interfaceLanguage]!['achievements_everything'],
                     ));
               },
