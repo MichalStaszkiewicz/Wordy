@@ -34,6 +34,7 @@ class StreamRepository {
     });
 
     _socket.on(SocketEvents.CURRENT_COURSE, (data) {
+      print('GOT COURSES !' + data['activeCourse'].toString());
       currentCourseStreamController
           .add(ActiveCourse.fromJson(data['activeCourse']));
     });

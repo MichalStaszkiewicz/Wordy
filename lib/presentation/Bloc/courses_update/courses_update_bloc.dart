@@ -61,6 +61,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
 
   @override
   Future<void> close() {
+   
     _activeCoursesSub.cancel();
     _currentCourseSub.cancel();
 
@@ -154,6 +155,7 @@ class CoursesUpdateBloc extends Bloc<CoursesUpdateEvent, CoursesUpdateState> {
             error: ExceptionHelper.getErrorMessage(availableCourses.error!)));
       } else {
         final UserActiveCoursesProgress coursesData = event.courses;
+       
 
         emit(CoursesLoaded(
             courses: coursesData,

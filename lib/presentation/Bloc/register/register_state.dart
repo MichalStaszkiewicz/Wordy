@@ -24,7 +24,9 @@ class InitialSetupLoading extends RegisterState {
 }
 
 class RegisterSuccess extends RegisterState {
-  const RegisterSuccess();
+  RegisterSuccess({required this.email, required this.password});
+  String email;
+  String password;
 }
 
 class RegisterLoadingState extends RegisterState {

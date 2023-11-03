@@ -104,8 +104,9 @@ class _AuthScreenState extends State<AuthScreen> {
                           ['register_account_success'],
                       'Success',
                       context, () {
-                        
                     currentForm = AuthFormType.login;
+                    context.read<LoginBloc>().add(
+                        Login(email: state.email, password: state.password));
                     setState(() {});
                   });
                 } else if (state is RegisterError) {
