@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/bloc/reset_password/reset_password_bloc.dart';
-import 'package:wordy/presentation/widgets/login_button.dart';
+import 'package:wordy/presentation/widgets/button/login_button.dart';
+
 import 'package:wordy/utility/validator.dart';
 
 import '../../../../Utility/locator/service_locator.dart';
@@ -37,7 +38,7 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['auth_form']
+          translate[locator<GlobalDataManager>().interfaceLanguage]!['auth_form']
               ['new_password'],
           style: Theme.of(context).textTheme.headlineSmall,
         ),
@@ -48,7 +49,7 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
                 if (value != null) {
                   Validator.passwordValidate(value);
                 } else {
-                  return ui_lang[locator<GlobalDataManager>()
+                  return translate[locator<GlobalDataManager>()
                       .interfaceLanguage]!['auth_form']['requried_field'];
                 }
                 return null;
@@ -58,11 +59,11 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
               decoration: InputDecoration(
                   errorText: _passwordErrorText,
                   prefixIcon: const Icon(Icons.security_rounded),
-                  hintText: ui_lang[locator<GlobalDataManager>()
+                  hintText: translate[locator<GlobalDataManager>()
                       .interfaceLanguage]!['auth_form']['password']),
             )),
         LoginButton(
-          label: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+          label: translate[locator<GlobalDataManager>().interfaceLanguage]![
               'auth_form']['submit'],
           onPressed: () {
             _passwordErrorText =
@@ -77,7 +78,7 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
           onTap: widget.onSwitchToLogin,
           child: Text(
             textAlign: TextAlign.center,
-            ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+            translate[locator<GlobalDataManager>().interfaceLanguage]![
                 'auth_form']['back_to_login'],
             style: const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
           ),

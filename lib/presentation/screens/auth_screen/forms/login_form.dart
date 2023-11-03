@@ -4,7 +4,8 @@ import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/global/global_data_manager.dart';
-import 'package:wordy/presentation/widgets/login_button.dart';
+import 'package:wordy/presentation/widgets/button/login_button.dart';
+
 
 import '../../../../utility/validator.dart';
 import '../../../bloc/login/login_bloc.dart';
@@ -55,7 +56,7 @@ class _LoginFormState extends State<LoginForm> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+              translate[locator<GlobalDataManager>().interfaceLanguage]![
                   'auth_form']['login'],
               style: Theme.of(context).textTheme.headlineSmall,
             ),
@@ -69,7 +70,7 @@ class _LoginFormState extends State<LoginForm> {
                   decoration: InputDecoration(
                       errorText: _emailErrorText,
                       prefixIcon: const Icon(Icons.email),
-                      hintText: ui_lang[locator<GlobalDataManager>()
+                      hintText: translate[locator<GlobalDataManager>()
                           .interfaceLanguage]!['auth_form']['email']),
                 )),
 
@@ -93,7 +94,7 @@ class _LoginFormState extends State<LoginForm> {
                           },
                           icon: const Icon(Icons.remove_red_eye)),
                       prefixIcon: const Icon(Icons.password),
-                      hintText: ui_lang[locator<GlobalDataManager>()
+                      hintText: translate[locator<GlobalDataManager>()
                           .interfaceLanguage]!['auth_form']['password']),
                 )),
             Container(
@@ -102,7 +103,7 @@ class _LoginFormState extends State<LoginForm> {
                 child: GestureDetector(
                   onTap: widget.onSwitchToResetPassword,
                   child: Text(
-                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                    translate[locator<GlobalDataManager>().interfaceLanguage]![
                         'auth_form']['forgot_password'],
                     textAlign: TextAlign.right,
                     style:
@@ -110,7 +111,7 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 )),
             LoginButton(
-                label: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                label: translate[locator<GlobalDataManager>().interfaceLanguage]![
                     'auth_form']['login'],
                 onPressed: () {
                   _emailErrorText =
@@ -124,7 +125,7 @@ class _LoginFormState extends State<LoginForm> {
             GestureDetector(
               onTap: widget.onSwitchToRegister,
               child: Text(
-                ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                translate[locator<GlobalDataManager>().interfaceLanguage]![
                     'auth_form']['first_time_user'],
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),

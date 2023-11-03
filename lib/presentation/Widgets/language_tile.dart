@@ -22,7 +22,7 @@ class LanguageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
         leading: Image.network(Urls.kImageUrl + imagePath),
-        title: Text(ui_lang[locator<GlobalDataManager>().interfaceLanguage]![language.toLowerCase()]),
+        title: Text(translate[locator<GlobalDataManager>().interfaceLanguage]![language.toLowerCase()]),
         trailing: selectedLangauge.toLowerCase() ==
                 language.toLowerCase()
             ? const Icon(

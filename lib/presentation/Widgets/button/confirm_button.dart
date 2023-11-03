@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wordy/utility/locator/service_locator.dart';
 
-import '../../Utility/locator/service_locator.dart';
-import '../../const/consts.dart';
-import '../../global/global_data_manager.dart';
+import '../../../const/consts.dart';
+import '../../../global/global_data_manager.dart';
+
+
 
 class ConfirmButton extends StatefulWidget {
   const ConfirmButton({super.key, required this.selected});
@@ -89,7 +91,7 @@ class _ConfirmButtonState extends State<ConfirmButton>
           ),
           child: Center(
             child: Text(
-              ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+              translate[locator<GlobalDataManager>().interfaceLanguage]![
                   'confirm'],
               style: Theme.of(context)
                   .textTheme

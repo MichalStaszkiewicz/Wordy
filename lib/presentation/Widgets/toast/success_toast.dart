@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../Utility/locator/service_locator.dart';
-import '../../const/consts.dart';
-import '../../global/global_data_manager.dart';
+import '../../../Utility/locator/service_locator.dart';
+import '../../../const/consts.dart';
+import '../../../global/global_data_manager.dart';
 
 class SuccessToast extends StatefulWidget {
   SuccessToast({super.key, required this.deviceDimensions});
@@ -89,7 +89,7 @@ class _SuccessToastState extends State<SuccessToast>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            ui_lang[locator<GlobalDataManager>()
+                            translate[locator<GlobalDataManager>()
                                 .interfaceLanguage]!['correct_answer'],
                             style: Theme.of(context)
                                 .textTheme

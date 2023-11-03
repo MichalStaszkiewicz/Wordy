@@ -1,9 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:wordy/Utility/locator/service_locator.dart';
+import 'package:wordy/const/consts.dart';
+import 'package:wordy/global/global_data_manager.dart';
 
-import '../../Utility/locator/service_locator.dart';
-import '../../const/consts.dart';
-import '../../global/global_data_manager.dart';
+
 
 class AchievementItemBack extends StatefulWidget {
   AchievementItemBack(
@@ -43,9 +44,9 @@ class _AchievementItemBackState extends State<AchievementItemBack> {
                   child: Center(
                     child: Text(
                       widget.achieved
-                          ? ui_lang[locator<GlobalDataManager>()
+                          ? translate[locator<GlobalDataManager>()
                               .interfaceLanguage]!['achieved']
-                          : ui_lang[locator<GlobalDataManager>()
+                          : translate[locator<GlobalDataManager>()
                               .interfaceLanguage]!['locked'],
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: widget.achieved ? Colors.green : Colors.red),

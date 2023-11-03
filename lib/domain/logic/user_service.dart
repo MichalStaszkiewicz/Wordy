@@ -1,3 +1,4 @@
+import 'package:wordy/const/consts.dart';
 import 'package:wordy/data/network/exceptions/session_verification_error.dart';
 import 'package:wordy/data/network/request/login_user_request.dart';
 import 'package:wordy/data/network/request/register_user_request.dart';
@@ -124,7 +125,8 @@ class UserService {
       List<Course> availableCourses = [];
 
       for (Course course in availableCoursesData.data!) {
-        if (course.name.toLowerCase() != userInterfaceLanguage.data!.toLowerCase()) {
+        if (course.name.toLowerCase() !=
+            userInterfaceLanguage.data!.toLowerCase()) {
           availableCourses.add(course);
         }
       }
@@ -140,9 +142,10 @@ class UserService {
     var userId = await getTokenAccess();
     if (userId.isError) {
       return Either.error(SessionVerificationError(
-          title: 'Session Error',
-          message:
-              "We couldn't verify your session. You will be logged out now. Sorry for the difficulties."));
+          title: translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'server_messages']['session']['title'],
+          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'server_messages']['session']['message']));
     }
     var activeCourses =
         await _repository.getUserActiveCoursesProgress(userId.data!);
@@ -203,13 +206,19 @@ class UserService {
 
     final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (userAuthData['email'] == null || userAuthData['password'] == null) {
-      return Either.error(
-          ValidationError(message: 'Fill all fields', 'Validation Error'));
+      return Either.error(ValidationError(
+          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['fill_fields'],
+          translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['error']));
     }
 
     if (!emailRegExp.hasMatch(userAuthData['email'])) {
-      return Either.error(
-          ValidationError(message: 'Bad email format', 'Validation Error'));
+      return Either.error(ValidationError(
+          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['bad_email_format'],
+          translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['error']));
     }
 
     var response =
@@ -227,7 +236,8 @@ class UserService {
     if (userInterfaceLanguage.isError) {
       return Either.error(userInterfaceLanguage.error);
     }
-    locator<GlobalDataManager>().interfaceLanguage = userInterfaceLanguage.data!;
+    locator<GlobalDataManager>().interfaceLanguage =
+        userInterfaceLanguage.data!;
 
     return Either.data(response.data!.accessToken);
   }
@@ -241,13 +251,19 @@ class UserService {
     final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
     if (email == '') {
-      return Either.error(
-          ValidationError('Validation Error', message: 'Fill all fields'));
+      return Either.error(ValidationError(
+          translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['error'],
+          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['fill_fields']));
     }
 
     if (!emailRegExp.hasMatch(email)) {
-      return Either.error(
-          ValidationError('Validation Error', message: 'Bad email format'));
+      return Either.error(ValidationError(
+          translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['error'],
+          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['bad_email_format']));
     }
     var responseMessage = await _repository.recoverAccount(email);
     if (responseMessage.isData) {
@@ -262,17 +278,26 @@ class UserService {
     final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
     if (userAuthData['email'] == null || userAuthData['password'] == null) {
-      return Either.error(
-          ValidationError('Validation Error', message: 'Fill all fields'));
+      return Either.error(ValidationError(
+          translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['error'],
+          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['fill_fields']));
     }
 
     if (!emailRegExp.hasMatch(userAuthData['email'])) {
-      return Either.error(
-          ValidationError('Validation Error', message: 'Bad email format'));
+      return Either.error(ValidationError(
+          translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['error'],
+          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['bad_email_format']));
     }
     if ((userAuthData['password'] as String).length < 5) {
-      return Either.error(ValidationError('Validation Error',
-          message: 'Password is too short'));
+      return Either.error(ValidationError(
+          translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['error'],
+          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['short_password']));
     }
 
     var responseMessage = await _repository

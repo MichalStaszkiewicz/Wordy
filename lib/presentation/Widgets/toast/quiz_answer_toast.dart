@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-import '../../Utility/locator/service_locator.dart';
-import '../../const/consts.dart';
-import '../../global/global_data_manager.dart';
+import '../../../Utility/locator/service_locator.dart';
+import '../../../const/consts.dart';
+import '../../../global/global_data_manager.dart';
 
 class QuizAnswerToast extends StatefulWidget {
   QuizAnswerToast(
@@ -34,15 +34,15 @@ class _QuizAnswerToastState extends State<QuizAnswerToast>
   @override
   void initState() {
     if (widget.correct) {
-      title = ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+      title = translate[locator<GlobalDataManager>().interfaceLanguage]![
           'correct_answer'];
       icon = Icons.check;
       iconColor = Colors.green;
       iconBgColor = Colors.green.shade200;
     } else {
-      title = ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+      title = translate[locator<GlobalDataManager>().interfaceLanguage]![
           'incorrect_answer'];
-      message = ui_lang[locator<GlobalDataManager>().interfaceLanguage]
+      message = translate[locator<GlobalDataManager>().interfaceLanguage]
               ?['correct_answer'] +
           " : " +
           widget.correctAnswer;

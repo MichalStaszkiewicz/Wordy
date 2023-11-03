@@ -4,10 +4,10 @@ import 'package:wordy/domain/logic/settings_logic.dart';
 
 import '../../../Utility/locator/service_locator.dart';
 
-
 part 'settings_event.dart';
 part 'settings_state.dart';
-
+//TODO: Implement Dark Mode
+/*
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc() : super(const SettingsInitial()) {
     loadSettings();
@@ -19,7 +19,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<UpdateUserTheme>((event, emit) {
       final settingsLogic = locator<SettingsLogic>();
       final state = this.state as SettingsLoaded;
-      settingsLogic.updateUserTheme(event.themeMode);
+     
       emit(SettingsLoaded(
           themeMode: event.themeMode,
           interfaceLanguage: state.interfaceLanguage));
@@ -31,7 +31,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final settingsLogic = locator<SettingsLogic>();
       final state = this.state as SettingsLoaded;
 
-      settingsLogic.updateUserInterfaceLanguage(event.interfaceLanguage);
+      
 
       emit(SettingsLoaded(
           themeMode: state.themeMode,
@@ -47,4 +47,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           themeMode: await settingsLogic.getUserTheme()));
     });
   }
+  
 }
+*/

@@ -25,7 +25,7 @@ class VocabularyLoadedScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Text(
-              ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+              translate[locator<GlobalDataManager>().interfaceLanguage]![
                   'vocabulary'],
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     fontSize: 20,
@@ -46,7 +46,7 @@ class VocabularyLoadedScreen extends StatelessWidget {
                 },
                 controller: _textEditingController,
                 decoration: InputDecoration(
-                  hintText: ui_lang[locator<GlobalDataManager>()
+                  hintText: translate[locator<GlobalDataManager>()
                       .interfaceLanguage]!['vocabulary_screen_search_hint'],
                   hintStyle: Theme.of(context).textTheme.titleSmall,
                   border: OutlineInputBorder(

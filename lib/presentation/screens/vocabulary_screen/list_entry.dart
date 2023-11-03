@@ -21,7 +21,7 @@ class VocabularyListEntry extends StatelessWidget {
         onTap: () {
           context.pushNamed(AppRouter.vocabularyTopicSelectedScreen,
               queryParameters: {
-                'topic': ui_lang['english']!['topic_label']
+                'topic': translate['english']!['topic_label']
                     [vocabulary.topic.toLowerCase()]
               });
         },
@@ -54,7 +54,7 @@ class VocabularyListEntry extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                  translate[locator<GlobalDataManager>().interfaceLanguage]![
                       'topic_label'][vocabulary.topic.toLowerCase()],
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(),
                 ),

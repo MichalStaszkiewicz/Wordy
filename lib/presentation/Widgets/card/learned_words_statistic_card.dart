@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 
-import '../../const/urls.dart';
+import '../../../const/urls.dart';
 
 class LearnedWordsStatisticCard extends StatefulWidget {
   LearnedWordsStatisticCard(

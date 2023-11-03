@@ -1,11 +1,12 @@
 import 'package:achievement_view/achievement_view.dart';
 import 'package:flutter/material.dart';
-import 'package:wordy/presentation/Widgets/quiz_answer_toast.dart';
+
 
 import 'package:wordy/presentation/widgets/quiz_answear.dart';
+import 'package:wordy/presentation/widgets/toast/quiz_answer_toast.dart';
 
 import '../domain/models/achievement.dart';
-import '../presentation/widgets/success_toast.dart';
+import '../presentation/widgets/toast/success_toast.dart';
 
 class ToastManager {
   static void achievementNotification(

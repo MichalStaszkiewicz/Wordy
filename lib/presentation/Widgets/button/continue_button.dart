@@ -1,11 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wordy/const/app_router.dart';
+import 'package:wordy/utility/locator/service_locator.dart';
 
-import '../../Utility/locator/service_locator.dart';
-import '../../const/app_router.dart';
-import '../../const/consts.dart';
-import '../../global/global_data_manager.dart';
+import '../../../const/consts.dart';
+import '../../../global/global_data_manager.dart';
+
 
 class ContinueButton extends StatefulWidget {
   const ContinueButton();
@@ -47,7 +48,7 @@ class _ContinueButtonState extends State<ContinueButton>
               Container(
                 alignment: Alignment.center,
                 child: AutoSizeText(
-                  ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                  translate[locator<GlobalDataManager>().interfaceLanguage]![
                       'continue'],
                   maxLines: 1,
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(

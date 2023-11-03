@@ -8,7 +8,8 @@ import 'package:wordy/presentation/bloc/register/register_bloc.dart';
 import '../../Utility/locator/service_locator.dart';
 import '../../domain/models/course.dart';
 import '../../global/global_data_manager.dart';
-import 'confirm_button.dart';
+
+import 'button/confirm_button.dart';
 import 'language_tile.dart';
 
 class RegisterCourseList extends StatefulWidget {
@@ -39,7 +40,7 @@ class _RegisterCourseListState extends State<RegisterCourseList> {
                     child: ListView.builder(
                         itemCount: widget.languages.length,
                         itemBuilder: (context, index) => LanguageTile(
-                              language: ui_lang['english']![
+                              language: translate['english']![
                                   widget.languages[index].name.toLowerCase()],
                               imagePath: widget.languages[index].image,
                               onSelect: () {

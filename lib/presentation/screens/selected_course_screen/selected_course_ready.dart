@@ -138,7 +138,7 @@ class _SelectedCourseReadyState extends State<SelectedCourseReady>
                                           ),
                                         ),
                                         Text(
-                                          ui_lang[locator<GlobalDataManager>()
+                                          translate[locator<GlobalDataManager>()
                                               .interfaceLanguage]!['course'],
                                           style: Theme.of(context)
                                               .textTheme

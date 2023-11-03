@@ -31,7 +31,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
           return StatisticsItem(
             image: 'assets/fire.png',
             label:
-                ui_lang[language]!['profile_screen_days_in_a_row'].toString(),
+                translate[language]!['profile_screen_days_in_a_row'].toString(),
             statisticsCount: state.hotStreak,
           );
         },
@@ -48,7 +48,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             child: StatisticsItem(
               image: 'assets/open-book.png',
               label:
-                  ui_lang[language]!['profile_screen_learned_words'].toString(),
+                  translate[language]!['profile_screen_learned_words'].toString(),
               statisticsCount: state.learnedWords,
             ),
           );
@@ -60,7 +60,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
           return StatisticsItem(
             image: 'assets/medal.png',
             label:
-                ui_lang[language]!['profile_screen_finished_topics'].toString(),
+                translate[language]!['profile_screen_finished_topics'].toString(),
             statisticsCount: state.finishedCourses,
           );
         },
@@ -77,7 +77,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             child: StatisticsItem(
               image: 'assets/award.png',
               label:
-                  ui_lang[language]!['profile_screen_achievements'].toString(),
+                  translate[language]!['profile_screen_achievements'].toString(),
               statisticsCount:
                   state.achievements.where((e) => e.achieved == true).length,
             ),
@@ -98,7 +98,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             return Column(
               children: [
                 Text(
-                  ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                  translate[locator<GlobalDataManager>().interfaceLanguage]![
                       'profile_screen_app_bar'],
                   style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                         fontSize: 20,
@@ -181,7 +181,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                 ),
                 Text(
                   textAlign: TextAlign.left,
-                  ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                  translate[locator<GlobalDataManager>().interfaceLanguage]![
                           'profile_screen_statistics_header']
                       .toString(),
                   style: Theme.of(context).textTheme.headlineSmall,

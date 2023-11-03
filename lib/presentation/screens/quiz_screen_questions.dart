@@ -12,10 +12,11 @@ import 'package:wordy/global/notification_provider.dart';
 import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
-import 'package:wordy/presentation/widgets/exit_button.dart';
+import 'package:wordy/presentation/widgets/button/exit_button.dart';
+
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 import 'package:wordy/presentation/widgets/quiz_answear.dart';
-import 'package:wordy/presentation/widgets/quiz_next_button.dart';
+import 'package:wordy/presentation/widgets/button/quiz_next_button.dart';
 import 'package:wordy/utility/utility.dart';
 
 import '../../Utility/locator/service_locator.dart';
@@ -36,12 +37,12 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
     with TickerProviderStateMixin {
   String _buttonLabelCheck(bool checkedAnswer, int currentIndex, int maxIndex) {
     if (checkedAnswer) {
-      return ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+      return translate[locator<GlobalDataManager>().interfaceLanguage]![
           'continue'];
     } else if (checkedAnswer && currentIndex + 1 == maxIndex) {
-      return ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['finish'];
+      return translate[locator<GlobalDataManager>().interfaceLanguage]!['finish'];
     } else {
-      return ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['check'];
+      return translate[locator<GlobalDataManager>().interfaceLanguage]!['check'];
     }
   }
 
@@ -63,7 +64,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                       height: 30,
                       child: Center(
                         child: Text(
-                          ui_lang[locator<GlobalDataManager>()
+                          translate[locator<GlobalDataManager>()
                               .interfaceLanguage]!['topic_label'][widget.topic],
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
@@ -78,9 +79,9 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                           child: GestureDetector(
                             onTap: () {
                               DialogManager.showQuestionDialog(
-                                  ui_lang[locator<GlobalDataManager>()
+                                  translate[locator<GlobalDataManager>()
                                       .interfaceLanguage]!['quiting_quiz'],
-                                  ui_lang[locator<GlobalDataManager>()
+                                  translate[locator<GlobalDataManager>()
                                       .interfaceLanguage]!['are_you_sure'],
                                   context, () {
                                 notification.clearChoosenAnswerNotification();
@@ -131,13 +132,13 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                           1)
                                       .toDouble()),
                         ),
-                        SizedBox(
-                          width: 50,
+                        Container(
+                          width: 60,
                           child: Text(
                             ' ${context.read<QuizBloc>().currentQuestionIndex + 1} / ${context.read<QuizBloc>().questions.length.toString()}',
                             style: Theme.of(context)
                                 .textTheme
-                                .titleMedium!
+                                .labelLarge!
                                 .copyWith(
                                     color: const Color.fromARGB(
                                         255, 93, 104, 129)),
@@ -145,7 +146,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                         )
                       ],
                     ),
-                    Text(ui_lang[locator<GlobalDataManager>()
+                    Text(translate[locator<GlobalDataManager>()
                         .interfaceLanguage]!['choose_correct_translation'])
                   ],
                 ),
@@ -184,9 +185,9 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                   children: [
                                     _buildDivider(),
                                     Text(
-                                      ui_lang[locator<GlobalDataManager>()
+                                      translate[locator<GlobalDataManager>()
                                               .interfaceLanguage]!['in'] +
-                                          ' ${ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['${context.read<QuizBloc>().courseName}_quiz']}',
+                                          ' ${translate[locator<GlobalDataManager>().interfaceLanguage]!['${context.read<QuizBloc>().courseName}_quiz']}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelLarge!

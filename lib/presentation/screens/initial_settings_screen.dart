@@ -48,23 +48,8 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
             }
           },
           child: Scaffold(
-            body: Container(
-              child: Column(
-                children: [
-                  Expanded(
-                      flex: 1,
-                      child: Container(
-                          child: Center(
-                              child: Text(
-                        ui_lang[locator<GlobalDataManager>()
-                            .interfaceLanguage]!['choose_your_course'],
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      )))),
-                  _buildSettingUpProfileForm(
-                    _registerationStatus,
-                  ),
-                ],
-              ),
+            body: _buildSettingUpProfileForm(
+              _registerationStatus,
             ),
           )),
     );

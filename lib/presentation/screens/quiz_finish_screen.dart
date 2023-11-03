@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
-import 'package:wordy/presentation/widgets/quiz_next_button.dart';
+import 'package:wordy/presentation/widgets/button/quiz_next_button.dart';
 
 import '../../Utility/locator/service_locator.dart';
 
@@ -48,15 +47,15 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
   @override
   void initState() {
     _scaleAnimationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 600));
+        vsync: this, duration: const Duration(milliseconds: 400));
     _learnedWordsController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1500));
+        vsync: this, duration: const Duration(milliseconds: 400));
     _scoreController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1500));
+        vsync: this, duration: const Duration(milliseconds: 400));
     _scoreLabelController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 700));
+        vsync: this, duration: const Duration(milliseconds: 800));
     _learnedWordsLabelController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 700));
+        vsync: this, duration: const Duration(milliseconds: 800));
     _buttonOpacityController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 400));
     _scaleAnimation =
@@ -89,15 +88,16 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
           ..addListener(() {
             setState(() {});
           });
-    _scaleAnimationController
-        .forward()
-        .then((value) => _learnedWordsController.forward().then((value) {
-              _learnedWordsLabelController.forward();
-              _scoreController.forward().then((value) {
-                _scoreLabelController.forward();
-                _buttonOpacityController.forward();
-              });
-            }));
+
+    _scaleAnimationController.forward().then((value) {
+      _learnedWordsLabelController.forward();
+      _learnedWordsController.forward().then((value) {
+        _scoreController.forward();
+        _scoreLabelController.forward();
+        _buttonOpacityController.forward();
+      });
+    });
+
     super.initState();
   }
 
@@ -130,8 +130,9 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                       height: 60,
                     ),
                     Text(
-                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                          'topic_label'][widget.topic.name.toLowerCase()],
+                      translate[locator<GlobalDataManager>()
+                              .interfaceLanguage]!['topic_label']
+                          [widget.topic.name.toLowerCase()],
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(
@@ -157,7 +158,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                                 opacity: _learnedWordsAnimation.value,
                                 child: _buildStatisticWidget(
                                     context,
-                                    ui_lang[locator<GlobalDataManager>()
+                                    translate[locator<GlobalDataManager>()
                                             .interfaceLanguage]![
                                         'new_learned_words'],
                                     "${_learnedWordsLabelAnimation.value.toInt()}"),
@@ -166,7 +167,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                                 opacity: _scoreAnimation.value,
                                 child: _buildStatisticWidget(
                                     context,
-                                    ui_lang[locator<GlobalDataManager>()
+                                    translate[locator<GlobalDataManager>()
                                                 .interfaceLanguage]![
                                             'quiz_finish_your_score'] +
                                         '',
@@ -196,25 +197,27 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                         opacity: _buttonOpacityAnimation.value,
                         child: CustomAnimatedButton(
                           onTap: () {
-                            if (!widget.topicCompleted) {
-                              context.go(AppRouter.quizScreen, extra: {
-                                'topic': widget.topic,
-                              });
-                            } else {
-                              DialogManager.showSuccessDialog(
-                                  ui_lang[locator<GlobalDataManager>()
-                                      .interfaceLanguage]!['completed_topic'],
-                                  ui_lang[locator<GlobalDataManager>()
-                                      .interfaceLanguage]!['congratulations'],
-                                  context, () {
-                                context.go(
-                                  AppRouter.selectedCourse,
-                                );
-                              });
+                            if (_buttonOpacityController.isCompleted) {
+                              if (!widget.topicCompleted) {
+                                context.go(AppRouter.quizScreen, extra: {
+                                  'topic': widget.topic,
+                                });
+                              } else {
+                                DialogManager.showSuccessDialog(
+                                    translate[locator<GlobalDataManager>()
+                                        .interfaceLanguage]!['completed_topic'],
+                                    translate[locator<GlobalDataManager>()
+                                        .interfaceLanguage]!['congratulations'],
+                                    context, () {
+                                  context.go(
+                                    AppRouter.selectedCourse,
+                                  );
+                                });
+                              }
                             }
                           },
                           filled: true,
-                          label: ui_lang[locator<GlobalDataManager>()
+                          label: translate[locator<GlobalDataManager>()
                                   .interfaceLanguage]!['quiz_finish_repeat']
                               .toString(),
                           height: 50,
@@ -229,12 +232,14 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                         opacity: _buttonOpacityAnimation.value,
                         child: CustomAnimatedButton(
                           onTap: () {
-                            context.go(
-                              AppRouter.selectedCourse,
-                            );
+                            if (_buttonOpacityController.isCompleted) {
+                              context.go(
+                                AppRouter.selectedCourse,
+                              );
+                            }
                           },
                           filled: true,
-                          label: ui_lang[locator<GlobalDataManager>()
+                          label: translate[locator<GlobalDataManager>()
                                   .interfaceLanguage]!['quiz_finish_home']
                               .toString(),
                           height: 50,
@@ -292,7 +297,8 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Expanded(child: Container(child: const Icon(Icons.school))),
+                      Expanded(
+                          child: Container(child: const Icon(Icons.school))),
                       Expanded(
                         child: Container(
                           child: Text(

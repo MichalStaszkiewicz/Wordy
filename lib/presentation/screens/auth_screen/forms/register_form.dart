@@ -4,9 +4,9 @@ import 'package:flutter_dropdown_alert/alert_controller.dart';
 import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/global/global_data_manager.dart';
+import 'package:wordy/presentation/widgets/button/login_button.dart';
 import '../../../../utility/validator.dart';
 import '../../../bloc/register/register_bloc.dart';
-import '../../../widgets/login_button.dart';
 
 class RegisterForm extends StatefulWidget {
   RegisterForm({super.key, required this.onSwitchToLogin});
@@ -45,7 +45,7 @@ class _RegisterFormState extends State<RegisterForm> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['auth_form']
+          translate[locator<GlobalDataManager>().interfaceLanguage]!['auth_form']
               ['create_account'],
           style: Theme.of(context).textTheme.headlineSmall,
         ),
@@ -57,7 +57,7 @@ class _RegisterFormState extends State<RegisterForm> {
               controller: _fullNameController,
               validator: (value) {
                 if (value == null || value == "") {
-                  _fullNameErrorText = ui_lang[locator<GlobalDataManager>()
+                  _fullNameErrorText = translate[locator<GlobalDataManager>()
                       .interfaceLanguage]!['auth_form']['requried_field'];
                 }
 
@@ -67,8 +67,8 @@ class _RegisterFormState extends State<RegisterForm> {
               decoration: InputDecoration(
                   errorText: _fullNameErrorText,
                   prefixIcon: const Icon(Icons.person),
-                  hintText: ui_lang[locator<GlobalDataManager>()
-                      .interfaceLanguage]!['full_name']),
+                  hintText: translate[locator<GlobalDataManager>()
+                      .interfaceLanguage]!['auth_form']['full_name']),
             )),
         //email
         SizedBox(
@@ -81,7 +81,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 if (value != null) {
                   Validator.emailValidate(value);
                 } else {
-                  return ui_lang[locator<GlobalDataManager>()
+                  return translate[locator<GlobalDataManager>()
                       .interfaceLanguage]!['auth_form']['requried_field'];
                 }
                 return null;
@@ -89,7 +89,7 @@ class _RegisterFormState extends State<RegisterForm> {
               decoration: InputDecoration(
                   errorText: _emailErrorText,
                   prefixIcon: const Icon(Icons.email),
-                  hintText: ui_lang[locator<GlobalDataManager>()
+                  hintText: translate[locator<GlobalDataManager>()
                       .interfaceLanguage]!['auth_form']['email']),
             )),
 
@@ -105,7 +105,7 @@ class _RegisterFormState extends State<RegisterForm> {
               if (value != null) {
                 Validator.passwordValidate(value);
               } else {
-                return ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                return translate[locator<GlobalDataManager>().interfaceLanguage]![
                     'auth_form']['requried_field'];
               }
               return null;
@@ -123,14 +123,14 @@ class _RegisterFormState extends State<RegisterForm> {
                   },
                   icon: const Icon(Icons.remove_red_eye)),
               prefixIcon: const Icon(Icons.password),
-              hintText: ui_lang[locator<GlobalDataManager>()
+              hintText: translate[locator<GlobalDataManager>()
                   .interfaceLanguage]!['auth_form']['password'],
             ),
           ),
         ),
 
         LoginButton(
-          label: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+          label: translate[locator<GlobalDataManager>().interfaceLanguage]![
               'auth_form']['register'],
           onPressed: () {
             context.read<RegisterBloc>().add((RegisterUser(
@@ -148,7 +148,7 @@ class _RegisterFormState extends State<RegisterForm> {
         GestureDetector(
           onTap: widget.onSwitchToLogin,
           child: Text(
-            ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+            translate[locator<GlobalDataManager>().interfaceLanguage]![
                 'auth_form']['already_registered'],
             textAlign: TextAlign.center,
             style: const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),

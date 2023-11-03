@@ -51,8 +51,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 });
               } else if (state is VerifiedToken) {
                 DialogManager.showSuccessDialog(
-                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                        'auth_form']['verified_token'],
+                    translate[locator<GlobalDataManager>().interfaceLanguage]![
+                        'auth_form']['messages']['verified_token'],
                     'Success',
                     context, () {
                   currentForm = AuthFormType.typeNewPassword;
@@ -60,8 +60,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 });
               } else if (state is RecoverAccountMessageSended) {
                 DialogManager.showSuccessDialog(
-                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                        'auth_form']['sended_token'],
+                    translate[locator<GlobalDataManager>().interfaceLanguage]![
+                        'auth_form']['messages']['sended_token'],
                     'Success',
                     context, () {
                   currentForm = AuthFormType.resetTokenSended;
@@ -69,8 +69,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 });
               } else if (state is UserPasswordUpdated) {
                 DialogManager.showSuccessDialog(
-                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                        'auth_form']['updated_password'],
+                    translate[locator<GlobalDataManager>().interfaceLanguage]![
+                        'auth_form']['messages']['updated_password'],
                     'Success',
                     context, () {
                   currentForm = AuthFormType.login;
@@ -85,10 +85,12 @@ class _AuthScreenState extends State<AuthScreen> {
                     Navigator.pop(context);
                   }
                   DialogManager.showLoadingDialogWithCancelButton(
-                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                          'auth_form']['creating_account_progress'],
-                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                          'auth_form']['loading_in_progress'],
+                      translate[locator<GlobalDataManager>()
+                              .interfaceLanguage]!['auth_form']['messages']
+                          ['creating_account_progress'],
+                      translate[locator<GlobalDataManager>()
+                              .interfaceLanguage]!['auth_form']['messages']
+                          ['loading_in_progress'],
                       context, () {
                     locator.get<Repository>().cancelRequest();
                   });
@@ -97,10 +99,12 @@ class _AuthScreenState extends State<AuthScreen> {
                     Navigator.pop(context);
                   }
                   DialogManager.showSuccessDialog(
-                      ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                          'auth_form']['register_account_success'],
+                      translate[locator<GlobalDataManager>()
+                              .interfaceLanguage]!['auth_form']['messages']
+                          ['register_account_success'],
                       'Success',
                       context, () {
+                        
                     currentForm = AuthFormType.login;
                     setState(() {});
                   });
@@ -118,8 +122,8 @@ class _AuthScreenState extends State<AuthScreen> {
               if (state is LoggedOut) {}
               if (state is Authenticating) {
                 DialogManager.showLoadingDialogWithCancelButton(
-                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
-                        'auth_form']['loading_in_progress'],
+                    translate[locator<GlobalDataManager>().interfaceLanguage]![
+                        'auth_form']['messages']['loading_in_progress'],
                     '',
                     context, () {
                   locator<Repository>().cancelRequest().then((value) => context
@@ -127,7 +131,10 @@ class _AuthScreenState extends State<AuthScreen> {
                       .add(LogOut(errorMessage: 'Request Failed')));
                 });
               } else if (state is Authenticated) {
-                context.pop();
+                if (context.canPop()) {
+                  context.pop();
+                }
+
                 final socketManager = locator<SocketManager>();
 
                 socketManager.initialize(state.token);

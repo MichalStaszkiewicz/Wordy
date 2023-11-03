@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wordy/const/consts.dart';
 
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/custom_error.dart';
+import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/presentation/widgets/register_course_list.dart';
 import 'package:wordy/utility/dialog_manager.dart';
@@ -28,21 +30,25 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
         future: locator<UserService>().getAvailableCourses().then((value) {
           if (value.isError) {
             throw Exception(
-                "There was some server issue. Please try again later");
+              translate[locator<GlobalDataManager>().interfaceLanguage]![
+                  'server_messages']['server_loading_data_error'],
+            );
           }
           return value.data!;
         }),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Expanded(flex: 8, child: LoadingData());
+            return Expanded(flex: 8, child: Container());
           } else if (snapshot.data != null && snapshot.hasData) {
             return BlocListener<RegisterBloc, RegisterState>(
               listener: (context, state) {
                 if (state is RegisterLoadingState) {
                   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                     DialogManager.showLoadingDialogWithCancelButton(
-                        'We are preparing app to work for you ! Thank you for patience',
-                        'Loading',
+                        translate[locator<GlobalDataManager>()
+                            .interfaceLanguage]!['messages']['app_prepare'],
+                        translate[locator<GlobalDataManager>()
+                            .interfaceLanguage]!['messages']['loading'],
                         context, () {
                       locator.get<Repository>().cancelRequest();
                       context.go(AppRouter.authScreen);
@@ -53,8 +59,11 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                 if (state is InitialSetupState) {
                   if (state.languageConflict) {
                     DialogManager.showQuestionDialog(
-                        "This action will change your interface language. Do you want to continue?",
-                        "Are you sure ?",
+                        translate[locator<GlobalDataManager>()
+                                .interfaceLanguage]!['messages']
+                            ['language_conflict'],
+                        translate[locator<GlobalDataManager>()
+                            .interfaceLanguage]!['messages']['are_your_sure'],
                         context, () {
                       context.read<RegisterBloc>().add(InterfaceLanguageChange(
                           choosenLanguage: state.languageToLearn));
@@ -70,24 +79,43 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
               child: BlocBuilder<RegisterBloc, RegisterState>(
                 builder: (context, state) {
                   if (state is InitialSetupState) {
-                    return RegisterCourseList(
-                      currentLanguage: state.languageToLearn,
-                      languages: snapshot.data!,
-                      onNextStep: () {
-                        if (state.languageToLearn != '') {
-                          context.read<RegisterBloc>().add(FinishInitialSetup(
-                              currentCourse: state.languageToLearn));
-                        } else {
-                          DialogManager.showErrorDialog(
-                              const CustomError(
-                                  title: 'Error',
-                                  message:
-                                      'You have to select a language you want to learn',
-                                  critical: true),
-                              context,
-                              () {});
-                        }
-                      },
+                    return Column(
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: Container(
+                                child: Center(
+                                    child: Text(
+                              translate[locator<GlobalDataManager>()
+                                  .interfaceLanguage]!['choose_your_course'],
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            )))),
+                        RegisterCourseList(
+                          currentLanguage: state.languageToLearn,
+                          languages: snapshot.data!,
+                          onNextStep: () {
+                            if (state.languageToLearn != '') {
+                              context.read<RegisterBloc>().add(
+                                  FinishInitialSetup(
+                                      currentCourse: state.languageToLearn));
+                            } else {
+                              DialogManager.showErrorDialog(
+                                  CustomError(
+                                      title: translate[
+                                              locator<GlobalDataManager>()
+                                                  .interfaceLanguage]![
+                                          'server_messages']['error'],
+                                      message: translate[
+                                              locator<GlobalDataManager>()
+                                                  .interfaceLanguage]![
+                                          'messages']['select_language'],
+                                      critical: true),
+                                  context,
+                                  () {});
+                            }
+                          },
+                        ),
+                      ],
                     );
                   } else {
                     return const LoadingData();
@@ -98,11 +126,13 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
           } else {
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
               DialogManager.showErrorDialog(
-                  const CustomError(
+                  CustomError(
                       critical: true,
-                      title: "Error",
-                      message:
-                          "The error occurred when trying to load data from the server."),
+                      title: translate[locator<GlobalDataManager>()
+                          .interfaceLanguage]!['server_messages']['error'],
+                      message: translate[locator<GlobalDataManager>()
+                              .interfaceLanguage]!['server_messages']
+                          ['server_loading_data_error']),
                   context, () {
                 context.go(AppRouter.authScreen);
               });

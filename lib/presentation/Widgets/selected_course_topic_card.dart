@@ -89,10 +89,10 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
                   QuizType.learning.name.toLowerCase() &&
               widget.progress.knownWords == widget.progress.wordsCount) {
             DialogManager.showSuccessDialog(
-                ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                translate[locator<GlobalDataManager>().interfaceLanguage]![
                         'finished_topic_announcement'] +
-                    " ${ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['topic_label'][widget.topic.name]}",
-                ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                    " ${translate[locator<GlobalDataManager>().interfaceLanguage]!['topic_label'][widget.topic.name]}",
+                translate[locator<GlobalDataManager>().interfaceLanguage]![
                     'congratulations'],
                 context,
                 () {});
@@ -139,7 +139,7 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
                             NetworkImage(Urls.kImageUrl + widget.topic.image))),
               ),
               Text(
-                ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                translate[locator<GlobalDataManager>().interfaceLanguage]![
                     'topic_label'][widget.progress.name],
                 textAlign: TextAlign.center,
                 style: Theme.of(context)

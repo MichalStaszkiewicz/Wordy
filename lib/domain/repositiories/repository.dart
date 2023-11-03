@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:wordy/const/error_messages.dart';
+import 'package:wordy/const/consts.dart';
+
 import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/models/word.dart';
+import 'package:wordy/global/global_data_manager.dart';
+import 'package:wordy/utility/locator/service_locator.dart';
 
 import '../../data/local/local_storage.dart';
 import '../../data/network/remote_source.dart';
@@ -263,13 +266,13 @@ class Repository {
     }
   }
 
-Either<Exception,String> getUserInterfaceLanguage() {
-   var response = _localSource.getUserInterfaceLanguage();
+  Either<Exception, String> getUserInterfaceLanguage() {
+    var response = _localSource.getUserInterfaceLanguage();
 
-    if(response !=null && response != '' ){
+    if (response != null && response != '') {
       return Either.data(response);
     }
-    return Either.error(Exception(ErrorMessages.ERROR_INTERFACE_LANGUAGE_NOT_SET)); 
+    return Either.error(Exception(translate['english']!['error_messages']['interface_language_not_set']));
   }
 
   Future<Either<Exception, String>> synchronizeUserInterfaceLanguage() async {

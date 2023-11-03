@@ -4,9 +4,11 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/presentation/bloc/achievements/achievements_filter_bloc.dart';
+import 'package:wordy/presentation/widgets/card/achievement_card/achievement_item_back.dart';
+import 'package:wordy/presentation/widgets/card/achievement_card/achievement_item_front.dart';
 
-import 'package:wordy/presentation/widgets/achievement_item_back.dart';
-import 'package:wordy/presentation/widgets/flip_cards.dart';
+
+import 'package:wordy/presentation/widgets/card/flip_cards.dart';
 
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/utility/dialog_manager.dart';
@@ -15,9 +17,8 @@ import '../../Utility/locator/service_locator.dart';
 import '../../domain/models/user_achievement.dart';
 import '../../global/global_data_manager.dart';
 import '../widgets/achievement_dial.dart';
-import '../widgets/achievement_item_front.dart';
 import '../widgets/loading_data.dart';
-import '../widgets/title_with_back_button.dart';
+import '../widgets/button/title_with_back_button.dart';
 
 class AchievementsScreen extends StatefulWidget {
   AchievementsScreen({super.key, required this.achievements});
@@ -34,7 +35,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
       create: (context) => AchievementsFilterBloc()
         ..add(FilterAchievements(
           achievements: widget.achievements,
-          filter: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+          filter: translate[locator<GlobalDataManager>().interfaceLanguage]![
               'achievements_everything'],
         )),
       child: Scaffold(
@@ -70,7 +71,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                                   curve: Curves.decelerate,
                                   child: FlipCards(
                                     back: AchievementItemBack(
-                                      description: ui_lang[
+                                      description: translate[
                                                   locator<GlobalDataManager>()
                                                       .interfaceLanguage]![
                                               'achievements'][
@@ -84,7 +85,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                                     ),
                                     front: AchievementItemFront(
                                       image: "assets/medal.png",
-                                      name: ui_lang[locator<GlobalDataManager>()
+                                      name: translate[locator<GlobalDataManager>()
                                                   .interfaceLanguage]![
                                               'achievements'][
                                           state.achievements[index].achievement

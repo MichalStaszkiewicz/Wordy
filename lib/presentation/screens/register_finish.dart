@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
 
-import 'package:wordy/presentation/widgets/confirm_button.dart';
+
 import 'package:wordy/const/consts.dart';
+import 'package:wordy/presentation/widgets/button/confirm_button.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../global/global_data_manager.dart';
@@ -29,7 +30,7 @@ class _RegisterFinishState extends State<RegisterFinish> {
             child: Container(
               child: Center(
                 child: Text(
-                    ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                    translate[locator<GlobalDataManager>().interfaceLanguage]![
                         'register_account_is_ready'],
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                         color: ktitlecolor, fontWeight: FontWeight.bold)),
@@ -48,7 +49,7 @@ class _RegisterFinishState extends State<RegisterFinish> {
               child: SizedBox(
                 width: 350,
                 child: Text(
-                  ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['register_finish_text'],
+                  translate[locator<GlobalDataManager>().interfaceLanguage]!['register_finish_text'],
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme

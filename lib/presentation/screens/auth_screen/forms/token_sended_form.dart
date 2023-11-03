@@ -5,7 +5,7 @@ import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/bloc/reset_password/reset_password_bloc.dart';
-import 'package:wordy/presentation/widgets/login_button.dart';
+import 'package:wordy/presentation/widgets/button/login_button.dart';
 
 class TokenSendedForm extends StatefulWidget {
   TokenSendedForm({super.key, required this.onSwitchToLogin});
@@ -29,7 +29,7 @@ class _TokenSendedFormState extends State<TokenSendedForm> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['auth_form']
+          translate[locator<GlobalDataManager>().interfaceLanguage]!['auth_form']
               ['type_reset_password_token'],
           style: Theme.of(context).textTheme.headlineSmall,
         ),
@@ -42,7 +42,7 @@ class _TokenSendedFormState extends State<TokenSendedForm> {
                   prefixIcon: Icon(Icons.security_rounded), hintText: "token"),
             )),
         LoginButton(
-          label: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+          label: translate[locator<GlobalDataManager>().interfaceLanguage]![
               'auth_form']['submit'],
           onPressed: () {
             context
@@ -55,7 +55,7 @@ class _TokenSendedFormState extends State<TokenSendedForm> {
           onTap: widget.onSwitchToLogin,
           child: Text(
             textAlign: TextAlign.center,
-            ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+            translate[locator<GlobalDataManager>().interfaceLanguage]![
                 'auth_form']['back_to_login'],
             style: const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
           ),
