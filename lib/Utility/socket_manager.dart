@@ -14,6 +14,7 @@ class SocketManager {
     };
 
     joinRoom(token);
+ 
     connect();
   }
 
@@ -39,10 +40,10 @@ class SocketManager {
   void logOut(String token) {
     socket.io.options['extraHeaders'] = {'Authorization': token};
     socket.emit('logout', [token]);
+    disconnect();
   }
 
   void loadTopics(String token) async {
-    
     socket.io.options['extraHeaders'] = {'Authorization': token};
 
     socket.emit('topic_screen_load_courses', [token]);
@@ -52,8 +53,6 @@ class SocketManager {
     socket.io.options['extraHeaders'] = {'Authorization': token};
     socket.emit('load_current_course', [token]);
   }
-
- 
 
   void connect() {
     socket.connect();

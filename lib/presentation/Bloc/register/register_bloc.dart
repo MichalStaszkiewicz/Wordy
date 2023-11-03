@@ -15,7 +15,7 @@ part 'register_event.dart';
 part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-     final userLogic = locator<UserService>();
+  final userLogic = locator<UserService>();
   RegisterBloc() : super(const RegisterInitial()) {
     registerInit();
     register();
@@ -44,13 +44,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   void initialSetupStateUpdate() {
     on<InitialSetupStateUpdate>((event, emit) async {
       final userInterfaceLanguage =
-           locator<UserService>().getUserInterfaceLanguage();
-      if (userInterfaceLanguage ==null) {
+          locator<UserService>().getUserInterfaceLanguage();
+      if (userInterfaceLanguage.isError) {
         emit(RegisterError(
             error: ExceptionHelper.getErrorMessage(UnexpectedError())));
       } else {
-        if (event.updatedLanguage.toLowerCase() ==
-            userInterfaceLanguage!) {
+        if (event.updatedLanguage.toLowerCase() == userInterfaceLanguage!) {
           emit(InitialSetupState(
             languageToLearn: event.updatedLanguage,
             languageConflict: true,
@@ -98,7 +97,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   void switchInterfaceLanguage() {
     on<InterfaceLanguageChange>((event, emit) async {
-
       emit(InitialSetupState(
           languageToLearn: event.choosenLanguage,
           languageConflict: false,
@@ -123,7 +121,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           email: event.email,
           fullName: event.fullName,
           password: event.password));
-   
 
       var result = await userLogic.registerUser({
         "fullName": event.fullName,
@@ -131,7 +128,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         "password": event.password
       });
       if (result.isData) {
-        emit(const RegisterSuccess());
+        emit( RegisterSuccess(email:event.email, password: event.password));
       } else {
         emit(RegisterError(
             error: ExceptionHelper.getErrorMessage(result.error!)));

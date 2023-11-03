@@ -34,8 +34,8 @@ class Repository {
   );
   final LocalStorage _localSource;
   final RemoteSource _remoteSource;
-  Future<void> cleanUpLocalStorate() async {
-    await _localSource.cleanup();
+  void cleanUpLocalStorate() {
+    _localSource.cleanup();
   }
 
   Future<Either<DioError, List<Topic>>> getTopics() async {
@@ -272,7 +272,8 @@ class Repository {
     if (response != null && response != '') {
       return Either.data(response);
     }
-    return Either.error(Exception(translate['english']!['error_messages']['interface_language_not_set']));
+    return Either.error(Exception(
+        translate['english']!['error_messages']['interface_language_not_set']));
   }
 
   Future<Either<Exception, String>> synchronizeUserInterfaceLanguage() async {
@@ -292,7 +293,7 @@ class Repository {
   }
 
   Future<Either<Exception, String>> getTokenAccess() async {
-    var response = await _localSource.getTokenAccess();
+    var response = _localSource.getTokenAccess();
     if (response != null) {
       return Either.data(response);
     } else {

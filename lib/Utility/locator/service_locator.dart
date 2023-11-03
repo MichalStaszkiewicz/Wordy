@@ -47,5 +47,5 @@ Future<void> serviceLocator() async {
 
   locator.registerSingleton<SocketManager>(SocketManager(locator<Socket>()));
 
-  locator.registerLazySingleton(() => StreamRepository());
+  locator.registerLazySingleton(() => StreamRepository(locator<Socket>()));
 }

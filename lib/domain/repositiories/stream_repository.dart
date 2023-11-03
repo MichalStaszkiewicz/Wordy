@@ -12,24 +12,26 @@ import '../models/active_course.dart';
 import '../models/user_active_courses_progress.dart';
 
 class StreamRepository {
-  final Socket _socket = locator<Socket>();
+  final Socket _socket;
+
+  StreamRepository(this._socket);
   final StreamController<UserActiveCoursesProgress> _courseStreamController =
       StreamController<UserActiveCoursesProgress>.broadcast();
   final StreamController<ActiveCourse> _currentCourseStreamController =
       StreamController<ActiveCourse>.broadcast();
   final StreamController<dynamic> _notificationController =
       StreamController.broadcast();
-
   StreamController<UserActiveCoursesProgress> get courseStreamController =>
       _courseStreamController;
 
   StreamController<ActiveCourse> get currentCourseStreamController =>
-      _currentCourseStreamController;
+    _currentCourseStreamController;
   StreamController<dynamic> get notificationController =>
       _notificationController;
 
   void initialize() {
     _socket.on(SocketEvents.LOAD_COURSES, (data) {
+
       _courseStreamController.add(UserActiveCoursesProgress.fromJson(data));
     });
 
