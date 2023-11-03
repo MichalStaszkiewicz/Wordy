@@ -91,10 +91,10 @@ class _CoursesScreenState extends State<CoursesScreen>
                                                       'log_out'],
                                                   context, () async {
                                                 await locator<UserService>()
-                                                    .cleanUpLocalStorage();
-                                                await locator<UserService>()
                                                     .logOut()
                                                     .then((value) {
+                                                  locator<UserService>()
+                                                      .cleanUpLocalStorage();
                                                   context
                                                       .go(AppRouter.authScreen);
                                                 });
@@ -321,10 +321,11 @@ class _CoursesScreenState extends State<CoursesScreen>
                   isListExpanded = false;
                 } else {
                   DialogManager.showQuestionDialog(
-                      translate[locator<GlobalDataManager>().interfaceLanguage]![
+                      translate[
+                              locator<GlobalDataManager>().interfaceLanguage]![
                           'asking_for_change_interface_language'],
-                      translate[locator<GlobalDataManager>().interfaceLanguage]![
-                          'are_you_sure'],
+                      translate[locator<GlobalDataManager>()
+                          .interfaceLanguage]!['are_you_sure'],
                       context, () {
                     context.read<CoursesUpdateBloc>().add(
                         SwitchInterfaceLanguage(

@@ -14,7 +14,7 @@ class SocketManager {
     };
 
     joinRoom(token);
-    print("LOGIN USER WITH TOKEN : " + token);
+ 
     connect();
   }
 
@@ -40,6 +40,7 @@ class SocketManager {
   void logOut(String token) {
     socket.io.options['extraHeaders'] = {'Authorization': token};
     socket.emit('logout', [token]);
+    disconnect();
   }
 
   void loadTopics(String token) async {
