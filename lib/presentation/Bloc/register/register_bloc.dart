@@ -98,12 +98,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   void switchInterfaceLanguage() {
     on<InterfaceLanguageChange>((event, emit) async {
-      String choosenLanguage =
-          await Validator.interfaceLanguageChange(event.choosenLanguage);
+
       emit(InitialSetupState(
-          languageToLearn: choosenLanguage,
+          languageToLearn: event.choosenLanguage,
           languageConflict: false,
-          languageToLearnCopy: choosenLanguage));
+          languageToLearnCopy: event.choosenLanguage));
     });
   }
 

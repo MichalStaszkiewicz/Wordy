@@ -56,7 +56,7 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
                       child: Container(
                           child: Center(
                               child: Text(
-                        ui_lang[locator<GlobalDataManager>()
+                        translate[locator<GlobalDataManager>()
                             .interfaceLanguage]!['choose_your_course'],
                         style: Theme.of(context).textTheme.headlineSmall,
                       )))),

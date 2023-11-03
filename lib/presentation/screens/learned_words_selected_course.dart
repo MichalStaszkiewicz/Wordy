@@ -48,7 +48,7 @@ class _LearnedWordsSelectedCourseState
                     child: Container(
                       child: Center(
                         child: Text(
-                          ui_lang[locator<GlobalDataManager>()
+                          translate[locator<GlobalDataManager>()
                               .interfaceLanguage]!['learned_words'],
                           style: Theme.of(context)
                               .textTheme

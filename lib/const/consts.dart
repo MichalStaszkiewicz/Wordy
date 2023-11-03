@@ -19,8 +19,27 @@ final ThemeData darkTheme = ThemeData(
 const Color kdisabledcolor = Color.fromARGB(156, 212, 209, 209);
 const Color kactivestatuscolor = Color.fromARGB(255, 67, 165, 70);
 const Color ktitlecolor = Color.fromRGBO(51, 51, 51, 1.0);
-final Map<String, Map<String, dynamic>> ui_lang = {
+final Map<String, Map<String, dynamic>> translate = {
   "polish": {
+    "server_messages": {
+      'unexpected_error': {
+        'title': "Ups",
+        'message':
+            "Niespodziewany błąd, zostaniesz wylogowany. Przepraszamy za trudności"
+      },
+      'user_exists': " Użytkownik o podanym e-mailu już istnieje",
+      'user_does_not_exists': "Użytkownik o podanym e-mailu nie istnieje",
+      'invalid_password': "Błedne hasło",
+      'unknown_error': "Nieznany błąd",
+      'error': "błąd",
+      'request_canceled': "Żądanie zostało anulowane",
+      'timeout':
+          "Wygląda na to, że serwer zajmuje zbyt dużo czasu na odpowiedź. Może to być spowodowane złym połączeniem lub błędem na naszych serwerach. Spróbuj ponownie za chwilę",
+      'lost_connection': "Wystąpił błąd z twoim połączeniem. Sprawdź swoją sieć"
+    },
+    "error_messages": {
+      'interface_language_not_set': 'Język interfejsu nie został ustawiony'
+    },
     'auth_form': {
       'messages': {
         'verified_token': "Token został pomyślnie zweryfikowany",
@@ -168,6 +187,27 @@ final Map<String, Map<String, dynamic>> ui_lang = {
         "Osiągnięcia nie przychodzą łatwo, ale to właśnie sprawia, że są warte poświęcenia. Nie poddawaj się i wkrótce będziesz miał pełną półkę trofeów i dokonań!",
   },
   "english": {
+    'server_messages': {
+      'unexpected_error': {
+        'title': "Wops",
+        'message':
+            "Unexpected error you will be logged out. sorry for difficulties"
+      },
+      'unknown_error': "Unknown Error",
+      'error': "error",
+      'request_canceled': "Request has been cancelled",
+      'timeout':
+          "Looks like the server is taking to long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while",
+      'lost_connection':
+          "There was an error with your connection. Please check your network",
+      "user_exists": "The user with the provided email address already exists",
+      "user_does_not_exists":
+          "The user with the provided email address does not exist",
+      "invalid_password": "Invalid password",
+    },
+    'error_messages': {
+      'interface_language_not_set': 'Interface Language Not Set',
+    },
     'auth_form': {
       'messages': {
         'verified_token': "Successfully verified your token",
@@ -310,6 +350,28 @@ final Map<String, Map<String, dynamic>> ui_lang = {
         "Achievements don't come easy, but that's what makes them worth it. Don't give up, and soon you'll have a full shelf of trophies and accomplishments!"
   },
   "spanish": {
+    "server_messages": {
+      'unexpected_error': {
+        'title': "Ups",
+        'message':
+            "Error inesperado, serás desconectado. Disculpa las dificultades"
+      },
+      'unknown_error': "Error desconocido",
+      'error': "error",
+      'request_canceled': "La solicitud ha sido cancelada",
+      'timeout':
+          "Parece que el servidor está tardando demasiado en responder, esto puede deberse a una mala conexión o un error en nuestros servidores. Por favor, inténtalo de nuevo en un momento",
+      'lost_connection':
+          "Hubo un error con tu conexión. Por favor, verifica tu red",
+      "user_exists":
+          "El usuario con el correo electrónico proporcionado ya existe",
+      "user_does_not_exists":
+          "El usuario con el correo electrónico proporcionado no existe",
+      "invalid_password": "Contraseña inválida",
+    },
+    "error_messages": {
+      'interface_language_not_set': 'Idioma de interfaz no configurado'
+    },
     'auth_form': {
       'messages': {
         'verified_token': "Token verificado con éxito",
@@ -432,6 +494,27 @@ final Map<String, Map<String, dynamic>> ui_lang = {
         "Los logros no son fáciles de conseguir, pero eso es lo que los hace valer la pena. ¡No te rindas y pronto tendrás una estantería llena de trofeos y logros!",
   },
   "french": {
+    "server_messages": {
+      'unexpected_error': {
+        'title': "Oups",
+        'message':
+            "Erreur inattendue, vous serez déconnecté. Désolé pour les difficultés"
+      },
+      'unknown_error': "Erreur inconnue",
+      'error': "erreur",
+      'request_canceled': "La demande a été annulée",
+      'timeout':
+          "Il semble que le serveur mette trop de temps à répondre, cela peut être dû à une mauvaise connexion ou à une erreur sur nos serveurs. Veuillez réessayer plus tard",
+      'lost_connection':
+          "Une erreur s'est produite avec votre connexion. Veuillez vérifier votre réseau",
+      "user_exists": "L'utilisateur avec l'adresse e-mail fournie existe déjà",
+      "user_does_not_exists":
+          "L'utilisateur avec l'adresse e-mail fournie n'existe pas",
+      "invalid_password": "Mot de passe invalide",
+    },
+    "error_messages": {
+      'interface_language_not_set': "Langue d'interface non définie"
+    },
     'auth_form': {
       'messages': {
         'verified_token': "Token vérifié avec succès",

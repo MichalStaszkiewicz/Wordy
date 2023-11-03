@@ -26,7 +26,7 @@ class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
         child: Column(
           children: [
             TitleWithBackButton(
-              title: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+              title: translate[locator<GlobalDataManager>().interfaceLanguage]![
                   'known_words'],
             ),
             Expanded(

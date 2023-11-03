@@ -89,7 +89,7 @@ class _SuccessToastState extends State<SuccessToast>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            ui_lang[locator<GlobalDataManager>()
+                            translate[locator<GlobalDataManager>()
                                 .interfaceLanguage]!['correct_answer'],
                             style: Theme.of(context)
                                 .textTheme

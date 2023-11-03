@@ -4,7 +4,7 @@ part 'custom_error.freezed.dart';
 
 @freezed
 class CustomError with _$CustomError {
-  const factory CustomError(
+   const factory  CustomError(
       {required String title,
       required String message,
       required bool critical}) = _CustomError;

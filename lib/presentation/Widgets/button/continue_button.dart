@@ -48,7 +48,7 @@ class _ContinueButtonState extends State<ContinueButton>
               Container(
                 alignment: Alignment.center,
                 child: AutoSizeText(
-                  ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+                  translate[locator<GlobalDataManager>().interfaceLanguage]![
                       'continue'],
                   maxLines: 1,
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(

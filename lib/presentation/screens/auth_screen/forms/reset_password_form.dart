@@ -31,7 +31,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          ui_lang[locator<GlobalDataManager>().interfaceLanguage]!['auth_form']
+          translate[locator<GlobalDataManager>().interfaceLanguage]!['auth_form']
               ['reset_password'],
           style: Theme.of(context).textTheme.headlineSmall,
         ),
@@ -43,11 +43,11 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
               decoration: InputDecoration(
                   errorText: _emailErrorText,
                   prefixIcon: const Icon(Icons.email),
-                  hintText: ui_lang[locator<GlobalDataManager>()
+                  hintText: translate[locator<GlobalDataManager>()
                       .interfaceLanguage]!['auth_form']['email']),
             )),
         LoginButton(
-          label: ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+          label: translate[locator<GlobalDataManager>().interfaceLanguage]![
               'auth_form']['submit'],
           onPressed: () {
             _emailErrorText = Validator.emailValidate(_emailController.text);
@@ -60,7 +60,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
         GestureDetector(
           onTap: widget.onSwitchToLogin,
           child: Text(
-            ui_lang[locator<GlobalDataManager>().interfaceLanguage]![
+            translate[locator<GlobalDataManager>().interfaceLanguage]![
                 'auth_form']['back_to_login'],
             textAlign: TextAlign.center,
             style: const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),

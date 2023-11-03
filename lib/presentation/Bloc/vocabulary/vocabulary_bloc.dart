@@ -47,7 +47,7 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
         for (Topic topic in topics.data!) {
           list.add(
             WordCollection(
-              topic: ui_lang['english']!['topic_label'][topic.name],
+              topic: translate['english']!['topic_label'][topic.name],
               image: topic.image,
             ),
           );

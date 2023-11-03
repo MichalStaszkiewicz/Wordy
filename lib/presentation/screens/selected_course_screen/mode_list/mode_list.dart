@@ -73,7 +73,7 @@ class _ModeListState extends State<ModeList> {
                         flex: 4,
                         child: Container(
                           child: AutoSizeText(
-                            ui_lang[locator<GlobalDataManager>()
+                            translate[locator<GlobalDataManager>()
                                     .interfaceLanguage]![
                                model.quizType.name],
                             maxLines: 1,
