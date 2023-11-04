@@ -7,8 +7,11 @@ import 'package:wordy/Utility/dialog_manager.dart';
 import 'package:wordy/const/enums.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/domain/logic/user_service.dart';
+import 'package:wordy/domain/models/interface_language.dart';
+import 'package:wordy/domain/models/user_active_courses_progress.dart';
 import 'package:wordy/global/notification_provider.dart';
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
+import 'package:wordy/presentation/widgets/select_interface_language_button.dart';
 
 import '../../Utility/locator/service_locator.dart';
 import '../../const/app_router.dart';
@@ -103,60 +106,7 @@ class _CoursesScreenState extends State<CoursesScreen>
                                           ),
                                         ),
                                       ),
-                                      Expanded(
-                                        child: Container(
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              isListExpanded = !isListExpanded;
-                                              setState(() {});
-                                            },
-                                            child: Container(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  SizedBox(
-                                                    height: 35,
-                                                    child: Image.network(Urls
-                                                            .kImageUrl +
-                                                        state
-                                                            .courses
-                                                            .currentCourse
-                                                            .userCourse
-                                                            .interfaceLanguage
-                                                            .image),
-                                                  ),
-                                                  Text(
-                                                      translate[locator<
-                                                                  GlobalDataManager>()
-                                                              .interfaceLanguage]![
-                                                          state
-                                                              .courses
-                                                              .currentCourse
-                                                              .userCourse
-                                                              .interfaceLanguage
-                                                              .name],
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .titleMedium!
-                                                          .copyWith(
-                                                              color: Colors
-                                                                  .black)),
-                                                  Container(
-                                                      height: 20,
-                                                      alignment: Alignment
-                                                          .bottomCenter,
-                                                      child: const Icon(
-                                                          Icons
-                                                              .keyboard_arrow_down_outlined,
-                                                          color: Colors.black))
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
+                                      Expanded(child: Container()),
                                     ],
                                   ),
                                 ),
@@ -270,7 +220,9 @@ class _CoursesScreenState extends State<CoursesScreen>
                               ),
                             ],
                           )),
-                      _buildSwitchInterfaceLanguageMenu(context, state),
+                      SelectInterfaceLanguageButton(
+                        courses: state.courses,
+                      ),
                     ],
                   );
                 } else if (state is CourseUpdateError) {
@@ -285,93 +237,6 @@ class _CoursesScreenState extends State<CoursesScreen>
                   return const LoadingData();
                 }
               },
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Positioned _buildSwitchInterfaceLanguageMenu(
-      BuildContext context, CoursesLoaded state) {
-    return Positioned(
-      left: MediaQuery.of(context).size.width / 1.8,
-      top: MediaQuery.of(context).size.height / 16,
-      child: AnimatedContainer(
-        height: isListExpanded ? 100 : 0,
-        width: 153,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10),
-          ),
-        ),
-        child: ListView.builder(
-          itemCount: state.interfaceLanguages.length,
-          itemBuilder: (context, index) => GestureDetector(
-            onTap: () {
-              setState(() {
-                if (locator<GlobalDataManager>()
-                        .interfaceLanguage
-                        .toLowerCase() ==
-                    state.interfaceLanguages[index].name.toLowerCase()) {
-                  isListExpanded = false;
-                } else {
-                  DialogManager.showQuestionDialog(
-                      translate[
-                              locator<GlobalDataManager>().interfaceLanguage]![
-                          'asking_for_change_interface_language'],
-                      translate[locator<GlobalDataManager>()
-                          .interfaceLanguage]!['are_you_sure'],
-                      context, () {
-                    context.read<CoursesUpdateBloc>().add(
-                        SwitchInterfaceLanguage(
-                            languageName:
-                                state.interfaceLanguages[index].name));
-                  }, () {});
-                }
-              });
-            },
-            child: AnimatedOpacity(
-              opacity: isListExpanded ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 300),
-              child: Container(
-                margin: const EdgeInsets.only(top: 0, left: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 40,
-                        width: 30,
-                        child: Image.network(Urls.kImageUrl +
-                            state.interfaceLanguages[index].image),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        child: Text(
-                          translate[locator<GlobalDataManager>()
-                                  .interfaceLanguage]![
-                              state.interfaceLanguages[index].name
-                                  .toLowerCase()],
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ),
           ),
         ),
