@@ -53,6 +53,7 @@ class _AppState extends State<App> {
           } else {
             locator<GlobalDataManager>().interfaceLanguage = language.data!;
           }
+        
           return Stack(
             children: [
               router!,

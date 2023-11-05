@@ -9,7 +9,6 @@ class LocalStorage {
   void cleanup() {
     setTokenAccess('');
     setTokenRefresh('');
-    setUserInterfaceLanguage('');
   }
 
   String? getUserInterfaceLanguage() {

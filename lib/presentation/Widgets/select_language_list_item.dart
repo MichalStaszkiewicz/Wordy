@@ -70,7 +70,7 @@ class _SelectLanguageListItemState extends State<SelectLanguageListItem>
               DialogManager.showQuestionDialog(
                   translate[locator<GlobalDataManager>().interfaceLanguage]![
                       'asking_for_change_interface_language'],
-                  translate[locator<GlobalDataManager>().interfaceLanguage]![
+                  translate[locator<GlobalDataManager>().interfaceLanguage]!['messages'][
                       'are_you_sure'],
                   context, () {
                 context

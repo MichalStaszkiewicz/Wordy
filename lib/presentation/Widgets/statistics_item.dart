@@ -28,29 +28,37 @@ class StatisticsItem extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          SizedBox(height: 50, child: Image(image: AssetImage(image))),
-          const SizedBox(height: 10.0),
-          Text(
-            label,
-            style: TextStyle(
-              color: Colors.grey[700],
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: 50, child: Image(image: AssetImage(image))),
+            const SizedBox(height: 10.0),
+            Container(
+             width: double.infinity,
+              child: Text(
+                textAlign: TextAlign.center,
+                label,
+                style: TextStyle(
+                  color: Colors.grey[700],
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 10.0),
-          Text(
-            statisticsCount.toString(),
-            style: TextStyle(
-              color: Colors.grey[700],
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
+            const SizedBox(height: 10.0),
+            Container(
+              child: Text(
+                statisticsCount.toString(),
+                style: TextStyle(
+                  color: Colors.grey[700],
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

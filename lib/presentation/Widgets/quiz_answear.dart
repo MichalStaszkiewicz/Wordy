@@ -32,9 +32,8 @@ class _QuizAnswearState extends State<QuizAnswear> {
               }
             },
             child: Container(
-              height: 250,
-              width: 250,
-              margin: const EdgeInsets.all(20),
+            
+              margin: const EdgeInsets.all(25),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: state.selectedIndex == widget.index

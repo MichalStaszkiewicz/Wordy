@@ -117,9 +117,9 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Expanded(child: Container()),
+          
           Expanded(
-            flex: 5,
+            flex:6,
             child: ScaleTransition(
               scale: _scaleAnimation,
               child: Container(
@@ -127,7 +127,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 60,
+                      height: 100,
                     ),
                     Text(
                       translate[locator<GlobalDataManager>()
@@ -143,15 +143,13 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                         child: Image(
                             image: NetworkImage(
                                 Urls.kImageUrl + widget.topic.image))),
-                    const SizedBox(
-                      height: 50,
-                    ),
+                  
                     Expanded(
-                      flex: 2,
+                      flex: 1,
                       child: Container(
                         child: Center(
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Opacity(
@@ -163,6 +161,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                                         'new_learned_words'],
                                     "${_learnedWordsLabelAnimation.value.toInt()}"),
                               ),
+                              SizedBox(height: 20,),
                               Opacity(
                                 opacity: _scoreAnimation.value,
                                 child: _buildStatisticWidget(
@@ -185,7 +184,8 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
           ),
           Expanded(
             flex: 2,
-            child: SizedBox(
+            child: Container(
+
               width: double.infinity,
               child: Center(
                 child: Column(
