@@ -103,8 +103,8 @@ class _SelectedCourseReadyState extends State<SelectedCourseReady>
             painter: SelectedCourseBackground(backgroundColor: Colors.amber),
             child: SafeArea(
               child: Container(
-                height: 1000,
-                padding: const EdgeInsets.only(top: 20),
+               
+            
                 child: Column(
                   children: [
                     Expanded(
@@ -135,8 +135,8 @@ class _SelectedCourseReadyState extends State<SelectedCourseReady>
                                         ),
                                       ),
                                       SliverToBoxAdapter(
-                                        child: SizedBox(
-                                          height: (150 *
+                                        child: Container(
+                                          height: (110 *
                                                       state.course.topicProgress
                                                           .length)
                                                   .toDouble() +

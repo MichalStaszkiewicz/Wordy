@@ -164,19 +164,21 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
                   ),
                 ],
               )),
-              ProgressionBar(
-                height: 10,
-                gradient: const [
-                  Color.fromARGB(255, 99, 155, 252),
-                  Color.fromRGBO(158, 149, 248, 1),
-                ],
-                nonProgressionColor: Colors.white,
-                progress: _animation != null
-                    ? (_animation!.value / widget.progress.wordsCount) * 100
-                    : (widget.progress.knownWords /
-                            widget.progress.wordsCount) *
-                        100,
-                width: 150,
+              Container(margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: ProgressionBar(
+                  height: 10,
+                  gradient: const [
+                    Color.fromARGB(255, 99, 155, 252),
+                    Color.fromRGBO(158, 149, 248, 1),
+                  ],
+                  nonProgressionColor: Colors.white,
+                  progress: _animation != null
+                      ? (_animation!.value / widget.progress.wordsCount) * 100
+                      : (widget.progress.knownWords /
+                              widget.progress.wordsCount) *
+                          100,
+                  width: 150,
+                ),
               )
             ],
           ),
