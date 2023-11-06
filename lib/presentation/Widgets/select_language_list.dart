@@ -29,8 +29,10 @@ class _SelectLanguageListState extends State<SelectLanguageList> {
     var interfaceLanguages = widget.interfaceLanguages;
     return Consumer<CoursesLangInterface>(builder: (context, model, child) {
       if (context.findRenderObject() != null) {
-        RenderBox box = context.findRenderObject() as RenderBox;
-       // model.setListRef(box);
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          RenderBox box = context.findRenderObject() as RenderBox;
+          model.setListRef(box);
+        });
       }
       return Container(
         height: widget.height - 50,
