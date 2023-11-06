@@ -32,6 +32,7 @@ class _ModeListState extends State<ModeList> {
     return Consumer<CourseProgressTracker>(
       builder: (context, model, child) => GestureDetector(
         onTap: () {
+          
           widget.scrollController
               .animateTo(
             widget.scrollController.position.minScrollExtent,

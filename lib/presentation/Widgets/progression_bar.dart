@@ -9,7 +9,7 @@ class ProgressionBar extends StatelessWidget {
       required this.nonProgressionColor,
       required this.height});
   List<Color> gradient;
-  double progress;
+  double? progress;
   double width;
   double height;
   Color nonProgressionColor;
@@ -23,7 +23,7 @@ class ProgressionBar extends StatelessWidget {
       width: width,
       alignment: Alignment.topLeft,
       child: Container(
-        width: (progress / 100) * width,
+        width: progress!.isNaN ?  width : (progress! / 100) * width,
         decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: gradient,

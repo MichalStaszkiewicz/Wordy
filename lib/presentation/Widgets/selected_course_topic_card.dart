@@ -39,11 +39,7 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
   void initState() {
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
-    print("BEFORE QUIZ : " +
-        locator<CourseProgressTracker>().beforeQuiz.toString());
 
-    print("AFTER QUIZ : " +
-        locator<CourseProgressTracker>().afterQuiz.toString());
     ActiveCourse? afterQuiz = locator<CourseProgressTracker>().afterQuiz;
     if (widget.beforeQuiz != null && afterQuiz != null) {
       ProgressInTopic progressBeforeQuiz = widget.beforeQuiz!.topicProgress
@@ -139,7 +135,7 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
                             NetworkImage(Urls.kImageUrl + widget.topic.image))),
               ),
               Text(
-                translate[locator<GlobalDataManager>().interfaceLanguage]![
+              translate[locator<GlobalDataManager>().interfaceLanguage]![
                     'topic_label'][widget.progress.name],
                 textAlign: TextAlign.center,
                 style: Theme.of(context)

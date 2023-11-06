@@ -176,6 +176,7 @@ final Map<String, Map<String, dynamic>> translate = {
       'food': "Jedzenie",
       "animals": "Zwierzęta",
       'conversation': "Rozmowa",
+      'countries': "Kraje",
       "colors": "Kolory"
     },
     "profile_screen_app_bar": "Profil",
@@ -361,6 +362,7 @@ final Map<String, Map<String, dynamic>> translate = {
       'food': "Food",
       "animals": "Animals",
       'conversation': "Conversation",
+      'countries': "Countries",
       "colors": "Colors"
     },
     "profile_screen_app_bar": "Profile",
@@ -557,6 +559,7 @@ final Map<String, Map<String, dynamic>> translate = {
       "food": "Comida",
       "animals": "Animales",
       "conversation": "Conversación",
+      'countries': "Países",
       "colors": "Colores"
     },
     "profile_screen_app_bar": "Perfil",
@@ -727,6 +730,7 @@ final Map<String, Map<String, dynamic>> translate = {
       'food': "Nourriture",
       "animals": "Animaux",
       'conversation': "Conversation",
+      'countries': "Pays",
       "colors": "Couleurs"
     },
     "profile_screen_app_bar": "Profil",

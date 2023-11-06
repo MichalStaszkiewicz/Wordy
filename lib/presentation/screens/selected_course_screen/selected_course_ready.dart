@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/Utility/locator/service_locator.dart';
@@ -32,6 +33,7 @@ class _SelectedCourseReadyState extends State<SelectedCourseReady>
   late AnimationController _courseProgressController;
   late Animation? _courseProgressAnimation;
   final ScrollController _scrollController = ScrollController();
+  double topScrollPixels = 0;
 
   @override
   void initState() {
@@ -98,103 +100,111 @@ class _SelectedCourseReadyState extends State<SelectedCourseReady>
             painter: SelectedCourseBackground(backgroundColor: Colors.amber),
             child: SafeArea(
               child: Container(
+                height: 1000,
                 padding: const EdgeInsets.only(top: 20),
-                child: Stack(
+                child: Column(
                   children: [
-                    Column(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            child: CustomScrollView(
-                                physics: isListExpanded
-                                    ? const NeverScrollableScrollPhysics()
-                                    : null,
-                                controller: _scrollController,
-                                slivers: [
-                                  SliverAppBar(
-                                    flexibleSpace: Container(
-                                      color: Colors.amber,
-                                    ),
-                                    pinned: true,
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            model.setBeforeQuiz(null);
-                                            model.setAfterQuiz(null);
-                                            model
-                                                .setQuizType(QuizType.learning);
-                                            context.go(AppRouter.home);
-                                          },
-                                          child: Container(
-                                            margin:
-                                                const EdgeInsets.only(left: 10),
-                                            child: const Icon(
-                                              Icons.arrow_back_ios_new_rounded,
-                                              color: Colors.white,
+                    Expanded(
+                      child: Container(
+                        child: Stack(
+                          children: [
+                            NotificationListener<ScrollNotification>(
+                              onNotification: (notification) {
+                                topScrollPixels = notification.metrics.pixels;
+                                return true;
+                              },
+                              child: CustomScrollView(
+                                  physics: isListExpanded
+                                      ? const NeverScrollableScrollPhysics()
+                                      : null,
+                                  controller: _scrollController,
+                                  slivers: [
+                                    SliverAppBar(
+                                      flexibleSpace: Container(
+                                        color: Colors.amber,
+                                      ),
+                                      pinned: true,
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              model.setBeforeQuiz(null);
+                                              model.setAfterQuiz(null);
+                                              model.setQuizType(
+                                                  QuizType.learning);
+                                              context.go(AppRouter.home);
+                                            },
+                                            child: Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 10),
+                                              child: const Icon(
+                                                Icons
+                                                    .arrow_back_ios_new_rounded,
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Text(
-                                          translate[locator<GlobalDataManager>()
-                                              .interfaceLanguage]!['course'],
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge!
-                                              .copyWith(color: Colors.white),
-                                        ),
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 10),
-                                          height: 50,
-                                          width: 50,
-                                        )
-                                      ],
+                                          Text(
+                                            translate[locator<
+                                                    GlobalDataManager>()
+                                                .interfaceLanguage]!['course'],
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge!
+                                                .copyWith(color: Colors.white),
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                right: 10),
+                                            height: 50,
+                                            width: 50,
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  SliverToBoxAdapter(
-                                    child: SelectedCourseInformations(
-                                      course: state.course,
-                                      totalProgress:
-                                          _courseProgressAnimation != null
-                                              ? _courseProgressAnimation!.value
-                                              : state.course.totalProgress,
+                                    SliverToBoxAdapter(
+                                      child: SelectedCourseInformations(
+                                        course: state.course,
+                                        totalProgress:
+                                            _courseProgressAnimation != null
+                                                ? _courseProgressAnimation!
+                                                    .value
+                                                : state.course.totalProgress,
+                                      ),
                                     ),
-                                  ),
-                                  SliverToBoxAdapter(
-                                    child: SizedBox(
-                                      height: (150 *
-                                                  state.course.topicProgress
-                                                      .length)
-                                              .toDouble() +
-                                          80,
-                                      child: GridView(
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                                          children: [
-                                            ..._buildTopics(
-                                                state.course.topicProgress,
-                                                context,
-                                                widget.beforeQuizCopy)
-                                          ]),
+                                    SliverToBoxAdapter(
+                                      child: SizedBox(
+                                        height: (150 *
+                                                    state.course.topicProgress
+                                                        .length)
+                                                .toDouble() +
+                                            80,
+                                        child: GridView(
+                                            shrinkWrap: true,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                                            children: [
+                                              ..._buildTopics(
+                                                  state.course.topicProgress,
+                                                  context,
+                                                  widget.beforeQuizCopy)
+                                            ]),
+                                      ),
                                     ),
-                                  ),
-                                ]),
-                          ),
+                                  ]),
+                            ),
+                            SelectModeButton(
+                              isListExpanded: isListExpanded,
+                              scrollController: _scrollController,
+                              top: topScrollPixels,
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                    Positioned(
-                        top: MediaQuery.of(context).size.height / 4.8,
-                        left: MediaQuery.of(context).size.width / 10,
-                        child: ModeList(
-                          isListExpanded: isListExpanded,
-                          scrollController: _scrollController,
-                        )),
                   ],
                 ),
               ),
@@ -203,5 +213,39 @@ class _SelectedCourseReadyState extends State<SelectedCourseReady>
         );
       },
     );
+  }
+}
+
+class SelectModeButton extends StatefulWidget {
+  const SelectModeButton({
+    super.key,
+    required this.isListExpanded,
+    required this.top,
+    required ScrollController scrollController,
+  }) : _scrollController = scrollController;
+
+  final bool isListExpanded;
+  final ScrollController _scrollController;
+  final double top;
+  @override
+  State<SelectModeButton> createState() => _SelectModeButtonState();
+}
+
+class _SelectModeButtonState extends State<SelectModeButton> {
+  @override
+  Widget build(BuildContext context) {
+    if (context.findRenderObject() != null) {
+      RenderBox box = context.findRenderObject() as RenderBox;
+      print(widget._scrollController.position);
+    }
+
+    return Positioned(
+        top: (MediaQuery.of(context).size.height / 4.8) -
+            widget.top.toPrecision(1),
+        left: MediaQuery.of(context).size.width / 10,
+        child: ModeList(
+          isListExpanded: widget.isListExpanded,
+          scrollController: widget._scrollController,
+        ));
   }
 }
