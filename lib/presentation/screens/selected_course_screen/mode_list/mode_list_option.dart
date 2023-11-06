@@ -60,6 +60,7 @@ class _ModeListOptionState extends State<ModeListOption>
           child: GestureDetector(
             onTap: () {
               model.setQuizType(widget.quizType);
+              model.setQuizTypeListExpanded();
             },
             child: Container(
               alignment: Alignment.centerLeft,

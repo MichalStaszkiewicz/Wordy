@@ -14,11 +14,8 @@ import 'package:wordy/presentation/screens/selected_course_screen/mode_list/mode
 import '../../../widgets/selected_course_background.dart';
 
 class ModeList extends StatefulWidget {
-  ModeList(
-      {super.key,
-      required this.isListExpanded,
-      required this.scrollController});
-  bool isListExpanded;
+  ModeList({super.key, required this.scrollController});
+
   ScrollController scrollController;
 
   @override
@@ -32,7 +29,7 @@ class _ModeListState extends State<ModeList> {
     return Consumer<CourseProgressTracker>(
       builder: (context, model, child) => GestureDetector(
         onTap: () {
-          
+       
           widget.scrollController
               .animateTo(
             widget.scrollController.position.minScrollExtent,
@@ -40,16 +37,10 @@ class _ModeListState extends State<ModeList> {
             curve: Curves.easeInOut,
           )
               .then((value) {
-            if (widget.isListExpanded) {
-              widget.isListExpanded = false;
-              setState(() {});
-            } else {
-              setState(() {});
-              widget.isListExpanded = true;
-            }
+           
+              model.setQuizTypeListExpanded();
+           
           });
-
-          setState(() {});
         },
         child: AnimatedContainer(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -60,7 +51,7 @@ class _ModeListState extends State<ModeList> {
                 blurRadius: 6.0,
               ),
             ], color: Colors.white, borderRadius: BorderRadius.circular(20)),
-            height: widget.isListExpanded ? 120 : 40,
+            height: model.quizTypeListExpanded ? 120 : 40,
             width: 155,
             duration: _listAnimationDuration,
             child: Column(
@@ -75,8 +66,7 @@ class _ModeListState extends State<ModeList> {
                         child: Container(
                           child: AutoSizeText(
                             translate[locator<GlobalDataManager>()
-                                    .interfaceLanguage]![
-                               model.quizType.name],
+                                .interfaceLanguage]![model.quizType.name],
                             maxLines: 1,
                             style: Theme.of(context)
                                 .textTheme
@@ -101,7 +91,7 @@ class _ModeListState extends State<ModeList> {
                   ),
                 ),
                 AnimatedContainer(
-                  height: widget.isListExpanded ? 80 : 0,
+                  height: model.quizTypeListExpanded ? 80 : 0,
                   duration: _listAnimationDuration,
                   child: LayoutBuilder(builder: (context, constraints) {
                     double currentHeight = constraints.maxHeight;
@@ -109,14 +99,14 @@ class _ModeListState extends State<ModeList> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        widget.isListExpanded
+                        model.quizTypeListExpanded
                             ? ModeListOption(
                                 index: 1,
                                 currentListHeight: currentHeight,
                                 quizType: QuizType.learning,
                               )
                             : Container(),
-                        widget.isListExpanded
+                        model.quizTypeListExpanded
                             ? ModeListOption(
                                 index: 2,
                                 currentListHeight: currentHeight,

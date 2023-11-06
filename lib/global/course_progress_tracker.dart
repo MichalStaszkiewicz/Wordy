@@ -7,6 +7,7 @@ class CourseProgressTracker extends ChangeNotifier {
   ActiveCourse? beforeQuiz;
   ActiveCourse? afterQuiz;
   QuizType quizType = QuizType.learning;
+  bool quizTypeListExpanded = false;
   CourseProgressTracker();
 
   void setQuizType(QuizType quizType) {
@@ -24,6 +25,11 @@ class CourseProgressTracker extends ChangeNotifier {
   void setAfterQuiz(ActiveCourse? afterQuiz) {
     this.afterQuiz = afterQuiz;
     locator<CourseProgressTracker>().afterQuiz = afterQuiz;
+    notifyListeners();
+  }
+
+  void setQuizTypeListExpanded() {
+    quizTypeListExpanded = !quizTypeListExpanded;
     notifyListeners();
   }
 }

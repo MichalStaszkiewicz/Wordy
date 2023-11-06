@@ -29,7 +29,6 @@ class SelectedCourseReady extends StatefulWidget {
 
 class _SelectedCourseReadyState extends State<SelectedCourseReady>
     with TickerProviderStateMixin {
-  bool isListExpanded = false;
   late AnimationController _courseProgressController;
   late Animation? _courseProgressAnimation;
   final ScrollController _scrollController = ScrollController();
@@ -42,9 +41,13 @@ class _SelectedCourseReadyState extends State<SelectedCourseReady>
               ScrollDirection.forward ||
           _scrollController.position.userScrollDirection ==
               ScrollDirection.reverse) {
-        setState(() {
-          isListExpanded = false;
-        });
+        final listState =
+            Provider.of<CourseProgressTracker>(context, listen: false)
+                .quizTypeListExpanded;
+        if (listState) {
+          Provider.of<CourseProgressTracker>(context, listen: false)
+              .setQuizTypeListExpanded();
+        }
       }
     });
     ActiveCourse? beforeQuiz = locator<CourseProgressTracker>().beforeQuiz;
@@ -112,14 +115,13 @@ class _SelectedCourseReadyState extends State<SelectedCourseReady>
                               onNotification: (notification) {
                                 topScrollPixels = notification.metrics.pixels;
 
+                                setState(() {});
+
                                 return true;
                               },
                               child: Container(
                                 margin: EdgeInsets.only(top: 70),
                                 child: CustomScrollView(
-                                    physics: isListExpanded
-                                        ? const NeverScrollableScrollPhysics()
-                                        : null,
                                     controller: _scrollController,
                                     slivers: [
                                       SliverToBoxAdapter(
@@ -156,7 +158,7 @@ class _SelectedCourseReadyState extends State<SelectedCourseReady>
                               ),
                             ),
                             SelectModeButton(
-                              isListExpanded: isListExpanded,
+                              isListExpanded: model.quizTypeListExpanded,
                               scrollController: _scrollController,
                               top: topScrollPixels,
                             ),
@@ -164,14 +166,18 @@ class _SelectedCourseReadyState extends State<SelectedCourseReady>
                               duration: const Duration(milliseconds: 250),
                               decoration: BoxDecoration(
                                 color: Colors.amber,
-                                boxShadow:topScrollPixels>30? [
-                                  BoxShadow(
-                                    color: Color.fromARGB(0, 104, 104, 104).withOpacity(0.2),
-                                    offset:const Offset(0, 8),
-                                    blurRadius: 8,
-                                    spreadRadius: 0,
-                                  )
-                                ]:[],
+                                boxShadow: topScrollPixels > 30
+                                    ? [
+                                        BoxShadow(
+                                          color:
+                                              Color.fromARGB(0, 104, 104, 104)
+                                                  .withOpacity(0.2),
+                                          offset: const Offset(0, 8),
+                                          blurRadius: 8,
+                                          spreadRadius: 0,
+                                        )
+                                      ]
+                                    : [],
                               ),
                               height: 70,
                               child: Row(
@@ -247,17 +253,11 @@ class SelectModeButton extends StatefulWidget {
 class _SelectModeButtonState extends State<SelectModeButton> {
   @override
   Widget build(BuildContext context) {
-    if (context.findRenderObject() != null) {
-      RenderBox box = context.findRenderObject() as RenderBox;
-      print(widget._scrollController.position);
-    }
-
     return Positioned(
         top: (MediaQuery.of(context).size.height / 4.8) -
             widget.top.toPrecision(1),
         left: MediaQuery.of(context).size.width / 10,
         child: ModeList(
-          isListExpanded: widget.isListExpanded,
           scrollController: widget._scrollController,
         ));
   }
