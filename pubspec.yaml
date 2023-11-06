@@ -71,6 +71,7 @@ dependencies:
   mockito: ^5.4.2
   flutter_staggered_animations: ^1.1.1
   random_avatar: ^0.0.8
+  font_awesome_flutter: ^10.6.0
  
 
   

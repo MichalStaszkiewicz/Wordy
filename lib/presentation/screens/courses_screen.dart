@@ -65,7 +65,6 @@ class _CoursesScreenState extends State<CoursesScreen>
                       return GestureDetector(
                         onTapDown: (tapData) {
                           if (model.listRef != null && model.isExpanded) {
-                            print(tapData.globalPosition);
                             Offset listPosition =
                                 model.listRef!.globalToLocal(Offset.zero);
                             Offset tapPosition = tapData.globalPosition;
