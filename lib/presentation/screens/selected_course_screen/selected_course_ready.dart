@@ -111,95 +111,108 @@ class _SelectedCourseReadyState extends State<SelectedCourseReady>
                             NotificationListener<ScrollNotification>(
                               onNotification: (notification) {
                                 topScrollPixels = notification.metrics.pixels;
+
                                 return true;
                               },
-                              child: CustomScrollView(
-                                  physics: isListExpanded
-                                      ? const NeverScrollableScrollPhysics()
-                                      : null,
-                                  controller: _scrollController,
-                                  slivers: [
-                                    SliverAppBar(
-                                      flexibleSpace: Container(
-                                        color: Colors.amber,
+                              child: Container(
+                                margin: EdgeInsets.only(top: 70),
+                                child: CustomScrollView(
+                                    physics: isListExpanded
+                                        ? const NeverScrollableScrollPhysics()
+                                        : null,
+                                    controller: _scrollController,
+                                    slivers: [
+                                      SliverToBoxAdapter(
+                                        child: SelectedCourseInformations(
+                                          course: state.course,
+                                          totalProgress:
+                                              _courseProgressAnimation != null
+                                                  ? _courseProgressAnimation!
+                                                      .value
+                                                  : state.course.totalProgress,
+                                        ),
                                       ),
-                                      pinned: true,
-                                      title: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              model.setBeforeQuiz(null);
-                                              model.setAfterQuiz(null);
-                                              model.setQuizType(
-                                                  QuizType.learning);
-                                              context.go(AppRouter.home);
-                                            },
-                                            child: Container(
-                                              margin: const EdgeInsets.only(
-                                                  left: 10),
-                                              child: const Icon(
-                                                Icons
-                                                    .arrow_back_ios_new_rounded,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                          Text(
-                                            translate[locator<
-                                                    GlobalDataManager>()
-                                                .interfaceLanguage]!['course'],
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleLarge!
-                                                .copyWith(color: Colors.white),
-                                          ),
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                right: 10),
-                                            height: 50,
-                                            width: 50,
-                                          )
-                                        ],
+                                      SliverToBoxAdapter(
+                                        child: SizedBox(
+                                          height: (150 *
+                                                      state.course.topicProgress
+                                                          .length)
+                                                  .toDouble() +
+                                              80,
+                                          child: GridView(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                                              children: [
+                                                ..._buildTopics(
+                                                    state.course.topicProgress,
+                                                    context,
+                                                    widget.beforeQuizCopy)
+                                              ]),
+                                        ),
                                       ),
-                                    ),
-                                    SliverToBoxAdapter(
-                                      child: SelectedCourseInformations(
-                                        course: state.course,
-                                        totalProgress:
-                                            _courseProgressAnimation != null
-                                                ? _courseProgressAnimation!
-                                                    .value
-                                                : state.course.totalProgress,
-                                      ),
-                                    ),
-                                    SliverToBoxAdapter(
-                                      child: SizedBox(
-                                        height: (150 *
-                                                    state.course.topicProgress
-                                                        .length)
-                                                .toDouble() +
-                                            80,
-                                        child: GridView(
-                                            shrinkWrap: true,
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                                            children: [
-                                              ..._buildTopics(
-                                                  state.course.topicProgress,
-                                                  context,
-                                                  widget.beforeQuizCopy)
-                                            ]),
-                                      ),
-                                    ),
-                                  ]),
+                                    ]),
+                              ),
                             ),
                             SelectModeButton(
                               isListExpanded: isListExpanded,
                               scrollController: _scrollController,
                               top: topScrollPixels,
+                            ),
+                            AnimatedContainer(
+                              duration: const Duration(milliseconds: 250),
+                              decoration: BoxDecoration(
+                                color: Colors.amber,
+                                boxShadow:topScrollPixels>30? [
+                                  BoxShadow(
+                                    color: Color.fromARGB(0, 104, 104, 104).withOpacity(0.2),
+                                    offset:const Offset(0, 8),
+                                    blurRadius: 8,
+                                    spreadRadius: 0,
+                                  )
+                                ]:[],
+                              ),
+                              height: 70,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        model.setBeforeQuiz(null);
+                                        model.setAfterQuiz(null);
+                                        model.setQuizType(QuizType.learning);
+                                        context.go(AppRouter.home);
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.centerLeft,
+                                        margin: const EdgeInsets.only(left: 30),
+                                        child: const Icon(
+                                          Icons.arrow_back_ios_new_rounded,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      child: Text(
+                                        translate[locator<GlobalDataManager>()
+                                            .interfaceLanguage]!['course'],
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
+                                            .copyWith(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(right: 10),
+                                    height: 50,
+                                    width: 50,
+                                  )
+                                ],
+                              ),
                             ),
                           ],
                         ),
