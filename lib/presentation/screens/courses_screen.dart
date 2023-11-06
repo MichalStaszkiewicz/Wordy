@@ -63,8 +63,9 @@ class _CoursesScreenState extends State<CoursesScreen>
                   builder: (context, state) {
                     if (state is CoursesLoaded) {
                       return GestureDetector(
-                        onTapDown: (tapData) {/*
-                          if (model.listRef != null ) {
+                        onTapDown: (tapData) {
+                          if (model.listRef != null && model.isExpanded) {
+                            print(tapData.globalPosition);
                             Offset listPosition =
                                 model.listRef!.globalToLocal(Offset.zero);
                             Offset tapPosition = tapData.globalPosition;
@@ -74,12 +75,12 @@ class _CoursesScreenState extends State<CoursesScreen>
                                     listPosition.dx +
                                         model.listRef!.size.width ||
                                 tapPosition.dy >
-                                    listPosition.dy +
-                                        model.listRef!.size.height &&model.isExpanded) {
+                                        listPosition.dy +
+                                            model.listRef!.size.height &&
+                                    model.isExpanded) {
                               model.setIsExpanded();
                             }
                           }
-                          */
                         },
                         child: Stack(
                           children: [
