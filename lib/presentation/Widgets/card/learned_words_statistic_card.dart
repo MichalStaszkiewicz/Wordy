@@ -52,7 +52,7 @@ class _LearnedWordsStatisticCardState extends State<LearnedWordsStatisticCard> {
               Color.fromARGB(255, 99, 155, 252),
               Color.fromRGBO(158, 149, 248, 1),
             ],
-            nonProgressionColor: const Color.fromARGB(255, 214, 198, 198),
+            nonProgressionColor: Color.fromARGB(255, 235, 232, 232),
             height: 10,
           ),
           Text(
