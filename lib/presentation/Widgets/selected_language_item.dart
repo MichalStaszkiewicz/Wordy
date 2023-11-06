@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/global/global_data_manager.dart';
@@ -33,7 +34,7 @@ class _SelectedLangaugeItemState extends State<SelectedLangaugeItem> {
                   .copyWith(color: Colors.black)),
           Container(
             width: 20,
-            child: Icon(Icons.arrow_downward),
+            child: const FaIcon(FontAwesomeIcons.angleDown,size: 18,),
           )
         ],
       ),
