@@ -28,6 +28,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
   Widget build(BuildContext context) {
     return FutureBuilder<List<Course>>(
         future: locator<UserService>().getAvailableCourses().then((value) {
+   
           if (value.isError) {
             throw Exception(
               translate[locator<GlobalDataManager>().interfaceLanguage]![

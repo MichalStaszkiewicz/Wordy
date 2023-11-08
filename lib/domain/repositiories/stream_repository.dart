@@ -25,13 +25,14 @@ class StreamRepository {
       _courseStreamController;
 
   StreamController<ActiveCourse> get currentCourseStreamController =>
-    _currentCourseStreamController;
+      _currentCourseStreamController;
   StreamController<dynamic> get notificationController =>
       _notificationController;
 
   void initialize() {
     _socket.on(SocketEvents.LOAD_COURSES, (data) {
-
+      print("DATA ");
+      print(data);
       _courseStreamController.add(UserActiveCoursesProgress.fromJson(data));
     });
 

@@ -29,6 +29,12 @@ class RegisterCourseList extends StatefulWidget {
 class _RegisterCourseListState extends State<RegisterCourseList> {
   @override
   Widget build(BuildContext context) {
+   
+for(Course course in widget.languages){
+
+ print(course.name);
+
+}
     return Expanded(
       flex: 8,
       child: Container(
@@ -39,20 +45,24 @@ class _RegisterCourseListState extends State<RegisterCourseList> {
                 child: Container(
                     child: ListView.builder(
                         itemCount: widget.languages.length,
-                        itemBuilder: (context, index) => LanguageTile(
-                              language: translate['english']![
-                                  widget.languages[index].name.toLowerCase()],
-                              imagePath: widget.languages[index].image,
-                              onSelect: () {
-                                context.read<RegisterBloc>().add(
-                                    InitialSetupStateUpdate(
-                                        updatedLanguage:
-                                            widget.languages[index].name,
-                                        beforeUpdateLanguage:
-                                            widget.currentLanguage));
-                              },
-                              selectedLangauge: widget.currentLanguage,
-                            )))),
+                        itemBuilder: (context, index) {
+                         
+                          
+                          return LanguageTile(
+                            language: translate['english']![
+                                widget.languages[index].name.toLowerCase()],
+                            imagePath: widget.languages[index].image,
+                            onSelect: () {
+                              context.read<RegisterBloc>().add(
+                                  InitialSetupStateUpdate(
+                                      updatedLanguage:
+                                          widget.languages[index].name,
+                                      beforeUpdateLanguage:
+                                          widget.currentLanguage));
+                            },
+                            selectedLangauge: widget.currentLanguage,
+                          );
+                        }))),
             Expanded(
                 flex: 1,
                 child: GestureDetector(
