@@ -229,7 +229,9 @@ final Map<String, Map<String, dynamic>> translate = {
       "animals": "Zwierzęta",
       'conversation': "Rozmowa",
       'countries': "Kraje",
-      "colors": "Kolory"
+      "colors": "Kolory",
+      "sport": "Sport",
+      "science": "Nauka"
     },
     "profile_screen_app_bar": "Profil",
     "profile_screen_courses_header": "Kursy",
@@ -467,7 +469,9 @@ final Map<String, Map<String, dynamic>> translate = {
       "animals": "Animals",
       'conversation': "Conversation",
       'countries': "Countries",
-      "colors": "Colors"
+      "colors": "Colors",
+      "sport": "Sport",
+      "science": "Science"
     },
     "profile_screen_app_bar": "Profile",
     "profile_screen_courses_header": "Courses",
@@ -716,7 +720,9 @@ final Map<String, Map<String, dynamic>> translate = {
       "animals": "Animales",
       "conversation": "Conversación",
       'countries': "Países",
-      "colors": "Colores"
+      "colors": "Colores",
+      "sport": "Deporte",
+      "science": "Ciencia"
     },
     "profile_screen_app_bar": "Perfil",
     "profile_screen_courses_header": "Cursos",
@@ -939,7 +945,9 @@ final Map<String, Map<String, dynamic>> translate = {
       "animals": "Animaux",
       'conversation': "Conversation",
       'countries': "Pays",
-      "colors": "Couleurs"
+      "colors": "Couleurs",
+      "sport": "Sport",
+      "science": "Science"
     },
     "profile_screen_app_bar": "Profil",
     "profile_screen_courses_header": "Cours",

@@ -119,12 +119,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                               width: 70,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50)),
-                              child: RandomAvatar(
-                                DateTime.now().toIso8601String(),
-                                height: 50,
-                                width: 52,
-                              ),
-                            )),
+                              child:Image(image: AssetImage('assets/penguin.png'),),
+                            )),/*
                             Positioned(
                               left: 63,
                               top: 63,
@@ -152,6 +148,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                                 ),
                               ),
                             ),
+                            */
                           ],
                         ),
                       ),
