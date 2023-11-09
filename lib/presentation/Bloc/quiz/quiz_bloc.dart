@@ -13,6 +13,7 @@ import 'package:wordy/domain/models/custom_error.dart';
 import 'package:wordy/domain/models/progress_in_topic.dart';
 import 'package:wordy/domain/models/question.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
+import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
 
 import '../../../Utility/locator/service_locator.dart';
 import '../../../const/enums.dart';
@@ -44,15 +45,15 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   QuizBloc(
     this.socketRepository,
   ) : super(const QuizInitial()) {
-    loadBeginnerQuiz();
+    loadQuiz();
     loadNextQuestion();
     finishQuiz();
     selectAnswer();
     checkAnswer();
   }
 
-  void loadBeginnerQuiz() {
-    on<LoadBeginnerQuiz>((event, emit) async {
+  void loadQuiz() {
+    on<LoadQuiz>((event, emit) async {
       emit(const InProgress());
       var questionsData;
       QuizType quizType = locator<CourseProgressTracker>().quizType;
@@ -75,7 +76,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
         courseName = courseNameData.data!.course.name;
         questions = questionsData.data!;
 
-        emit(QuizQuestionState(
+        emit(QuizQuestionsReady(
             question: questions[currentQuestionIndex],
             selectedIndex: null,
             answerChecked: false));
@@ -88,9 +89,9 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
   void selectAnswer() {
     on<SelectAnswer>((event, emit) {
-      final state = this.state as QuizQuestionState;
+      final state = this.state as QuizQuestionsReady;
 
-      emit(QuizQuestionState(
+      emit(QuizQuestionsReady(
         question: state.question,
         selectedIndex: event.selectedIndex,
         answerChecked: false,
@@ -100,8 +101,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
   void checkAnswer() {
     on<CheckAnswer>((event, emit) {
-      final state = this.state as QuizQuestionState;
-      emit(QuizQuestionState(
+      final state = this.state as QuizQuestionsReady;
+      emit(QuizQuestionsReady(
           question: questions[currentQuestionIndex],
           selectedIndex: state.selectedIndex,
           answerChecked: true));
@@ -110,11 +111,11 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
   void loadNextQuestion() {
     on<LoadNextQuestion>((event, emit) {
-      final state = this.state as QuizQuestionState;
+      final state = this.state as QuizQuestionsReady;
       if (questions[currentQuestionIndex].correctAnswerIndex ==
           state.selectedIndex) {
         currentQuestionIndex++;
-        emit(QuizQuestionState(
+        emit(QuizQuestionsReady(
             question: questions[currentQuestionIndex],
             selectedIndex: null,
             answerChecked: false));
@@ -124,7 +125,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
         questions = List.from(questions)..removeAt(currentQuestionIndex);
         questions.add(question);
 
-        emit(QuizQuestionState(
+        emit(QuizQuestionsReady(
             question: questions[currentQuestionIndex],
             selectedIndex: null,
             answerChecked: false));

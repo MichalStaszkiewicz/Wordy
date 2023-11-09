@@ -14,7 +14,7 @@ import '../domain/models/achievement.dart';
 
 import '../domain/models/vocabulary_question.dart';
 import '../global/notification_provider.dart';
-import '../presentation/Bloc/quiz/quiz_bloc.dart';
+import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
 
 class Utility {
   static Future<bool?> selectedCourseTheSameAsNativeLanguage(
@@ -38,7 +38,7 @@ class Utility {
 
   static void quizAnswerValidationLogic(
     BuildContext context,
-    QuizQuestionState state,
+    QuizQuestionsReady state,
     NotificationProvider notification,
     String topic,
   ) {

@@ -73,6 +73,7 @@ dependencies:
   random_avatar: ^0.0.8
   font_awesome_flutter: ^10.6.0
  
+ 
 
   
 dev_dependencies:

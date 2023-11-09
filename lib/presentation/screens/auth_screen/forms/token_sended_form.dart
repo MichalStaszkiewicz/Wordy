@@ -29,8 +29,8 @@ class _TokenSendedFormState extends State<TokenSendedForm> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          translate[locator<GlobalDataManager>().interfaceLanguage]!['auth_form']
-              ['type_reset_password_token'],
+          translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'auth_form']['type_reset_password_token'], textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         SizedBox(
@@ -54,9 +54,9 @@ class _TokenSendedFormState extends State<TokenSendedForm> {
         GestureDetector(
           onTap: widget.onSwitchToLogin,
           child: Text(
-            textAlign: TextAlign.center,
             translate[locator<GlobalDataManager>().interfaceLanguage]![
                 'auth_form']['back_to_login'],
+            textAlign: TextAlign.center,
             style: const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
           ),
         )

@@ -24,6 +24,7 @@ class _LearnedWordsSelectedCourseState
     extends State<LearnedWordsSelectedCourse> {
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
         body: SafeArea(
       child: Container(
@@ -49,7 +50,7 @@ class _LearnedWordsSelectedCourseState
                       child: Center(
                         child: Text(
                           translate[locator<GlobalDataManager>()
-                              .interfaceLanguage]!['learned_words'],
+                              .interfaceLanguage]!['progress'],
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall!
@@ -65,11 +66,11 @@ class _LearnedWordsSelectedCourseState
             Expanded(
               child: Container(
                   child: ListView.builder(
-                itemCount: widget.course.topicsCount,
+                itemCount: widget.course.topicProgress.length,
                 itemBuilder: (BuildContext context, int index) =>
                     GestureDetector(
                   child: LearnedWordsStatisticCard(
-                      maximum: widget.course.totalWordsCount,
+                      maximum: widget.course.topicProgress[index].wordsCount,
                       current: widget.course.knownWords,
                       image: widget.course.topicProgress[index].topic.image),
                 ),

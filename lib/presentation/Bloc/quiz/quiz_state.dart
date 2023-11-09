@@ -25,8 +25,8 @@ class QuizError extends QuizState {
   CustomError error;
 }
 
-class QuizQuestionState extends QuizState {
-  QuizQuestionState(
+class QuizQuestionsReady extends QuizState {
+  QuizQuestionsReady(
       {required this.question,
       required this.selectedIndex,
       required this.answerChecked});

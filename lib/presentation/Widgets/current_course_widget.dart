@@ -52,12 +52,12 @@ class CurrentCourseWidget extends StatelessWidget {
                         height: 70,
                         width: 70,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                        color: Colors.white,
                           borderRadius: BorderRadius.circular(50),
                         ),
                         child: Container(
                           margin: const EdgeInsets.all(5),
-                          child: Image(
+                          child: Image(fit:BoxFit.fill,
                             image: NetworkImage(Urls.kImageUrl +
                                 currentCourse.userCourse.course.circularImage),
                           ),

@@ -39,7 +39,7 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
       children: [
         Text(
           translate[locator<GlobalDataManager>().interfaceLanguage]!['auth_form']
-              ['new_password'],
+              ['new_password'],  textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         SizedBox(
@@ -77,9 +77,9 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
         GestureDetector(
           onTap: widget.onSwitchToLogin,
           child: Text(
-            textAlign: TextAlign.center,
+          
             translate[locator<GlobalDataManager>().interfaceLanguage]![
-                'auth_form']['back_to_login'],
+                'auth_form']['back_to_login'],  textAlign: TextAlign.center,
             style: const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
           ),
         )

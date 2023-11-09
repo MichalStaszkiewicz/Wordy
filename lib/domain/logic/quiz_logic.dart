@@ -37,7 +37,7 @@ class QuizLogic {
     if (token.isError) {
       return Either.error(token.error);
     }
-    final userInterfaceLanguage = await _repository.getUserInterfaceLanguage();
+    final userInterfaceLanguage =  _repository.getUserInterfaceLanguage();
     if (userInterfaceLanguage.isError) {
       return Either.error(userInterfaceLanguage.error);
     }
@@ -59,7 +59,7 @@ class QuizLogic {
     }
     List<Word> validatedQuestions = questions.data!;
     List<Word> validatedLearnedWords = learnedWords.data!;
-    List<String> possibleAnswers = [];
+    
 
     List<Word> filteredQuestions = [];
 
@@ -72,9 +72,7 @@ class QuizLogic {
       }
     }
 
-    for (Word question in validatedQuestions) {
-      possibleAnswers.add(question.answer);
-    }
+    
     if (filteredQuestions.length >= 10) {
       for (int i = 0; i < 10;) {
         Random random = Random();
@@ -84,19 +82,19 @@ class QuizLogic {
 
         while (answers.length < 4) {
           int randomAnswerIndex = random.nextInt(validatedQuestions.length);
-          if (!answers.contains(validatedQuestions[randomAnswerIndex].answer)) {
-            answers.add(validatedQuestions[randomAnswerIndex].answer);
+          if (!answers.contains(validatedQuestions[randomAnswerIndex].question)) {
+            answers.add(validatedQuestions[randomAnswerIndex].question);
           }
         }
-        if (answers.contains(filteredQuestions[i].answer)) {
+        if (answers.contains(filteredQuestions[i].question)) {
           correctAnswerIndex = answers
-              .indexWhere((element) => element == filteredQuestions[i].answer);
+              .indexWhere((element) => element == filteredQuestions[i].question);
         } else {
           correctAnswerIndex = random.nextInt(3);
-          answers[correctAnswerIndex] = filteredQuestions[i].answer;
+          answers[correctAnswerIndex] = filteredQuestions[i].question;
         }
         quizQuestions.add(VocabularyQuestion(
-            question: filteredQuestions[i].question,
+            question: filteredQuestions[i].answer,
             answers: answers,
             correctAnswerIndex: correctAnswerIndex,
             wordId: filteredQuestions[i].wordId));
@@ -159,11 +157,8 @@ class QuizLogic {
       return Either.error(questions.error!);
     }
 
-    List<String> possibleAnswers = [];
 
-    for (Word question in questions.data!) {
-      possibleAnswers.add(question.answer);
-    }
+
 
     if (questions.data!.length >= 10) {
       for (int i = 0; i < 10;) {
@@ -174,19 +169,19 @@ class QuizLogic {
 
         while (answers.length < 4) {
           int randomAnswerIndex = random.nextInt(questions.data!.length);
-          if (!answers.contains(questions.data![randomAnswerIndex].answer)) {
-            answers.add(questions.data![randomAnswerIndex].answer);
+          if (!answers.contains(questions.data![randomAnswerIndex].question)) {
+            answers.add(questions.data![randomAnswerIndex].question);
           }
         }
-        if (answers.contains(questions.data![i].answer)) {
+        if (answers.contains(questions.data![i].question)) {
           correctAnswerIndex = answers
-              .indexWhere((element) => element == questions.data![i].answer);
+              .indexWhere((element) => element == questions.data![i].question);
         } else {
           correctAnswerIndex = random.nextInt(3);
-          answers[correctAnswerIndex] = questions.data![i].answer;
+          answers[correctAnswerIndex] = questions.data![i].question;
         }
         quizQuestions.add(VocabularyQuestion(
-            question: questions.data![i].question,
+            question: questions.data![i].answer,
             answers: answers,
             correctAnswerIndex: correctAnswerIndex,
             wordId: questions.data![i].wordId));
@@ -199,23 +194,23 @@ class QuizLogic {
 
         while (answers.length < 4) {
           int randomAnswerIndex = Random().nextInt(questions.data!.length);
-          String randomAnswer = questions.data![randomAnswerIndex].answer;
+          String randomAnswer = questions.data![randomAnswerIndex].question;
           if (!answers.contains(randomAnswer)) {
             answers.add(randomAnswer);
           }
         }
 
         int correctAnswerIndex;
-        if (answers.contains(question.answer)) {
-          correctAnswerIndex = answers.indexOf(question.answer);
+        if (answers.contains(question.question)) {
+          correctAnswerIndex = answers.indexOf(question.question);
         } else {
           correctAnswerIndex = Random().nextInt(4);
-          answers[correctAnswerIndex] = question.answer;
+          answers[correctAnswerIndex] = question.question;
         }
 
         quizQuestions.add(
           VocabularyQuestion(
-              question: question.question,
+              question: question.answer,
               answers: answers,
               correctAnswerIndex: correctAnswerIndex,
               wordId: question.wordId),

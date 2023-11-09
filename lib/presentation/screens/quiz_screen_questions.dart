@@ -1,15 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/Utility/dialog_manager.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/global/notification_provider.dart';
-import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
 
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
 import 'package:wordy/presentation/widgets/button/exit_button.dart';
@@ -17,6 +18,7 @@ import 'package:wordy/presentation/widgets/button/exit_button.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
 import 'package:wordy/presentation/widgets/quiz_answear.dart';
 import 'package:wordy/presentation/widgets/button/quiz_next_button.dart';
+import 'package:wordy/presentation/widgets/read_question_widget.dart';
 import 'package:wordy/utility/utility.dart';
 
 import '../../Utility/locator/service_locator.dart';
@@ -35,6 +37,7 @@ class QuizScreenQuestions extends StatefulWidget {
 
 class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
     with TickerProviderStateMixin {
+
   String _buttonLabelCheck(bool checkedAnswer, int currentIndex, int maxIndex) {
     if (checkedAnswer) {
       return translate[locator<GlobalDataManager>().interfaceLanguage]![
@@ -52,7 +55,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
   Widget build(BuildContext context) {
     return BlocBuilder<QuizBloc, QuizState>(
       builder: (context, state) {
-        state as QuizQuestionState;
+        state as QuizQuestionsReady;
         return Consumer<NotificationProvider>(
           builder: (context, notification, child) => SafeArea(
             child: Stack(children: [
@@ -167,19 +170,33 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                AutoSizeText(
-                                  maxLines: 2,
-                                  textAlign: TextAlign.center,
-                                  context
-                                      .read<QuizBloc>()
-                                      .questions[context
-                                          .read<QuizBloc>()
-                                          .currentQuestionIndex]
-                                      .question,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleLarge!
-                                      .copyWith(letterSpacing: 1),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(child: const ReadQuestionWidget()),
+                                    Container(
+                                      width: 15,
+                                    ),
+                                    Expanded(flex: 5,
+                                      child: Container(
+                                        child: AutoSizeText(
+                                          maxLines: 1,
+                                          textAlign: TextAlign.center,
+                                          context
+                                              .read<QuizBloc>()
+                                              .questions[context
+                                                  .read<QuizBloc>()
+                                                  .currentQuestionIndex]
+                                              .question,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge!
+                                              .copyWith(letterSpacing: 1),
+                                        ),
+                                      ),
+                                    ),
+                                Expanded(child: Container())
+                                  ],
                                 ),
                                 const SizedBox(
                                   height: 10,
@@ -213,7 +230,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                         flex: 7,
                         child: Container(
                             child: GridView.builder(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: context
                                     .read<QuizBloc>()
                                     .questions[context

@@ -20,6 +20,7 @@ class WordsLearnedScreen extends StatefulWidget {
 class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
         body: SafeArea(
       child: Container(
@@ -27,7 +28,7 @@ class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
           children: [
             TitleWithBackButton(
               title: translate[locator<GlobalDataManager>().interfaceLanguage]![
-                  'known_words'],
+                  'progress'],
             ),
             Expanded(
               child: Container(

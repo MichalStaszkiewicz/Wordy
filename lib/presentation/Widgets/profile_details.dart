@@ -48,7 +48,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             child: StatisticsItem(
               image: 'assets/open-book.png',
               label:
-                  translate[language]!['profile_screen_learned_words'].toString(),
+                  translate[language]!['progress'].toString(),
               statisticsCount: state.learnedWords,
             ),
           );

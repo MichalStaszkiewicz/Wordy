@@ -44,12 +44,13 @@ class _AchievementItemFrontState extends State<AchievementItemFront> {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 5),
             child: AutoSizeText(
-              maxLines: 1,
+              maxLines:1,
+              
               textAlign: TextAlign.center,
               widget.name,
               style: TextStyle(
                 color: Colors.grey[700],
-                fontSize: 16.0,
+               
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -72,15 +73,17 @@ class _AchievementItemFrontState extends State<AchievementItemFront> {
               ),
             ),
           ),
-          ProgressionBar(
-            height: 10,
-            gradient: const [
-              Color.fromARGB(255, 99, 155, 252),
-              Color.fromRGBO(158, 149, 248, 1),
-            ],
-            nonProgressionColor: const Color.fromARGB(255, 231, 227, 227),
-            progress: (widget.currentProgress! / widget.maximum!) * 100,
-            width: 150,
+          Container(margin: EdgeInsets.symmetric(horizontal: 10),
+            child: ProgressionBar(
+              height: 10,
+              gradient: const [
+                Color.fromARGB(255, 99, 155, 252),
+                Color.fromRGBO(158, 149, 248, 1),
+              ],
+              nonProgressionColor: const Color.fromARGB(255, 231, 227, 227),
+              progress: (widget.currentProgress! / widget.maximum!) * 100,
+              width: 150,
+            ),
           )
         ],
       ),

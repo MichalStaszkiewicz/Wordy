@@ -1,7 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wordy/presentation/Bloc/quiz/quiz_bloc.dart';
+import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
+
 import 'package:wordy/presentation/widgets/loading_data.dart';
 
 class QuizAnswear extends StatefulWidget {
@@ -22,7 +23,7 @@ class _QuizAnswearState extends State<QuizAnswear> {
   Widget build(BuildContext context) {
     return BlocBuilder<QuizBloc, QuizState>(
       builder: (context, state) {
-        if (state is QuizQuestionState) {
+        if (state is QuizQuestionsReady) {
           return GestureDetector(
             onTap: () {
               if (!state.answerChecked) {

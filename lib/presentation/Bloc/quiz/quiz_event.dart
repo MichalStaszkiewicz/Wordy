@@ -7,8 +7,8 @@ abstract class QuizEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadBeginnerQuiz extends QuizEvent {
-  LoadBeginnerQuiz({
+class LoadQuiz extends QuizEvent {
+  LoadQuiz({
     required this.topic,
   });
   String topic;

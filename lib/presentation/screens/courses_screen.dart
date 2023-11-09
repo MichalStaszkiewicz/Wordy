@@ -168,7 +168,7 @@ class _CoursesScreenState extends State<CoursesScreen>
                                     ),
                                     SliverToBoxAdapter(
                                       child: Container(
-                                          height: 400,
+                                          height: (state.courses.activeCourses.length * 100) + 200,
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10),
                                           child: GridView.builder(
