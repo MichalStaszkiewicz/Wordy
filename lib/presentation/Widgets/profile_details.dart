@@ -119,7 +119,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                               width: 70,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50)),
-                              child:Image(image: AssetImage('assets/penguin.png'),),
+                              child:const Image(image: AssetImage('assets/penguin.png'),),
                             )),/*
                             Positioned(
                               left: 63,

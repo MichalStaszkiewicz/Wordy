@@ -44,8 +44,7 @@ class _QuizAnswerToastState extends State<QuizAnswerToast>
           'incorrect_answer'];
       message = translate[locator<GlobalDataManager>().interfaceLanguage]
               ?['correct_answer'] +
-          " : " +
-          widget.correctAnswer;
+          " : " ;
       icon = Icons.close;
       iconColor = Colors.red;
       iconBgColor = Colors.red.shade200;
@@ -139,15 +138,29 @@ class _QuizAnswerToastState extends State<QuizAnswerToast>
                                 )
                               : Container(),
                           widget.correct == false
-                              ? AutoSizeText(
-                                  message,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
-                                      .copyWith(
-                                          color: Colors.black,
-                                          letterSpacing: 0.5),
-                                )
+                              ? Row(
+                                children: [
+                                  AutoSizeText(
+                                      message,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!
+                                          .copyWith(
+                                              color: Colors.black,
+                                              letterSpacing: 0.5),
+                                    ),
+                                    AutoSizeText(
+                                      widget.correctAnswer,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!
+                                          .copyWith(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 0.5),
+                                    ),
+                                ],
+                              )
                               : Container()
                         ],
                       ),

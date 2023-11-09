@@ -173,7 +173,7 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Expanded(child: const ReadQuestionWidget()),
+                                    Expanded(child:  Container()),
                                     Container(
                                       width: 15,
                                     ),
