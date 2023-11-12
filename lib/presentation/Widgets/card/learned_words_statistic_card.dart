@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wordy/presentation/widgets/progression_bar.dart';
+import 'package:wordy/utility/locator/service_locator.dart';
 
 import '../../../const/urls.dart';
 
@@ -41,7 +42,7 @@ class _LearnedWordsStatisticCardState extends State<LearnedWordsStatisticCard> {
             width: 50,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(Urls.kImageUrl + widget.image)),
+                    image: NetworkImage(locator<Urls>().imageUrl + widget.image)),
                 color: Colors.blue.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(50)),
           ),

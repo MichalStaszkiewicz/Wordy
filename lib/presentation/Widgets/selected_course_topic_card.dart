@@ -132,7 +132,7 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
                 child: Center(
                     child: Image(
                         image:
-                            NetworkImage(Urls.kImageUrl + widget.topic.image))),
+                            NetworkImage(locator<Urls>().imageUrl + widget.topic.image))),
               ),
               Text(
               translate[locator<GlobalDataManager>().interfaceLanguage]![

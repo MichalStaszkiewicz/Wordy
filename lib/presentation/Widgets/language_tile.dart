@@ -21,7 +21,7 @@ class LanguageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        leading: Image.network(Urls.kImageUrl + imagePath),
+        leading: Image.network(locator<Urls>().imageUrl + imagePath),
         title: Text(translate[locator<GlobalDataManager>().interfaceLanguage]![language.toLowerCase()]),
         trailing: selectedLangauge.toLowerCase() ==
                 language.toLowerCase()

@@ -66,7 +66,7 @@ class VocabularyListEntry extends StatelessWidget {
                   height: 50,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(Urls.kImageUrl + vocabulary.image)),
+                        image: NetworkImage(locator<Urls>().imageUrl + vocabulary.image)),
                   ),
                 ),
               ),

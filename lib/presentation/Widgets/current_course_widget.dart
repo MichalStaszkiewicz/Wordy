@@ -58,7 +58,7 @@ class CurrentCourseWidget extends StatelessWidget {
                         child: Container(
                           margin: const EdgeInsets.all(5),
                           child: Image(fit:BoxFit.fill,
-                            image: NetworkImage(Urls.kImageUrl +
+                            image: NetworkImage(locator<Urls>().imageUrl +
                                 currentCourse.userCourse.course.circularImage),
                           ),
                         ),

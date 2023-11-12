@@ -23,7 +23,7 @@ class _SelectedLangaugeItemState extends State<SelectedLangaugeItem> {
         children: [
           SizedBox(
             height: 35,
-            child: Image.network(Urls.kImageUrl + widget.image),
+            child: Image.network(locator<Urls>().imageUrl + widget.image),
           ),
           Text(
               translate[locator<GlobalDataManager>().interfaceLanguage]![

@@ -142,7 +142,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                         height: 100,
                         child: Image(
                             image: NetworkImage(
-                                Urls.kImageUrl + widget.topic.image))),
+                                locator<Urls>().imageUrl + widget.topic.image))),
                   
                     Expanded(
                       flex: 1,

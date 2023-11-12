@@ -20,23 +20,26 @@ import '../socket_manager.dart';
 
 GetIt locator = GetIt.instance;
 
-Future<void> serviceLocator() async {
+Future<void> serviceLocator(String baseUrl, String imageUrl) async {
+  locator.registerLazySingleton(() => Urls(baseUrl, imageUrl));
   locator.registerLazySingleton(
       () => QuizLogic(locator<Repository>(), locator<UserService>()));
   locator.registerLazySingleton(() => VocabularyService(locator<Repository>()));
   locator.registerLazySingleton(() => UserService(locator<Repository>()));
   locator.registerLazySingleton(() => SettingsLogic(locator<Repository>()));
-  locator.registerLazySingleton(() => ApiService(baseUrl: Urls.kBaseUrl));
+  locator.registerLazySingleton(
+      () => ApiService(baseUrl: locator<Urls>().baseUrl));
   locator.registerLazySingleton(() => CourseProgressTracker());
   locator.registerLazySingleton(() => GlobalDataManager());
-  locator.registerLazySingleton(() => io(Urls.kBaseUrl, <String, dynamic>{
-        'transports': ['websocket'],
-        'autoConnect': false,
-        'reconnection': true,
-        'reconnectionDelay': 1000,
-        'reconnectionDelayMax': 5000,
-        'reconnectionAttempts': 99999
-      }));
+  locator.registerLazySingleton(
+      () => io(locator<Urls>().baseUrl, <String, dynamic>{
+            'transports': ['websocket'],
+            'autoConnect': false,
+            'reconnection': true,
+            'reconnectionDelay': 1000,
+            'reconnectionDelayMax': 5000,
+            'reconnectionAttempts': 99999
+          }));
 
   final pref = await SharedPreferences.getInstance();
   locator.registerLazySingleton(() => LocalStorage(pref));
