@@ -40,7 +40,6 @@ class CurrentCourseWidget extends StatelessWidget {
             ],
             borderRadius: BorderRadius.circular(10)),
         child: Stack(children: [
-       
           Container(
             child: Row(
               children: [
@@ -52,12 +51,13 @@ class CurrentCourseWidget extends StatelessWidget {
                         height: 70,
                         width: 70,
                         decoration: BoxDecoration(
-                        color: Colors.white,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(50),
                         ),
                         child: Container(
                           margin: const EdgeInsets.all(5),
-                          child: Image(fit:BoxFit.fill,
+                          child: Image(
+                            fit: BoxFit.fill,
                             image: NetworkImage(locator<Urls>().imageUrl +
                                 currentCourse.userCourse.course.circularImage),
                           ),

@@ -11,7 +11,7 @@ import 'package:wordy/const/consts.dart';
 import 'package:wordy/const/enums.dart';
 import 'package:wordy/domain/models/active_course.dart';
 import 'package:wordy/domain/models/progress_in_topic.dart';
-import 'package:wordy/global/course_progress_tracker.dart';
+import 'package:wordy/global/selected_course_notifier.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/Bloc/courses_update/courses_update_bloc.dart';
 import 'package:wordy/presentation/screens/selected_course_screen/selected_course_informations.dart';
@@ -42,16 +42,16 @@ class _SelectedCourseReadyState extends State<SelectedCourseReady>
           _scrollController.position.userScrollDirection ==
               ScrollDirection.reverse) {
         final listState =
-            Provider.of<CourseProgressTracker>(context, listen: false)
+            Provider.of<SelectedCourseNotifier>(context, listen: false)
                 .quizTypeListExpanded;
         if (listState) {
-          Provider.of<CourseProgressTracker>(context, listen: false)
+          Provider.of<SelectedCourseNotifier>(context, listen: false)
               .setQuizTypeListExpanded();
         }
       }
     });
-    ActiveCourse? beforeQuiz = locator<CourseProgressTracker>().beforeQuiz;
-    ActiveCourse? afterQuiz = locator<CourseProgressTracker>().afterQuiz;
+    ActiveCourse? beforeQuiz = locator<SelectedCourseNotifier>().beforeQuiz;
+    ActiveCourse? afterQuiz = locator<SelectedCourseNotifier>().afterQuiz;
     _courseProgressController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 1000));
     if (beforeQuiz == null || afterQuiz == null) {
@@ -98,13 +98,11 @@ class _SelectedCourseReadyState extends State<SelectedCourseReady>
       builder: (context, courseState) {
         final state = courseState as CourseTopicsLoaded;
 
-        return Consumer<CourseProgressTracker>(
+        return Consumer<SelectedCourseNotifier>(
           builder: (context, model, child) => CustomPaint(
             painter: SelectedCourseBackground(backgroundColor: Colors.amber),
             child: SafeArea(
               child: Container(
-               
-            
                 child: Column(
                   children: [
                     Expanded(
@@ -253,12 +251,23 @@ class SelectModeButton extends StatefulWidget {
 class _SelectModeButtonState extends State<SelectModeButton> {
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-        top: (MediaQuery.of(context).size.height / 4.8) -
-            widget.top.toPrecision(1),
-        left: MediaQuery.of(context).size.width / 10,
-        child: ModeList(
-          scrollController: widget._scrollController,
-        ));
+    return Consumer<SelectedCourseNotifier>(builder: (context, model, child) {
+      if (model.courseTitle != null) {
+        Offset courseTitlePosition =
+            model.courseTitle!;
+
+        double buttonYPosition = courseTitlePosition.dy+20;
+       
+
+        return Positioned(
+            top: buttonYPosition - widget.top.toPrecision(1) ,
+            left: MediaQuery.of(context).size.width / 10,
+            child: ModeList(
+              scrollController: widget._scrollController,
+            ));
+      } else {
+        return Container();
+      }
+    });
   }
 }

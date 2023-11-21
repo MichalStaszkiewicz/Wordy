@@ -1,5 +1,5 @@
-
 import 'package:dio/dio.dart';
+import 'package:mockito/mockito.dart';
 
 import 'package:wordy/data/network/api_service.dart';
 import 'package:wordy/data/network/request/login_user_request.dart';
@@ -349,3 +349,5 @@ class RemoteSource implements ServerInterface {
     }
   }
 }
+
+class MockRemoteSource extends Mock implements ServerInterface {}

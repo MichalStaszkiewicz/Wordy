@@ -1,3 +1,4 @@
+import 'package:mockito/mockito.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/data/network/exceptions/session_verification_error.dart';
 import 'package:wordy/data/network/request/login_user_request.dart';
@@ -307,6 +308,31 @@ class UserService {
       return Either.data(responseMessage.data);
     } else {
       return Either.error(responseMessage.error!);
+    }
+  }
+}
+
+class MockUserService extends Mock implements UserService {
+  @override
+  Future<Either<Exception, String>> registerUser(
+      Map<String, dynamic> userAuthData) async {
+    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+    if (userAuthData['email'] == null || userAuthData['email'] == '') {
+      return Either<Exception, String>.error(
+          ValidationError('error', message: 'email empty or null'));
+    } else if (userAuthData['password'] == null ||
+        userAuthData['password'] == '') {
+      return Either<Exception, String>.error(
+          ValidationError('error', message: 'password empty or null'));
+    } else if (!emailRegExp.hasMatch(userAuthData['email'])) {
+      return Either<Exception, String>.error(
+          ValidationError('error', message: 'Invalid email format'));
+    } else if (userAuthData['password'].length < 6) {
+      return Either<Exception, String>.error(
+          ValidationError('error', message: 'Password is too short'));
+    } else {
+      return Either<Exception, String>.data('data');
     }
   }
 }

@@ -37,7 +37,6 @@ class QuizScreenQuestions extends StatefulWidget {
 
 class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
     with TickerProviderStateMixin {
-
   String _buttonLabelCheck(bool checkedAnswer, int currentIndex, int maxIndex) {
     if (checkedAnswer) {
       return translate[locator<GlobalDataManager>().interfaceLanguage]![
@@ -59,209 +58,119 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
         return Consumer<NotificationProvider>(
           builder: (context, notification, child) => SafeArea(
             child: Stack(children: [
-              Container(
-                height: 120,
-                alignment: Alignment.topCenter,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      height: 30,
-                      child: Center(
-                        child: Text(
-                          translate[locator<GlobalDataManager>()
-                              .interfaceLanguage]!['topic_label'][widget.topic],
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+              Center(
+                child: Container(
+                  child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                            child: Center(
-                          child: GestureDetector(
-                            onTap: () {
-                              DialogManager.showQuestionDialog(
-                                  translate[locator<GlobalDataManager>()
-                                      .interfaceLanguage]!['quiting_quiz'],
-                                  translate[locator<GlobalDataManager>()
-                                          .interfaceLanguage]!['messages']
-                                      ['are_you_sure'],
-                                  context, () {
-                                notification.clearChoosenAnswerNotification();
-                                context.go(
-                                  AppRouter.selectedCourse,
-                                );
-                              }, () {});
-                            },
-                            child: const ExitButton(),
-                          ),
-                        )),
-                        TweenAnimationBuilder(
-                          builder: (BuildContext context, animation, __) =>
-                              ProgressionBar(
-                                  height: 10,
-                                  gradient: const [
-                                    Color.fromARGB(255, 99, 155, 252),
-                                    Color.fromRGBO(158, 149, 248, 1),
-                                  ],
-                                  nonProgressionColor:
-                                      const Color.fromARGB(255, 231, 227, 227),
-                                  progress: ((animation) /
-                                          context
-                                              .read<QuizBloc>()
-                                              .questions
-                                              .length) *
-                                      100,
-                                  width: 250),
-                          duration: const Duration(milliseconds: 500),
-                          tween: Tween(
-                              begin: context
-                                          .read<QuizBloc>()
-                                          .currentQuestionIndex ==
-                                      0
-                                  ? 0.0000001
-                                  : (context
-                                          .read<QuizBloc>()
-                                          .currentQuestionIndex)
-                                      .toDouble(),
-                              end: context
-                                          .read<QuizBloc>()
-                                          .currentQuestionIndex ==
-                                      0
-                                  ? 0.0000002
-                                  : (context
-                                              .read<QuizBloc>()
-                                              .currentQuestionIndex +
-                                          1)
-                                      .toDouble()),
+                        QuizScreenBar(
+                          widget: widget,
+                          notification: notification,
                         ),
-                        Container(
-                          width: 60,
-                          child: Text(
-                            ' ${context.read<QuizBloc>().currentQuestionIndex + 1} / ${context.read<QuizBloc>().questions.length.toString()}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelLarge!
-                                .copyWith(
-                                    color: const Color.fromARGB(
-                                        255, 93, 104, 129)),
-                          ),
-                        )
-                      ],
-                    ),
-                    Text(translate[locator<GlobalDataManager>()
-                        .interfaceLanguage]!['choose_correct_translation'])
-                  ],
-                ),
-              ),
-              Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          alignment: Alignment.bottomCenter,
+                        Expanded(
+                          flex: 2,
                           child: Container(
-                            height: 80,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(child:  Container()),
-                                    Container(
-                                      width: 15,
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(child: Container()),
+                                      Container(
+                                        width: 15,
+                                      ),
+                                      Expanded(
+                                        flex: 5,
+                                        child: Container(
+                                          child: AutoSizeText(
+                                            maxLines: 1,
+                                            textAlign: TextAlign.center,
+                                            context
+                                                .read<QuizBloc>()
+                                                .questions[context
+                                                    .read<QuizBloc>()
+                                                    .currentQuestionIndex]
+                                                .question,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge!
+                                                .copyWith(letterSpacing: 1),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(child: Container())
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        _buildDivider(),
+                                        Text(
+                                          translate[locator<GlobalDataManager>()
+                                                  .interfaceLanguage]!['in'] +
+                                              ' ${translate[locator<GlobalDataManager>().interfaceLanguage]!['${context.read<QuizBloc>().courseName}_quiz']}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge!
+                                              .copyWith(
+                                                  letterSpacing: 1,
+                                                  color: const Color.fromARGB(
+                                                      255, 164, 164, 165)),
+                                        ),
+                                        _buildDivider(),
+                                      ],
                                     ),
-                                    Expanded(flex: 5,
-                                      child: Container(
-                                        child: AutoSizeText(
-                                          maxLines: 1,
-                                          textAlign: TextAlign.center,
-                                          context
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 7,
+                          child: Container(
+                              child: GridView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: context
+                                      .read<QuizBloc>()
+                                      .questions[context
+                                          .read<QuizBloc>()
+                                          .currentQuestionIndex]
+                                      .answers
+                                      .length,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return AnimationConfiguration.staggeredGrid(
+                                      columnCount: 2,
+                                      position: index,
+                                      duration:
+                                          const Duration(milliseconds: 375),
+                                      child: BouncingWidget(
+                                        onPress: () {},
+                                        child: QuizAnswear(
+                                          answer: context
                                               .read<QuizBloc>()
                                               .questions[context
                                                   .read<QuizBloc>()
                                                   .currentQuestionIndex]
-                                              .question,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge!
-                                              .copyWith(letterSpacing: 1),
+                                              .answers[index],
+                                          index: index,
                                         ),
                                       ),
-                                    ),
-                                Expanded(child: Container())
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      _buildDivider(),
-                                      Text(
-                                        translate[locator<GlobalDataManager>()
-                                                .interfaceLanguage]!['in'] +
-                                            ' ${translate[locator<GlobalDataManager>().interfaceLanguage]!['${context.read<QuizBloc>().courseName}_quiz']}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelLarge!
-                                            .copyWith(
-                                                letterSpacing: 1,
-                                                color: const Color.fromARGB(
-                                                    255, 164, 164, 165)),
-                                      ),
-                                      _buildDivider(),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+                                    );
+                                  })),
                         ),
-                      ),
-                      Expanded(
-                        flex: 7,
-                        child: Container(
-                            child: GridView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: context
-                                    .read<QuizBloc>()
-                                    .questions[context
-                                        .read<QuizBloc>()
-                                        .currentQuestionIndex]
-                                    .answers
-                                    .length,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2),
-                                itemBuilder: (BuildContext context, int index) {
-                                  return AnimationConfiguration.staggeredGrid(
-                                    columnCount: 2,
-                                    position: index,
-                                    duration: const Duration(milliseconds: 375),
-                                    child: BouncingWidget(
-                                      onPress: () {},
-                                      child: QuizAnswear(
-                                        answer: context
-                                            .read<QuizBloc>()
-                                            .questions[context
-                                                .read<QuizBloc>()
-                                                .currentQuestionIndex]
-                                            .answers[index],
-                                        index: index,
-                                      ),
-                                    ),
-                                  );
-                                })),
-                      ),
-                    ]),
+                      ]),
+                ),
               ),
               notification.quizAnswerNotification ?? Container(),
               Consumer<NotificationProvider>(
@@ -305,6 +214,106 @@ class _QuizScreenQuestionsState extends State<QuizScreenQuestions>
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
             color: const Color.fromARGB(255, 221, 221, 221)),
+      ),
+    );
+  }
+}
+
+class QuizScreenBar extends StatelessWidget {
+  const QuizScreenBar(
+      {super.key, required this.widget, required this.notification});
+  final NotificationProvider notification;
+  final QuizScreenQuestions widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.topCenter,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(
+            height: 30,
+            child: Center(
+              child: Text(
+                translate[locator<GlobalDataManager>().interfaceLanguage]![
+                    'topic_label'][widget.topic],
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
+          ),
+          Container(
+        
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: Container(
+                      child: Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        DialogManager.showQuestionDialog(
+                            translate[locator<GlobalDataManager>()
+                                .interfaceLanguage]!['quiting_quiz'],
+                            translate[locator<GlobalDataManager>()
+                                .interfaceLanguage]!['messages']['are_you_sure'],
+                            context, () {
+                          notification.clearChoosenAnswerNotification();
+                          context.go(
+                            AppRouter.selectedCourse,
+                          );
+                        }, () {});
+                      },
+                      child: const ExitButton(),
+                    ),
+                  )),
+                ),
+                TweenAnimationBuilder(
+                  builder: (BuildContext context, animation, __) =>
+                      Expanded(flex: 3,
+                        child: ProgressionBar(
+                            height: 10,
+                            gradient: const [
+                              Color.fromARGB(255, 99, 155, 252),
+                              Color.fromRGBO(158, 149, 248, 1),
+                            ],
+                            nonProgressionColor:
+                                const Color.fromARGB(255, 231, 227, 227),
+                            progress: ((animation) /
+                                    context.read<QuizBloc>().questions.length) *
+                                100,
+                            width: 250),
+                      ),
+                  duration: const Duration(milliseconds: 500),
+                  tween: Tween(
+                      begin: context.read<QuizBloc>().currentQuestionIndex == 0
+                          ? 0.0000001
+                          : (context.read<QuizBloc>().currentQuestionIndex)
+                              .toDouble(),
+                      end: context.read<QuizBloc>().currentQuestionIndex == 0
+                          ? 0.0000002
+                          : (context.read<QuizBloc>().currentQuestionIndex + 1)
+                              .toDouble()),
+                ),
+                Expanded(
+                  child: Container(
+                  
+                    child: Center(
+                      child: Text(
+                        ' ${context.read<QuizBloc>().currentQuestionIndex + 1} / ${context.read<QuizBloc>().questions.length.toString()}',
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                            color: const Color.fromARGB(255, 93, 104, 129)),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Text(translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'choose_correct_translation'])
+        ],
       ),
     );
   }

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/const/enums.dart';
-import 'package:wordy/global/course_progress_tracker.dart';
+
 import 'package:wordy/global/global_data_manager.dart';
+import 'package:wordy/global/selected_course_notifier.dart';
 
 import '../../../../Utility/locator/service_locator.dart';
 
@@ -53,7 +54,7 @@ class _ModeListOptionState extends State<ModeListOption>
       animationForwarded = true;
     }
 
-    return Consumer<CourseProgressTracker>(
+    return Consumer<SelectedCourseNotifier>(
       builder: (context, model, child) => Expanded(
         child: FadeTransition(
           opacity: animation,

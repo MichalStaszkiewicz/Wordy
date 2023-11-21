@@ -13,6 +13,7 @@ import 'package:wordy/domain/models/custom_error.dart';
 import 'package:wordy/domain/models/progress_in_topic.dart';
 import 'package:wordy/domain/models/question.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
+import 'package:wordy/global/selected_course_notifier.dart';
 import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
 
 import '../../../Utility/locator/service_locator.dart';
@@ -25,7 +26,6 @@ import '../../../domain/logic/quiz_logic.dart';
 import '../../../domain/models/user_active_courses_progress.dart';
 import '../../../domain/models/vocabulary_question.dart';
 import '../../../domain/repositiories/stream_repository.dart';
-import '../../../global/course_progress_tracker.dart';
 
 part 'quiz_event.dart';
 part 'quiz_state.dart';
@@ -56,7 +56,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     on<LoadQuiz>((event, emit) async {
       emit(const InProgress());
       var questionsData;
-      QuizType quizType = locator<CourseProgressTracker>().quizType;
+      QuizType quizType = locator<SelectedCourseNotifier>().quizType;
 
       if (quizType == QuizType.learning) {
         questionsData = await quizLogic.createLearningQuiz(event.topic);
@@ -137,7 +137,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     on<FinishQuiz>((event, emit) async {
       emit(const InProgress());
       final token = await userService.getTokenAccess();
-      var quizType = locator<CourseProgressTracker>().quizType;
+      var quizType = locator<SelectedCourseNotifier>().quizType;
       if (token.isError) {
         emit(QuizError(error: ExceptionHelper.getErrorMessage(token.error!)));
       }
@@ -151,7 +151,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
             emit(QuizError(
                 error: ExceptionHelper.getErrorMessage(currentCourse.error!)));
           } else {
-            locator<CourseProgressTracker>().afterQuiz = currentCourse.data;
+            locator<SelectedCourseNotifier>().afterQuiz = currentCourse.data;
 
             ProgressInTopic progress = currentCourse.data!.topicProgress
                 .firstWhere((element) => element.name == event.topic);

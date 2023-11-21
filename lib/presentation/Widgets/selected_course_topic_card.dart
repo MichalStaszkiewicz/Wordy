@@ -6,14 +6,15 @@ import 'package:wordy/const/enums.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/domain/models/active_course.dart';
 import 'package:wordy/domain/models/progress_in_topic.dart';
-import 'package:wordy/global/course_progress_tracker.dart';
-import 'package:wordy/global/global_data_manager.dart';
-import 'package:wordy/presentation/widgets/progression_bar.dart';
 import 'package:wordy/utility/locator/service_locator.dart';
 
 import '../../Utility/dialog_manager.dart';
 import '../../const/consts.dart';
 import '../../domain/models/topic.dart';
+import '../../global/selected_course_notifier.dart';
+import 'package:wordy/global/global_data_manager.dart';
+
+import 'progression_bar.dart';
 
 class SelectedCourseTopicCard extends StatefulWidget {
   SelectedCourseTopicCard({
@@ -40,7 +41,7 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
 
-    ActiveCourse? afterQuiz = locator<CourseProgressTracker>().afterQuiz;
+    ActiveCourse? afterQuiz = locator<SelectedCourseNotifier>().afterQuiz;
     if (widget.beforeQuiz != null && afterQuiz != null) {
       ProgressInTopic progressBeforeQuiz = widget.beforeQuiz!.topicProgress
           .firstWhere((element) => element.name == widget.progress.name);
@@ -69,15 +70,15 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CourseProgressTracker>(
+    return Consumer<SelectedCourseNotifier>(
       builder: (context, model, child) => GestureDetector(
         onTap: () {
-          var quizType = locator<CourseProgressTracker>().quizType;
+          var quizType = locator<SelectedCourseNotifier>().quizType;
 
           if (quizType.name.toLowerCase() ==
                   QuizType.learning.name.toLowerCase() &&
               widget.progress.knownWords < widget.progress.wordsCount) {
-            locator<CourseProgressTracker>().beforeQuiz = widget.beforeQuiz;
+            locator<SelectedCourseNotifier>().beforeQuiz = widget.beforeQuiz;
             context.pushNamed(AppRouter.quizScreen, extra: {
               'topic': widget.topic,
             });
@@ -131,11 +132,11 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
                 ),
                 child: Center(
                     child: Image(
-                        image:
-                            NetworkImage(locator<Urls>().imageUrl + widget.topic.image))),
+                        image: NetworkImage(
+                            locator<Urls>().imageUrl + widget.topic.image))),
               ),
               Text(
-              translate[locator<GlobalDataManager>().interfaceLanguage]![
+                translate[locator<GlobalDataManager>().interfaceLanguage]![
                     'topic_label'][widget.progress.name],
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
@@ -164,7 +165,8 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
                   ),
                 ],
               )),
-              Container(margin: const EdgeInsets.symmetric(horizontal: 10),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: ProgressionBar(
                   height: 10,
                   gradient: const [

@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/domain/models/active_course.dart';
 import 'package:wordy/global/global_data_manager.dart';
+import 'package:wordy/global/selected_course_notifier.dart';
 import 'package:wordy/presentation/widgets/circular_precentage_chart.dart';
 
 class SelectedCourseInformations extends StatefulWidget {
@@ -28,13 +32,30 @@ class _SelectedCourseInformationsState
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
-                  translate[locator<GlobalDataManager>().interfaceLanguage]![
-                      widget.course.userCourse.course.name],
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium!
-                      .copyWith(color: Colors.white),
+                Container(
+                  child: Consumer<SelectedCourseNotifier>(
+                    builder: (context, model, child) =>
+                        Builder(builder: (context) {
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                        if (context.findRenderObject() != null &&
+                            model.courseTitle == null) {
+                          RenderBox? currentTitleBox =
+                              context.findRenderObject() as RenderBox;
+                          model.setTitleRenderBox(currentTitleBox);
+                        }
+                      });
+
+                      return Text(
+                        translate[locator<GlobalDataManager>()
+                                .interfaceLanguage]![
+                            widget.course.userCourse.course.name],
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(color: Colors.white),
+                      );
+                    }),
+                  ),
                 ),
                 Container(
                   height: 40,

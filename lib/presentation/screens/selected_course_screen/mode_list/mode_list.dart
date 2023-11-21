@@ -7,8 +7,9 @@ import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/const/enums.dart';
-import 'package:wordy/global/course_progress_tracker.dart';
+
 import 'package:wordy/global/global_data_manager.dart';
+import 'package:wordy/global/selected_course_notifier.dart';
 import 'package:wordy/presentation/screens/selected_course_screen/mode_list/mode_list_option.dart';
 
 import '../../../widgets/selected_course_background.dart';
@@ -26,7 +27,7 @@ class _ModeListState extends State<ModeList> {
   final Duration _listAnimationDuration = const Duration(milliseconds: 200);
   @override
   Widget build(BuildContext context) {
-    return Consumer<CourseProgressTracker>(
+    return Consumer<SelectedCourseNotifier>(
       builder: (context, model, child) => GestureDetector(
         onTap: () {
        

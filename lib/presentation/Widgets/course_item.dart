@@ -79,8 +79,8 @@ class _CourseItemState extends State<CourseItem> {
               ),
             ),
             Positioned(
-              top: 80,
-              left: 60,
+              top: MediaQuery.of(context).size.height/10,
+              left: MediaQuery.of(context).size.width/6.5,
               child: SizedBox(
                 width: 100,
                 height: 60,

@@ -18,7 +18,7 @@ import '../../Utility/locator/service_locator.dart';
 import '../../const/app_router.dart';
 import '../../const/consts.dart';
 import '../../domain/repositiories/stream_repository.dart';
-import '../../global/course_progress_tracker.dart';
+import '../../global/selected_course_notifier.dart';
 import '../../global/global_data_manager.dart';
 import '../bloc/courses_update/courses_update_bloc.dart';
 import '../widgets/add_new_course_item.dart';
@@ -203,7 +203,7 @@ class _CoursesScreenState extends State<CoursesScreen>
                                                   columnCount: 2,
                                                   child: GestureDetector(
                                                       onTap: () async {
-                                                        locator<CourseProgressTracker>()
+                                                        locator<SelectedCourseNotifier>()
                                                                 .quizType =
                                                             QuizType.learning;
                                                         await locator<
