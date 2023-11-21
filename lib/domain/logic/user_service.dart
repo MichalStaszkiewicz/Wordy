@@ -335,4 +335,25 @@ class MockUserService extends Mock implements UserService {
       return Either<Exception, String>.data('data');
     }
   }
+
+  @override
+  Future<Either<Exception, String>> recoverAccount(String email) async {
+    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+    if (email == '') {
+      return Either.error(ValidationError(
+          translate['english']!['error_messages']['validation']['error'],
+          message: translate['english']!['error_messages']['validation']
+              ['fill_fields']));
+    }
+
+    if (!emailRegExp.hasMatch(email)) {
+      return Either.error(ValidationError(
+          translate['english']!['error_messages']['validation']['error'],
+          message: translate['english']!['error_messages']['validation']
+              ['bad_email_format']));
+    }
+
+    return Either.data('success');
+  }
 }
