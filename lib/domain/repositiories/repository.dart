@@ -277,7 +277,7 @@ class Repository {
   }
 
   Future<Either<Exception, String>> synchronizeUserInterfaceLanguage() async {
-    final token = await _localSource.getTokenAccess();
+    final token = _localSource.getTokenAccess();
     if (token != null) {
       var response = await _remoteSource.getUserSettings(token);
 

@@ -6,6 +6,7 @@ import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/global/global_data_manager.dart';
+import 'package:wordy/utility/data_validator.dart';
 
 import '../../Utility/locator/service_locator.dart';
 
@@ -250,22 +251,10 @@ class UserService {
   }
 
   Future<Either<Exception, String>> recoverAccount(String email) async {
-    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-
-    if (email == '') {
-      return Either.error(ValidationError(
-          translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['error'],
-          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['fill_fields']));
-    }
-
-    if (!emailRegExp.hasMatch(email)) {
-      return Either.error(ValidationError(
-          translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['error'],
-          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['bad_email_format']));
+    Either<Exception, String> validateEmail =
+        DataValidator.recoverAccountValidate(email, false);
+    if (validateEmail.isError) {
+      return Either.error(validateEmail.error);
     }
     var responseMessage = await _repository.recoverAccount(email);
     if (responseMessage.isData) {
@@ -277,31 +266,11 @@ class UserService {
 
   Future<Either<Exception, String>> registerUser(
       Map<String, dynamic> userAuthData) async {
-    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-
-    if (userAuthData['email'] == null || userAuthData['password'] == null) {
-      return Either.error(ValidationError(
-          translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['error'],
-          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['fill_fields']));
+    Either<Exception, String> validate =
+        DataValidator.registerValidate(userAuthData, false);
+    if (validate.isError) {
+      return Either.error(validate.error);
     }
-
-    if (!emailRegExp.hasMatch(userAuthData['email'])) {
-      return Either.error(ValidationError(
-          translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['error'],
-          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['bad_email_format']));
-    }
-    if ((userAuthData['password'] as String).length < 5) {
-      return Either.error(ValidationError(
-          translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['error'],
-          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['short_password']));
-    }
-
     var responseMessage = await _repository
         .registerUser(RegisterUserRequest.fromJson(userAuthData));
     if (responseMessage.isData) {
@@ -312,48 +281,4 @@ class UserService {
   }
 }
 
-class MockUserService extends Mock implements UserService {
-  @override
-  Future<Either<Exception, String>> registerUser(
-      Map<String, dynamic> userAuthData) async {
-    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-
-    if (userAuthData['email'] == null || userAuthData['email'] == '') {
-      return Either<Exception, String>.error(
-          ValidationError('error', message: 'email empty or null'));
-    } else if (userAuthData['password'] == null ||
-        userAuthData['password'] == '') {
-      return Either<Exception, String>.error(
-          ValidationError('error', message: 'password empty or null'));
-    } else if (!emailRegExp.hasMatch(userAuthData['email'])) {
-      return Either<Exception, String>.error(
-          ValidationError('error', message: 'Invalid email format'));
-    } else if (userAuthData['password'].length < 6) {
-      return Either<Exception, String>.error(
-          ValidationError('error', message: 'Password is too short'));
-    } else {
-      return Either<Exception, String>.data('data');
-    }
-  }
-
-  @override
-  Future<Either<Exception, String>> recoverAccount(String email) async {
-    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-
-    if (email == '') {
-      return Either.error(ValidationError(
-          translate['english']!['error_messages']['validation']['error'],
-          message: translate['english']!['error_messages']['validation']
-              ['fill_fields']));
-    }
-
-    if (!emailRegExp.hasMatch(email)) {
-      return Either.error(ValidationError(
-          translate['english']!['error_messages']['validation']['error'],
-          message: translate['english']!['error_messages']['validation']
-              ['bad_email_format']));
-    }
-
-    return Either.data('success');
-  }
-}
+class MockUserService extends Mock implements UserService {}
