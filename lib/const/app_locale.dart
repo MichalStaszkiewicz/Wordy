@@ -1,8 +1,8 @@
 mixin AppLocale {
-  static const String title = 'title';
+  static const String title = "server_messages";
 
   static const Map<String, dynamic> PL = {
-    'server_messages': {
+    title: {
       'session': {
         'title': "Błąd sesji",
         'message':

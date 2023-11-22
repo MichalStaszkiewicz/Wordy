@@ -36,9 +36,21 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    final FlutterLocalization localization = FlutterLocalization.instance;
+    localization.init(
+      mapLocales: [
+        const MapLocale('pl', AppLocale.PL),
+        const MapLocale('en', AppLocale.EN),
+        const MapLocale('es', AppLocale.ES),
+        const MapLocale('fr', AppLocale.FR),
+      ],
+      initLanguageCode: 'pl',
+    );
     return ChangeNotifierProvider.value(
       value: notificationProvider,
       child: MaterialApp.router(
+        supportedLocales: localization.supportedLocales,
+        localizationsDelegates: localization.localizationsDelegates,
         routerConfig: AppRouter.router,
         debugShowCheckedModeBanner: false,
         title: 'Wordy',
@@ -48,24 +60,13 @@ class _AppState extends State<App> {
         ),
         builder: (context, router) {
           var language = locator<Repository>().getUserInterfaceLanguage();
-          final FlutterLocalization localization = FlutterLocalization.instance;
+
           if (language.isError) {
             final locale = Localizations.localeOf(context);
             locator<GlobalDataManager>().languageFromCode(locale.languageCode);
           } else {
             locator<GlobalDataManager>().interfaceLanguage = language.data!;
           }
-          localization.init(
-            mapLocales: [
-              const MapLocale('pl', AppLocale.PL),
-              const MapLocale('en', AppLocale.EN),
-              const MapLocale('es', AppLocale.ES),
-              const MapLocale('fr', AppLocale.FR),
-            ],
-            initLanguageCode: 'en',
-          );
-
-          super.initState();
 
           return Localizations.override(
             context: context,
