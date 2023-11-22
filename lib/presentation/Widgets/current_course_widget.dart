@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
@@ -19,6 +21,7 @@ class CurrentCourseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
         height: 230,
         margin: const EdgeInsets.symmetric(horizontal: 20),

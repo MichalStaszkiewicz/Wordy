@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:wordy/const/app_locale.dart';
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/data/local/local_storage.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
@@ -34,9 +36,21 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    final FlutterLocalization localization = FlutterLocalization.instance;
+    localization.init(
+      mapLocales: [
+        const MapLocale('pl', AppLocale.PL),
+        const MapLocale('en', AppLocale.EN),
+        const MapLocale('es', AppLocale.ES),
+        const MapLocale('fr', AppLocale.FR),
+      ],
+      initLanguageCode: 'pl',
+    );
     return ChangeNotifierProvider.value(
       value: notificationProvider,
       child: MaterialApp.router(
+        supportedLocales: localization.supportedLocales,
+        localizationsDelegates: localization.localizationsDelegates,
         routerConfig: AppRouter.router,
         debugShowCheckedModeBanner: false,
         title: 'Wordy',
@@ -53,12 +67,16 @@ class _AppState extends State<App> {
           } else {
             locator<GlobalDataManager>().interfaceLanguage = language.data!;
           }
-        
-          return Stack(
-            children: [
-              router!,
-              _buildOverlay(),
-            ],
+
+          return Localizations.override(
+            context: context,
+            locale: const Locale('pl'),
+            child: Stack(
+              children: [
+                router!,
+                _buildOverlay(),
+              ],
+            ),
           );
         },
       ),

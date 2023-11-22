@@ -47,8 +47,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             },
             child: StatisticsItem(
               image: 'assets/open-book.png',
-              label:
-                  translate[language]!['progress'].toString(),
+              label: translate[language]!['progress'].toString(),
               statisticsCount: state.learnedWords,
             ),
           );
@@ -59,8 +58,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
           state as ProfileDataReady;
           return StatisticsItem(
             image: 'assets/medal.png',
-            label:
-                translate[language]!['profile_screen_finished_topics'].toString(),
+            label: translate[language]!['profile_screen_finished_topics']
+                .toString(),
             statisticsCount: state.finishedCourses,
           );
         },
@@ -76,8 +75,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             },
             child: StatisticsItem(
               image: 'assets/award.png',
-              label:
-                  translate[language]!['profile_screen_achievements'].toString(),
+              label: translate[language]!['profile_screen_achievements']
+                  .toString(),
               statisticsCount:
                   state.achievements.where((e) => e.achieved == true).length,
             ),
@@ -119,36 +118,10 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                               width: 70,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50)),
-                              child:const Image(image: AssetImage('assets/penguin.png'),),
-                            )),/*
-                            Positioned(
-                              left: 63,
-                              top: 63,
-                              child: Container(
-                                height: 23,
-                                width: 23,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(50)),
-                                child: Center(
-                                  child: Container(
-                                      height: 17,
-                                      width: 17,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color:
-                                            Color.fromARGB(255, 63, 238, 130),
-                                      ),
-                                      child: const Center(
-                                          child: Icon(
-                                        Icons.camera_alt,
-                                        color: Colors.white,
-                                        size: 12,
-                                      ))),
-                                ),
+                              child: const Image(
+                                image: AssetImage('assets/penguin.png'),
                               ),
-                            ),
-                            */
+                            )),
                           ],
                         ),
                       ),
