@@ -14,10 +14,23 @@ void main() {
         locator<StreamRepository>().initialize(),
         locator<GlobalDataManager>().interfaceLanguage = 'english'
       });
-  testWidgets('navigation between login forms', (tester) async {
+  testWidgets('navigation between login form and register form',
+      (tester) async {
     await tester.pumpWidget(App(key: Key('App')));
     await tester.pumpAndSettle();
 
-    expect(find.byKey(const Key('auth_screen')), findsWidgets);
+    expect(find.byKey(const Key('login_form_go_to_register_button_key')),
+        findsWidgets);
+    final registerButton =
+        find.byKey(Key('login_form_go_to_register_button_key'));
+    await tester.tap(registerButton);
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(Key('create_account_title_key')), findsWidgets);
+    await tester.tap(find.byKey(
+      Key('register_form_go_to_login_button_key'),
+    ));
+    await tester.pumpAndSettle();
+    expect(find.byKey(Key('login_form_title_key')), findsWidgets);
   });
 }

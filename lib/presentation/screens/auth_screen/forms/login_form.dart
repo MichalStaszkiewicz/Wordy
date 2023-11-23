@@ -60,7 +60,7 @@ class _LoginFormState extends State<LoginForm> {
                   translate[locator<GlobalDataManager>().interfaceLanguage]![
                       'auth_form']['login'],
                   style: Theme.of(context).textTheme.headlineSmall,
-                ),
+               key: Key('login_form_title_key'), ),
                 SizedBox(
                     width: 250,
                     child: TextField(
@@ -123,6 +123,7 @@ class _LoginFormState extends State<LoginForm> {
                       setState(() {});
                     }),
                 GestureDetector(
+                  key: Key('login_form_go_to_register_button_key'),
                   onTap: () {
                     context.goNamed(AppRouter.registerScreen);
                   },

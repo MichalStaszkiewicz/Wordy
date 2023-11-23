@@ -55,6 +55,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 translate[locator<GlobalDataManager>().interfaceLanguage]![
                     'auth_form']['create_account'],
                 style: Theme.of(context).textTheme.headlineSmall,
+                key: Key('create_account_title_key'),
               ),
               //full name
               SizedBox(
@@ -156,6 +157,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 },
               ),
               GestureDetector(
+                key: Key('register_form_go_to_login_button_key'),
                 onTap: () {
                   context.goNamed(AppRouter.loginScreen);
                 },
