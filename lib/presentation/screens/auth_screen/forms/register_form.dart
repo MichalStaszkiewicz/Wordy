@@ -45,8 +45,8 @@ class _RegisterFormState extends State<RegisterForm> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          translate[locator<GlobalDataManager>().interfaceLanguage]!['auth_form']
-              ['create_account'],
+          translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'auth_form']['create_account'],
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         //full name
@@ -105,8 +105,8 @@ class _RegisterFormState extends State<RegisterForm> {
               if (value != null) {
                 Validator.passwordValidate(value);
               } else {
-                return translate[locator<GlobalDataManager>().interfaceLanguage]![
-                    'auth_form']['requried_field'];
+                return translate[locator<GlobalDataManager>()
+                    .interfaceLanguage]!['auth_form']['requried_field'];
               }
               return null;
             },

@@ -19,6 +19,8 @@ import '../utility/observers/custom_route_observer.dart';
 
 class AppRouter {
   static const authScreen = "/";
+  static const loginScreen = '/login';
+  static const registerScreen = '/register';
   static const home = "/home";
   static const initialSettings = '/initial_settings';
   static const selectedCourse = '/selected_course';
@@ -92,7 +94,7 @@ class AppRouter {
 
   static Widget _authScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
-      const AuthScreen();
+      AuthScreen();
   static Widget _initialSettingsScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
       const InitialSettingsScreen();

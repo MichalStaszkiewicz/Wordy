@@ -6,7 +6,6 @@ import 'package:wordy/const/consts.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/widgets/button/login_button.dart';
 
-
 import '../../../../utility/validator.dart';
 import '../../../bloc/login/login_bloc.dart';
 
@@ -44,7 +43,6 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-   
     return BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is Authenticated) {
@@ -111,8 +109,8 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 )),
             LoginButton(
-                label: translate[locator<GlobalDataManager>().interfaceLanguage]![
-                    'auth_form']['login'],
+                label: translate[locator<GlobalDataManager>()
+                    .interfaceLanguage]!['auth_form']['login'],
                 onPressed: () {
                   _emailErrorText =
                       Validator.emailValidate(_emailController.text);
