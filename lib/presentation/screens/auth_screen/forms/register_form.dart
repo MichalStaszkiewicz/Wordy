@@ -9,8 +9,8 @@ import '../../../../utility/validator.dart';
 import '../../../bloc/register/register_bloc.dart';
 
 class RegisterForm extends StatefulWidget {
-  RegisterForm({super.key, required this.onSwitchToLogin});
-  VoidCallBack onSwitchToLogin;
+  RegisterForm();
+
   @override
   State<RegisterForm> createState() => _RegisterFormState();
 }
@@ -146,7 +146,10 @@ class _RegisterFormState extends State<RegisterForm> {
           },
         ),
         GestureDetector(
-          onTap: widget.onSwitchToLogin,
+          onTap: (){
+
+            
+          },
           child: Text(
             translate[locator<GlobalDataManager>().interfaceLanguage]![
                 'auth_form']['already_registered'],

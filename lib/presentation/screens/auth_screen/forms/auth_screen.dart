@@ -20,8 +20,8 @@ import 'package:wordy/presentation/screens/auth_screen/forms/token_sended_form.d
 import 'package:wordy/presentation/screens/auth_screen/forms/update_password_form.dart';
 
 class AuthScreen extends StatefulWidget {
-  AuthScreen({super.key});
-  AuthFormType currentForm = AuthFormType.register;
+  AuthScreen({super.key, required child});
+  Widget? child;
   @override
   State<AuthScreen> createState() => _AuthScreenState();
 }
@@ -53,7 +53,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         'auth_form']['messages']['verified_token'],
                     'Success',
                     context, () {
-                  widget.currentForm = AuthFormType.typeNewPassword;
+                  //   widget.currentForm = AuthFormType.typeNewPassword;
                   setState(() {});
                 });
               } else if (state is RecoverAccountMessageSended) {
@@ -62,7 +62,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         'auth_form']['messages']['sended_token'],
                     'Success',
                     context, () {
-                  widget.currentForm = AuthFormType.resetTokenSended;
+                  // widget.currentForm = AuthFormType.resetTokenSended;
                   setState(() {});
                 });
               } else if (state is UserPasswordUpdated) {
@@ -71,7 +71,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         'auth_form']['messages']['updated_password'],
                     'Success',
                     context, () {
-                  widget.currentForm = AuthFormType.login;
+                  //   widget.currentForm = AuthFormType.login;
                   setState(() {});
                 });
               }
@@ -102,7 +102,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           ['register_account_success'],
                       'Success',
                       context, () {
-                    widget.currentForm = AuthFormType.login;
+                    // widget.currentForm = AuthFormType.login;
                     context.read<LoginBloc>().add(
                         Login(email: state.email, password: state.password));
                     setState(() {});
@@ -151,7 +151,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       .read<LoginBloc>()
                       .add(LogOut(errorMessage: 'errorMessage'));
 
-                  widget.currentForm = AuthFormType.login;
+                  //    widget.currentForm = AuthFormType.login;
                 });
               }
             })
@@ -176,7 +176,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               ],
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10)),
-                          child: _buildForm(widget.currentForm))),
+                          child: widget.child)),
                 )
               ],
             )),
@@ -184,56 +184,5 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
       ),
     );
-  }
-
-  Widget _buildForm(AuthFormType formType) {
-    switch (formType) {
-      case AuthFormType.login:
-        return LoginForm(
-          onSwitchToRegister: () {
-            setState(() {
-              widget.currentForm = AuthFormType.register;
-            });
-          },
-          onSwitchToResetPassword: () {
-            setState(() {
-              widget.currentForm = AuthFormType.resetPassword;
-            });
-          },
-        );
-      case AuthFormType.register:
-        return RegisterForm(
-          onSwitchToLogin: () {
-            setState(() {
-              widget.currentForm = AuthFormType.login;
-            });
-          },
-        );
-      case AuthFormType.resetPassword:
-        return ResetPasswordForm(
-          onSwitchToLogin: () {
-            setState(() {
-              widget.currentForm = AuthFormType.login;
-            });
-          },
-        );
-      case AuthFormType.resetTokenSended:
-        return TokenSendedForm(
-          onSwitchToLogin: () {
-            setState(() {
-              widget.currentForm = AuthFormType.login;
-            });
-          },
-        );
-
-      case AuthFormType.typeNewPassword:
-        return UpdatePasswordForm(
-          onSwitchToLogin: () {
-            setState(() {
-              widget.currentForm = AuthFormType.login;
-            });
-          },
-        );
-    }
   }
 }

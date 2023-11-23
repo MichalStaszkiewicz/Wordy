@@ -15,14 +15,9 @@ void main() {
         locator<GlobalDataManager>().interfaceLanguage = 'english'
       });
   testWidgets('navigation between login forms', (tester) async {
-    AuthScreen authScreen = AuthScreen(
-      key: const Key('auth_screen'),
-    );
-    await tester.pumpWidget(MaterialApp(home: authScreen));
+    await tester.pumpWidget(App(key: Key('App')));
     await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('auth_screen')), findsWidgets);
-
-    
   });
 }
