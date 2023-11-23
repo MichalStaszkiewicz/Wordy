@@ -9,14 +9,10 @@ import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
 import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_ready.dart';
 
-
-
 import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_list_entry.dart';
 import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_ready.dart';
 
-
 import 'package:wordy/presentation/screens/vocabulary_screen/state/loaded.dart';
-
 
 import 'package:wordy/const/consts.dart';
 
@@ -61,7 +57,7 @@ class _VocabularyScreenState extends State<VocabularyScreen>
                     if (state.error.critical) {
                       locator<UserService>()
                           .logOut()
-                          .then((value) => context.go(AppRouter.authScreen));
+                          .then((value) => context.go(AppRouter.loginScreen));
                     }
                   });
                 });

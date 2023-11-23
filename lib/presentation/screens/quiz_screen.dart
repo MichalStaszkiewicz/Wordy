@@ -45,7 +45,7 @@ class _QuizScreenState extends State<QuizScreen> {
               if (state is QuizError) {
                 DialogManager.showErrorDialog(state.error, context, () {
                   if (state.error.critical) {
-                    context.go(AppRouter.authScreen);
+                    context.go(AppRouter.loginScreen);
                   }
                 });
               }

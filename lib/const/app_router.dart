@@ -6,6 +6,9 @@ import 'package:wordy/presentation/home_page.dart';
 import 'package:wordy/presentation/screens/auth_screen/forms/auth_screen.dart';
 import 'package:wordy/presentation/screens/auth_screen/forms/login_form.dart';
 import 'package:wordy/presentation/screens/auth_screen/forms/register_form.dart';
+import 'package:wordy/presentation/screens/auth_screen/forms/reset_password_form.dart';
+import 'package:wordy/presentation/screens/auth_screen/forms/token_sended_form.dart';
+import 'package:wordy/presentation/screens/auth_screen/forms/update_password_form.dart';
 import 'package:wordy/presentation/screens/quiz_finish_screen.dart';
 import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_screen.dart';
@@ -22,9 +25,12 @@ import '../utility/observers/custom_route_observer.dart';
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 class AppRouter {
-  static const authScreen = "/";
   static const loginScreen = '/login';
   static const registerScreen = '/register';
+  static const forgotPasswordScreen = '/forgot_password';
+  static const tokenSendedScreen = 'forgot_password/token_sended';
+  static const updatePasswordScreen =
+      'forgot_password/token_sended/update_password';
   static const home = "/home";
   static const initialSettings = '/initial_settings';
   static const selectedCourse = '/selected_course';
@@ -66,6 +72,10 @@ class AppRouter {
       SelectedVocabularyTopic(
         topic: state.queryParameters['topic']!,
       );
+  static Widget _forgotPasswordBuilder(
+      BuildContext context, GoRouterState state) {
+    return ResetPasswordForm();
+  }
 
   static Widget _wordsLearnedScreenRouteBuilder(
       BuildContext context, GoRouterState state) {
@@ -102,7 +112,12 @@ class AppRouter {
   static Widget _registerScreenBuilder(
           BuildContext context, GoRouterState state) =>
       RegisterForm();
-
+  static Widget _sendedTokenScreenBuilder(
+          BuildContext context, GoRouterState state) =>
+      TokenSendedForm();
+  static Widget _updatePasswordScreenBuilder(
+          BuildContext context, GoRouterState state) =>
+      UpdatePasswordForm();
   static Widget _initialSettingsScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
       const InitialSettingsScreen();
@@ -137,6 +152,21 @@ class AppRouter {
           path: loginScreen,
           name: loginScreen,
           builder: _loginScreenBuilder,
+        ),
+        GoRoute(
+          path: forgotPasswordScreen,
+          name: forgotPasswordScreen,
+          builder: _forgotPasswordBuilder,
+          routes: [
+            GoRoute(
+                path: tokenSendedScreen,
+                name: tokenSendedScreen,
+                builder: _sendedTokenScreenBuilder),
+            GoRoute(
+                path: updatePasswordScreen,
+                name: updatePasswordScreen,
+                builder: _updatePasswordScreenBuilder)
+          ],
         ),
         GoRoute(
             name: initialSettings,

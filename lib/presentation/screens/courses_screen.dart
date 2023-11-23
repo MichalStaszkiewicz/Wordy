@@ -124,7 +124,7 @@ class _CoursesScreenState extends State<CoursesScreen>
                                                         locator<UserService>()
                                                             .cleanUpLocalStorage();
                                                         context.go(AppRouter
-                                                            .authScreen);
+                                                            .loginScreen);
                                                       });
                                                     }, () {});
                                                   },
@@ -264,7 +264,7 @@ class _CoursesScreenState extends State<CoursesScreen>
                     } else if (state is CourseUpdateError) {
                       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                         DialogManager.showErrorDialog(state.error, context, () {
-                          context.go(AppRouter.authScreen);
+                          context.go(AppRouter.loginScreen);
                         });
                       });
 

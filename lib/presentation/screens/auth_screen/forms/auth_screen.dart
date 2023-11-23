@@ -109,7 +109,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   });
                 } else if (state is RegisterError) {
                   if (context.canPop()) {
-                    Navigator.pop(context);
+                  Navigator.pop(context);
                   }
                   DialogManager.showErrorDialog(state.error, context, () {
                     context.read<RegisterBloc>().add(const RegisterInit());

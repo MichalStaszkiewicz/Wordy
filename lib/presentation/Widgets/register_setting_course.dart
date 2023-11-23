@@ -52,7 +52,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                             .interfaceLanguage]!['messages']['loading'],
                         context, () {
                       locator.get<Repository>().cancelRequest();
-                      context.go(AppRouter.authScreen);
+                      context.go(AppRouter.loginScreen);
                     });
                   });
                 }
@@ -135,7 +135,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                               .interfaceLanguage]!['server_messages']
                           ['server_loading_data_error']),
                   context, () {
-                context.go(AppRouter.authScreen);
+                context.go(AppRouter.loginScreen);
               });
             });
 

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/widgets/button/login_button.dart';
 
+import '../../../../const/app_router.dart';
 import '../../../../utility/validator.dart';
 import '../../../bloc/login/login_bloc.dart';
 import '../auth_form_wrapper.dart';
@@ -59,8 +61,6 @@ class _LoginFormState extends State<LoginForm> {
                       'auth_form']['login'],
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
-
-                //email
                 SizedBox(
                     width: 250,
                     child: TextField(
@@ -72,8 +72,6 @@ class _LoginFormState extends State<LoginForm> {
                           hintText: translate[locator<GlobalDataManager>()
                               .interfaceLanguage]!['auth_form']['email']),
                     )),
-
-                //password
                 SizedBox(
                     width: 250,
                     child: TextField(
@@ -100,7 +98,9 @@ class _LoginFormState extends State<LoginForm> {
                     padding: const EdgeInsets.only(right: 50),
                     width: double.infinity,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        context.goNamed(AppRouter.forgotPasswordScreen);
+                      },
                       child: Text(
                         translate[locator<GlobalDataManager>()
                                 .interfaceLanguage]!['auth_form']
@@ -123,7 +123,9 @@ class _LoginFormState extends State<LoginForm> {
                       setState(() {});
                     }),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    context.goNamed(AppRouter.registerScreen);
+                  },
                   child: Text(
                     translate[locator<GlobalDataManager>().interfaceLanguage]![
                         'auth_form']['first_time_user'],
