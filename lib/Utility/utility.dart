@@ -24,7 +24,7 @@ class Utility {
     if (userInterfaceLanguage.isData && context.mounted) {
       DialogManager.showErrorDialog(
           ExceptionHelper.getErrorMessage(UnexpectedError()), context, () {
-        context.go(AppRouter.authScreen);
+        context.go(AppRouter.loginScreen);
       });
       return null;
     } else {

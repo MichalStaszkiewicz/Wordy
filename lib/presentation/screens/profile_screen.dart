@@ -27,7 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (state is ProfileDataError) {
               DialogManager.showErrorDialog(state.error, context, () {
                 if (state.error.critical) {
-                  context.go(AppRouter.authScreen);
+                  context.go(AppRouter.loginScreen);
                 }
               });
             }

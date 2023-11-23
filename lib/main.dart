@@ -23,12 +23,12 @@ void main() async {
     if (!kReleaseMode) {
       String apiUrl = dotenv.get("API_URL_DEBUG");
       String apiUrlImages = dotenv.get("API_URL_IMAGES_DEBUG");
-      await serviceLocator(apiUrl, apiUrlImages);
+      await serviceLocator(apiUrl, apiUrlImages,false);
       print("debug mode");
     } else {
       String apiUrl = dotenv.get("API_URL_PRODUCTION");
       String apiUrlImages = dotenv.get("API_URL_IMAGES_PRODUCTION");
-      await serviceLocator(apiUrl, apiUrlImages);
+      await serviceLocator(apiUrl, apiUrlImages,false);
       print("release mode");
     }
 

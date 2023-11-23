@@ -43,7 +43,7 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
           listener: (context, state) {
             if (state is RegisterError) {
               DialogManager.showErrorDialog(state.error, context, () {
-                context.go(AppRouter.authScreen);
+                context.go(AppRouter.loginScreen);
               });
             }
           },

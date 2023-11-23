@@ -4,6 +4,11 @@ import 'package:wordy/domain/models/topic.dart';
 
 import 'package:wordy/presentation/home_page.dart';
 import 'package:wordy/presentation/screens/auth_screen/forms/auth_screen.dart';
+import 'package:wordy/presentation/screens/auth_screen/forms/login_form.dart';
+import 'package:wordy/presentation/screens/auth_screen/forms/register_form.dart';
+import 'package:wordy/presentation/screens/auth_screen/forms/reset_password_form.dart';
+import 'package:wordy/presentation/screens/auth_screen/forms/token_sended_form.dart';
+import 'package:wordy/presentation/screens/auth_screen/forms/update_password_form.dart';
 import 'package:wordy/presentation/screens/quiz_finish_screen.dart';
 import 'package:wordy/presentation/screens/quiz_screen.dart';
 import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_screen.dart';
@@ -17,8 +22,15 @@ import '../presentation/screens/selected_course_screen/selected_course_screen.da
 import '../presentation/screens/words_learned_screen.dart';
 import '../utility/observers/custom_route_observer.dart';
 
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
+
 class AppRouter {
-  static const authScreen = "/";
+  static const loginScreen = '/login';
+  static const registerScreen = '/register';
+  static const forgotPasswordScreen = '/forgot_password';
+  static const tokenSendedScreen = 'forgot_password/token_sended';
+  static const updatePasswordScreen =
+      'forgot_password/token_sended/update_password';
   static const home = "/home";
   static const initialSettings = '/initial_settings';
   static const selectedCourse = '/selected_course';
@@ -49,6 +61,9 @@ class AppRouter {
     );
   }
 
+  static Widget _loginScreenBuilder(
+          BuildContext context, GoRouterState state) =>
+      LoginForm();
   static Widget _vocabularyTopicScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
       const VocabularyScreen();
@@ -57,6 +72,10 @@ class AppRouter {
       SelectedVocabularyTopic(
         topic: state.queryParameters['topic']!,
       );
+  static Widget _forgotPasswordBuilder(
+      BuildContext context, GoRouterState state) {
+    return ResetPasswordForm();
+  }
 
   static Widget _wordsLearnedScreenRouteBuilder(
       BuildContext context, GoRouterState state) {
@@ -90,56 +109,91 @@ class AppRouter {
     return const SelectedCourseScreen();
   }
 
-  static Widget _authScreenRouteBuilder(
+  static Widget _registerScreenBuilder(
           BuildContext context, GoRouterState state) =>
-      const AuthScreen();
+      RegisterForm();
+  static Widget _sendedTokenScreenBuilder(
+          BuildContext context, GoRouterState state) =>
+      TokenSendedForm();
+  static Widget _updatePasswordScreenBuilder(
+          BuildContext context, GoRouterState state) =>
+      UpdatePasswordForm();
   static Widget _initialSettingsScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
       const InitialSettingsScreen();
   static Widget _homeScreenRouteBuilder(
           BuildContext context, GoRouterState state) =>
       const HomePage();
-  static final GoRouter router = GoRouter(observers: [
-    CustomRouteObserver(),
-  ], routes: [
-    GoRoute(
-        path: achievementsScreen,
-        name: achievementsScreen,
-        builder: _achievementsScreenRouteBuilder),
-    GoRoute(
-        path: learnedWordsSelectedCourse,
-        name: learnedWordsSelectedCourse,
-        builder: _learnedWordsSelectedCourse),
-    GoRoute(
-        path: wordsLearnedScreen,
-        name: wordsLearnedScreen,
-        builder: _wordsLearnedScreenRouteBuilder),
-    GoRoute(
-        name: authScreen, path: authScreen, builder: _authScreenRouteBuilder),
-    GoRoute(
-        name: initialSettings,
-        path: initialSettings,
-        builder: _initialSettingsScreenRouteBuilder),
-    GoRoute(name: home, path: home, builder: _homeScreenRouteBuilder),
-    GoRoute(
-        name: selectedCourse,
-        path: selectedCourse,
-        builder: _selectedCourseScreenRouteBuilder),
-    GoRoute(
-        name: quizScreen, path: quizScreen, builder: _quizScreenRouteBuilder),
-    GoRoute(
-        name: quizCompleted,
-        path: quizCompleted,
-        builder: _quizScreenCompletedRouteBuilder),
-    GoRoute(
-        name: vocabularyTopicScreen,
-        path: vocabularyTopicScreen,
-        builder: _vocabularyTopicScreenRouteBuilder),
-    GoRoute(
-        name: vocabularyTopicSelectedScreen,
-        path: vocabularyTopicSelectedScreen,
-        builder: _vocabularyTopicSelectedScreenRouteBuilder),
-  ]);
+  static final GoRouter router = GoRouter(
+      navigatorKey: _rootNavigatorKey,
+      initialLocation: loginScreen,
+      observers: [
+        CustomRouteObserver(),
+      ],
+      routes: [
+        GoRoute(
+            path: achievementsScreen,
+            name: achievementsScreen,
+            builder: _achievementsScreenRouteBuilder),
+        GoRoute(
+            path: learnedWordsSelectedCourse,
+            name: learnedWordsSelectedCourse,
+            builder: _learnedWordsSelectedCourse),
+        GoRoute(
+            path: wordsLearnedScreen,
+            name: wordsLearnedScreen,
+            builder: _wordsLearnedScreenRouteBuilder),
+        GoRoute(
+          path: registerScreen,
+          name: registerScreen,
+          builder: _registerScreenBuilder,
+        ),
+        GoRoute(
+          path: loginScreen,
+          name: loginScreen,
+          builder: _loginScreenBuilder,
+        ),
+        GoRoute(
+          path: forgotPasswordScreen,
+          name: forgotPasswordScreen,
+          builder: _forgotPasswordBuilder,
+          routes: [
+            GoRoute(
+                path: tokenSendedScreen,
+                name: tokenSendedScreen,
+                builder: _sendedTokenScreenBuilder),
+            GoRoute(
+                path: updatePasswordScreen,
+                name: updatePasswordScreen,
+                builder: _updatePasswordScreenBuilder)
+          ],
+        ),
+        GoRoute(
+            name: initialSettings,
+            path: initialSettings,
+            builder: _initialSettingsScreenRouteBuilder),
+        GoRoute(name: home, path: home, builder: _homeScreenRouteBuilder),
+        GoRoute(
+            name: selectedCourse,
+            path: selectedCourse,
+            builder: _selectedCourseScreenRouteBuilder),
+        GoRoute(
+            name: quizScreen,
+            path: quizScreen,
+            builder: _quizScreenRouteBuilder),
+        GoRoute(
+            name: quizCompleted,
+            path: quizCompleted,
+            builder: _quizScreenCompletedRouteBuilder),
+        GoRoute(
+            name: vocabularyTopicScreen,
+            path: vocabularyTopicScreen,
+            builder: _vocabularyTopicScreenRouteBuilder),
+        GoRoute(
+            name: vocabularyTopicSelectedScreen,
+            path: vocabularyTopicSelectedScreen,
+            builder: _vocabularyTopicSelectedScreenRouteBuilder),
+      ]);
 
   static void popUntil(BuildContext context, String path) {
     Navigator.popUntil(context, (route) {

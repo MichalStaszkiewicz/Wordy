@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/bloc/reset_password/reset_password_bloc.dart';
 import 'package:wordy/presentation/widgets/button/login_button.dart';
@@ -11,8 +13,8 @@ import '../../../../Utility/locator/service_locator.dart';
 import '../../../../global/global_data_manager.dart';
 
 class UpdatePasswordForm extends StatefulWidget {
-  UpdatePasswordForm({super.key, required this.onSwitchToLogin});
-  VoidCallBack onSwitchToLogin;
+  UpdatePasswordForm();
+
   @override
   State<UpdatePasswordForm> createState() => _UpdatePasswordFormState();
 }
@@ -38,8 +40,9 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          translate[locator<GlobalDataManager>().interfaceLanguage]!['auth_form']
-              ['new_password'],  textAlign: TextAlign.center,
+          translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'auth_form']['new_password'],
+          textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         SizedBox(
@@ -75,11 +78,13 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
           },
         ),
         GestureDetector(
-          onTap: widget.onSwitchToLogin,
+          onTap: () {
+            context.goNamed(AppRouter.loginScreen);
+          },
           child: Text(
-          
             translate[locator<GlobalDataManager>().interfaceLanguage]![
-                'auth_form']['back_to_login'],  textAlign: TextAlign.center,
+                'auth_form']['back_to_login'],
+            textAlign: TextAlign.center,
             style: const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
           ),
         )

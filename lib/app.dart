@@ -85,6 +85,7 @@ class _AppState extends State<App> {
 
   Widget _buildOverlay() {
     return IgnorePointer(
+    
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: IgnorePointer(
