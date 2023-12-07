@@ -50,10 +50,14 @@ Wordy is a mobile language learning app that helps users quickly and effectively
 4. Create a `.env` file in the project directory and add the following environment variables:
 
    ```env API_URL_DEBUG = "http://[YOUR_LOCAL_IP]:1344"
-          API_URL_IMAGES_DEBUG = "http://[YOUR_LOCAL_IP]:1344/v1/images/"
+
    ```
 
-   Replace [YOUR_LOCAL_IP] with the IP address of the machine where the server is running.
+   ```env API_URL_IMAGES_DEBUG = "http://[YOUR_LOCAL_IP]:1344/v1/images/"
+
+   ```
+
+Replace [YOUR_LOCAL_IP] with the IP address of the machine where the server is running.
 
 5. Run the project using the following command:
    `flutter run`
