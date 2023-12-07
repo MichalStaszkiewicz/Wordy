@@ -10,11 +10,11 @@
 ## About Wordy
 Wordy is a mobile language learning app that helps users quickly and effectively master new language skills in a fun and engaging way.
 ## Features
--Motivating Achievement System: Wordy gamifies language learning with a rewarding achievement system that keeps users motivated and engaged.
+* Motivating Achievement System: Wordy gamifies language learning with a rewarding achievement system that keeps users motivated and engaged.
 
--Interactive Quizzes : Fun and engaging quizzes enhance learning and make it more enjoyable and effective.
+* Interactive Quizzes : Fun and engaging quizzes enhance learning and make it more enjoyable and effective.
 
--Structured Language Courses: Well-organized courses with manageable topics provide a solid foundation for language acquisition.
+* Structured Language Courses: Well-organized courses with manageable topics provide a solid foundation for language acquisition.
 ## Installation Instructions
 
 To install the Wordy application, follow these steps:
