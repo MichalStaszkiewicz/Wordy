@@ -7,9 +7,8 @@
 
 </div>
 
-## Description
-
-Wordy is a vocabulary-learning application that allows users to learn words, achieve milestones, and track their progress. The app provides features such as word learning, achievement unlocking, and progress tracking to enhance the language learning experience.
+## About Wordy
+Wordy is a mobile language learning app that helps users quickly and effectively master new language skills in a fun and engaging way.
 
 ## Installation Instructions
 
