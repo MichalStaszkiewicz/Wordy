@@ -58,7 +58,7 @@ Replace [YOUR_LOCAL_IP] with the IP address of the machine where the server is r
 
 5. Run the project using the following command:
    ```sh
-    flutter run
+   flutter run
    ```
 
 ### Finding your IP address
