@@ -8,27 +8,47 @@
 </div>
 
 ## About Wordy
+
 Wordy is a mobile language learning app that helps users quickly and effectively master new language skills in a fun and engaging way.
+
 ## Features
-* Motivating Achievement System: Wordy gamifies language learning with a rewarding achievement system that keeps users motivated and engaged.
 
-* Interactive Quizzes : Fun and engaging quizzes enhance learning and make it more enjoyable and effective.
+- Motivating Achievement System: Wordy gamifies language learning with a rewarding achievement system that keeps users motivated and engaged.
 
-* Structured Language Courses: Well-organized courses with manageable topics provide a solid foundation for language acquisition.
-### Built With
+- Interactive Quizzes : Fun and engaging quizzes enhance learning and make it more enjoyable and effective.
 
-* [![Flutter][Flutter]][Flutter-url]
+- Structured Language Courses: Well-organized courses with manageable topics provide a solid foundation for language acquisition.
 
-## Installation Instructions
+### Built With Flutter
 
-To install the Wordy application, follow these steps:
+## Getting Started
 
-1. Make sure you have Flutter installed on your system.
-2. Clone the Wordy repository from GitHub.
-3. Open a terminal and navigate to the project directory.
-4. Run the command `flutter run` to launch the application on your device/emulator.
+### Prerequisites
 
-**Note:** Before running the application, you need to update the `urls.dart` file. Change the `kImageUrl` and `kBaseUrl` variables to your IP address as the server is hosted locally on your computer. Also, ensure that the Wordy-Server is running.
+- **Operating system:** Windows, macOS, or Linux
+
+- **Flutter SDK:** Install the Flutter SDK from [https://docs.flutter.dev/get-started/install](https://docs.flutter.dev/get-started/install).
+
+- **Android Studio (or VS Code with Flutter extension):** Install Android Studio or VS Code with Flutter extension for development and debugging.
+
+- **Android emulator or physical Android device:** Set up an Android emulator or connect a physical Android device for testing purposes.
+
+- **Server:** Clone and configure the server, which serves data and functionality for the app. Follow the instructions on the server project's repository: [https://github.com/MichalStaszkiewicz/wordy-server](https://github.com/MichalStaszkiewicz/wordy-server) to set up the server correctly.
+
+## Installation
+
+1. Clone the project using the following command:
+   `https://github.com/MichalStaszkiewicz/Wordy.git`
+2. Change to the project directory:
+   `cd Wordy`
+3. Install the project dependencies using the following command:
+   `flutter pub get`
+4. Create a `.env` file in the project directory and add the following environment variables:
+   `API_URL_DEBUG = "http://[YOUR_LOCAL_IP]:1344"`
+   `API_URL_IMAGES_DEBUG = "http://[YOUR_LOCAL_IP]:1344/v1/images/"`
+   Replace [YOUR_LOCAL_IP] with the IP address of the machine where the server is running.
+5. Run the project using the following command:
+   `flutter run`
 
 ### Finding your IP address
 
@@ -49,8 +69,6 @@ To install the Wordy application, follow these steps:
 1. Open the Terminal.
 2. In the Terminal, type `ifconfig` or `ip addr show` and press Enter.
 3. Look for the "inet" or "inet addr" entry under the network adapter you are connected to. It will be listed as a series of numbers separated by periods (e.g., 192.168.0.1).
-
-Once you have obtained your IP address, update the `kImageUrl` and `kBaseUrl` variables in the `urls.dart` file with your IP address.
 
 ## Usage Examples
 
