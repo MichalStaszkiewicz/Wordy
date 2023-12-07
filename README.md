@@ -15,7 +15,7 @@ Wordy is a mobile language learning app that helps users quickly and effectively
 
 - Motivating Achievement System: Wordy gamifies language learning with a rewarding achievement system that keeps users motivated and engaged.
 
-- Interactive Quizzes : Fun and engaging quizzes enhance learning and make it more enjoyable and effective.
+- Interactive Quizzes: Fun and engaging quizzes enhance learning and make it more enjoyable and effective.
 
 - Structured Language Courses: Well-organized courses with manageable topics provide a solid foundation for language acquisition.
 
@@ -83,13 +83,13 @@ Replace [YOUR_LOCAL_IP] with the IP address of the machine where the server is r
 2. In the Terminal, type `ifconfig` or `ip addr show` and press Enter.
 3. Look for the "inet" or "inet addr" entry under the network adapter you are connected to. It will be listed as a series of numbers separated by periods (e.g., 192.168.0.1).
 
-## Usage Examples
+## 🎉 Usage Examples 🎉
 
-1. Upon launching the application, you will be prompted to create an account or log in.
-2. After creating an account or logging in, you can access the main menu.
-3. From the main menu, you can start learning words and expand your vocabulary.
-4. The app allows you to unlock achievements as you make progress in your learning journey.
-5. You can track your learning progress and view your achievements in your user profile.
+1. Upon launching the application, you will be prompted to create an account or log in. 🔐
+2. After creating an account or logging in, you can access the main menu. 👋
+3. From the main menu, you can start learning words and expand your vocabulary. 🧠
+4. The app allows you to unlock achievements as you make progress in your learning journey. 🏅
+5. You can track your learning progress and view your achievements in your user profile. 📈
 
 ## Project Status
 
