@@ -40,7 +40,9 @@ Wordy is a mobile language learning app that helps users quickly and effectively
 1. Clone the project using the following command:
    `https://github.com/MichalStaszkiewicz/Wordy.git`
 2. Change to the project directory:
-   `cd Wordy`
+   ```sh
+   cd Wordy
+   ```
 3. Install the project dependencies using the following command:
    `flutter pub get`
 4. Create a `.env` file in the project directory and add the following environment variables:
