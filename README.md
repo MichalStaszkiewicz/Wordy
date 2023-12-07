@@ -9,9 +9,9 @@
 
 ## About Wordy
 
-Wordy is a mobile language learning app that helps users quickly and effectively master new language skills in a fun and engaging way.
+Wordy is a mobile language learning app that helps users quickly and effectively master new language skills in an engaging and interactive way. With its motivational achievement system, fun and engaging quizzes, and well-structured language courses, Wordy provides a comprehensive learning experience that keeps users motivated and engaged.
 
-## Features
+## 🏆 Key Features 🏆
 
 - Motivating Achievement System: Wordy gamifies language learning with a rewarding achievement system that keeps users motivated and engaged.
 
@@ -19,9 +19,11 @@ Wordy is a mobile language learning app that helps users quickly and effectively
 
 - Structured Language Courses: Well-organized courses with manageable topics provide a solid foundation for language acquisition.
 
-### Built With Flutter
+### 🚀 Built With Flutter 🚀
 
-## Getting Started
+Wordy is built using the Flutter framework, a cross-platform development toolkit that allows developers to create native mobile apps for Android and iOS from a single codebase. This makes Wordy a versatile and accessible app that can be enjoyed on a wide range of devices.
+
+## 🛠️ Getting Started 🛠️
 
 ### Prerequisites
 
@@ -33,7 +35,7 @@ Wordy is a mobile language learning app that helps users quickly and effectively
 
 - **Android emulator or physical Android device:** Set up an Android emulator or connect a physical Android device for testing purposes.
 
-- **Server:** Clone and configure the server, which serves data and functionality for the app. Follow the instructions on the server project's repository: [https://github.com/MichalStaszkiewicz/wordy-server](https://github.com/MichalStaszkiewicz/wordy-server) to set up the server correctly.
+- **Server:** Clone and configure the server, which serves data for the app. Follow the instructions on the server project's repository: [https://github.com/MichalStaszkiewicz/wordy-server](https://github.com/MichalStaszkiewicz/wordy-server) to set up the server correctly.
 
 ## Installation
 
@@ -92,7 +94,3 @@ Replace [YOUR_LOCAL_IP] with the IP address of the machine where the server is r
 ## Project Status
 
 The Wordy project is currently developed by a single developer. I am continuously working on adding new features and improving the user experience of the application.
-
-```
-
-```
