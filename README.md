@@ -57,7 +57,7 @@ API_URL_IMAGES_DEBUG= "http://[YOUR_LOCAL_IP]:1344/v1/images/"
 Replace [YOUR_LOCAL_IP] with the IP address of the machine where the server is running.
 
 5. Run the project using the following command:
-   `flutter run`
+   ```sh flutter run```
 
 ### Finding your IP address
 
