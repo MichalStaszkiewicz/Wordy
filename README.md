@@ -11,7 +11,7 @@
 
 Wordy is a mobile language learning app that helps users quickly and effectively master new language skills in an engaging and interactive way. With its motivational achievement system, fun and engaging quizzes, and well-structured language courses, Wordy provides a comprehensive learning experience that keeps users motivated and engaged.
 
-## 🏆 Key Features 🏆
+## Key Features ✨
 
 - Motivating Achievement System: Wordy gamifies language learning with a rewarding achievement system that keeps users motivated and engaged.
 
@@ -19,11 +19,11 @@ Wordy is a mobile language learning app that helps users quickly and effectively
 
 - Structured Language Courses: Well-organized courses with manageable topics provide a solid foundation for language acquisition.
 
-### 🚀 Built With Flutter 🚀
+### Built With Flutter 🚀
 
 Wordy is built using the Flutter framework, a cross-platform development toolkit that allows developers to create native mobile apps for Android and iOS from a single codebase. This makes Wordy a versatile and accessible app that can be enjoyed on a wide range of devices.
 
-## 🛠️ Getting Started 🛠️
+## Getting Started 🛠️
 
 ### Prerequisites
 
@@ -85,7 +85,7 @@ Replace [YOUR_LOCAL_IP] with the IP address of the machine where the server is r
 2. In the Terminal, type `ifconfig` or `ip addr show` and press Enter.
 3. Look for the "inet" or "inet addr" entry under the network adapter you are connected to. It will be listed as a series of numbers separated by periods (e.g., 192.168.0.1).
 
-## 🎉 Usage Examples 🎉
+## Usage Examples 🎉
 
 1. Upon launching the application, you will be prompted to create an account or log in. 🔐
 2. After creating an account or logging in, you can access the main menu. 👋
