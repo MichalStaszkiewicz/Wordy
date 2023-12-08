@@ -44,6 +44,7 @@ Wordy is built using the Flutter framework, a cross-platform development toolkit
    ```sh
    git clone https://github.com/MichalStaszkiewicz/Wordy.git
    ```
+
 2. Install the project dependencies using the following command:
    ```sh
    flutter pub get
@@ -56,6 +57,8 @@ API_URL_IMAGES_DEBUG= "http://[YOUR_LOCAL_IP]:1344/v1/images/"
 ```
 
 Replace [YOUR_LOCAL_IP] with the IP address of the machine where the server is running.
+
+4. Connect physical phone or run an emulator.
 
 5. Run the project using the following command:
    ```sh
