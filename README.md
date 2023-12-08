@@ -40,16 +40,15 @@ Wordy is built using the Flutter framework, a cross-platform development toolkit
 ## Installation
 
 1. Clone the project using the following command:
-   `https://github.com/MichalStaszkiewicz/Wordy.git`
-2. Change to the project directory:
+
    ```sh
-   cd Wordy
+   git clone https://github.com/MichalStaszkiewicz/Wordy.git
    ```
-3. Install the project dependencies using the following command:
+2. Install the project dependencies using the following command:
    ```sh
    flutter pub get
    ```
-4. Create a `.env` file in the project directory and add the following environment variables:
+3. Create a `.env` file in the project directory and add the following environment variables:
 
 ```env
 API_URL_DEBUG= "http://[YOUR_LOCAL_IP]:1344"
