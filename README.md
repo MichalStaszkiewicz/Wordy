@@ -40,7 +40,11 @@ Wordy is built using the Flutter framework, a cross-platform development toolkit
 ## Installation
 
 1. Clone the project using the following command:
-   `https://github.com/MichalStaszkiewicz/Wordy.git`
+
+   ```sh
+   git clone https://github.com/MichalStaszkiewicz/Wordy.git
+   ```
+
 2. Change to the project directory:
    ```sh
    cd Wordy
