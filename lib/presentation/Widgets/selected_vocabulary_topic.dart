@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wordy/Utility/dialog_manager.dart';
-import 'package:wordy/Utility/locator/service_locator.dart';
+
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
@@ -12,13 +11,12 @@ import 'package:wordy/presentation/widgets/card/flip_cards.dart';
 import 'package:wordy/presentation/widgets/card/vocabulary_card/vocabulary_back_card.dart';
 import 'package:wordy/presentation/widgets/card/vocabulary_card/vocabulary_front_card.dart';
 import 'package:wordy/presentation/widgets/loading_data.dart';
-
-
+import 'package:wordy/utility/dialog_manager.dart';
+import 'package:wordy/utility/locator/service_locator.dart';
 
 import '../../data/network/exceptions/exception_helper.dart';
 import '../../data/network/exceptions/unexpected_error.dart';
 import '../../global/global_data_manager.dart';
-
 
 class SelectedVocabularyTopic extends StatefulWidget {
   SelectedVocabularyTopic({super.key, required this.topic});
@@ -32,13 +30,15 @@ class _SelectedVocabularyTopicState extends State<SelectedVocabularyTopic> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: BlocProvider(
         create: (context) => VocabularyBloc()
           ..add(ListVocabularyWordsByTopic(topic: widget.topic)),
         child: BlocListener<VocabularyBloc, VocabularyState>(
           listener: (context, state) {
             if (state is VocabularyError) {
-              DialogManager.showErrorDialog(state.error, context, () {
+              locator<DialogManager>().showErrorDialog(state.error, context,
+                  () {
                 AppRouter.popUntil(context, AppRouter.vocabularyTopicScreen);
               });
             }
@@ -126,7 +126,7 @@ class _SelectedVocabularyTopicState extends State<SelectedVocabularyTopic> {
               } else if (state is VocabularyInitial) {
                 return const LoadingData();
               } else {
-                DialogManager.showErrorDialog(
+                locator<DialogManager>().showErrorDialog(
                     ExceptionHelper.getErrorMessage(UnexpectedError()), context,
                     () {
                   context.go(AppRouter.loginScreen);

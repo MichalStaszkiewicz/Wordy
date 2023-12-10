@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/presentation/bloc/achievements/achievements_filter_bloc.dart';
 import 'package:wordy/presentation/widgets/card/achievement_card/achievement_item_back.dart';
 import 'package:wordy/presentation/widgets/card/achievement_card/achievement_item_front.dart';
 
-
 import 'package:wordy/presentation/widgets/card/flip_cards.dart';
 
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/utility/dialog_manager.dart';
+import 'package:wordy/utility/locator/service_locator.dart';
 
-import '../../Utility/locator/service_locator.dart';
 import '../../domain/models/user_achievement.dart';
 import '../../global/global_data_manager.dart';
 import '../widgets/achievement_dial.dart';
@@ -39,6 +39,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
               'achievements_everything'],
         )),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         floatingActionButton: AchievementDial(
           achievements: widget.achievements,
         ),
@@ -85,8 +86,9 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                                     ),
                                     front: AchievementItemFront(
                                       image: "assets/medal.png",
-                                      name: translate[locator<GlobalDataManager>()
-                                                  .interfaceLanguage]![
+                                      name: translate[
+                                                  locator<GlobalDataManager>()
+                                                      .interfaceLanguage]![
                                               'achievements'][
                                           state.achievements[index].achievement
                                               .name!
@@ -106,7 +108,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
               );
             } else if (state is AchievementError) {
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                DialogManager.showErrorDialog(
+                locator<DialogManager>().showErrorDialog(
                     ExceptionHelper.getErrorMessage(UnexpectedError()),
                     context,
                     () {});

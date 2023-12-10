@@ -74,7 +74,8 @@ final Map<String, Map<String, dynamic>> translate = {
         'creating_account_progress': "Tworzenie twojego konta, prosimy czekać",
         'loading_in_progress': "Trwa ładowanie",
         'register_account_success': "Zarejestrowałeś konto pomyślnie",
-        'requried_field': "To pole jest wymagane"
+        'requried_field': "To pole jest wymagane",
+        'logging_in': "Logowanie, proszę czekać"
       },
       'full_name': "Imię i Nazwisko",
       'login': "Zaloguj się",
@@ -320,7 +321,8 @@ final Map<String, Map<String, dynamic>> translate = {
         'creating_account_progress': "Creating your account please Wait",
         'loading_in_progress': "Loading in progress",
         'register_account_success': "You successfully registered an account",
-        'requried_field': "This field is required"
+        'requried_field': "This field is required",
+        'logging_in': "Logging in, please wait"
       },
       'full_name': "Full Name",
       'login': "Log In",
@@ -562,7 +564,8 @@ final Map<String, Map<String, dynamic>> translate = {
         "creating_account_progress": "Creando tu cuenta. Por favor, espera",
         "loading_in_progress": "Cargando en progreso",
         "register_account_success": "Te has registrado exitosamente",
-        "requried_field": "Este campo es obligatorio"
+        "requried_field": "Este campo es obligatorio",
+        'logging_in': "Iniciando sesión, por favor espere"
       },
       "full_name": "Nombre completo",
       "login": "Iniciar sesión",
@@ -814,7 +817,8 @@ final Map<String, Map<String, dynamic>> translate = {
             "Création de votre compte, veuillez patienter",
         'loading_in_progress': "Chargement en cours",
         'register_account_success': "Vous avez créé un compte avec succès",
-        'requried_field': "Ce champ est requis"
+        'requried_field': "Ce champ est requis",
+        'logging_in': "Connexion en cours, veuillez patienter"
       },
       'full_name': "Nom complet",
       'login': "Se connecter",

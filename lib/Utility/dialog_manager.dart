@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropdown_alert/alert_controller.dart';
+import 'package:go_router/go_router.dart';
 
 import '../const/consts.dart';
 import '../domain/models/course.dart';
@@ -11,7 +12,10 @@ import '../presentation/widgets/select_course_dialog.dart';
 import 'locator/service_locator.dart';
 
 class DialogManager {
-  static Dialog editProfileDialog(
+  DialogManager();
+  bool dialogOpened = false;
+
+  Dialog editProfileDialog(
     BuildContext context,
   ) {
     return Dialog(
@@ -63,8 +67,7 @@ class DialogManager {
     );
   }
 
-  static void showSelectNewCourseDialog(
-      BuildContext context, List<Course> courses) {
+  void showSelectNewCourseDialog(BuildContext context, List<Course> courses) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -75,8 +78,8 @@ class DialogManager {
     );
   }
 
-  static void showSuccessDialog(String message, String title,
-      BuildContext context, VoidCallback onOkPress) {
+  void showSuccessDialog(String message, String title, BuildContext context,
+      VoidCallback onOkPress) {
     AwesomeDialog(
             context: context,
             title: title,
@@ -86,7 +89,7 @@ class DialogManager {
         .show();
   }
 
-  static void showInformationDialog(
+  void showInformationDialog(
       String message, String title, BuildContext context) {
     AwesomeDialog(
             context: context,
@@ -124,8 +127,9 @@ class DialogManager {
     ).show();
   }
 
-  static void showLoadingDialogWithCancelButton(String message, String title,
-      BuildContext context, VoidCallBack onCancel) {
+  void showLoadingDialogWithCancelButton(
+      String message, String title, BuildContext context, Function onCancel) {
+    dialogOpened = true;
     AwesomeDialog(
       context: context,
       animType: AnimType.scale,
@@ -144,14 +148,18 @@ class DialogManager {
           ],
         ),
       ),
-      btnCancelOnPress: onCancel,
-      btnCancelText: 'Cancel',
+      btnCancelOnPress: () {
+        onCancel;
+        dialogOpened = false;
+      },
+      btnCancelText: translate[locator<GlobalDataManager>().interfaceLanguage]![
+          'btn_cancel'],
       dismissOnBackKeyPress: false,
       dismissOnTouchOutside: false,
     ).show();
   }
 
-  static void showQuestionDialog(
+  void showQuestionDialog(
     String message,
     String title,
     BuildContext context,
@@ -161,8 +169,8 @@ class DialogManager {
     AwesomeDialog(
             btnCancelText: translate[
                 locator<GlobalDataManager>().interfaceLanguage]!['btn_cancel'],
-            btnOkText: translate[locator<GlobalDataManager>().interfaceLanguage]![
-                'btn_ok'],
+            btnOkText: translate[
+                locator<GlobalDataManager>().interfaceLanguage]!['btn_ok'],
             context: context,
             title: title,
             desc: message,
@@ -173,8 +181,12 @@ class DialogManager {
         .show();
   }
 
-  static void showErrorDialog(
+  void showErrorDialog(
       CustomError error, BuildContext context, VoidCallback onOkPress) {
+    if (dialogOpened) {
+      dialogOpened = false;
+      context.pop();
+    }
     AwesomeDialog(
             context: context,
             title: error.title,

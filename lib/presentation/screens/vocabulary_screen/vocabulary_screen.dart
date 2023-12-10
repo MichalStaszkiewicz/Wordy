@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wordy/Utility/dialog_manager.dart';
-import 'package:wordy/Utility/locator/service_locator.dart';
+
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/presentation/Bloc/vocabulary/vocabulary_bloc.dart';
@@ -15,8 +14,9 @@ import 'package:wordy/presentation/screens/vocabulary_screen/vocabulary_ready.da
 import 'package:wordy/presentation/screens/vocabulary_screen/state/loaded.dart';
 
 import 'package:wordy/const/consts.dart';
+import 'package:wordy/utility/dialog_manager.dart';
+import 'package:wordy/utility/locator/service_locator.dart';
 
-import '../../../Utility/locator/service_locator.dart';
 import '../../../domain/logic/user_service.dart';
 import '../../../domain/models/word_collection.dart';
 
@@ -46,6 +46,7 @@ class _VocabularyScreenState extends State<VocabularyScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: BlocProvider(
           create: (context) => VocabularyBloc()..add(const LoadVocabulary()),
@@ -53,7 +54,8 @@ class _VocabularyScreenState extends State<VocabularyScreen>
             listener: (context, state) {
               if (state is VocabularyError) {
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                  DialogManager.showErrorDialog(state.error, context, () {
+                  locator<DialogManager>().showErrorDialog(state.error, context,
+                      () {
                     if (state.error.critical) {
                       locator<UserService>()
                           .logOut()

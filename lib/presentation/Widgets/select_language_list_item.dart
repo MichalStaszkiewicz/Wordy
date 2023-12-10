@@ -67,7 +67,7 @@ class _SelectLanguageListItemState extends State<SelectLanguageListItem>
                 widget.label.toLowerCase()) {
               model.setIsExpanded();
             } else {
-              DialogManager.showQuestionDialog(
+              locator<DialogManager>().showQuestionDialog(
                   translate[locator<GlobalDataManager>().interfaceLanguage]![
                       'asking_for_change_interface_language'],
                   translate[locator<GlobalDataManager>().interfaceLanguage]![

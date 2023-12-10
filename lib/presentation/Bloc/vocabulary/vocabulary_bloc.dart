@@ -43,15 +43,11 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
         emit(VocabularyError(
             error: ExceptionHelper.getErrorMessage(course.error!)));
       } else {
-        List<WordCollection> list = [];
-        for (Topic topic in topics.data!) {
-          list.add(
-            WordCollection(
-              topic: translate['english']!['topic_label'][topic.name],
-              image: topic.image,
-            ),
-          );
-        }
+        List<WordCollection> list = topics.data!
+            .map((topic) => WordCollection(
+                topic: translate['english']!['topic_label'][topic.name],
+                image: topic.image))
+            .toList();
         emit(VocabularyLoaded(
             vocabularyList: list,
             vocabularyListSearched: list,
@@ -62,22 +58,34 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
 
   void updateVocabulary() {
     return on<SearchForSpecificVocabulary>((event, emit) {
-      List<WordCollection> updatedList = [];
-      if (state is VocabularyLoaded) {
-        final state = this.state as VocabularyLoaded;
-        for (int i = 0; i < state.vocabularyList.length; i++) {
-          if (state.vocabularyList[i].topic
-              .toLowerCase()
-              .contains(event.text.toLowerCase())) {
-            updatedList.add(state.vocabularyList[i]);
-          }
+      final state = this.state as VocabularyLoaded;
+      final vocabularyList = state.vocabularyList;
+      final searchTerm = event.text.toLowerCase();
+      int low = 0;
+      int high = vocabularyList.length - 1;
+      while (low <= high) {
+        int mid = (low + high) ~/ 2;
+        final word = vocabularyList[mid].topic!.toLowerCase();
+        if (word == searchTerm) {
+          final updatedList = [...vocabularyList];
+          updatedList[mid] = WordCollection(
+              topic: vocabularyList[mid].topic!,
+              image: vocabularyList[mid].image);
+          emit(VocabularyLoaded(
+              vocabularyList: updatedList,
+              vocabularyListSearched: updatedList,
+              language: state.language));
+          return;
+        } else if (word.compareTo(searchTerm) > 0) {
+          high = mid - 1;
+        } else {
+          low = mid + 1;
         }
-        emit(VocabularyLoaded(
-          vocabularyList: state.vocabularyList,
-          vocabularyListSearched: updatedList,
-          language: state.language,
-        ));
       }
+      emit(VocabularyLoaded(
+          vocabularyList: vocabularyList,
+          vocabularyListSearched: vocabularyList,
+          language: state.language));
     });
   }
 

@@ -6,9 +6,9 @@ import 'package:wordy/const/enums.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/domain/models/active_course.dart';
 import 'package:wordy/domain/models/progress_in_topic.dart';
+import 'package:wordy/utility/dialog_manager.dart';
 import 'package:wordy/utility/locator/service_locator.dart';
 
-import '../../Utility/dialog_manager.dart';
 import '../../const/consts.dart';
 import '../../domain/models/topic.dart';
 import '../../global/selected_course_notifier.dart';
@@ -85,7 +85,7 @@ class _SelectedCourseTopicCardState extends State<SelectedCourseTopicCard>
           } else if (quizType.name.toLowerCase() ==
                   QuizType.learning.name.toLowerCase() &&
               widget.progress.knownWords == widget.progress.wordsCount) {
-            DialogManager.showSuccessDialog(
+            locator<DialogManager>().showSuccessDialog(
                 translate[locator<GlobalDataManager>().interfaceLanguage]![
                         'finished_topic_announcement'] +
                     " ${translate[locator<GlobalDataManager>().interfaceLanguage]!['topic_label'][widget.topic.name]}",

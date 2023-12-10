@@ -207,7 +207,10 @@ class UserService {
     Map<String, dynamic> userAuthData = requestModel.toMap();
 
     final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (userAuthData['email'] == null || userAuthData['password'] == null) {
+    if (userAuthData['email'] == null ||
+        userAuthData['email'].length == 0 ||
+        userAuthData['password'] == null ||
+        userAuthData['password'].length == 0) {
       return Either.error(ValidationError(
           message: translate[locator<GlobalDataManager>().interfaceLanguage]![
               'error_messages']['validation']['fill_fields'],

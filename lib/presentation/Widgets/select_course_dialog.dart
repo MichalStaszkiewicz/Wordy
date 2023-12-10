@@ -4,10 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:wordy/domain/repositiories/stream_repository.dart';
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
 import 'package:wordy/presentation/widgets/button/quiz_next_button.dart';
+import 'package:wordy/utility/dialog_manager.dart';
+import 'package:wordy/utility/locator/service_locator.dart';
 
-import '../../Utility/dialog_manager.dart';
-
-import '../../Utility/locator/service_locator.dart';
 import '../../const/consts.dart';
 import '../../data/network/exceptions/exception_helper.dart';
 import '../../data/network/exceptions/unexpected_error.dart';
@@ -57,7 +56,6 @@ class _SelectCourseDialogState extends State<SelectCourseDialog> {
                               language: translate['english']![
                                   widget.availableCourses[index].name],
                               onSelect: () {
-                            
                                 context.read<CoursesUpdateBloc>().add(
                                     UpdateSelectedCourse(
                                         courseName: widget
@@ -71,7 +69,6 @@ class _SelectCourseDialogState extends State<SelectCourseDialog> {
                     onPress: () {},
                     child: CustomAnimatedButton(
                       height: 50,
-                     
                       label: translate[locator<GlobalDataManager>()
                           .interfaceLanguage]!['start'],
                       margin: EdgeInsets.zero,
@@ -94,7 +91,7 @@ class _SelectCourseDialogState extends State<SelectCourseDialog> {
             );
           } else if (state is CourseUpdateError) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              DialogManager.showErrorDialog(
+              locator<DialogManager>().showErrorDialog(
                 ExceptionHelper.getErrorMessage(UnexpectedError()),
                 context,
                 () {},

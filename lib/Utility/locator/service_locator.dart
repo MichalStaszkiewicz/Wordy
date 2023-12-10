@@ -3,8 +3,10 @@ import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
+
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/global/selected_course_notifier.dart';
+import 'package:wordy/utility/dialog_manager.dart';
 
 import '../../const/urls.dart';
 import '../../data/local/local_storage.dart';
@@ -34,6 +36,7 @@ Future<void> serviceLocator(String baseUrl, String imageUrl, bool test) async {
   locator.registerLazySingleton(
       () => ApiService(baseUrl: locator<Urls>().baseUrl));
   locator.registerLazySingleton(() => SelectedCourseNotifier());
+  locator.registerSingleton(DialogManager());
   locator.registerLazySingleton(() => GlobalDataManager());
   locator.registerLazySingleton(
       () => io(locator<Urls>().baseUrl, <String, dynamic>{

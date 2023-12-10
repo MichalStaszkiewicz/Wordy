@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:wordy/Utility/dialog_manager.dart';
+
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/global/notification_provider.dart';
@@ -19,9 +19,11 @@ import 'package:wordy/presentation/widgets/progression_bar.dart';
 import 'package:wordy/presentation/widgets/quiz_answear.dart';
 import 'package:wordy/presentation/widgets/button/quiz_next_button.dart';
 import 'package:wordy/presentation/widgets/read_question_widget.dart';
+import 'package:wordy/utility/dialog_manager.dart';
+import 'package:wordy/utility/locator/service_locator.dart';
 import 'package:wordy/utility/utility.dart';
 
-import '../../Utility/locator/service_locator.dart';
+
 import '../../const/consts.dart';
 
 class QuizScreenQuestions extends StatefulWidget {
@@ -253,7 +255,7 @@ class QuizScreenBar extends StatelessWidget {
                       child: Center(
                     child: GestureDetector(
                       onTap: () {
-                        DialogManager.showQuestionDialog(
+                        locator<DialogManager>().showQuestionDialog(
                             translate[locator<GlobalDataManager>()
                                 .interfaceLanguage]!['quiting_quiz'],
                             translate[locator<GlobalDataManager>()

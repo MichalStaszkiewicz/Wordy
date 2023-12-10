@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wordy/Utility/dialog_manager.dart';
-import 'package:wordy/Utility/locator/service_locator.dart';
-import 'package:wordy/Utility/socket_manager.dart';
+
 import 'package:wordy/const/app_router.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/const/enums.dart';
@@ -18,6 +16,9 @@ import 'package:wordy/presentation/screens/auth_screen/forms/register_form.dart'
 import 'package:wordy/presentation/screens/auth_screen/forms/reset_password_form.dart';
 import 'package:wordy/presentation/screens/auth_screen/forms/token_sended_form.dart';
 import 'package:wordy/presentation/screens/auth_screen/forms/update_password_form.dart';
+import 'package:wordy/utility/dialog_manager.dart';
+import 'package:wordy/utility/locator/service_locator.dart';
+import 'package:wordy/utility/socket_manager.dart';
 
 class AuthScreen extends StatefulWidget {
   AuthScreen({super.key, required child});
@@ -44,11 +45,12 @@ class _AuthScreenState extends State<AuthScreen> {
             BlocListener<ResetPasswordBloc, ResetPasswordState>(
                 listener: (context, state) {
               if (state is ResetPasswordError) {
-                DialogManager.showErrorDialog(state.error, context, () {
+                locator<DialogManager>().showErrorDialog(state.error, context,
+                    () {
                   context.read<ResetPasswordBloc>().add(InitialResetPassword());
                 });
               } else if (state is VerifiedToken) {
-                DialogManager.showSuccessDialog(
+                locator<DialogManager>().showSuccessDialog(
                     translate[locator<GlobalDataManager>().interfaceLanguage]![
                         'auth_form']['messages']['verified_token'],
                     'Success',
@@ -57,7 +59,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   setState(() {});
                 });
               } else if (state is RecoverAccountMessageSended) {
-                DialogManager.showSuccessDialog(
+                locator<DialogManager>().showSuccessDialog(
                     translate[locator<GlobalDataManager>().interfaceLanguage]![
                         'auth_form']['messages']['sended_token'],
                     'Success',
@@ -66,7 +68,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   setState(() {});
                 });
               } else if (state is UserPasswordUpdated) {
-                DialogManager.showSuccessDialog(
+                locator<DialogManager>().showSuccessDialog(
                     translate[locator<GlobalDataManager>().interfaceLanguage]![
                         'auth_form']['messages']['updated_password'],
                     'Success',
@@ -82,7 +84,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   if (context.canPop()) {
                     Navigator.pop(context);
                   }
-                  DialogManager.showLoadingDialogWithCancelButton(
+                  locator<DialogManager>().showLoadingDialogWithCancelButton(
                       translate[locator<GlobalDataManager>()
                               .interfaceLanguage]!['auth_form']['messages']
                           ['creating_account_progress'],
@@ -96,7 +98,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   if (context.canPop()) {
                     Navigator.pop(context);
                   }
-                  DialogManager.showSuccessDialog(
+                  locator<DialogManager>().showSuccessDialog(
                       translate[locator<GlobalDataManager>()
                               .interfaceLanguage]!['auth_form']['messages']
                           ['register_account_success'],
@@ -109,9 +111,10 @@ class _AuthScreenState extends State<AuthScreen> {
                   });
                 } else if (state is RegisterError) {
                   if (context.canPop()) {
-                  Navigator.pop(context);
+                    Navigator.pop(context);
                   }
-                  DialogManager.showErrorDialog(state.error, context, () {
+                  locator<DialogManager>().showErrorDialog(state.error, context,
+                      () {
                     context.read<RegisterBloc>().add(const RegisterInit());
                   });
                 } else {}
@@ -120,7 +123,7 @@ class _AuthScreenState extends State<AuthScreen> {
             BlocListener<LoginBloc, LoginState>(listener: (context, state) {
               if (state is LoggedOut) {}
               if (state is Authenticating) {
-                DialogManager.showLoadingDialogWithCancelButton(
+                locator<DialogManager>().showLoadingDialogWithCancelButton(
                     translate[locator<GlobalDataManager>().interfaceLanguage]![
                         'auth_form']['messages']['loading_in_progress'],
                     '',
@@ -146,7 +149,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   Navigator.pop(context);
                 }
 
-                DialogManager.showErrorDialog(state.error, context, () {
+                locator<DialogManager>().showErrorDialog(state.error, context,
+                    () {
                   context
                       .read<LoginBloc>()
                       .add(LogOut(errorMessage: 'errorMessage'));

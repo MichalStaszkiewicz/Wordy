@@ -114,12 +114,12 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          
           Expanded(
-            flex:6,
+            flex: 6,
             child: ScaleTransition(
               scale: _scaleAnimation,
               child: Container(
@@ -141,9 +141,8 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                     SizedBox(
                         height: 100,
                         child: Image(
-                            image: NetworkImage(
-                                locator<Urls>().imageUrl + widget.topic.image))),
-                  
+                            image: NetworkImage(locator<Urls>().imageUrl +
+                                widget.topic.image))),
                     Expanded(
                       flex: 1,
                       child: Container(
@@ -161,7 +160,9 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                                         'new_learned_words'],
                                     "${_learnedWordsLabelAnimation.value.toInt()}"),
                               ),
-                              SizedBox(height: 20,),
+                              SizedBox(
+                                height: 20,
+                              ),
                               Opacity(
                                 opacity: _scoreAnimation.value,
                                 child: _buildStatisticWidget(
@@ -185,7 +186,6 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
           Expanded(
             flex: 2,
             child: Container(
-
               width: double.infinity,
               child: Center(
                 child: Column(
@@ -203,7 +203,7 @@ class _QuizFinishScreenState extends State<QuizFinishScreen>
                                   'topic': widget.topic,
                                 });
                               } else {
-                                DialogManager.showSuccessDialog(
+                                locator<DialogManager>().showSuccessDialog(
                                     translate[locator<GlobalDataManager>()
                                         .interfaceLanguage]!['completed_topic'],
                                     translate[locator<GlobalDataManager>()

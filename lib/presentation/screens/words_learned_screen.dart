@@ -20,41 +20,41 @@ class WordsLearnedScreen extends StatefulWidget {
 class _WordsLearnedScreenState extends State<WordsLearnedScreen> {
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
-      child: Container(
-        child: Column(
-          children: [
-            TitleWithBackButton(
-              title: translate[locator<GlobalDataManager>().interfaceLanguage]![
-                  'progress'],
+          child: Container(
+            child: Column(
+              children: [
+                TitleWithBackButton(
+                  title: translate[locator<GlobalDataManager>()
+                      .interfaceLanguage]!['progress'],
+                ),
+                Expanded(
+                  child: Container(
+                      child: ListView.builder(
+                          itemCount: widget.beginnerProgress.length,
+                          itemBuilder: (context, index) => GestureDetector(
+                                onTap: () {
+                                  context.pushNamed(
+                                      AppRouter.learnedWordsSelectedCourse,
+                                      extra: {
+                                        'activeCourse':
+                                            widget.beginnerProgress[index]
+                                      });
+                                },
+                                child: LearnedWordsStatisticCard(
+                                    maximum: widget.beginnerProgress[index]
+                                        .totalWordsCount,
+                                    current: widget
+                                        .beginnerProgress[index].knownWords,
+                                    image: widget.beginnerProgress[index]
+                                        .userCourse.course.circularImage),
+                              ))),
+                ),
+              ],
             ),
-            Expanded(
-              child: Container(
-                  child: ListView.builder(
-                      itemCount: widget.beginnerProgress.length,
-                      itemBuilder: (context, index) => GestureDetector(
-                            onTap: () {
-                              context.pushNamed(
-                                  AppRouter.learnedWordsSelectedCourse,
-                                  extra: {
-                                    'activeCourse':
-                                        widget.beginnerProgress[index]
-                                  });
-                            },
-                            child: LearnedWordsStatisticCard(
-                                maximum: widget
-                                    .beginnerProgress[index].totalWordsCount,
-                                current:
-                                    widget.beginnerProgress[index].knownWords,
-                                image: widget.beginnerProgress[index].userCourse
-                                    .course.circularImage),
-                          ))),
-            ),
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
   }
 }

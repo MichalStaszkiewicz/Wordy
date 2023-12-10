@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:wordy/Utility/dialog_manager.dart';
+
 import 'package:wordy/const/enums.dart';
+import 'package:wordy/const/shared_preferences_keys.dart';
 import 'package:wordy/const/urls.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/models/interface_language.dart';
@@ -13,8 +14,9 @@ import 'package:wordy/global/courses_lang_interface.dart';
 import 'package:wordy/global/notification_provider.dart';
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
 import 'package:wordy/presentation/widgets/select_interface_language_button.dart';
+import 'package:wordy/utility/dialog_manager.dart';
+import 'package:wordy/utility/locator/service_locator.dart';
 
-import '../../Utility/locator/service_locator.dart';
 import '../../const/app_router.dart';
 import '../../const/consts.dart';
 import '../../domain/repositiories/stream_repository.dart';
@@ -110,13 +112,14 @@ class _CoursesScreenState extends State<CoursesScreen>
                                                     color: Colors.black,
                                                   ),
                                                   onPressed: () {
-                                                    DialogManager.showQuestionDialog(
-                                                        "",
-                                                        translate[locator<
-                                                                    GlobalDataManager>()
-                                                                .interfaceLanguage]![
-                                                            'log_out'],
-                                                        context, () async {
+                                                    locator<DialogManager>()
+                                                        .showQuestionDialog(
+                                                            "",
+                                                            translate[locator<
+                                                                        GlobalDataManager>()
+                                                                    .interfaceLanguage]![
+                                                                'log_out'],
+                                                            context, () async {
                                                       await locator<
                                                               UserService>()
                                                           .logOut()
@@ -168,7 +171,10 @@ class _CoursesScreenState extends State<CoursesScreen>
                                     ),
                                     SliverToBoxAdapter(
                                       child: Container(
-                                          height: (state.courses.activeCourses.length * 100) + 200,
+                                          height: (state.courses.activeCourses
+                                                      .length *
+                                                  100) +
+                                              200,
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10),
                                           child: GridView.builder(
@@ -188,7 +194,7 @@ class _CoursesScreenState extends State<CoursesScreen>
                                                       .length) {
                                                 return GestureDetector(
                                                     onTap: () {
-                                                      DialogManager
+                                                      locator<DialogManager>()
                                                           .showSelectNewCourseDialog(
                                                               context,
                                                               state
@@ -263,7 +269,8 @@ class _CoursesScreenState extends State<CoursesScreen>
                       );
                     } else if (state is CourseUpdateError) {
                       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                        DialogManager.showErrorDialog(state.error, context, () {
+                        locator<DialogManager>()
+                            .showErrorDialog(state.error, context, () {
                           context.go(AppRouter.loginScreen);
                         });
                       });

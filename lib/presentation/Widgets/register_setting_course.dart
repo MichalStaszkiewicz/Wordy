@@ -45,7 +45,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
               listener: (context, state) {
                 if (state is RegisterLoadingState) {
                   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                    DialogManager.showLoadingDialogWithCancelButton(
+                    locator<DialogManager>().showLoadingDialogWithCancelButton(
                         translate[locator<GlobalDataManager>()
                             .interfaceLanguage]!['messages']['app_prepare'],
                         translate[locator<GlobalDataManager>()
@@ -59,7 +59,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
 
                 if (state is InitialSetupState) {
                   if (state.languageConflict) {
-                    DialogManager.showQuestionDialog(
+                    locator<DialogManager>().showQuestionDialog(
                         translate[locator<GlobalDataManager>()
                                 .interfaceLanguage]!['messages']
                             ['language_conflict'],
@@ -100,7 +100,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
                                   FinishInitialSetup(
                                       currentCourse: state.languageToLearn));
                             } else {
-                              DialogManager.showErrorDialog(
+                              locator<DialogManager>().showErrorDialog(
                                   CustomError(
                                       title: translate[
                                               locator<GlobalDataManager>()
@@ -126,7 +126,7 @@ class _RegisterSettingCourseState extends State<RegisterSettingCourse> {
             );
           } else {
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-              DialogManager.showErrorDialog(
+              locator<DialogManager>().showErrorDialog(
                   CustomError(
                       critical: true,
                       title: translate[locator<GlobalDataManager>()

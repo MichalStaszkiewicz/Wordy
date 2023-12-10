@@ -8,10 +8,11 @@ import 'package:wordy/presentation/widgets/loading_data.dart';
 
 import 'package:wordy/presentation/screens/quiz_screen_questions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../Utility/dialog_manager.dart';
-import '../../Utility/locator/service_locator.dart';
+import 'package:wordy/utility/dialog_manager.dart';
+
 import '../../const/app_router.dart';
 import '../../domain/models/topic.dart';
+import '../../utility/locator/service_locator.dart';
 
 class QuizScreen extends StatefulWidget {
   QuizScreen({
@@ -43,7 +44,7 @@ class _QuizScreenState extends State<QuizScreen> {
           child: BlocListener<QuizBloc, QuizState>(
             listener: (context, state) {
               if (state is QuizError) {
-                DialogManager.showErrorDialog(state.error, context, () {
+                locator<DialogManager>().showErrorDialog(state.error, context, () {
                   if (state.error.critical) {
                     context.go(AppRouter.loginScreen);
                   }

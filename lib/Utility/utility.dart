@@ -7,6 +7,7 @@ import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 import 'package:wordy/utility/locator/service_locator.dart';
+
 import 'package:wordy/utility/toast_manager.dart';
 
 import '../const/enums.dart';
@@ -22,7 +23,7 @@ class Utility {
     var userInterfaceLanguage =
         locator<UserService>().getUserInterfaceLanguage();
     if (userInterfaceLanguage.isData && context.mounted) {
-      DialogManager.showErrorDialog(
+      locator<DialogManager>().showErrorDialog(
           ExceptionHelper.getErrorMessage(UnexpectedError()), context, () {
         context.go(AppRouter.loginScreen);
       });

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wordy/Utility/dialog_manager.dart';
+
 import 'package:wordy/const/consts.dart';
 
 import 'package:wordy/presentation/widgets/register_setting_course.dart';
+import 'package:wordy/utility/dialog_manager.dart';
+import 'package:wordy/utility/locator/service_locator.dart';
 
-import '../../Utility/locator/service_locator.dart';
 import '../../const/app_router.dart';
 import '../../const/enums.dart';
 import '../../global/global_data_manager.dart';
@@ -42,12 +43,14 @@ class _InitialSettingsScreenState extends State<InitialSettingsScreen> {
       child: BlocListener<RegisterBloc, RegisterState>(
           listener: (context, state) {
             if (state is RegisterError) {
-              DialogManager.showErrorDialog(state.error, context, () {
+              locator<DialogManager>().showErrorDialog(state.error, context,
+                  () {
                 context.go(AppRouter.loginScreen);
               });
             }
           },
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             body: _buildSettingUpProfileForm(
               _registerationStatus,
             ),
