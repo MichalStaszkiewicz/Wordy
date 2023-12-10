@@ -8,6 +8,7 @@ import 'package:wordy/const/consts.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/screens/auth_screen/auth_form_wrapper.dart';
 import 'package:wordy/presentation/widgets/button/login_button.dart';
+import 'package:wordy/utility/dialog_manager.dart';
 
 import '../../../../utility/validator.dart';
 import '../../../bloc/reset_password/reset_password_bloc.dart';
@@ -34,51 +35,88 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
       resizeToAvoidBottomInset: false,
       body: BlocProvider(
         create: (context) => ResetPasswordBloc(),
-        child: AuthFormWrapper(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                translate[locator<GlobalDataManager>().interfaceLanguage]![
-                    'auth_form']['reset_password'],
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              SizedBox(
-                  width: 250,
-                  child: TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                        errorText: _emailErrorText,
-                        prefixIcon: const Icon(Icons.email),
-                        hintText: translate[locator<GlobalDataManager>()
-                            .interfaceLanguage]!['auth_form']['email']),
-                  )),
-              LoginButton(
-                label: translate[locator<GlobalDataManager>()
-                    .interfaceLanguage]!['auth_form']['submit'],
-                onPressed: () {
-                  _emailErrorText =
-                      Validator.emailValidate(_emailController.text);
-                  context
-                      .read<ResetPasswordBloc>()
-                      .add(RecoverAccount(email: _emailController.text));
-                  setState(() {});
-                },
-              ),
-              GestureDetector(
-                onTap: () {
-                  context.goNamed(AppRouter.loginScreen);
-                },
-                child: Text(
+        child: BlocConsumer<ResetPasswordBloc, ResetPasswordState>(
+          listener: (context, state) {
+            if (state is ResetPasswordError) {
+              locator<DialogManager>().showErrorDialog(state.error, context,
+                  () {
+                context.read<ResetPasswordBloc>().add(InitialResetPassword());
+              });
+            } else if (state is VerifiedToken) {
+              locator<DialogManager>().showSuccessDialog(
                   translate[locator<GlobalDataManager>().interfaceLanguage]![
-                      'auth_form']['back_to_login'],
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
-                ),
-              )
-            ],
-          ),
+                      'auth_form']['messages']['verified_token'],
+                  'Success',
+                  context, () {
+                setState(() {});
+              });
+            } else if (state is RecoverAccountMessageSended) {
+              locator<DialogManager>().showSuccessDialog(
+                  translate[locator<GlobalDataManager>().interfaceLanguage]![
+                      'auth_form']['messages']['sended_token'],
+                  'Success',
+                  context, () {
+                setState(() {});
+              });
+            } else if (state is UserPasswordUpdated) {
+              locator<DialogManager>().showSuccessDialog(
+                  translate[locator<GlobalDataManager>().interfaceLanguage]![
+                      'auth_form']['messages']['updated_password'],
+                  'Success',
+                  context, () {
+                setState(() {});
+              });
+            }
+          },
+          builder: (context, state) {
+            return AuthFormWrapper(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    translate[locator<GlobalDataManager>().interfaceLanguage]![
+                        'auth_form']['reset_password'],
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  SizedBox(
+                      width: 250,
+                      child: TextField(
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                            errorText: _emailErrorText,
+                            prefixIcon: const Icon(Icons.email),
+                            hintText: translate[locator<GlobalDataManager>()
+                                .interfaceLanguage]!['auth_form']['email']),
+                      )),
+                  LoginButton(
+                    label: translate[locator<GlobalDataManager>()
+                        .interfaceLanguage]!['auth_form']['submit'],
+                    onPressed: () {
+                      _emailErrorText =
+                          Validator.emailValidate(_emailController.text);
+                      context
+                          .read<ResetPasswordBloc>()
+                          .add(RecoverAccount(email: _emailController.text));
+                      setState(() {});
+                    },
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      context.goNamed(AppRouter.loginScreen);
+                    },
+                    child: Text(
+                      translate[locator<GlobalDataManager>()
+                          .interfaceLanguage]!['auth_form']['back_to_login'],
+                      textAlign: TextAlign.center,
+                      style:
+                          const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
