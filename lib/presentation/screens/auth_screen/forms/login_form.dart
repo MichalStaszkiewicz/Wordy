@@ -71,7 +71,7 @@ class _LoginFormState extends State<LoginForm> {
                   context, () {
                 locator<Repository>().cancelRequest().then((value) => context
                     .read<LoginBloc>()
-                    .add(LogOut(errorMessage: 'Request Failed')));
+                    .add(LogOut(message: 'Request Failed')));
               });
             }
           },

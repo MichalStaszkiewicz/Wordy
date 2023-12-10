@@ -8,8 +8,8 @@ abstract class AuthFormEvent extends Equatable {
 }
 
 class LogOut extends AuthFormEvent {
-  LogOut({required this.errorMessage});
-  String errorMessage;
+  LogOut({required this.message});
+  String message;
 }
 
 class Login extends AuthFormEvent {

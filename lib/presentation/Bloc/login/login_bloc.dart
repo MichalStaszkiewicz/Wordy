@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
+import 'package:wordy/utility/dialog_manager.dart';
 import '../../../Utility/locator/service_locator.dart';
 import '../../../data/network/request/models/login_user_request_model.dart';
 import '../../../domain/models/custom_error.dart';
@@ -34,6 +35,7 @@ class LoginBloc extends Bloc<AuthFormEvent, LoginState> {
             await locator.get<Repository>().getRegisterationStatus(token.data!);
        
         if (registerationStatus.isData) {
+         
           emit(Authenticated(
               registerCompleted:
                   registerationStatus.data!.registerationCompleted,

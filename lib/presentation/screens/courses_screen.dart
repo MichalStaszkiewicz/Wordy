@@ -12,6 +12,7 @@ import 'package:wordy/domain/models/interface_language.dart';
 import 'package:wordy/domain/models/user_active_courses_progress.dart';
 import 'package:wordy/global/courses_lang_interface.dart';
 import 'package:wordy/global/notification_provider.dart';
+import 'package:wordy/presentation/bloc/login/login_bloc.dart';
 import 'package:wordy/presentation/widgets/bouncing_widget.dart';
 import 'package:wordy/presentation/widgets/select_interface_language_button.dart';
 import 'package:wordy/utility/dialog_manager.dart';
@@ -48,9 +49,17 @@ class _CoursesScreenState extends State<CoursesScreen>
     return SafeArea(
       child: ChangeNotifierProvider(
         create: (BuildContext context) => NotificationProvider(),
-        child: BlocProvider<CoursesUpdateBloc>(
-          create: (context) => CoursesUpdateBloc(locator<StreamRepository>())
-            ..add(const InitialCourses()),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<CoursesUpdateBloc>(
+              create: (context) =>
+                  CoursesUpdateBloc(locator<StreamRepository>())
+                    ..add(const InitialCourses()),
+            ),
+            BlocProvider(
+              create: (context) => LoginBloc(),
+            ),
+          ],
           child: BlocListener<CoursesUpdateBloc, CoursesUpdateState>(
             listener: (context, state) {
               if (state is UserNoCoursesInSelectedInterfaceLanguage) {
@@ -126,6 +135,10 @@ class _CoursesScreenState extends State<CoursesScreen>
                                                           .then((value) {
                                                         locator<UserService>()
                                                             .cleanUpLocalStorage();
+                                                        context
+                                                            .read<LoginBloc>()
+                                                            .add(LogOut(
+                                                                message: ''));
                                                         context.go(AppRouter
                                                             .loginScreen);
                                                       });

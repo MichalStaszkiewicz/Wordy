@@ -25,7 +25,10 @@ class Utility {
     final socketManager = locator<SocketManager>();
 
     socketManager.initialize(state.token);
-
+    final dialogManager = locator<DialogManager>();
+    if (dialogManager.dialogOpened) {
+      context.pop();
+    }
     state.registerCompleted
         ? context.pushNamed(AppRouter.home)
         : context.pushNamed(AppRouter.initialSettings);
