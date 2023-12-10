@@ -19,7 +19,8 @@ class Validator {
           message: translate[locator<GlobalDataManager>().interfaceLanguage]![
               'error_messages']['validation']['fill_fields'],
           translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['error']));
+              'error_messages']['validation']['error'],
+          type: ValidationErrorType.fill_fields));
     }
 
     if (!emailRegExp.hasMatch(userAuthData['email'])) {
@@ -27,7 +28,8 @@ class Validator {
           message: translate[locator<GlobalDataManager>().interfaceLanguage]![
               'error_messages']['validation']['bad_email_format'],
           translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['error']));
+              'error_messages']['validation']['error'],
+          type: ValidationErrorType.bad_email_format));
     }
     return Either.data(true);
   }
@@ -96,5 +98,57 @@ class Validator {
     } else {
       return '';
     }
+  }
+
+  static Either<Exception, String> registerValidate(
+      Map<String, dynamic> userAuthData, bool test) {
+    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+    if (userAuthData['email'] == null || userAuthData['password'] == null) {
+      return Either.error(ValidationError(
+          translate['english']!['error_messages']['validation']['error'],
+          message: translate['english']!['error_messages']['validation']
+              ['fill_fields'],
+          type: ValidationErrorType.fill_fields));
+    }
+
+    if (!emailRegExp.hasMatch(userAuthData['email'])) {
+      return Either.error(ValidationError(
+          translate['english']!['error_messages']['validation']['error'],
+          message: translate['english']!['error_messages']['validation']
+              ['bad_email_format'],
+          type: ValidationErrorType.bad_email_format));
+    }
+    if ((userAuthData['password'] as String).length < 5) {
+      return Either.error(ValidationError(
+          translate['english']!['error_messages']['validation']['error'],
+          message: translate['english']!['error_messages']['validation']
+              ['short_password'],
+          type: ValidationErrorType.short_password));
+    }
+    return Either.data('success');
+  }
+
+  static Either<Exception, String> recoverAccountValidate(String email) {
+    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+    if (email == '') {
+      return Either.error(ValidationError(
+          translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['error'],
+          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['fill_fields'],
+          type: ValidationErrorType.fill_fields));
+    }
+
+    if (!emailRegExp.hasMatch(email)) {
+      return Either.error(ValidationError(
+          translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['error'],
+          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['bad_email_format'],
+          type: ValidationErrorType.bad_email_format));
+    }
+    return Either.data('success');
   }
 }

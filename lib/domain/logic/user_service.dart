@@ -6,7 +6,7 @@ import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/global/global_data_manager.dart';
-import 'package:wordy/utility/data_validator.dart';
+
 import 'package:wordy/utility/validator.dart';
 
 import '../../Utility/locator/service_locator.dart';
@@ -240,8 +240,9 @@ class UserService {
   }
 
   Future<Either<Exception, String>> recoverAccount(String email) async {
-    Either<Exception, String> validateEmail =
-        DataValidator.recoverAccountValidate(email, false);
+    Either<Exception, String> validateEmail = Validator.recoverAccountValidate(
+      email,
+    );
     if (validateEmail.isError) {
       return Either.error(validateEmail.error);
     }
@@ -256,7 +257,7 @@ class UserService {
   Future<Either<Exception, String>> registerUser(
       Map<String, dynamic> userAuthData) async {
     Either<Exception, String> validate =
-        DataValidator.registerValidate(userAuthData, false);
+        Validator.registerValidate(userAuthData, false);
     if (validate.isError) {
       return Either.error(validate.error);
     }
