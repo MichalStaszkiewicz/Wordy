@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordy/utility/utility.dart';
 
 class StatisticsItem extends StatelessWidget {
   StatisticsItem({
@@ -35,10 +36,10 @@ class StatisticsItem extends StatelessWidget {
             SizedBox(height: 50, child: Image(image: AssetImage(image))),
             const SizedBox(height: 10.0),
             Container(
-             width: double.infinity,
+              width: double.infinity,
               child: Text(
                 textAlign: TextAlign.center,
-                label,
+                Utility.capitalize(label),
                 style: TextStyle(
                   color: Colors.grey[700],
                   fontSize: 16.0,

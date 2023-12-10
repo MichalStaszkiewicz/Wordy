@@ -34,6 +34,13 @@ class Utility {
     return false;
   }
 
+  static String capitalize(String text) {
+    if (text.length == 1) {
+      return text[0].toUpperCase();
+    }
+    return text[0].toUpperCase() + text.substring(1, text.length);
+  }
+
   static authenticatedUserNavigation(
       Authenticated state, BuildContext context) {
     final socketManager = locator<SocketManager>();

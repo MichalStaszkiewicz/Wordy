@@ -71,7 +71,7 @@ final Map<String, Map<String, dynamic>> translate = {
         'sended_token':
             "Wysłaliśmy ci e-mail z tokenem. Sprawdź również folder spam",
         'updated_password': "Hasło zaktualizowane pomyślnie",
-        'creating_account_progress': "Tworzenie twojego konta, prosimy czekać",
+        'creating_account_progress': "Tworzenie konta, proszę czekać",
         'loading_in_progress': "Trwa ładowanie",
         'register_account_success': "Zarejestrowałeś konto pomyślnie",
         'requried_field': "To pole jest wymagane",
@@ -340,7 +340,7 @@ final Map<String, Map<String, dynamic>> translate = {
       'back_to_login': "Back to login"
     },
     'in': 'in',
-    'progress': "progress",
+    'progress': "Psrogress",
     'choose_correct_translation': "Choose the Correct Translation",
     'learning': "Learning",
     'btn_cancel': 'Cancel',
