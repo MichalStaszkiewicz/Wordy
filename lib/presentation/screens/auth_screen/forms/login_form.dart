@@ -6,10 +6,11 @@ import 'package:wordy/Utility/locator/service_locator.dart';
 import 'package:wordy/const/consts.dart';
 import 'package:wordy/data/network/api_service.dart';
 import 'package:wordy/domain/models/custom_error.dart';
+import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/widgets/button/login_button.dart';
 import 'package:wordy/utility/dialog_manager.dart';
-
+import 'package:wordy/utility/socket_manager.dart';
 import '../../../../const/app_router.dart';
 import '../../../../utility/validator.dart';
 import '../../../bloc/login/login_bloc.dart';
@@ -54,6 +55,13 @@ class _LoginFormState extends State<LoginForm> {
             if (state is Authenticated) {
               _emailController.clear();
               _passwordController.clear();
+              final socketManager = locator<SocketManager>();
+
+              socketManager.initialize(state.token);
+
+              state.registerCompleted
+                  ? context.pushNamed(AppRouter.home)
+                  : context.pushNamed(AppRouter.initialSettings);
             }
             if (state is LoginError) {
               locator<DialogManager>()
@@ -66,7 +74,9 @@ class _LoginFormState extends State<LoginForm> {
                   '',
                   context, () {
                 //cancel request
-                locator<ApiService>().cancelRequests();
+                locator<Repository>().cancelRequest().then((value) => context
+                    .read<LoginBloc>()
+                    .add(LogOut(errorMessage: 'Request Failed')));
               });
             }
           },

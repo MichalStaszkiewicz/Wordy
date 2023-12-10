@@ -18,7 +18,6 @@ import 'package:wordy/presentation/screens/auth_screen/forms/token_sended_form.d
 import 'package:wordy/presentation/screens/auth_screen/forms/update_password_form.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 import 'package:wordy/utility/locator/service_locator.dart';
-import 'package:wordy/utility/socket_manager.dart';
 
 class AuthScreen extends StatefulWidget {
   AuthScreen({super.key, required child});
@@ -44,121 +43,12 @@ class _AuthScreenState extends State<AuthScreen> {
           listeners: [
             BlocListener<ResetPasswordBloc, ResetPasswordState>(
                 listener: (context, state) {
-              if (state is ResetPasswordError) {
-                locator<DialogManager>().showErrorDialog(state.error, context,
-                    () {
-                  context.read<ResetPasswordBloc>().add(InitialResetPassword());
-                });
-              } else if (state is VerifiedToken) {
-                locator<DialogManager>().showSuccessDialog(
-                    translate[locator<GlobalDataManager>().interfaceLanguage]![
-                        'auth_form']['messages']['verified_token'],
-                    'Success',
-                    context, () {
-                  //   widget.currentForm = AuthFormType.typeNewPassword;
-                  setState(() {});
-                });
-              } else if (state is RecoverAccountMessageSended) {
-                locator<DialogManager>().showSuccessDialog(
-                    translate[locator<GlobalDataManager>().interfaceLanguage]![
-                        'auth_form']['messages']['sended_token'],
-                    'Success',
-                    context, () {
-                  // widget.currentForm = AuthFormType.resetTokenSended;
-                  setState(() {});
-                });
-              } else if (state is UserPasswordUpdated) {
-                locator<DialogManager>().showSuccessDialog(
-                    translate[locator<GlobalDataManager>().interfaceLanguage]![
-                        'auth_form']['messages']['updated_password'],
-                    'Success',
-                    context, () {
-                  //   widget.currentForm = AuthFormType.login;
-                  setState(() {});
-                });
-              }
+           
             }),
             BlocListener<RegisterBloc, RegisterState>(
-              listener: (context, state) {
-                if (state is RegisterInProgress) {
-                  if (context.canPop()) {
-                    Navigator.pop(context);
-                  }
-                  locator<DialogManager>().showLoadingDialogWithCancelButton(
-                      translate[locator<GlobalDataManager>()
-                              .interfaceLanguage]!['auth_form']['messages']
-                          ['creating_account_progress'],
-                      translate[locator<GlobalDataManager>()
-                              .interfaceLanguage]!['auth_form']['messages']
-                          ['loading_in_progress'],
-                      context, () {
-                    locator.get<Repository>().cancelRequest();
-                  });
-                } else if (state is RegisterSuccess) {
-                  if (context.canPop()) {
-                    Navigator.pop(context);
-                  }
-                  locator<DialogManager>().showSuccessDialog(
-                      translate[locator<GlobalDataManager>()
-                              .interfaceLanguage]!['auth_form']['messages']
-                          ['register_account_success'],
-                      'Success',
-                      context, () {
-                    // widget.currentForm = AuthFormType.login;
-                    context.read<LoginBloc>().add(
-                        Login(email: state.email, password: state.password));
-                    setState(() {});
-                  });
-                } else if (state is RegisterError) {
-                  if (context.canPop()) {
-                    Navigator.pop(context);
-                  }
-                  locator<DialogManager>().showErrorDialog(state.error, context,
-                      () {
-                    context.read<RegisterBloc>().add(const RegisterInit());
-                  });
-                } else {}
-              },
+              listener: (context, state) {},
             ),
-            BlocListener<LoginBloc, LoginState>(listener: (context, state) {
-              if (state is LoggedOut) {}
-              if (state is Authenticating) {
-                locator<DialogManager>().showLoadingDialogWithCancelButton(
-                    translate[locator<GlobalDataManager>().interfaceLanguage]![
-                        'auth_form']['messages']['loading_in_progress'],
-                    '',
-                    context, () {
-                  locator<Repository>().cancelRequest().then((value) => context
-                      .read<LoginBloc>()
-                      .add(LogOut(errorMessage: 'Request Failed')));
-                });
-              } else if (state is Authenticated) {
-                if (context.canPop()) {
-                  context.pop();
-                }
-
-                final socketManager = locator<SocketManager>();
-
-                socketManager.initialize(state.token);
-
-                state.registerCompleted
-                    ? context.pushNamed(AppRouter.home)
-                    : context.pushNamed(AppRouter.initialSettings);
-              } else if (state is LoginError) {
-                if (context.canPop()) {
-                  Navigator.pop(context);
-                }
-
-                locator<DialogManager>().showErrorDialog(state.error, context,
-                    () {
-                  context
-                      .read<LoginBloc>()
-                      .add(LogOut(errorMessage: 'errorMessage'));
-
-                  //    widget.currentForm = AuthFormType.login;
-                });
-              }
-            })
+            BlocListener<LoginBloc, LoginState>(listener: (context, state) {})
           ],
           child: Container(
             child: Center(
