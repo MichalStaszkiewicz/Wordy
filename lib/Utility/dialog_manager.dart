@@ -78,15 +78,21 @@ class DialogManager {
     );
   }
 
-  void showSuccessDialog(String message, String title, BuildContext context,
-      VoidCallback onOkPress) {
+  void showSuccessDialog(
+      String message, String title, BuildContext context, Function onOkPress) {
+    if (dialogOpened) {
+      context.pop();
+    }
+    dialogOpened = true;
     AwesomeDialog(
-            context: context,
-            title: title,
-            desc: message,
-            dialogType: DialogType.success,
-            btnOkOnPress: onOkPress)
-        .show();
+        context: context,
+        title: title,
+        desc: message,
+        dialogType: DialogType.success,
+        btnOkOnPress: () {
+          onOkPress();
+          dialogOpened = false;
+        }).show();
   }
 
   void showInformationDialog(

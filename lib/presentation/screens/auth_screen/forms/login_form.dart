@@ -11,6 +11,7 @@ import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/presentation/widgets/button/login_button.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 import 'package:wordy/utility/socket_manager.dart';
+import 'package:wordy/utility/utility.dart';
 import '../../../../const/app_router.dart';
 import '../../../../utility/validator.dart';
 import '../../../bloc/login/login_bloc.dart';
@@ -55,13 +56,8 @@ class _LoginFormState extends State<LoginForm> {
             if (state is Authenticated) {
               _emailController.clear();
               _passwordController.clear();
-              final socketManager = locator<SocketManager>();
 
-              socketManager.initialize(state.token);
-
-              state.registerCompleted
-                  ? context.pushNamed(AppRouter.home)
-                  : context.pushNamed(AppRouter.initialSettings);
+              Utility.authenticatedUserNavigation(state, context);
             }
             if (state is LoginError) {
               locator<DialogManager>()

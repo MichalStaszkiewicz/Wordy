@@ -5,8 +5,10 @@ import 'package:wordy/const/app_router.dart';
 import 'package:wordy/data/network/exceptions/exception_helper.dart';
 import 'package:wordy/data/network/exceptions/unexpected_error.dart';
 import 'package:wordy/domain/logic/user_service.dart';
+import 'package:wordy/presentation/bloc/login/login_bloc.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 import 'package:wordy/utility/locator/service_locator.dart';
+import 'package:wordy/utility/socket_manager.dart';
 
 import 'package:wordy/utility/toast_manager.dart';
 
@@ -18,6 +20,17 @@ import '../global/notification_provider.dart';
 import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
 
 class Utility {
+  static authenticatedUserNavigation(
+      Authenticated state, BuildContext context) {
+    final socketManager = locator<SocketManager>();
+
+    socketManager.initialize(state.token);
+
+    state.registerCompleted
+        ? context.pushNamed(AppRouter.home)
+        : context.pushNamed(AppRouter.initialSettings);
+  }
+
   static Future<bool?> selectedCourseTheSameAsNativeLanguage(
       String courseName, BuildContext context) async {
     var userInterfaceLanguage =

@@ -11,6 +11,7 @@ import 'package:wordy/presentation/bloc/login/login_bloc.dart';
 import 'package:wordy/presentation/screens/auth_screen/auth_form_wrapper.dart';
 import 'package:wordy/presentation/widgets/button/login_button.dart';
 import 'package:wordy/utility/dialog_manager.dart';
+import 'package:wordy/utility/utility.dart';
 import '../../../../utility/validator.dart';
 import '../../../bloc/register/register_bloc.dart';
 
@@ -49,90 +50,120 @@ class _RegisterFormState extends State<RegisterForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: BlocProvider(
-        create: (context) => RegisterBloc(),
-        child: BlocConsumer<RegisterBloc, RegisterState>(
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => RegisterBloc(),
+          ),
+          BlocProvider(
+            create: (context) => LoginBloc(),
+          ),
+        ],
+        child: BlocListener<LoginBloc, LoginState>(
           listener: (context, state) {
-            if (state is RegisterInProgress) {
-              if (context.canPop()) {
-                Navigator.pop(context);
-              }
-              locator<DialogManager>().showLoadingDialogWithCancelButton(
-                  translate[locator<GlobalDataManager>().interfaceLanguage]![
-                      'auth_form']['messages']['creating_account_progress'],
-                  translate[locator<GlobalDataManager>().interfaceLanguage]![
-                      'auth_form']['messages']['loading_in_progress'],
-                  context, () {
-                locator.get<Repository>().cancelRequest();
-              });
-            } else if (state is RegisterSuccess) {
-              if (context.canPop()) {
-                Navigator.pop(context);
-              }
-              locator<DialogManager>().showSuccessDialog(
-                  translate[locator<GlobalDataManager>().interfaceLanguage]![
-                      'auth_form']['messages']['register_account_success'],
-                  'Success',
-                  context, () {
-                context
-                    .read<LoginBloc>()
-                    .add(Login(email: state.email, password: state.password));
-                setState(() {});
-              });
-            } else if (state is RegisterError) {
-              if (context.canPop()) {
-                Navigator.pop(context);
-              }
-              locator<DialogManager>().showErrorDialog(state.error, context,
-                  () {
-                context.read<RegisterBloc>().add(const RegisterInit());
-              });
-            } else {}
+            if (state is Authenticated) {
+              Utility.authenticatedUserNavigation(state, context);
+            }
           },
-          builder: (context, state) {
-            return AuthFormWrapper(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
+          child: BlocConsumer<RegisterBloc, RegisterState>(
+            listener: (context, state) {
+              if (state is RegisterInProgress) {
+                locator<DialogManager>().showLoadingDialogWithCancelButton(
                     translate[locator<GlobalDataManager>().interfaceLanguage]![
-                        'auth_form']['create_account'],
-                    style: Theme.of(context).textTheme.headlineSmall,
-                    key: Key('create_account_title_key'),
-                  ),
-                  //full name
-                  SizedBox(
-                      width: 250,
-                      height: 50,
-                      child: TextFormField(
-                        controller: _fullNameController,
-                        validator: (value) {
-                          if (value == null || value == "") {
-                            _fullNameErrorText = translate[
-                                    locator<GlobalDataManager>()
-                                        .interfaceLanguage]!['auth_form']
-                                ['requried_field'];
-                          }
+                        'auth_form']['messages']['creating_account_progress'],
+                    translate[locator<GlobalDataManager>().interfaceLanguage]![
+                        'auth_form']['messages']['loading_in_progress'],
+                    context, () {
+                  locator.get<Repository>().cancelRequest();
+                });
+              } else if (state is RegisterSuccess) {
+                locator<DialogManager>().showSuccessDialog(
+                    translate[locator<GlobalDataManager>().interfaceLanguage]![
+                        'auth_form']['messages']['register_account_success'],
+                    'Success',
+                    context, () {
+                  /* context.go(AppRouter.loginScreen);*/
+                  context
+                      .read<LoginBloc>()
+                      .add(Login(email: state.email, password: state.password));
+                });
+              } else if (state is RegisterError) {
+                locator<DialogManager>().showErrorDialog(state.error, context,
+                    () {
+                  context.read<RegisterBloc>().add(const RegisterInit());
+                });
+              } else {}
+            },
+            builder: (context, state) {
+              return AuthFormWrapper(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      translate[locator<GlobalDataManager>()
+                          .interfaceLanguage]!['auth_form']['create_account'],
+                      style: Theme.of(context).textTheme.headlineSmall,
+                      key: Key('create_account_title_key'),
+                    ),
+                    //full name
+                    SizedBox(
+                        width: 250,
+                        height: 50,
+                        child: TextFormField(
+                          controller: _fullNameController,
+                          validator: (value) {
+                            if (value == null || value == "") {
+                              _fullNameErrorText = translate[
+                                      locator<GlobalDataManager>()
+                                          .interfaceLanguage]!['auth_form']
+                                  ['requried_field'];
+                            }
 
-                          return _fullNameErrorText;
-                        },
-                        keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
-                            errorText: _fullNameErrorText,
-                            prefixIcon: const Icon(Icons.person),
-                            hintText: translate[locator<GlobalDataManager>()
-                                .interfaceLanguage]!['auth_form']['full_name']),
-                      )),
-                  //email
-                  SizedBox(
+                            return _fullNameErrorText;
+                          },
+                          keyboardType: TextInputType.name,
+                          decoration: InputDecoration(
+                              errorText: _fullNameErrorText,
+                              prefixIcon: const Icon(Icons.person),
+                              hintText: translate[locator<GlobalDataManager>()
+                                      .interfaceLanguage]!['auth_form']
+                                  ['full_name']),
+                        )),
+                    //email
+                    SizedBox(
+                        height: 50,
+                        width: 250,
+                        child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _emailController,
+                          validator: (value) {
+                            if (value != null) {
+                              Validator.emailValidate(value);
+                            } else {
+                              return translate[locator<GlobalDataManager>()
+                                      .interfaceLanguage]!['auth_form']
+                                  ['requried_field'];
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                              errorText: _emailErrorText,
+                              prefixIcon: const Icon(Icons.email),
+                              hintText: translate[locator<GlobalDataManager>()
+                                  .interfaceLanguage]!['auth_form']['email']),
+                        )),
+
+                    //password
+                    SizedBox(
                       height: 50,
                       width: 250,
                       child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _emailController,
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: _obscurePassword,
+                        controller: _passwordController,
                         validator: (value) {
                           if (value != null) {
-                            Validator.emailValidate(value);
+                            Validator.passwordValidate(value);
                           } else {
                             return translate[locator<GlobalDataManager>()
                                     .interfaceLanguage]!['auth_form']
@@ -141,84 +172,60 @@ class _RegisterFormState extends State<RegisterForm> {
                           return null;
                         },
                         decoration: InputDecoration(
-                            errorText: _emailErrorText,
-                            prefixIcon: const Icon(Icons.email),
-                            hintText: translate[locator<GlobalDataManager>()
-                                .interfaceLanguage]!['auth_form']['email']),
-                      )),
-
-                  //password
-                  SizedBox(
-                    height: 50,
-                    width: 250,
-                    child: TextFormField(
-                      keyboardType: TextInputType.visiblePassword,
-                      obscureText: _obscurePassword,
-                      controller: _passwordController,
-                      validator: (value) {
-                        if (value != null) {
-                          Validator.passwordValidate(value);
-                        } else {
-                          return translate[locator<GlobalDataManager>()
-                                  .interfaceLanguage]!['auth_form']
-                              ['requried_field'];
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        errorText: _passwordErrorText,
-                        suffix: IconButton(
-                            onPressed: () {
-                              if (_obscurePassword == false) {
-                                _obscurePassword = true;
-                              } else {
-                                _obscurePassword = false;
-                              }
-                              setState(() {});
-                            },
-                            icon: const Icon(Icons.remove_red_eye)),
-                        prefixIcon: const Icon(Icons.password),
-                        hintText: translate[locator<GlobalDataManager>()
-                            .interfaceLanguage]!['auth_form']['password'],
+                          errorText: _passwordErrorText,
+                          suffix: IconButton(
+                              onPressed: () {
+                                if (_obscurePassword == false) {
+                                  _obscurePassword = true;
+                                } else {
+                                  _obscurePassword = false;
+                                }
+                                setState(() {});
+                              },
+                              icon: const Icon(Icons.remove_red_eye)),
+                          prefixIcon: const Icon(Icons.password),
+                          hintText: translate[locator<GlobalDataManager>()
+                              .interfaceLanguage]!['auth_form']['password'],
+                        ),
                       ),
                     ),
-                  ),
 
-                  LoginButton(
-                    label: translate[locator<GlobalDataManager>()
-                        .interfaceLanguage]!['auth_form']['register'],
-                    onPressed: () {
-                      context.read<RegisterBloc>().add((RegisterUser(
-                          fullName: _fullNameController.text,
-                          email: _emailController.text,
-                          password: _passwordController.text)));
-                      _fullNameErrorText =
-                          Validator.fullNameValidate(_fullNameController.text);
-                      _emailErrorText =
-                          Validator.emailValidate(_emailController.text);
-                      _passwordErrorText =
-                          Validator.passwordValidate(_passwordController.text);
-                      setState(() {});
-                    },
-                  ),
-                  GestureDetector(
-                    key: Key('register_form_go_to_login_button_key'),
-                    onTap: () {
-                      context.goNamed(AppRouter.loginScreen);
-                    },
-                    child: Text(
-                      translate[locator<GlobalDataManager>()
-                              .interfaceLanguage]!['auth_form']
-                          ['already_registered'],
-                      textAlign: TextAlign.center,
-                      style:
-                          const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
+                    LoginButton(
+                      label: translate[locator<GlobalDataManager>()
+                          .interfaceLanguage]!['auth_form']['register'],
+                      onPressed: () {
+                        context.read<RegisterBloc>().add((RegisterUser(
+                            fullName: _fullNameController.text,
+                            email: _emailController.text,
+                            password: _passwordController.text)));
+                        _fullNameErrorText = Validator.fullNameValidate(
+                            _fullNameController.text);
+                        _emailErrorText =
+                            Validator.emailValidate(_emailController.text);
+                        _passwordErrorText = Validator.passwordValidate(
+                            _passwordController.text);
+                        setState(() {});
+                      },
                     ),
-                  )
-                ],
-              ),
-            );
-          },
+                    GestureDetector(
+                      key: Key('register_form_go_to_login_button_key'),
+                      onTap: () {
+                        context.goNamed(AppRouter.loginScreen);
+                      },
+                      child: Text(
+                        translate[locator<GlobalDataManager>()
+                                .interfaceLanguage]!['auth_form']
+                            ['already_registered'],
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            color: Color.fromRGBO(73, 79, 85, 1)),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
