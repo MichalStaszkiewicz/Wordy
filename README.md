@@ -7,20 +7,63 @@
 
 </div>
 
-## Description
+## About Wordy
 
-Wordy is a vocabulary-learning application that allows users to learn words, achieve milestones, and track their progress. The app provides features such as word learning, achievement unlocking, and progress tracking to enhance the language learning experience.
+Wordy is a mobile language learning app that helps users quickly and effectively master new language skills in an engaging and interactive way. With its motivational achievement system, fun and engaging quizzes, and well-structured language courses, Wordy provides a comprehensive learning experience that keeps users motivated and engaged.
 
-## Installation Instructions
+## Key Features ✨
 
-To install the Wordy application, follow these steps:
+- Motivating Achievement System: Wordy gamifies language learning with a rewarding achievement system that keeps users motivated and engaged.
 
-1. Make sure you have Flutter installed on your system.
-2. Clone the Wordy repository from GitHub.
-3. Open a terminal and navigate to the project directory.
-4. Run the command `flutter run` to launch the application on your device/emulator.
+- Interactive Quizzes: Fun and engaging quizzes enhance learning and make it more enjoyable and effective.
 
-**Note:** Before running the application, you need to update the `urls.dart` file. Change the `kImageUrl` and `kBaseUrl` variables to your IP address as the server is hosted locally on your computer. Also, ensure that the Wordy-Server is running.
+- Structured Language Courses: Well-organized courses with manageable topics provide a solid foundation for language acquisition.
+
+### Built With Flutter 🚀
+
+Wordy is built using the Flutter framework, a cross-platform development toolkit that allows developers to create native mobile apps for Android and iOS from a single codebase. This makes Wordy a versatile and accessible app that can be enjoyed on a wide range of devices.
+
+## Getting Started 🛠️
+
+### Prerequisites
+
+- **Operating system:** Windows, macOS, or Linux
+
+- **Flutter SDK:** Install the Flutter SDK from [https://docs.flutter.dev/get-started/install](https://docs.flutter.dev/get-started/install).
+
+- **Android Studio (or VS Code with Flutter extension):** Install Android Studio or VS Code with Flutter extension for development and debugging.
+
+- **Android emulator or physical Android device:** Set up an Android emulator or connect a physical Android device for testing purposes.
+
+- **Server:** Clone and configure the server, which serves data for the app. Follow the instructions on the server project's repository: [https://github.com/MichalStaszkiewicz/wordy-server](https://github.com/MichalStaszkiewicz/wordy-server) to set up the server correctly.
+
+## Installation
+
+1. Clone the project using the following command:
+
+   ```sh
+   git clone https://github.com/MichalStaszkiewicz/Wordy.git
+   ```
+
+2. Install the project dependencies using the following command:
+   ```sh
+   flutter pub get
+   ```
+3. Create a `.env` file in the project directory and add the following environment variables:
+
+```env
+API_URL_DEBUG= "http://[YOUR_LOCAL_IP]:1344"
+API_URL_IMAGES_DEBUG= "http://[YOUR_LOCAL_IP]:1344/v1/images/"
+```
+
+Replace [YOUR_LOCAL_IP] with the IP address of the machine where the server is running.
+
+4. Connect physical phone or run an emulator.
+
+5. Run the project using the following command:
+   ```sh
+   flutter run
+   ```
 
 ### Finding your IP address
 
@@ -42,15 +85,13 @@ To install the Wordy application, follow these steps:
 2. In the Terminal, type `ifconfig` or `ip addr show` and press Enter.
 3. Look for the "inet" or "inet addr" entry under the network adapter you are connected to. It will be listed as a series of numbers separated by periods (e.g., 192.168.0.1).
 
-Once you have obtained your IP address, update the `kImageUrl` and `kBaseUrl` variables in the `urls.dart` file with your IP address.
+## Usage Examples 🎉
 
-## Usage Examples
-
-1. Upon launching the application, you will be prompted to create an account or log in.
-2. After creating an account or logging in, you can access the main menu.
-3. From the main menu, you can start learning words and expand your vocabulary.
-4. The app allows you to unlock achievements as you make progress in your learning journey.
-5. You can track your learning progress and view your achievements in your user profile.
+1. Upon launching the application, you will be prompted to create an account or log in. 🔐
+2. After creating an account or logging in, you can access the main menu. 👋
+3. From the main menu, you can start learning words and expand your vocabulary. 🧠
+4. The app allows you to unlock achievements as you make progress in your learning journey. 🏅
+5. You can track your learning progress and view your achievements in your user profile. 📈
 
 ## Project Status
 
