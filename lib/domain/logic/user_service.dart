@@ -7,6 +7,7 @@ import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/utility/data_validator.dart';
+import 'package:wordy/utility/validator.dart';
 
 import '../../Utility/locator/service_locator.dart';
 
@@ -206,26 +207,11 @@ class UserService {
       LoginUserModel requestModel) async {
     Map<String, dynamic> userAuthData = requestModel.toMap();
 
-    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (userAuthData['email'] == null ||
-        userAuthData['email'].length == 0 ||
-        userAuthData['password'] == null ||
-        userAuthData['password'].length == 0) {
-      return Either.error(ValidationError(
-          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['fill_fields'],
-          translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['error']));
+    Either<ValidationError, bool> validate =
+        Validator.validateLoginData(userAuthData);
+    if (validate.isError) {
+      return Either.error(validate.error);
     }
-
-    if (!emailRegExp.hasMatch(userAuthData['email'])) {
-      return Either.error(ValidationError(
-          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['bad_email_format'],
-          translate[locator<GlobalDataManager>().interfaceLanguage]![
-              'error_messages']['validation']['error']));
-    }
-
     var response =
         await _repository.loginUser(LoginUserRequest.fromJson(userAuthData));
     if (response.isData) {

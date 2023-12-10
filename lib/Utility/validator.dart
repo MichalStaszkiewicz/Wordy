@@ -1,11 +1,37 @@
 import 'package:wordy/const/consts.dart';
+import 'package:wordy/data/network/exceptions/validation_error.dart';
 import 'package:wordy/domain/logic/user_service.dart';
 import 'package:wordy/global/global_data_manager.dart';
+import 'package:wordy/utility/either.dart';
 
 import '../domain/repositiories/repository.dart';
 import 'locator/service_locator.dart';
 
 class Validator {
+  static Either<ValidationError, bool> validateLoginData(
+      Map<String, dynamic> userAuthData) {
+    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (userAuthData['email'] == null ||
+        userAuthData['email'].length == 0 ||
+        userAuthData['password'] == null ||
+        userAuthData['password'].length == 0) {
+      return Either.error(ValidationError(
+          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['fill_fields'],
+          translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['error']));
+    }
+
+    if (!emailRegExp.hasMatch(userAuthData['email'])) {
+      return Either.error(ValidationError(
+          message: translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['bad_email_format'],
+          translate[locator<GlobalDataManager>().interfaceLanguage]![
+              'error_messages']['validation']['error']));
+    }
+    return Either.data(true);
+  }
+
   static String? fullNameValidate(String? value) {
     var language = locator<GlobalDataManager>().interfaceLanguage;
     if (value != "" && value != null) {
