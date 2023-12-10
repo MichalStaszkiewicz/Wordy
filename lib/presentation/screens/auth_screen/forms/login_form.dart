@@ -50,7 +50,7 @@ class _LoginFormState extends State<LoginForm> {
       resizeToAvoidBottomInset: false,
       body: BlocProvider(
         create: (context) => LoginBloc(),
-        child: BlocListener<LoginBloc, LoginState>(
+        child: BlocConsumer<LoginBloc, LoginState>(
           listener: (context, state) {
             if (state is Authenticated) {
               _emailController.clear();
@@ -73,105 +73,98 @@ class _LoginFormState extends State<LoginForm> {
                       'auth_form']['messages']['logging_in'],
                   '',
                   context, () {
-                //cancel request
                 locator<Repository>().cancelRequest().then((value) => context
                     .read<LoginBloc>()
                     .add(LogOut(errorMessage: 'Request Failed')));
               });
             }
           },
-          child: BlocBuilder<LoginBloc, LoginState>(
-            builder: (context, state) {
-              return AuthFormWrapper(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      translate[locator<GlobalDataManager>()
-                          .interfaceLanguage]!['auth_form']['login'],
-                      style: Theme.of(context).textTheme.headlineSmall,
-                      key: Key('login_form_title_key'),
-                    ),
-                    SizedBox(
-                        width: 250,
-                        child: TextField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                              errorText: _emailErrorText,
-                              prefixIcon: const Icon(Icons.email),
-                              hintText: translate[locator<GlobalDataManager>()
-                                  .interfaceLanguage]!['auth_form']['email']),
-                        )),
-                    SizedBox(
-                        width: 250,
-                        child: TextField(
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: _obscurePassword,
-                          controller: _passwordController,
-                          decoration: InputDecoration(
-                              errorText: _passwordErrorText,
-                              suffix: IconButton(
-                                  onPressed: () {
-                                    if (_obscurePassword == false) {
-                                      _obscurePassword = true;
-                                    } else {
-                                      _obscurePassword = false;
-                                    }
-                                    setState(() {});
-                                  },
-                                  icon: const Icon(Icons.remove_red_eye)),
-                              prefixIcon: const Icon(Icons.password),
-                              hintText: translate[locator<GlobalDataManager>()
-                                      .interfaceLanguage]!['auth_form']
-                                  ['password']),
-                        )),
-                    Container(
-                        padding: const EdgeInsets.only(right: 50),
-                        width: double.infinity,
-                        child: GestureDetector(
-                          onTap: () {
-                            context.goNamed(AppRouter.forgotPasswordScreen);
-                          },
-                          child: Text(
-                            translate[locator<GlobalDataManager>()
-                                    .interfaceLanguage]!['auth_form']
-                                ['forgot_password'],
-                            textAlign: TextAlign.right,
-                            style: const TextStyle(
-                                color: Color.fromRGBO(73, 79, 85, 1)),
-                          ),
-                        )),
-                    LoginButton(
-                        label: translate[locator<GlobalDataManager>()
-                            .interfaceLanguage]!['auth_form']['login'],
-                        onPressed: () {
-                          _emailErrorText =
-                              Validator.emailValidate(_emailController.text);
-                          context.read<LoginBloc>().add(Login(
-                              email: _emailController.text,
-                              password: _passwordController.text));
-
-                          setState(() {});
-                        }),
-                    GestureDetector(
-                      key: Key('login_form_go_to_register_button_key'),
+          builder: (context, state) => AuthFormWrapper(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  translate[locator<GlobalDataManager>().interfaceLanguage]![
+                      'auth_form']['login'],
+                  style: Theme.of(context).textTheme.headlineSmall,
+                  key: Key('login_form_title_key'),
+                ),
+                SizedBox(
+                    width: 250,
+                    child: TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                          errorText: _emailErrorText,
+                          prefixIcon: const Icon(Icons.email),
+                          hintText: translate[locator<GlobalDataManager>()
+                              .interfaceLanguage]!['auth_form']['email']),
+                    )),
+                SizedBox(
+                    width: 250,
+                    child: TextField(
+                      keyboardType: TextInputType.visiblePassword,
+                      obscureText: _obscurePassword,
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                          errorText: _passwordErrorText,
+                          suffix: IconButton(
+                              onPressed: () {
+                                if (_obscurePassword == false) {
+                                  _obscurePassword = true;
+                                } else {
+                                  _obscurePassword = false;
+                                }
+                                setState(() {});
+                              },
+                              icon: const Icon(Icons.remove_red_eye)),
+                          prefixIcon: const Icon(Icons.password),
+                          hintText: translate[locator<GlobalDataManager>()
+                              .interfaceLanguage]!['auth_form']['password']),
+                    )),
+                Container(
+                    padding: const EdgeInsets.only(right: 50),
+                    width: double.infinity,
+                    child: GestureDetector(
                       onTap: () {
-                        context.goNamed(AppRouter.registerScreen);
+                        context.goNamed(AppRouter.forgotPasswordScreen);
                       },
                       child: Text(
                         translate[locator<GlobalDataManager>()
                                 .interfaceLanguage]!['auth_form']
-                            ['first_time_user'],
-                        textAlign: TextAlign.center,
+                            ['forgot_password'],
+                        textAlign: TextAlign.right,
                         style: const TextStyle(
                             color: Color.fromRGBO(73, 79, 85, 1)),
                       ),
-                    )
-                  ],
-                ),
-              );
-            },
+                    )),
+                LoginButton(
+                    label: translate[locator<GlobalDataManager>()
+                        .interfaceLanguage]!['auth_form']['login'],
+                    onPressed: () {
+                      _emailErrorText =
+                          Validator.emailValidate(_emailController.text);
+                      context.read<LoginBloc>().add(Login(
+                          email: _emailController.text,
+                          password: _passwordController.text));
+
+                      setState(() {});
+                    }),
+                GestureDetector(
+                  key: Key('login_form_go_to_register_button_key'),
+                  onTap: () {
+                    context.goNamed(AppRouter.registerScreen);
+                  },
+                  child: Text(
+                    translate[locator<GlobalDataManager>().interfaceLanguage]![
+                        'auth_form']['first_time_user'],
+                    textAlign: TextAlign.center,
+                    style:
+                        const TextStyle(color: Color.fromRGBO(73, 79, 85, 1)),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
