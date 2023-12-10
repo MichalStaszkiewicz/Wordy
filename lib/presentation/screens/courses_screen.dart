@@ -17,6 +17,7 @@ import 'package:wordy/presentation/widgets/bouncing_widget.dart';
 import 'package:wordy/presentation/widgets/select_interface_language_button.dart';
 import 'package:wordy/utility/dialog_manager.dart';
 import 'package:wordy/utility/locator/service_locator.dart';
+import 'package:wordy/utility/utility.dart';
 
 import '../../const/app_router.dart';
 import '../../const/consts.dart';
@@ -44,6 +45,19 @@ class _CoursesScreenState extends State<CoursesScreen>
   }
 
   bool isListExpanded = false;
+
+  void onTapDetails(TapDownDetails tapData, CoursesLangInterface model) {
+    if (model.listRef != null && model.isExpanded) {
+      Offset listPosition = model.listRef!.globalToLocal(Offset.zero);
+      Offset tapPosition = tapData.globalPosition;
+      if (Utility.isTapWithinObjectBounds(
+              listPosition, model.listRef!, tapPosition) &&
+          model.isExpanded) {
+        model.setIsExpanded();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -75,22 +89,7 @@ class _CoursesScreenState extends State<CoursesScreen>
                     if (state is CoursesLoaded) {
                       return GestureDetector(
                         onTapDown: (tapData) {
-                          if (model.listRef != null && model.isExpanded) {
-                            Offset listPosition =
-                                model.listRef!.globalToLocal(Offset.zero);
-                            Offset tapPosition = tapData.globalPosition;
-                            if (tapPosition.dx < listPosition.dx ||
-                                tapPosition.dy < listPosition.dy ||
-                                tapPosition.dx >
-                                    listPosition.dx +
-                                        model.listRef!.size.width ||
-                                tapPosition.dy >
-                                        listPosition.dy +
-                                            model.listRef!.size.height &&
-                                    model.isExpanded) {
-                              model.setIsExpanded();
-                            }
-                          }
+                          onTapDetails(tapData, model);
                         },
                         child: Stack(
                           children: [

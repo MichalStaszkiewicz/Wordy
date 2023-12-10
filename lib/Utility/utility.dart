@@ -20,6 +20,20 @@ import '../global/notification_provider.dart';
 import 'package:wordy/presentation/bloc/quiz/quiz_bloc.dart';
 
 class Utility {
+  static bool isTapWithinObjectBounds(
+    Offset objectPosition,
+    RenderBox objectBox,
+    Offset tapPosition,
+  ) {
+    if (tapPosition.dx < objectPosition.dx ||
+        tapPosition.dy < objectPosition.dy ||
+        tapPosition.dx > objectPosition.dx + objectBox.size.width ||
+        tapPosition.dy > objectPosition.dy + objectBox.size.height) {
+      return true;
+    }
+    return false;
+  }
+
   static authenticatedUserNavigation(
       Authenticated state, BuildContext context) {
     final socketManager = locator<SocketManager>();

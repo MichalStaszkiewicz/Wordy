@@ -69,7 +69,7 @@ class _VocabularyScreenState extends State<VocabularyScreen>
               builder: (context, state) {
                 if (state is VocabularyLoaded) {
                   return VocabularyScreenReady(
-                    items: state.vocabularyList,
+                    items: state.vocabularyListSearched,
                     textEditingController: _textEditingController,
                   );
                 } else if (state is VocabularyInitial) {

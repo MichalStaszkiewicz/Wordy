@@ -57,35 +57,22 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
   }
 
   void updateVocabulary() {
-    return on<SearchForSpecificVocabulary>((event, emit) {
-      final state = this.state as VocabularyLoaded;
-      final vocabularyList = state.vocabularyList;
-      final searchTerm = event.text.toLowerCase();
-      int low = 0;
-      int high = vocabularyList.length - 1;
-      while (low <= high) {
-        int mid = (low + high) ~/ 2;
-        final word = vocabularyList[mid].topic!.toLowerCase();
-        if (word == searchTerm) {
-          final updatedList = [...vocabularyList];
-          updatedList[mid] = WordCollection(
-              topic: vocabularyList[mid].topic!,
-              image: vocabularyList[mid].image);
-          emit(VocabularyLoaded(
-              vocabularyList: updatedList,
-              vocabularyListSearched: updatedList,
-              language: state.language));
-          return;
-        } else if (word.compareTo(searchTerm) > 0) {
-          high = mid - 1;
-        } else {
-          low = mid + 1;
-        }
+    on<SearchForSpecificVocabulary>((event, emit) {
+      if (state is VocabularyLoaded) {
+        final state = this.state as VocabularyLoaded;
+
+        final updatedList = state.vocabularyList
+            .where((wordCollection) => wordCollection.topic
+                .toLowerCase()
+                .contains(event.text.toLowerCase()))
+            .toList();
+
+        emit(VocabularyLoaded(
+          vocabularyList: state.vocabularyList,
+          vocabularyListSearched: updatedList,
+          language: state.language,
+        ));
       }
-      emit(VocabularyLoaded(
-          vocabularyList: vocabularyList,
-          vocabularyListSearched: vocabularyList,
-          language: state.language));
     });
   }
 
