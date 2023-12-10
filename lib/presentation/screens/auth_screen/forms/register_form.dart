@@ -74,7 +74,6 @@ class _RegisterFormState extends State<RegisterForm> {
                       'auth_form']['messages']['register_account_success'],
                   'Success',
                   context, () {
-                // widget.currentForm = AuthFormType.login;
                 context
                     .read<LoginBloc>()
                     .add(Login(email: state.email, password: state.password));

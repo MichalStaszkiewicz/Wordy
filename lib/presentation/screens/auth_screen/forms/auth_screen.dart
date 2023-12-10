@@ -39,42 +39,30 @@ class _AuthScreenState extends State<AuthScreen> {
       ],
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: MultiBlocListener(
-          listeners: [
-            BlocListener<ResetPasswordBloc, ResetPasswordState>(
-                listener: (context, state) {
-           
-            }),
-            BlocListener<RegisterBloc, RegisterState>(
-              listener: (context, state) {},
-            ),
-            BlocListener<LoginBloc, LoginState>(listener: (context, state) {})
-          ],
-          child: Container(
-            child: Center(
-                child: Column(
-              children: [
-                Expanded(
-                  flex: 7,
-                  child: Container(
-                      alignment: Alignment.center,
-                      child: Container(
-                          height: 450,
-                          width: 350,
-                          decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 20,
-                                  color: Colors.black.withOpacity(.1),
-                                )
-                              ],
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: widget.child)),
-                )
-              ],
-            )),
-          ),
+        body: Container(
+          child: Center(
+              child: Column(
+            children: [
+              Expanded(
+                flex: 7,
+                child: Container(
+                    alignment: Alignment.center,
+                    child: Container(
+                        height: 450,
+                        width: 350,
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 20,
+                                color: Colors.black.withOpacity(.1),
+                              )
+                            ],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: widget.child)),
+              )
+            ],
+          )),
         ),
       ),
     );
