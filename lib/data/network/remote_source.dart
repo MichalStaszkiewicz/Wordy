@@ -350,4 +350,3 @@ class RemoteSource implements ServerInterface {
   }
 }
 
-class MockRemoteSource extends Mock implements ServerInterface {}

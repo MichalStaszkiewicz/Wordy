@@ -14,7 +14,7 @@ import 'package:wordy/global/global_data_manager.dart';
 import 'package:wordy/utility/either.dart';
 import 'package:wordy/utility/locator/service_locator.dart';
 import 'package:wordy/utility/validator.dart';
-import 'login_test.mocks.dart';
+
 
 @GenerateMocks([RepositoryMock, MockUserService])
 void main() {
