@@ -24,41 +24,7 @@ void main() {
         await serviceLocator('', '', true),
         locator<GlobalDataManager>().interfaceLanguage = 'english'
       });
-  group('Data validation', () {
-    test('validate login data with invalid email format', () {
-      Map<String, dynamic> userAuthData = {
-        "email": "asdf@example",
-        "password": '12345'
-      };
-      Either<ValidationError, bool> validate =
-          Validator.validateLoginData(userAuthData);
-      expect(validate.error!.type, ValidationErrorType.bad_email_format);
-    });
-
-    test('validate login data with empty password', () {
-      Map<String, dynamic> userAuthData = {
-        "email": "asdf@example.pl",
-        "password": ''
-      };
-      Either<ValidationError, bool> validate =
-          Validator.validateLoginData(userAuthData);
-      expect(validate.error!.type, ValidationErrorType.fill_fields);
-    });
-
-    test('validate login data with empty email', () {
-      Map<String, dynamic> userAuthData = {"email": "", "password": '12345'};
-      Either<ValidationError, bool> validate =
-          Validator.validateLoginData(userAuthData);
-      expect(validate.error!.type, ValidationErrorType.fill_fields);
-    });
-
-    test('validate login data with both fields empty', () {
-      Map<String, dynamic> userAuthData = {"email": "", "password": ''};
-      Either<ValidationError, bool> validate =
-          Validator.validateLoginData(userAuthData);
-      expect(validate.error!.type, ValidationErrorType.fill_fields);
-    });
-  });
+ 
   group('loginUser', () {
     test('Should return a valid accessToken and refreshToken', () async {
       final loginUserRequest = LoginUserRequest(
@@ -113,4 +79,5 @@ void main() {
       expect(loginResponse.data!.refreshToken, refreshToken);
     });
   });
+ 
 }

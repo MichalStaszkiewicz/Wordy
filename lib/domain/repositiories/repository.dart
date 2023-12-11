@@ -283,7 +283,7 @@ class Repository {
       var response = await _remoteSource.getUserSettings(token);
 
       if (response.isData) {
-        await _localSource
+        _localSource
             .setUserInterfaceLanguage(response.data!.interfaceLanguage.name);
       } else {
         return Either.error(
