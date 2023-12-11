@@ -70,11 +70,11 @@ class Validator {
     final token = await locator.get<Repository>().getTokenAccess();
     var userInterfaceLanguage =
         locator.get<Repository>().getUserInterfaceLanguage();
-    if (token.isData && userInterfaceLanguage.isData) {
+    if (token!.isData && userInterfaceLanguage!.isData) {
       try {
         if (choosenLanguage.toLowerCase() ==
                 userInterfaceLanguage.data!.toLowerCase() &&
-            userInterfaceLanguage.data!.toLowerCase() == 'polish') {
+            userInterfaceLanguage!.data!.toLowerCase() == 'polish') {
           var message = await locator
               .get<UserService>()
               .switchInterfaceLangauge('english');

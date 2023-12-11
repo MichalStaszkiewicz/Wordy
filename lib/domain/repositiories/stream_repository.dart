@@ -47,7 +47,7 @@ class StreamRepository {
       _notificationController.add("loggedOut");
     });
     _socket.on(SocketEvents.TOKEN_EXPIRED, (data) async {
-      await locator<Repository>().saveTokenAccess(data['token']);
+      locator<Repository>().saveTokenAccess(data['token']);
     });
     _socket.on(SocketEvents.REQUEST_REFRESH_TOKEN, (data) async {
       var refreshToken = await locator<UserService>().getTokenRefresh();

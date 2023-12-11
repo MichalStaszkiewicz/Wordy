@@ -30,7 +30,7 @@ class VocabularyBloc extends Bloc<VocabularyEvent, VocabularyState> {
       final topics = await locator<Repository>().getTopics();
       final userInterfaceLanguage =
           locator<UserService>().getUserInterfaceLanguage();
-      if (userInterfaceLanguage.isError) {
+      if (userInterfaceLanguage!.isError) {
         emit(VocabularyError(
             error:
                 ExceptionHelper.getErrorMessage(userInterfaceLanguage.error!)));

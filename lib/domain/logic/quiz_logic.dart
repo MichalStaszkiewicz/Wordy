@@ -38,7 +38,7 @@ class QuizLogic {
       return Either.error(token.error);
     }
     final userInterfaceLanguage =  _repository.getUserInterfaceLanguage();
-    if (userInterfaceLanguage.isError) {
+    if (userInterfaceLanguage!.isError) {
       return Either.error(userInterfaceLanguage.error);
     }
     var course = await _repository.getUserCurrentCourse(token.data!);
@@ -142,7 +142,7 @@ class QuizLogic {
       return Either.error(token.error);
     }
     final userInterfaceLanguage = await _repository.getUserInterfaceLanguage();
-    if (userInterfaceLanguage.isError) {
+    if (userInterfaceLanguage!.isError) {
       return Either.error(userInterfaceLanguage.error);
     }
     var course = await _repository.getUserCurrentCourse(token.data!);

@@ -33,7 +33,7 @@ class UserService {
 
   Future<Either<Exception, ProfileData>> getProfileData() async {
     var token = await _repository.getTokenAccess();
-    if (token.isError) {
+    if (token!.isError) {
       return Either.error(token.error);
     }
 
@@ -46,7 +46,7 @@ class UserService {
 
   Future<Either<Exception, String>> getTokenAccess() async {
     var token = await _repository.getTokenAccess();
-    if (token.isError) {
+    if (token!.isError) {
       return Either.error(token.error);
     }
     return Either.data(token.data!);
@@ -72,8 +72,8 @@ class UserService {
 
   Future<Either<Exception, String>> getTokenRefresh() async {
     var token = await _repository.getTokenRefresh();
-    if (token.isError) {
-      return Either.error(token.error);
+    if (token!.isError) {
+      return Either.error(token!.error);
     }
     return Either.data(token.data!);
   }
@@ -83,7 +83,7 @@ class UserService {
     String languageName,
   ) async {
     var token = await _repository.getTokenAccess();
-    if (token.isError) {
+    if (token!.isError) {
       return Either.error(token.error);
     }
     var interfaceLanguage =
@@ -95,7 +95,7 @@ class UserService {
     }
   }
 
-  Either<Exception, String> getUserInterfaceLanguage() {
+  Either<Exception, String>? getUserInterfaceLanguage() {
     return _repository.getUserInterfaceLanguage();
   }
 
@@ -118,7 +118,7 @@ class UserService {
     if (token.isError) {
       return Either.error(token.error);
     }
-    if (userInterfaceLanguage.isError) {
+    if (userInterfaceLanguage!.isError) {
       return Either.error(userInterfaceLanguage.error);
     }
 
@@ -175,7 +175,7 @@ class UserService {
 
     var userInterfaceLanguage = _repository.getUserInterfaceLanguage();
 
-    if (userInterfaceLanguage.isError) {
+    if (userInterfaceLanguage!.isError) {
       return Either.error(userInterfaceLanguage.error);
     }
 
@@ -190,7 +190,7 @@ class UserService {
 
   Future<Either<Exception, UserCourse>> getUserCurrentCourse() async {
     final token = await locator<Repository>().getTokenAccess();
-    if (token.isData) {
+    if (token!.isData) {
       var userCurrentCourse =
           await _repository.getUserCurrentCourse(token.data!);
       if (userCurrentCourse.isData) {
@@ -224,7 +224,7 @@ class UserService {
     await _repository.synchronizeUserInterfaceLanguage();
 
     var userInterfaceLanguage = _repository.getUserInterfaceLanguage();
-    if (userInterfaceLanguage.isError) {
+    if (userInterfaceLanguage!.isError) {
       return Either.error(userInterfaceLanguage.error);
     }
     locator<GlobalDataManager>().interfaceLanguage =

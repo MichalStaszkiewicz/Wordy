@@ -267,7 +267,7 @@ class Repository {
     }
   }
 
-  Either<Exception, String> getUserInterfaceLanguage() {
+  Either<Exception, String>? getUserInterfaceLanguage() {
     var response = _localSource.getUserInterfaceLanguage();
 
     if (response != null && response != '') {
@@ -277,7 +277,7 @@ class Repository {
         translate['english']!['error_messages']['interface_language_not_set']));
   }
 
-  Future<Either<Exception, String>> synchronizeUserInterfaceLanguage() async {
+  Future<Either<Exception, String>>? synchronizeUserInterfaceLanguage() async {
     final token = _localSource.getTokenAccess();
     if (token != null) {
       var response = await _remoteSource.getUserSettings(token);
@@ -293,7 +293,7 @@ class Repository {
     return Either.data("Unknown error when synchronizing with server");
   }
 
-  Future<Either<Exception, String>> getTokenAccess() async {
+  Future<Either<Exception, String>>? getTokenAccess() async {
     var response = _localSource.getTokenAccess();
     if (response != null) {
       return Either.data(response);
@@ -302,7 +302,7 @@ class Repository {
     }
   }
 
-  Future<Either<Exception, String>> getTokenRefresh() async {
+  Future<Either<Exception, String>>? getTokenRefresh() async {
     var response = await _localSource.getTokenRefresh();
     if (response != null) {
       return Either.data(response);
@@ -311,7 +311,7 @@ class Repository {
     }
   }
 
-  Future<void> saveTokenAccess(String token) async {
+  void saveTokenAccess(String token) async {
     _localSource.setTokenAccess(token);
   }
 
@@ -330,6 +330,4 @@ class Repository {
   }
 }
 
-class RepositoryMock extends Mock implements Repository {
-  
-}
+class RepositoryMock extends Mock implements Repository {}

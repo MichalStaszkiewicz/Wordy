@@ -61,7 +61,7 @@ class _AppState extends State<App> {
         builder: (context, router) {
           var language = locator<Repository>().getUserInterfaceLanguage();
 
-          if (language.isError) {
+          if (language!.isError) {
             final locale = Localizations.localeOf(context);
             locator<GlobalDataManager>().languageFromCode(locale.languageCode);
           } else {

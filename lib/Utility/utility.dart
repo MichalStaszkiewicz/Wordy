@@ -59,7 +59,7 @@ class Utility {
       String courseName, BuildContext context) async {
     var userInterfaceLanguage =
         locator<UserService>().getUserInterfaceLanguage();
-    if (userInterfaceLanguage.isData && context.mounted) {
+    if (userInterfaceLanguage!.isData && context.mounted) {
       locator<DialogManager>().showErrorDialog(
           ExceptionHelper.getErrorMessage(UnexpectedError()), context, () {
         context.go(AppRouter.loginScreen);
