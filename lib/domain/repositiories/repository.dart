@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:mockito/mockito.dart';
 import 'package:wordy/const/consts.dart';
 
 import 'package:wordy/data/network/request/register_user_request.dart';
@@ -227,7 +228,7 @@ class Repository {
     }
   }
 
-  Future<Either<DioError, LoginUserResponse>> loginUser(
+  Future<Either<DioError, LoginUserResponse>>? loginUser(
       LoginUserRequest request) async {
     var response = await _remoteSource.loginUser(request);
     if (response.isData) {
@@ -327,4 +328,8 @@ class Repository {
       return Either.data(response.data);
     }
   }
+}
+
+class RepositoryMock extends Mock implements Repository {
+  
 }

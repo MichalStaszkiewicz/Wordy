@@ -214,7 +214,7 @@ class UserService {
     }
     var response =
         await _repository.loginUser(LoginUserRequest.fromJson(userAuthData));
-    if (response.isData) {
+    if (response!.isData) {
       _repository.saveTokenAccess(response.data!.accessToken);
       _repository.saveTokenRefresh(response.data!.refreshToken);
     } else {
