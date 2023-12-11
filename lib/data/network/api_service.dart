@@ -18,7 +18,9 @@ class ApiService {
   CancelToken cancelToken = CancelToken();
   ApiService({required this.baseUrl})
       : dio = Dio(BaseOptions(
-            baseUrl: baseUrl, connectTimeout: 10000, receiveTimeout: 10000)) {
+            baseUrl: baseUrl,
+            connectTimeout: Duration(milliseconds: 10000),
+            receiveTimeout: Duration(milliseconds: 10000))) {
     dio.interceptors.add(PrettyDioLogger(
         requestHeader: true,
         requestBody: true,
@@ -112,4 +114,3 @@ class ApiService {
     }
   }
 }
-

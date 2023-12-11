@@ -22,7 +22,7 @@ class SettingsLogic {
       return Either.error(availableLanguages.error!);
     }
     var currentUserLanguage = _repository.getUserInterfaceLanguage();
-    if (currentUserLanguage.isError) {
+    if (currentUserLanguage!.isError) {
       return Either.error(currentUserLanguage.error);
     }
     availableLanguages.data!.removeWhere((element) =>

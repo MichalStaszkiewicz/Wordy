@@ -6,7 +6,7 @@ import 'package:wordy/data/network/request/register_user_request.dart';
 import 'package:wordy/domain/models/course.dart';
 import 'package:wordy/domain/repositiories/repository.dart';
 import 'package:wordy/global/global_data_manager.dart';
-import 'package:wordy/utility/data_validator.dart';
+
 import 'package:wordy/utility/validator.dart';
 
 import '../../Utility/locator/service_locator.dart';
@@ -33,7 +33,7 @@ class UserService {
 
   Future<Either<Exception, ProfileData>> getProfileData() async {
     var token = await _repository.getTokenAccess();
-    if (token.isError) {
+    if (token!.isError) {
       return Either.error(token.error);
     }
 
@@ -46,7 +46,7 @@ class UserService {
 
   Future<Either<Exception, String>> getTokenAccess() async {
     var token = await _repository.getTokenAccess();
-    if (token.isError) {
+    if (token!.isError) {
       return Either.error(token.error);
     }
     return Either.data(token.data!);
@@ -72,8 +72,8 @@ class UserService {
 
   Future<Either<Exception, String>> getTokenRefresh() async {
     var token = await _repository.getTokenRefresh();
-    if (token.isError) {
-      return Either.error(token.error);
+    if (token!.isError) {
+      return Either.error(token!.error);
     }
     return Either.data(token.data!);
   }
@@ -83,7 +83,7 @@ class UserService {
     String languageName,
   ) async {
     var token = await _repository.getTokenAccess();
-    if (token.isError) {
+    if (token!.isError) {
       return Either.error(token.error);
     }
     var interfaceLanguage =
@@ -95,7 +95,7 @@ class UserService {
     }
   }
 
-  Either<Exception, String> getUserInterfaceLanguage() {
+  Either<Exception, String>? getUserInterfaceLanguage() {
     return _repository.getUserInterfaceLanguage();
   }
 
@@ -118,7 +118,7 @@ class UserService {
     if (token.isError) {
       return Either.error(token.error);
     }
-    if (userInterfaceLanguage.isError) {
+    if (userInterfaceLanguage!.isError) {
       return Either.error(userInterfaceLanguage.error);
     }
 
@@ -175,7 +175,7 @@ class UserService {
 
     var userInterfaceLanguage = _repository.getUserInterfaceLanguage();
 
-    if (userInterfaceLanguage.isError) {
+    if (userInterfaceLanguage!.isError) {
       return Either.error(userInterfaceLanguage.error);
     }
 
@@ -190,7 +190,7 @@ class UserService {
 
   Future<Either<Exception, UserCourse>> getUserCurrentCourse() async {
     final token = await locator<Repository>().getTokenAccess();
-    if (token.isData) {
+    if (token!.isData) {
       var userCurrentCourse =
           await _repository.getUserCurrentCourse(token.data!);
       if (userCurrentCourse.isData) {
@@ -214,7 +214,7 @@ class UserService {
     }
     var response =
         await _repository.loginUser(LoginUserRequest.fromJson(userAuthData));
-    if (response.isData) {
+    if (response!.isData) {
       _repository.saveTokenAccess(response.data!.accessToken);
       _repository.saveTokenRefresh(response.data!.refreshToken);
     } else {
@@ -224,7 +224,7 @@ class UserService {
     await _repository.synchronizeUserInterfaceLanguage();
 
     var userInterfaceLanguage = _repository.getUserInterfaceLanguage();
-    if (userInterfaceLanguage.isError) {
+    if (userInterfaceLanguage!.isError) {
       return Either.error(userInterfaceLanguage.error);
     }
     locator<GlobalDataManager>().interfaceLanguage =
@@ -240,8 +240,9 @@ class UserService {
   }
 
   Future<Either<Exception, String>> recoverAccount(String email) async {
-    Either<Exception, String> validateEmail =
-        DataValidator.recoverAccountValidate(email, false);
+    Either<Exception, String> validateEmail = Validator.recoverAccountValidate(
+      email,
+    );
     if (validateEmail.isError) {
       return Either.error(validateEmail.error);
     }
@@ -256,7 +257,7 @@ class UserService {
   Future<Either<Exception, String>> registerUser(
       Map<String, dynamic> userAuthData) async {
     Either<Exception, String> validate =
-        DataValidator.registerValidate(userAuthData, false);
+        Validator.registerValidate(userAuthData, false);
     if (validate.isError) {
       return Either.error(validate.error);
     }

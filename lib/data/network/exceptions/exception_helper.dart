@@ -15,7 +15,7 @@ class ExceptionHelper implements Exception {
     var title = translate[locator<GlobalDataManager>().interfaceLanguage]![
         'server_messages']['error'];
     if (exception is DioError) {
-      if (exception.type == DioErrorType.response) {
+      if (exception.type == DioErrorType.unknown) {
         var error = ApiErrorMessage.fromJson(
             exception.response!.data as Map<String, dynamic>);
 
@@ -37,10 +37,10 @@ class ExceptionHelper implements Exception {
         String message = translate[locator<GlobalDataManager>()
             .interfaceLanguage]!['server_messages']['request_canceled']!;
         return CustomError(title: title, message: message, critical: false);
-      } else if (exception.type == DioErrorType.response) {
+      } else if (exception.type == DioErrorType.unknown) {
         return CustomError(
-            title: title, message: exception.message, critical: false);
-      } else if (exception.type == DioErrorType.connectTimeout) {
+            title: title, message: exception.message ?? '', critical: false);
+      } else if (exception.type == DioErrorType.connectionTimeout) {
         String message = translate[locator<GlobalDataManager>()
             .interfaceLanguage]!['server_messages']['timeout']!;
         return CustomError(title: title, message: message, critical: false);

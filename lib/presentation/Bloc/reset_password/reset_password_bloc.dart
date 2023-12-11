@@ -69,7 +69,8 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
               error: ExceptionHelper.getErrorMessage(ValidationError(
                   'Too Short Password',
                   message:
-                      'The password is too short must be at least 5 characters'))));
+                      'The password is too short must be at least 5 characters',
+                  type: ValidationErrorType.short_password))));
           return;
         }
         var validation = await locator<UserService>()

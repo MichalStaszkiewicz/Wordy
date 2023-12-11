@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:mockito/mockito.dart';
 import 'package:wordy/const/consts.dart';
 
 import 'package:wordy/data/network/request/register_user_request.dart';
@@ -227,7 +228,7 @@ class Repository {
     }
   }
 
-  Future<Either<DioError, LoginUserResponse>> loginUser(
+  Future<Either<DioError, LoginUserResponse>>? loginUser(
       LoginUserRequest request) async {
     var response = await _remoteSource.loginUser(request);
     if (response.isData) {
@@ -266,7 +267,7 @@ class Repository {
     }
   }
 
-  Either<Exception, String> getUserInterfaceLanguage() {
+  Either<Exception, String>? getUserInterfaceLanguage() {
     var response = _localSource.getUserInterfaceLanguage();
 
     if (response != null && response != '') {
@@ -276,13 +277,13 @@ class Repository {
         translate['english']!['error_messages']['interface_language_not_set']));
   }
 
-  Future<Either<Exception, String>> synchronizeUserInterfaceLanguage() async {
+  Future<Either<Exception, String>>? synchronizeUserInterfaceLanguage() async {
     final token = _localSource.getTokenAccess();
     if (token != null) {
       var response = await _remoteSource.getUserSettings(token);
 
       if (response.isData) {
-        await _localSource
+        _localSource
             .setUserInterfaceLanguage(response.data!.interfaceLanguage.name);
       } else {
         return Either.error(
@@ -292,7 +293,7 @@ class Repository {
     return Either.data("Unknown error when synchronizing with server");
   }
 
-  Future<Either<Exception, String>> getTokenAccess() async {
+  Future<Either<Exception, String>>? getTokenAccess() async {
     var response = _localSource.getTokenAccess();
     if (response != null) {
       return Either.data(response);
@@ -301,7 +302,7 @@ class Repository {
     }
   }
 
-  Future<Either<Exception, String>> getTokenRefresh() async {
+  Future<Either<Exception, String>>? getTokenRefresh() async {
     var response = await _localSource.getTokenRefresh();
     if (response != null) {
       return Either.data(response);
@@ -310,7 +311,7 @@ class Repository {
     }
   }
 
-  Future<void> saveTokenAccess(String token) async {
+  void saveTokenAccess(String token) async {
     _localSource.setTokenAccess(token);
   }
 
@@ -328,3 +329,5 @@ class Repository {
     }
   }
 }
+
+class RepositoryMock extends Mock implements Repository {}

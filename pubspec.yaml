@@ -43,7 +43,7 @@ dependencies:
   equatable: ^2.0.5
   sqflite: ^2.2.2
   json_serializable: ^6.6.1
-  dio: ^4.0.6
+  dio: ^5.4.0
   mysql1: ^0.20.0
   status_change: ^2.0.0
   persistent_bottom_nav_bar: ^5.0.2

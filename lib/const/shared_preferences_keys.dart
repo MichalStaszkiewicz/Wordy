@@ -1,3 +1,5 @@
-const String tokenAccess = "TOKEN_ACCESS";
-const String tokenRefresh = "TOKEN_REFRESH";
-const String interfaceLanguage = "INTERFACE_LANGUAGE";
+class SharedPreferencesKeys {
+  static String tokenAccess = "TOKEN_ACCESS";
+  static String tokenRefresh = "TOKEN_REFRESH";
+  static String interfaceLanguage = "INTERFACE_LANGUAGE";
+}

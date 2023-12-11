@@ -27,7 +27,7 @@ class TokenInterceptor extends Interceptor {
       }
       err.requestOptions.headers['Authorization'] = '${newToken.data}';
       var options = err.requestOptions;
-      Response? response = await _dio?.request(err.requestOptions.path,
+      Response? response = await _dio?.request(err.requestOptions.baseUrl,
           data: err.requestOptions.data,
           options: Options(
               method: options.method,

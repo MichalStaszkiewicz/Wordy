@@ -13,24 +13,24 @@ class LocalStorage {
 
   String? getUserInterfaceLanguage() {
     final pref = sharedPreferences;
-    final language = pref.getString(interfaceLanguage);
+    final language = pref.getString(SharedPreferencesKeys.interfaceLanguage);
     return language;
   }
 
-  Future<void> setUserInterfaceLanguage(String interfaceLang) async {
+  void setUserInterfaceLanguage(String interfaceLang) {
     final pref = sharedPreferences;
-    pref.setString(interfaceLanguage, interfaceLang);
+    pref.setString(SharedPreferencesKeys.interfaceLanguage, interfaceLang);
   }
 
   String? getTokenAccess() {
     final pref = sharedPreferences;
-    final id = pref.getString(tokenAccess);
+    final id = pref.getString(SharedPreferencesKeys.tokenAccess);
     return id;
   }
 
-  Future<String?> getTokenRefresh() async {
+  String? getTokenRefresh() {
     final pref = sharedPreferences;
-    final id = pref.getString(tokenRefresh);
+    final id = pref.getString(SharedPreferencesKeys.tokenRefresh);
     return id;
   }
 
@@ -39,7 +39,7 @@ class LocalStorage {
   ) async {
     final pref = sharedPreferences;
     await pref.setString(
-      tokenAccess,
+      SharedPreferencesKeys.tokenAccess,
       token,
     );
   }
@@ -49,7 +49,7 @@ class LocalStorage {
   ) async {
     final pref = sharedPreferences;
     await pref.setString(
-      tokenRefresh,
+      SharedPreferencesKeys.tokenRefresh,
       token,
     );
   }

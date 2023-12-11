@@ -45,7 +45,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<InitialSetupStateUpdate>((event, emit) async {
       final userInterfaceLanguage =
           locator<UserService>().getUserInterfaceLanguage();
-      if (userInterfaceLanguage.isError) {
+      if (userInterfaceLanguage!.isError) {
         emit(RegisterError(
             error: ExceptionHelper.getErrorMessage(UnexpectedError())));
       } else {
@@ -73,7 +73,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       final userLogic = locator<UserService>();
 
       final token = await locator.get<Repository>().getTokenAccess();
-      if (token.isData) {
+      if (token!.isData) {
         await Future.microtask(() async {
           var userCourseData = await userLogic.updateUserCurrentCourse(
             event.currentCourse,
@@ -128,7 +128,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         "password": event.password
       });
       if (result.isData) {
-        emit( RegisterSuccess(email:event.email, password: event.password));
+        emit(RegisterSuccess(email: event.email, password: event.password));
       } else {
         emit(RegisterError(
             error: ExceptionHelper.getErrorMessage(result.error!)));
