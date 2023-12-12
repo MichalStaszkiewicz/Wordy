@@ -14,8 +14,8 @@ class ExceptionHelper implements Exception {
   static CustomError getErrorMessage(Exception exception) {
     var title = translate[locator<GlobalDataManager>().interfaceLanguage]![
         'server_messages']['error'];
-    if (exception is DioError) {
-      if (exception.type == DioErrorType.unknown) {
+    if (exception is DioException) {
+      if (exception.type == DioExceptionType.unknown) {
         var error = ApiErrorMessage.fromJson(
             exception.response!.data as Map<String, dynamic>);
 
@@ -33,14 +33,14 @@ class ExceptionHelper implements Exception {
               'server_messages']['invalid_password'];
         }
         return CustomError(title: title, message: message, critical: false);
-      } else if (exception.type == DioErrorType.cancel) {
+      } else if (exception.type == DioExceptionType.cancel) {
         String message = translate[locator<GlobalDataManager>()
             .interfaceLanguage]!['server_messages']['request_canceled']!;
         return CustomError(title: title, message: message, critical: false);
-      } else if (exception.type == DioErrorType.unknown) {
+      } else if (exception.type == DioExceptionType.unknown) {
         return CustomError(
             title: title, message: exception.message ?? '', critical: false);
-      } else if (exception.type == DioErrorType.connectionTimeout) {
+      } else if (exception.type == DioExceptionType.connectionTimeout) {
         String message = translate[locator<GlobalDataManager>()
             .interfaceLanguage]!['server_messages']['timeout']!;
         return CustomError(title: title, message: message, critical: false);

@@ -89,51 +89,92 @@ class _FakeResponse_3<T> extends _i1.SmartFake implements _i3.Response<T> {
         );
 }
 
+class _FakeBaseOptions_4 extends _i1.SmartFake implements _i3.BaseOptions {
+  _FakeBaseOptions_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeHttpClientAdapter_5 extends _i1.SmartFake
+    implements _i3.HttpClientAdapter {
+  _FakeHttpClientAdapter_5(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeTransformer_6 extends _i1.SmartFake implements _i3.Transformer {
+  _FakeTransformer_6(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeInterceptors_7 extends _i1.SmartFake implements _i3.Interceptors {
+  _FakeInterceptors_7(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [RemoteSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
   @override
-  _i5.Future<_i2.Either<_i3.DioError, _i6.KnownWordList>>
-      getLearnedWordsByTopic(
+  _i5.Future<
+      _i2.Either<_i3.DioException, _i6.KnownWordList>> getLearnedWordsByTopic(
     String? topic,
     String? token,
   ) =>
-          (super.noSuchMethod(
-            Invocation.method(
-              #getLearnedWordsByTopic,
-              [
-                topic,
-                token,
-              ],
-            ),
-            returnValue:
-                _i5.Future<_i2.Either<_i3.DioError, _i6.KnownWordList>>.value(
-                    _FakeEither_0<_i3.DioError, _i6.KnownWordList>(
-              this,
-              Invocation.method(
-                #getLearnedWordsByTopic,
-                [
-                  topic,
-                  token,
-                ],
-              ),
-            )),
-            returnValueForMissingStub:
-                _i5.Future<_i2.Either<_i3.DioError, _i6.KnownWordList>>.value(
-                    _FakeEither_0<_i3.DioError, _i6.KnownWordList>(
-              this,
-              Invocation.method(
-                #getLearnedWordsByTopic,
-                [
-                  topic,
-                  token,
-                ],
-              ),
-            )),
-          ) as _i5.Future<_i2.Either<_i3.DioError, _i6.KnownWordList>>);
+      (super.noSuchMethod(
+        Invocation.method(
+          #getLearnedWordsByTopic,
+          [
+            topic,
+            token,
+          ],
+        ),
+        returnValue:
+            _i5.Future<_i2.Either<_i3.DioException, _i6.KnownWordList>>.value(
+                _FakeEither_0<_i3.DioException, _i6.KnownWordList>(
+          this,
+          Invocation.method(
+            #getLearnedWordsByTopic,
+            [
+              topic,
+              token,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i2.Either<_i3.DioException, _i6.KnownWordList>>.value(
+                _FakeEither_0<_i3.DioException, _i6.KnownWordList>(
+          this,
+          Invocation.method(
+            #getLearnedWordsByTopic,
+            [
+              topic,
+              token,
+            ],
+          ),
+        )),
+      ) as _i5.Future<_i2.Either<_i3.DioException, _i6.KnownWordList>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, _i6.KnownWordList>> getWordsByTopic(
+  _i5.Future<_i2.Either<_i3.DioException, _i6.KnownWordList>> getWordsByTopic(
           String? topic) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -141,8 +182,8 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           [topic],
         ),
         returnValue:
-            _i5.Future<_i2.Either<_i3.DioError, _i6.KnownWordList>>.value(
-                _FakeEither_0<_i3.DioError, _i6.KnownWordList>(
+            _i5.Future<_i2.Either<_i3.DioException, _i6.KnownWordList>>.value(
+                _FakeEither_0<_i3.DioException, _i6.KnownWordList>(
           this,
           Invocation.method(
             #getWordsByTopic,
@@ -150,44 +191,45 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i2.Either<_i3.DioError, _i6.KnownWordList>>.value(
-                _FakeEither_0<_i3.DioError, _i6.KnownWordList>(
+            _i5.Future<_i2.Either<_i3.DioException, _i6.KnownWordList>>.value(
+                _FakeEither_0<_i3.DioException, _i6.KnownWordList>(
           this,
           Invocation.method(
             #getWordsByTopic,
             [topic],
           ),
         )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, _i6.KnownWordList>>);
+      ) as _i5.Future<_i2.Either<_i3.DioException, _i6.KnownWordList>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, _i7.LoginUserResponse>> loginUser(
+  _i5.Future<_i2.Either<_i3.DioException, _i7.LoginUserResponse>> loginUser(
           _i8.LoginUserRequest? request) =>
       (super.noSuchMethod(
         Invocation.method(
           #loginUser,
           [request],
         ),
-        returnValue:
-            _i5.Future<_i2.Either<_i3.DioError, _i7.LoginUserResponse>>.value(
-                _FakeEither_0<_i3.DioError, _i7.LoginUserResponse>(
+        returnValue: _i5.Future<
+                _i2.Either<_i3.DioException, _i7.LoginUserResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i7.LoginUserResponse>(
           this,
           Invocation.method(
             #loginUser,
             [request],
           ),
         )),
-        returnValueForMissingStub:
-            _i5.Future<_i2.Either<_i3.DioError, _i7.LoginUserResponse>>.value(
-                _FakeEither_0<_i3.DioError, _i7.LoginUserResponse>(
+        returnValueForMissingStub: _i5.Future<
+                _i2.Either<_i3.DioException, _i7.LoginUserResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i7.LoginUserResponse>(
           this,
           Invocation.method(
             #loginUser,
             [request],
           ),
         )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, _i7.LoginUserResponse>>);
+      ) as _i5.Future<_i2.Either<_i3.DioException, _i7.LoginUserResponse>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, _i9.RegisterUserResponse>> registerUser(
+  _i5.Future<
+      _i2.Either<_i3.DioException, _i9.RegisterUserResponse>> registerUser(
           _i10.RegisterUserRequest? request) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -195,8 +237,8 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           [request],
         ),
         returnValue: _i5.Future<
-                _i2.Either<_i3.DioError, _i9.RegisterUserResponse>>.value(
-            _FakeEither_0<_i3.DioError, _i9.RegisterUserResponse>(
+                _i2.Either<_i3.DioException, _i9.RegisterUserResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i9.RegisterUserResponse>(
           this,
           Invocation.method(
             #registerUser,
@@ -204,272 +246,277 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           ),
         )),
         returnValueForMissingStub: _i5.Future<
-                _i2.Either<_i3.DioError, _i9.RegisterUserResponse>>.value(
-            _FakeEither_0<_i3.DioError, _i9.RegisterUserResponse>(
+                _i2.Either<_i3.DioException, _i9.RegisterUserResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i9.RegisterUserResponse>(
           this,
           Invocation.method(
             #registerUser,
             [request],
           ),
         )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, _i9.RegisterUserResponse>>);
+      ) as _i5.Future<_i2.Either<_i3.DioException, _i9.RegisterUserResponse>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, _i11.RegisterationResponse>>
-      getRegisterationStatus(String? token) => (super.noSuchMethod(
-            Invocation.method(
-              #getRegisterationStatus,
-              [token],
-            ),
-            returnValue: _i5.Future<
-                    _i2.Either<_i3.DioError, _i11.RegisterationResponse>>.value(
-                _FakeEither_0<_i3.DioError, _i11.RegisterationResponse>(
-              this,
-              Invocation.method(
-                #getRegisterationStatus,
-                [token],
-              ),
-            )),
-            returnValueForMissingStub: _i5.Future<
-                    _i2.Either<_i3.DioError, _i11.RegisterationResponse>>.value(
-                _FakeEither_0<_i3.DioError, _i11.RegisterationResponse>(
-              this,
-              Invocation.method(
-                #getRegisterationStatus,
-                [token],
-              ),
-            )),
-          ) as _i5
-              .Future<_i2.Either<_i3.DioError, _i11.RegisterationResponse>>);
+  _i5.Future<
+      _i2.Either<_i3.DioException,
+          _i11.RegisterationResponse>> getRegisterationStatus(String? token) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getRegisterationStatus,
+          [token],
+        ),
+        returnValue: _i5.Future<
+                _i2.Either<_i3.DioException, _i11.RegisterationResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i11.RegisterationResponse>(
+          this,
+          Invocation.method(
+            #getRegisterationStatus,
+            [token],
+          ),
+        )),
+        returnValueForMissingStub: _i5.Future<
+                _i2.Either<_i3.DioException, _i11.RegisterationResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i11.RegisterationResponse>(
+          this,
+          Invocation.method(
+            #getRegisterationStatus,
+            [token],
+          ),
+        )),
+      ) as _i5
+          .Future<_i2.Either<_i3.DioException, _i11.RegisterationResponse>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, _i12.LanguageListResponse>>
-      getAvailableLanguages() => (super.noSuchMethod(
-            Invocation.method(
-              #getAvailableLanguages,
-              [],
-            ),
-            returnValue: _i5.Future<
-                    _i2.Either<_i3.DioError, _i12.LanguageListResponse>>.value(
-                _FakeEither_0<_i3.DioError, _i12.LanguageListResponse>(
-              this,
-              Invocation.method(
-                #getAvailableLanguages,
-                [],
-              ),
-            )),
-            returnValueForMissingStub: _i5.Future<
-                    _i2.Either<_i3.DioError, _i12.LanguageListResponse>>.value(
-                _FakeEither_0<_i3.DioError, _i12.LanguageListResponse>(
-              this,
-              Invocation.method(
-                #getAvailableLanguages,
-                [],
-              ),
-            )),
-          ) as _i5.Future<_i2.Either<_i3.DioError, _i12.LanguageListResponse>>);
+  _i5.Future<
+      _i2.Either<_i3.DioException,
+          _i12.LanguageListResponse>> getAvailableLanguages() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAvailableLanguages,
+          [],
+        ),
+        returnValue: _i5.Future<
+                _i2.Either<_i3.DioException, _i12.LanguageListResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i12.LanguageListResponse>(
+          this,
+          Invocation.method(
+            #getAvailableLanguages,
+            [],
+          ),
+        )),
+        returnValueForMissingStub: _i5.Future<
+                _i2.Either<_i3.DioException, _i12.LanguageListResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i12.LanguageListResponse>(
+          this,
+          Invocation.method(
+            #getAvailableLanguages,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i2.Either<_i3.DioException, _i12.LanguageListResponse>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, _i13.UpdateUserInterfaceLanguageResponse>>
-      switchInterfaceLanguage(
+  _i5.Future<
+      _i2.Either<_i3.DioException,
+          _i13.UpdateUserInterfaceLanguageResponse>> switchInterfaceLanguage(
     String? token,
     String? languageName,
   ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #switchInterfaceLanguage,
+          [
+            token,
+            languageName,
+          ],
+        ),
+        returnValue: _i5.Future<
+            _i2.Either<_i3.DioException,
+                _i13.UpdateUserInterfaceLanguageResponse>>.value(_FakeEither_0<
+            _i3.DioException, _i13.UpdateUserInterfaceLanguageResponse>(
+          this,
+          Invocation.method(
+            #switchInterfaceLanguage,
+            [
+              token,
+              languageName,
+            ],
+          ),
+        )),
+        returnValueForMissingStub: _i5.Future<
+            _i2.Either<_i3.DioException,
+                _i13.UpdateUserInterfaceLanguageResponse>>.value(_FakeEither_0<
+            _i3.DioException, _i13.UpdateUserInterfaceLanguageResponse>(
+          this,
+          Invocation.method(
+            #switchInterfaceLanguage,
+            [
+              token,
+              languageName,
+            ],
+          ),
+        )),
+      ) as _i5.Future<
+          _i2.Either<_i3.DioException,
+              _i13.UpdateUserInterfaceLanguageResponse>>);
+  @override
+  _i5.Future<
+          _i2.Either<_i3.DioException, _i14.UpdateRegisterationStatusResponse>>
+      updateRegisterationStatus(String? token) => (super.noSuchMethod(
+            Invocation.method(
+              #updateRegisterationStatus,
+              [token],
+            ),
+            returnValue: _i5.Future<
+                    _i2.Either<_i3.DioException,
+                        _i14.UpdateRegisterationStatusResponse>>.value(
+                _FakeEither_0<_i3.DioException,
+                    _i14.UpdateRegisterationStatusResponse>(
+              this,
+              Invocation.method(
+                #updateRegisterationStatus,
+                [token],
+              ),
+            )),
+            returnValueForMissingStub: _i5.Future<
+                    _i2.Either<_i3.DioException,
+                        _i14.UpdateRegisterationStatusResponse>>.value(
+                _FakeEither_0<_i3.DioException,
+                    _i14.UpdateRegisterationStatusResponse>(
+              this,
+              Invocation.method(
+                #updateRegisterationStatus,
+                [token],
+              ),
+            )),
+          ) as _i5.Future<
+              _i2.Either<_i3.DioException,
+                  _i14.UpdateRegisterationStatusResponse>>);
+  @override
+  _i5.Future<_i2.Either<_i3.DioException, _i15.UpdateUserCurrentCourseResponse>>
+      switchCurrentCourse(
+    String? courseName,
+    String? token,
+  ) =>
           (super.noSuchMethod(
             Invocation.method(
-              #switchInterfaceLanguage,
+              #switchCurrentCourse,
               [
+                courseName,
                 token,
-                languageName,
               ],
             ),
             returnValue: _i5.Future<
-                    _i2.Either<_i3.DioError,
-                        _i13.UpdateUserInterfaceLanguageResponse>>.value(
-                _FakeEither_0<_i3.DioError,
-                    _i13.UpdateUserInterfaceLanguageResponse>(
+                _i2.Either<_i3.DioException,
+                    _i15.UpdateUserCurrentCourseResponse>>.value(_FakeEither_0<
+                _i3.DioException, _i15.UpdateUserCurrentCourseResponse>(
               this,
               Invocation.method(
-                #switchInterfaceLanguage,
+                #switchCurrentCourse,
                 [
+                  courseName,
                   token,
-                  languageName,
                 ],
               ),
             )),
             returnValueForMissingStub: _i5.Future<
-                    _i2.Either<_i3.DioError,
-                        _i13.UpdateUserInterfaceLanguageResponse>>.value(
-                _FakeEither_0<_i3.DioError,
-                    _i13.UpdateUserInterfaceLanguageResponse>(
+                _i2.Either<_i3.DioException,
+                    _i15.UpdateUserCurrentCourseResponse>>.value(_FakeEither_0<
+                _i3.DioException, _i15.UpdateUserCurrentCourseResponse>(
               this,
               Invocation.method(
-                #switchInterfaceLanguage,
+                #switchCurrentCourse,
                 [
+                  courseName,
                   token,
-                  languageName,
                 ],
               ),
             )),
           ) as _i5.Future<
-              _i2.Either<_i3.DioError,
-                  _i13.UpdateUserInterfaceLanguageResponse>>);
+              _i2.Either<_i3.DioException,
+                  _i15.UpdateUserCurrentCourseResponse>>);
   @override
   _i5.Future<
-      _i2.Either<
-          _i3.DioError,
-          _i14
-              .UpdateRegisterationStatusResponse>> updateRegisterationStatus(
-          String? token) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #updateRegisterationStatus,
-          [token],
-        ),
-        returnValue: _i5.Future<
-                _i2.Either<_i3.DioError,
-                    _i14.UpdateRegisterationStatusResponse>>.value(
-            _FakeEither_0<_i3.DioError, _i14.UpdateRegisterationStatusResponse>(
-          this,
-          Invocation.method(
-            #updateRegisterationStatus,
-            [token],
-          ),
-        )),
-        returnValueForMissingStub: _i5.Future<
-                _i2.Either<_i3.DioError,
-                    _i14.UpdateRegisterationStatusResponse>>.value(
-            _FakeEither_0<_i3.DioError, _i14.UpdateRegisterationStatusResponse>(
-          this,
-          Invocation.method(
-            #updateRegisterationStatus,
-            [token],
-          ),
-        )),
-      ) as _i5.Future<
-          _i2.Either<_i3.DioError, _i14.UpdateRegisterationStatusResponse>>);
-  @override
-  _i5.Future<
-      _i2.Either<_i3.DioError,
-          _i15.UpdateUserCurrentCourseResponse>> switchCurrentCourse(
-    String? courseName,
+      _i2.Either<_i3.DioException,
+          _i16.FlashCardListResponse>> createFlashCardList(
+    String? topic,
     String? token,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #switchCurrentCourse,
+          #createFlashCardList,
           [
-            courseName,
+            topic,
             token,
           ],
         ),
         returnValue: _i5.Future<
-                _i2.Either<_i3.DioError,
-                    _i15.UpdateUserCurrentCourseResponse>>.value(
-            _FakeEither_0<_i3.DioError, _i15.UpdateUserCurrentCourseResponse>(
+                _i2.Either<_i3.DioException, _i16.FlashCardListResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i16.FlashCardListResponse>(
           this,
           Invocation.method(
-            #switchCurrentCourse,
+            #createFlashCardList,
             [
-              courseName,
+              topic,
               token,
             ],
           ),
         )),
         returnValueForMissingStub: _i5.Future<
-                _i2.Either<_i3.DioError,
-                    _i15.UpdateUserCurrentCourseResponse>>.value(
-            _FakeEither_0<_i3.DioError, _i15.UpdateUserCurrentCourseResponse>(
+                _i2.Either<_i3.DioException, _i16.FlashCardListResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i16.FlashCardListResponse>(
           this,
           Invocation.method(
-            #switchCurrentCourse,
+            #createFlashCardList,
             [
-              courseName,
+              topic,
               token,
             ],
           ),
         )),
-      ) as _i5.Future<
-          _i2.Either<_i3.DioError, _i15.UpdateUserCurrentCourseResponse>>);
+      ) as _i5
+          .Future<_i2.Either<_i3.DioException, _i16.FlashCardListResponse>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, _i16.FlashCardListResponse>>
-      createFlashCardList(
+  _i5.Future<
+      _i2.Either<_i3.DioException,
+          _i16.FlashCardListResponse>> getBeginnerQuizWordList(
     String? topic,
     String? token,
   ) =>
-          (super.noSuchMethod(
-            Invocation.method(
-              #createFlashCardList,
-              [
-                topic,
-                token,
-              ],
-            ),
-            returnValue: _i5.Future<
-                    _i2.Either<_i3.DioError, _i16.FlashCardListResponse>>.value(
-                _FakeEither_0<_i3.DioError, _i16.FlashCardListResponse>(
-              this,
-              Invocation.method(
-                #createFlashCardList,
-                [
-                  topic,
-                  token,
-                ],
-              ),
-            )),
-            returnValueForMissingStub: _i5.Future<
-                    _i2.Either<_i3.DioError, _i16.FlashCardListResponse>>.value(
-                _FakeEither_0<_i3.DioError, _i16.FlashCardListResponse>(
-              this,
-              Invocation.method(
-                #createFlashCardList,
-                [
-                  topic,
-                  token,
-                ],
-              ),
-            )),
-          ) as _i5
-              .Future<_i2.Either<_i3.DioError, _i16.FlashCardListResponse>>);
+      (super.noSuchMethod(
+        Invocation.method(
+          #getBeginnerQuizWordList,
+          [
+            topic,
+            token,
+          ],
+        ),
+        returnValue: _i5.Future<
+                _i2.Either<_i3.DioException, _i16.FlashCardListResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i16.FlashCardListResponse>(
+          this,
+          Invocation.method(
+            #getBeginnerQuizWordList,
+            [
+              topic,
+              token,
+            ],
+          ),
+        )),
+        returnValueForMissingStub: _i5.Future<
+                _i2.Either<_i3.DioException, _i16.FlashCardListResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i16.FlashCardListResponse>(
+          this,
+          Invocation.method(
+            #getBeginnerQuizWordList,
+            [
+              topic,
+              token,
+            ],
+          ),
+        )),
+      ) as _i5
+          .Future<_i2.Either<_i3.DioException, _i16.FlashCardListResponse>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, _i16.FlashCardListResponse>>
-      getBeginnerQuizWordList(
-    String? topic,
-    String? token,
-  ) =>
-          (super.noSuchMethod(
-            Invocation.method(
-              #getBeginnerQuizWordList,
-              [
-                topic,
-                token,
-              ],
-            ),
-            returnValue: _i5.Future<
-                    _i2.Either<_i3.DioError, _i16.FlashCardListResponse>>.value(
-                _FakeEither_0<_i3.DioError, _i16.FlashCardListResponse>(
-              this,
-              Invocation.method(
-                #getBeginnerQuizWordList,
-                [
-                  topic,
-                  token,
-                ],
-              ),
-            )),
-            returnValueForMissingStub: _i5.Future<
-                    _i2.Either<_i3.DioError, _i16.FlashCardListResponse>>.value(
-                _FakeEither_0<_i3.DioError, _i16.FlashCardListResponse>(
-              this,
-              Invocation.method(
-                #getBeginnerQuizWordList,
-                [
-                  topic,
-                  token,
-                ],
-              ),
-            )),
-          ) as _i5
-              .Future<_i2.Either<_i3.DioError, _i16.FlashCardListResponse>>);
-  @override
-  _i5.Future<_i2.Either<_i3.DioError, _i6.KnownWordList>> getLearnedWordList(
+  _i5.Future<
+      _i2.Either<_i3.DioException, _i6.KnownWordList>> getLearnedWordList(
           String? token) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -477,8 +524,8 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           [token],
         ),
         returnValue:
-            _i5.Future<_i2.Either<_i3.DioError, _i6.KnownWordList>>.value(
-                _FakeEither_0<_i3.DioError, _i6.KnownWordList>(
+            _i5.Future<_i2.Either<_i3.DioException, _i6.KnownWordList>>.value(
+                _FakeEither_0<_i3.DioException, _i6.KnownWordList>(
           this,
           Invocation.method(
             #getLearnedWordList,
@@ -486,17 +533,17 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i2.Either<_i3.DioError, _i6.KnownWordList>>.value(
-                _FakeEither_0<_i3.DioError, _i6.KnownWordList>(
+            _i5.Future<_i2.Either<_i3.DioException, _i6.KnownWordList>>.value(
+                _FakeEither_0<_i3.DioException, _i6.KnownWordList>(
           this,
           Invocation.method(
             #getLearnedWordList,
             [token],
           ),
         )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, _i6.KnownWordList>>);
+      ) as _i5.Future<_i2.Either<_i3.DioException, _i6.KnownWordList>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, void>> insertLearnedWordList(
+  _i5.Future<_i2.Either<_i3.DioException, void>> insertLearnedWordList(
     List<int>? wordIdList,
     String? token,
   ) =>
@@ -508,8 +555,8 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
             token,
           ],
         ),
-        returnValue: _i5.Future<_i2.Either<_i3.DioError, void>>.value(
-            _FakeEither_0<_i3.DioError, void>(
+        returnValue: _i5.Future<_i2.Either<_i3.DioException, void>>.value(
+            _FakeEither_0<_i3.DioException, void>(
           this,
           Invocation.method(
             #insertLearnedWordList,
@@ -520,8 +567,8 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i2.Either<_i3.DioError, void>>.value(
-                _FakeEither_0<_i3.DioError, void>(
+            _i5.Future<_i2.Either<_i3.DioException, void>>.value(
+                _FakeEither_0<_i3.DioException, void>(
           this,
           Invocation.method(
             #insertLearnedWordList,
@@ -531,9 +578,9 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
             ],
           ),
         )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, void>>);
+      ) as _i5.Future<_i2.Either<_i3.DioException, void>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, _i17.UserSettings>> getUserSettings(
+  _i5.Future<_i2.Either<_i3.DioException, _i17.UserSettings>> getUserSettings(
           String? token) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -541,8 +588,8 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           [token],
         ),
         returnValue:
-            _i5.Future<_i2.Either<_i3.DioError, _i17.UserSettings>>.value(
-                _FakeEither_0<_i3.DioError, _i17.UserSettings>(
+            _i5.Future<_i2.Either<_i3.DioException, _i17.UserSettings>>.value(
+                _FakeEither_0<_i3.DioException, _i17.UserSettings>(
           this,
           Invocation.method(
             #getUserSettings,
@@ -550,51 +597,50 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i2.Either<_i3.DioError, _i17.UserSettings>>.value(
-                _FakeEither_0<_i3.DioError, _i17.UserSettings>(
+            _i5.Future<_i2.Either<_i3.DioException, _i17.UserSettings>>.value(
+                _FakeEither_0<_i3.DioException, _i17.UserSettings>(
           this,
           Invocation.method(
             #getUserSettings,
             [token],
           ),
         )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, _i17.UserSettings>>);
+      ) as _i5.Future<_i2.Either<_i3.DioException, _i17.UserSettings>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, _i18.UserCourse>> getUserCurrentCourse(
-          String? token) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getUserCurrentCourse,
-          [token],
-        ),
-        returnValue:
-            _i5.Future<_i2.Either<_i3.DioError, _i18.UserCourse>>.value(
-                _FakeEither_0<_i3.DioError, _i18.UserCourse>(
-          this,
-          Invocation.method(
-            #getUserCurrentCourse,
-            [token],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i5.Future<_i2.Either<_i3.DioError, _i18.UserCourse>>.value(
-                _FakeEither_0<_i3.DioError, _i18.UserCourse>(
-          this,
-          Invocation.method(
-            #getUserCurrentCourse,
-            [token],
-          ),
-        )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, _i18.UserCourse>>);
+  _i5.Future<_i2.Either<_i3.DioException, _i18.UserCourse>>
+      getUserCurrentCourse(String? token) => (super.noSuchMethod(
+            Invocation.method(
+              #getUserCurrentCourse,
+              [token],
+            ),
+            returnValue:
+                _i5.Future<_i2.Either<_i3.DioException, _i18.UserCourse>>.value(
+                    _FakeEither_0<_i3.DioException, _i18.UserCourse>(
+              this,
+              Invocation.method(
+                #getUserCurrentCourse,
+                [token],
+              ),
+            )),
+            returnValueForMissingStub:
+                _i5.Future<_i2.Either<_i3.DioException, _i18.UserCourse>>.value(
+                    _FakeEither_0<_i3.DioException, _i18.UserCourse>(
+              this,
+              Invocation.method(
+                #getUserCurrentCourse,
+                [token],
+              ),
+            )),
+          ) as _i5.Future<_i2.Either<_i3.DioException, _i18.UserCourse>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, bool>> cancelRequest() =>
+  _i5.Future<_i2.Either<_i3.DioException, bool>> cancelRequest() =>
       (super.noSuchMethod(
         Invocation.method(
           #cancelRequest,
           [],
         ),
-        returnValue: _i5.Future<_i2.Either<_i3.DioError, bool>>.value(
-            _FakeEither_0<_i3.DioError, bool>(
+        returnValue: _i5.Future<_i2.Either<_i3.DioException, bool>>.value(
+            _FakeEither_0<_i3.DioException, bool>(
           this,
           Invocation.method(
             #cancelRequest,
@@ -602,103 +648,102 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i2.Either<_i3.DioError, bool>>.value(
-                _FakeEither_0<_i3.DioError, bool>(
+            _i5.Future<_i2.Either<_i3.DioException, bool>>.value(
+                _FakeEither_0<_i3.DioException, bool>(
           this,
           Invocation.method(
             #cancelRequest,
             [],
           ),
         )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, bool>>);
+      ) as _i5.Future<_i2.Either<_i3.DioException, bool>>);
+  @override
+  _i5.Future<_i2.Either<_i3.DioException, _i19.UserActiveCoursesProgress>>
+      getUserActiveCoursesProgress(String? token) => (super.noSuchMethod(
+            Invocation.method(
+              #getUserActiveCoursesProgress,
+              [token],
+            ),
+            returnValue: _i5.Future<
+                    _i2.Either<_i3.DioException,
+                        _i19.UserActiveCoursesProgress>>.value(
+                _FakeEither_0<_i3.DioException, _i19.UserActiveCoursesProgress>(
+              this,
+              Invocation.method(
+                #getUserActiveCoursesProgress,
+                [token],
+              ),
+            )),
+            returnValueForMissingStub: _i5.Future<
+                    _i2.Either<_i3.DioException,
+                        _i19.UserActiveCoursesProgress>>.value(
+                _FakeEither_0<_i3.DioException, _i19.UserActiveCoursesProgress>(
+              this,
+              Invocation.method(
+                #getUserActiveCoursesProgress,
+                [token],
+              ),
+            )),
+          ) as _i5.Future<
+              _i2.Either<_i3.DioException, _i19.UserActiveCoursesProgress>>);
   @override
   _i5.Future<
-      _i2.Either<
-          _i3.DioError,
-          _i19
-              .UserActiveCoursesProgress>> getUserActiveCoursesProgress(
-          String? token) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getUserActiveCoursesProgress,
-          [token],
-        ),
-        returnValue: _i5.Future<
-                _i2.Either<_i3.DioError, _i19.UserActiveCoursesProgress>>.value(
-            _FakeEither_0<_i3.DioError, _i19.UserActiveCoursesProgress>(
-          this,
-          Invocation.method(
-            #getUserActiveCoursesProgress,
-            [token],
-          ),
-        )),
-        returnValueForMissingStub: _i5.Future<
-                _i2.Either<_i3.DioError, _i19.UserActiveCoursesProgress>>.value(
-            _FakeEither_0<_i3.DioError, _i19.UserActiveCoursesProgress>(
-          this,
-          Invocation.method(
-            #getUserActiveCoursesProgress,
-            [token],
-          ),
-        )),
-      ) as _i5
-          .Future<_i2.Either<_i3.DioError, _i19.UserActiveCoursesProgress>>);
-  @override
-  _i5.Future<
-      _i2.Either<_i3.DioError, _i20.CourseListResponse>> getAvailableCourses(
-          String? token) =>
+      _i2.Either<_i3.DioException,
+          _i20.CourseListResponse>> getAvailableCourses(String? token) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAvailableCourses,
           [token],
         ),
-        returnValue:
-            _i5.Future<_i2.Either<_i3.DioError, _i20.CourseListResponse>>.value(
-                _FakeEither_0<_i3.DioError, _i20.CourseListResponse>(
+        returnValue: _i5.Future<
+                _i2.Either<_i3.DioException, _i20.CourseListResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i20.CourseListResponse>(
           this,
           Invocation.method(
             #getAvailableCourses,
+            [token],
+          ),
+        )),
+        returnValueForMissingStub: _i5.Future<
+                _i2.Either<_i3.DioException, _i20.CourseListResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i20.CourseListResponse>(
+          this,
+          Invocation.method(
+            #getAvailableCourses,
+            [token],
+          ),
+        )),
+      ) as _i5.Future<_i2.Either<_i3.DioException, _i20.CourseListResponse>>);
+  @override
+  _i5.Future<
+      _i2.Either<_i3.DioException,
+          _i21.ActiveCourse>> getUserCurrentCourseProgress(String? token) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getUserCurrentCourseProgress,
+          [token],
+        ),
+        returnValue:
+            _i5.Future<_i2.Either<_i3.DioException, _i21.ActiveCourse>>.value(
+                _FakeEither_0<_i3.DioException, _i21.ActiveCourse>(
+          this,
+          Invocation.method(
+            #getUserCurrentCourseProgress,
             [token],
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i2.Either<_i3.DioError, _i20.CourseListResponse>>.value(
-                _FakeEither_0<_i3.DioError, _i20.CourseListResponse>(
+            _i5.Future<_i2.Either<_i3.DioException, _i21.ActiveCourse>>.value(
+                _FakeEither_0<_i3.DioException, _i21.ActiveCourse>(
           this,
           Invocation.method(
-            #getAvailableCourses,
+            #getUserCurrentCourseProgress,
             [token],
           ),
         )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, _i20.CourseListResponse>>);
+      ) as _i5.Future<_i2.Either<_i3.DioException, _i21.ActiveCourse>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, _i21.ActiveCourse>>
-      getUserCurrentCourseProgress(String? token) => (super.noSuchMethod(
-            Invocation.method(
-              #getUserCurrentCourseProgress,
-              [token],
-            ),
-            returnValue:
-                _i5.Future<_i2.Either<_i3.DioError, _i21.ActiveCourse>>.value(
-                    _FakeEither_0<_i3.DioError, _i21.ActiveCourse>(
-              this,
-              Invocation.method(
-                #getUserCurrentCourseProgress,
-                [token],
-              ),
-            )),
-            returnValueForMissingStub:
-                _i5.Future<_i2.Either<_i3.DioError, _i21.ActiveCourse>>.value(
-                    _FakeEither_0<_i3.DioError, _i21.ActiveCourse>(
-              this,
-              Invocation.method(
-                #getUserCurrentCourseProgress,
-                [token],
-              ),
-            )),
-          ) as _i5.Future<_i2.Either<_i3.DioError, _i21.ActiveCourse>>);
-  @override
-  _i5.Future<_i2.Either<_i3.DioError, _i22.ProfileData>> getProfileData(
+  _i5.Future<_i2.Either<_i3.DioException, _i22.ProfileData>> getProfileData(
           String? token) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -706,8 +751,8 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           [token],
         ),
         returnValue:
-            _i5.Future<_i2.Either<_i3.DioError, _i22.ProfileData>>.value(
-                _FakeEither_0<_i3.DioError, _i22.ProfileData>(
+            _i5.Future<_i2.Either<_i3.DioException, _i22.ProfileData>>.value(
+                _FakeEither_0<_i3.DioException, _i22.ProfileData>(
           this,
           Invocation.method(
             #getProfileData,
@@ -715,17 +760,18 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i2.Either<_i3.DioError, _i22.ProfileData>>.value(
-                _FakeEither_0<_i3.DioError, _i22.ProfileData>(
+            _i5.Future<_i2.Either<_i3.DioException, _i22.ProfileData>>.value(
+                _FakeEither_0<_i3.DioException, _i22.ProfileData>(
           this,
           Invocation.method(
             #getProfileData,
             [token],
           ),
         )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, _i22.ProfileData>>);
+      ) as _i5.Future<_i2.Either<_i3.DioException, _i22.ProfileData>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, _i23.RefreshTokenResponse>> refreshToken(
+  _i5.Future<
+      _i2.Either<_i3.DioException, _i23.RefreshTokenResponse>> refreshToken(
           String? refreshToken) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -733,8 +779,8 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           [refreshToken],
         ),
         returnValue: _i5.Future<
-                _i2.Either<_i3.DioError, _i23.RefreshTokenResponse>>.value(
-            _FakeEither_0<_i3.DioError, _i23.RefreshTokenResponse>(
+                _i2.Either<_i3.DioException, _i23.RefreshTokenResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i23.RefreshTokenResponse>(
           this,
           Invocation.method(
             #refreshToken,
@@ -742,24 +788,25 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           ),
         )),
         returnValueForMissingStub: _i5.Future<
-                _i2.Either<_i3.DioError, _i23.RefreshTokenResponse>>.value(
-            _FakeEither_0<_i3.DioError, _i23.RefreshTokenResponse>(
+                _i2.Either<_i3.DioException, _i23.RefreshTokenResponse>>.value(
+            _FakeEither_0<_i3.DioException, _i23.RefreshTokenResponse>(
           this,
           Invocation.method(
             #refreshToken,
             [refreshToken],
           ),
         )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, _i23.RefreshTokenResponse>>);
+      ) as _i5.Future<_i2.Either<_i3.DioException, _i23.RefreshTokenResponse>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, String>> recoverAccount(String? email) =>
+  _i5.Future<_i2.Either<_i3.DioException, String>> recoverAccount(
+          String? email) =>
       (super.noSuchMethod(
         Invocation.method(
           #recoverAccount,
           [email],
         ),
-        returnValue: _i5.Future<_i2.Either<_i3.DioError, String>>.value(
-            _FakeEither_0<_i3.DioError, String>(
+        returnValue: _i5.Future<_i2.Either<_i3.DioException, String>>.value(
+            _FakeEither_0<_i3.DioException, String>(
           this,
           Invocation.method(
             #recoverAccount,
@@ -767,17 +814,17 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i2.Either<_i3.DioError, String>>.value(
-                _FakeEither_0<_i3.DioError, String>(
+            _i5.Future<_i2.Either<_i3.DioException, String>>.value(
+                _FakeEither_0<_i3.DioException, String>(
           this,
           Invocation.method(
             #recoverAccount,
             [email],
           ),
         )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, String>>);
+      ) as _i5.Future<_i2.Either<_i3.DioException, String>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, String>> updateUserPassword(
+  _i5.Future<_i2.Either<_i3.DioException, String>> updateUserPassword(
     String? email,
     String? password,
   ) =>
@@ -789,8 +836,8 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
             password,
           ],
         ),
-        returnValue: _i5.Future<_i2.Either<_i3.DioError, String>>.value(
-            _FakeEither_0<_i3.DioError, String>(
+        returnValue: _i5.Future<_i2.Either<_i3.DioException, String>>.value(
+            _FakeEither_0<_i3.DioException, String>(
           this,
           Invocation.method(
             #updateUserPassword,
@@ -801,8 +848,8 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i2.Either<_i3.DioError, String>>.value(
-                _FakeEither_0<_i3.DioError, String>(
+            _i5.Future<_i2.Either<_i3.DioException, String>>.value(
+                _FakeEither_0<_i3.DioException, String>(
           this,
           Invocation.method(
             #updateUserPassword,
@@ -812,9 +859,9 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
             ],
           ),
         )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, String>>);
+      ) as _i5.Future<_i2.Either<_i3.DioException, String>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, String>> validateResetPassword(
+  _i5.Future<_i2.Either<_i3.DioException, String>> validateResetPassword(
     String? email,
     String? resetPasswordToken,
   ) =>
@@ -826,8 +873,8 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
             resetPasswordToken,
           ],
         ),
-        returnValue: _i5.Future<_i2.Either<_i3.DioError, String>>.value(
-            _FakeEither_0<_i3.DioError, String>(
+        returnValue: _i5.Future<_i2.Either<_i3.DioException, String>>.value(
+            _FakeEither_0<_i3.DioException, String>(
           this,
           Invocation.method(
             #validateResetPassword,
@@ -838,8 +885,8 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i2.Either<_i3.DioError, String>>.value(
-                _FakeEither_0<_i3.DioError, String>(
+            _i5.Future<_i2.Either<_i3.DioException, String>>.value(
+                _FakeEither_0<_i3.DioException, String>(
           this,
           Invocation.method(
             #validateResetPassword,
@@ -849,33 +896,34 @@ class MockRemoteSource extends _i1.Mock implements _i4.RemoteSource {
             ],
           ),
         )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, String>>);
+      ) as _i5.Future<_i2.Either<_i3.DioException, String>>);
   @override
-  _i5.Future<_i2.Either<_i3.DioError, _i24.TopicListResponse>> getTopics() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getTopics,
-          [],
-        ),
-        returnValue:
-            _i5.Future<_i2.Either<_i3.DioError, _i24.TopicListResponse>>.value(
-                _FakeEither_0<_i3.DioError, _i24.TopicListResponse>(
-          this,
-          Invocation.method(
-            #getTopics,
-            [],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i5.Future<_i2.Either<_i3.DioError, _i24.TopicListResponse>>.value(
-                _FakeEither_0<_i3.DioError, _i24.TopicListResponse>(
-          this,
-          Invocation.method(
-            #getTopics,
-            [],
-          ),
-        )),
-      ) as _i5.Future<_i2.Either<_i3.DioError, _i24.TopicListResponse>>);
+  _i5.Future<_i2.Either<_i3.DioException, _i24.TopicListResponse>>
+      getTopics() => (super.noSuchMethod(
+            Invocation.method(
+              #getTopics,
+              [],
+            ),
+            returnValue: _i5.Future<
+                    _i2.Either<_i3.DioException, _i24.TopicListResponse>>.value(
+                _FakeEither_0<_i3.DioException, _i24.TopicListResponse>(
+              this,
+              Invocation.method(
+                #getTopics,
+                [],
+              ),
+            )),
+            returnValueForMissingStub: _i5.Future<
+                    _i2.Either<_i3.DioException, _i24.TopicListResponse>>.value(
+                _FakeEither_0<_i3.DioException, _i24.TopicListResponse>(
+              this,
+              Invocation.method(
+                #getTopics,
+                [],
+              ),
+            )),
+          ) as _i5
+              .Future<_i2.Either<_i3.DioException, _i24.TopicListResponse>>);
 }
 
 /// A class which mocks [ApiService].
@@ -1044,4 +1092,953 @@ class MockApiService extends _i1.Mock implements _i25.ApiService {
         returnValue: _i5.Future<dynamic>.value(),
         returnValueForMissingStub: _i5.Future<dynamic>.value(),
       ) as _i5.Future<dynamic>);
+}
+
+/// A class which mocks [Dio].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDio extends _i1.Mock implements _i3.Dio {
+  @override
+  _i3.BaseOptions get options => (super.noSuchMethod(
+        Invocation.getter(#options),
+        returnValue: _FakeBaseOptions_4(
+          this,
+          Invocation.getter(#options),
+        ),
+        returnValueForMissingStub: _FakeBaseOptions_4(
+          this,
+          Invocation.getter(#options),
+        ),
+      ) as _i3.BaseOptions);
+  @override
+  set options(_i3.BaseOptions? _options) => super.noSuchMethod(
+        Invocation.setter(
+          #options,
+          _options,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i3.HttpClientAdapter get httpClientAdapter => (super.noSuchMethod(
+        Invocation.getter(#httpClientAdapter),
+        returnValue: _FakeHttpClientAdapter_5(
+          this,
+          Invocation.getter(#httpClientAdapter),
+        ),
+        returnValueForMissingStub: _FakeHttpClientAdapter_5(
+          this,
+          Invocation.getter(#httpClientAdapter),
+        ),
+      ) as _i3.HttpClientAdapter);
+  @override
+  set httpClientAdapter(_i3.HttpClientAdapter? _httpClientAdapter) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #httpClientAdapter,
+          _httpClientAdapter,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i3.Transformer get transformer => (super.noSuchMethod(
+        Invocation.getter(#transformer),
+        returnValue: _FakeTransformer_6(
+          this,
+          Invocation.getter(#transformer),
+        ),
+        returnValueForMissingStub: _FakeTransformer_6(
+          this,
+          Invocation.getter(#transformer),
+        ),
+      ) as _i3.Transformer);
+  @override
+  set transformer(_i3.Transformer? _transformer) => super.noSuchMethod(
+        Invocation.setter(
+          #transformer,
+          _transformer,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i3.Interceptors get interceptors => (super.noSuchMethod(
+        Invocation.getter(#interceptors),
+        returnValue: _FakeInterceptors_7(
+          this,
+          Invocation.getter(#interceptors),
+        ),
+        returnValueForMissingStub: _FakeInterceptors_7(
+          this,
+          Invocation.getter(#interceptors),
+        ),
+      ) as _i3.Interceptors);
+  @override
+  void close({bool? force = false}) => super.noSuchMethod(
+        Invocation.method(
+          #close,
+          [],
+          {#force: force},
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i5.Future<_i3.Response<T>> head<T>(
+    String? path, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    _i3.Options? options,
+    _i3.CancelToken? cancelToken,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #head,
+          [path],
+          {
+            #data: data,
+            #queryParameters: queryParameters,
+            #options: options,
+            #cancelToken: cancelToken,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #head,
+            [path],
+            {
+              #data: data,
+              #queryParameters: queryParameters,
+              #options: options,
+              #cancelToken: cancelToken,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #head,
+            [path],
+            {
+              #data: data,
+              #queryParameters: queryParameters,
+              #options: options,
+              #cancelToken: cancelToken,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
+  @override
+  _i5.Future<_i3.Response<T>> headUri<T>(
+    Uri? uri, {
+    Object? data,
+    _i3.Options? options,
+    _i3.CancelToken? cancelToken,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #headUri,
+          [uri],
+          {
+            #data: data,
+            #options: options,
+            #cancelToken: cancelToken,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #headUri,
+            [uri],
+            {
+              #data: data,
+              #options: options,
+              #cancelToken: cancelToken,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #headUri,
+            [uri],
+            {
+              #data: data,
+              #options: options,
+              #cancelToken: cancelToken,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
+  @override
+  _i5.Future<_i3.Response<T>> get<T>(
+    String? path, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    _i3.Options? options,
+    _i3.CancelToken? cancelToken,
+    _i3.ProgressCallback? onReceiveProgress,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #get,
+          [path],
+          {
+            #data: data,
+            #queryParameters: queryParameters,
+            #options: options,
+            #cancelToken: cancelToken,
+            #onReceiveProgress: onReceiveProgress,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #get,
+            [path],
+            {
+              #data: data,
+              #queryParameters: queryParameters,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #get,
+            [path],
+            {
+              #data: data,
+              #queryParameters: queryParameters,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
+  @override
+  _i5.Future<_i3.Response<T>> getUri<T>(
+    Uri? uri, {
+    Object? data,
+    _i3.Options? options,
+    _i3.CancelToken? cancelToken,
+    _i3.ProgressCallback? onReceiveProgress,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getUri,
+          [uri],
+          {
+            #data: data,
+            #options: options,
+            #cancelToken: cancelToken,
+            #onReceiveProgress: onReceiveProgress,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #getUri,
+            [uri],
+            {
+              #data: data,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #getUri,
+            [uri],
+            {
+              #data: data,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
+  @override
+  _i5.Future<_i3.Response<T>> post<T>(
+    String? path, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    _i3.Options? options,
+    _i3.CancelToken? cancelToken,
+    _i3.ProgressCallback? onSendProgress,
+    _i3.ProgressCallback? onReceiveProgress,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #post,
+          [path],
+          {
+            #data: data,
+            #queryParameters: queryParameters,
+            #options: options,
+            #cancelToken: cancelToken,
+            #onSendProgress: onSendProgress,
+            #onReceiveProgress: onReceiveProgress,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #post,
+            [path],
+            {
+              #data: data,
+              #queryParameters: queryParameters,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #post,
+            [path],
+            {
+              #data: data,
+              #queryParameters: queryParameters,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
+  @override
+  _i5.Future<_i3.Response<T>> postUri<T>(
+    Uri? uri, {
+    Object? data,
+    _i3.Options? options,
+    _i3.CancelToken? cancelToken,
+    _i3.ProgressCallback? onSendProgress,
+    _i3.ProgressCallback? onReceiveProgress,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #postUri,
+          [uri],
+          {
+            #data: data,
+            #options: options,
+            #cancelToken: cancelToken,
+            #onSendProgress: onSendProgress,
+            #onReceiveProgress: onReceiveProgress,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #postUri,
+            [uri],
+            {
+              #data: data,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #postUri,
+            [uri],
+            {
+              #data: data,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
+  @override
+  _i5.Future<_i3.Response<T>> put<T>(
+    String? path, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    _i3.Options? options,
+    _i3.CancelToken? cancelToken,
+    _i3.ProgressCallback? onSendProgress,
+    _i3.ProgressCallback? onReceiveProgress,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #put,
+          [path],
+          {
+            #data: data,
+            #queryParameters: queryParameters,
+            #options: options,
+            #cancelToken: cancelToken,
+            #onSendProgress: onSendProgress,
+            #onReceiveProgress: onReceiveProgress,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #put,
+            [path],
+            {
+              #data: data,
+              #queryParameters: queryParameters,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #put,
+            [path],
+            {
+              #data: data,
+              #queryParameters: queryParameters,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
+  @override
+  _i5.Future<_i3.Response<T>> putUri<T>(
+    Uri? uri, {
+    Object? data,
+    _i3.Options? options,
+    _i3.CancelToken? cancelToken,
+    _i3.ProgressCallback? onSendProgress,
+    _i3.ProgressCallback? onReceiveProgress,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #putUri,
+          [uri],
+          {
+            #data: data,
+            #options: options,
+            #cancelToken: cancelToken,
+            #onSendProgress: onSendProgress,
+            #onReceiveProgress: onReceiveProgress,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #putUri,
+            [uri],
+            {
+              #data: data,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #putUri,
+            [uri],
+            {
+              #data: data,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
+  @override
+  _i5.Future<_i3.Response<T>> patch<T>(
+    String? path, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    _i3.Options? options,
+    _i3.CancelToken? cancelToken,
+    _i3.ProgressCallback? onSendProgress,
+    _i3.ProgressCallback? onReceiveProgress,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #patch,
+          [path],
+          {
+            #data: data,
+            #queryParameters: queryParameters,
+            #options: options,
+            #cancelToken: cancelToken,
+            #onSendProgress: onSendProgress,
+            #onReceiveProgress: onReceiveProgress,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #patch,
+            [path],
+            {
+              #data: data,
+              #queryParameters: queryParameters,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #patch,
+            [path],
+            {
+              #data: data,
+              #queryParameters: queryParameters,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
+  @override
+  _i5.Future<_i3.Response<T>> patchUri<T>(
+    Uri? uri, {
+    Object? data,
+    _i3.Options? options,
+    _i3.CancelToken? cancelToken,
+    _i3.ProgressCallback? onSendProgress,
+    _i3.ProgressCallback? onReceiveProgress,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #patchUri,
+          [uri],
+          {
+            #data: data,
+            #options: options,
+            #cancelToken: cancelToken,
+            #onSendProgress: onSendProgress,
+            #onReceiveProgress: onReceiveProgress,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #patchUri,
+            [uri],
+            {
+              #data: data,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #patchUri,
+            [uri],
+            {
+              #data: data,
+              #options: options,
+              #cancelToken: cancelToken,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
+  @override
+  _i5.Future<_i3.Response<T>> delete<T>(
+    String? path, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    _i3.Options? options,
+    _i3.CancelToken? cancelToken,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #delete,
+          [path],
+          {
+            #data: data,
+            #queryParameters: queryParameters,
+            #options: options,
+            #cancelToken: cancelToken,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #delete,
+            [path],
+            {
+              #data: data,
+              #queryParameters: queryParameters,
+              #options: options,
+              #cancelToken: cancelToken,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #delete,
+            [path],
+            {
+              #data: data,
+              #queryParameters: queryParameters,
+              #options: options,
+              #cancelToken: cancelToken,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
+  @override
+  _i5.Future<_i3.Response<T>> deleteUri<T>(
+    Uri? uri, {
+    Object? data,
+    _i3.Options? options,
+    _i3.CancelToken? cancelToken,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteUri,
+          [uri],
+          {
+            #data: data,
+            #options: options,
+            #cancelToken: cancelToken,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #deleteUri,
+            [uri],
+            {
+              #data: data,
+              #options: options,
+              #cancelToken: cancelToken,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #deleteUri,
+            [uri],
+            {
+              #data: data,
+              #options: options,
+              #cancelToken: cancelToken,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
+  @override
+  _i5.Future<_i3.Response<dynamic>> download(
+    String? urlPath,
+    dynamic savePath, {
+    _i3.ProgressCallback? onReceiveProgress,
+    Map<String, dynamic>? queryParameters,
+    _i3.CancelToken? cancelToken,
+    bool? deleteOnError = true,
+    String? lengthHeader = r'content-length',
+    Object? data,
+    _i3.Options? options,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #download,
+          [
+            urlPath,
+            savePath,
+          ],
+          {
+            #onReceiveProgress: onReceiveProgress,
+            #queryParameters: queryParameters,
+            #cancelToken: cancelToken,
+            #deleteOnError: deleteOnError,
+            #lengthHeader: lengthHeader,
+            #data: data,
+            #options: options,
+          },
+        ),
+        returnValue:
+            _i5.Future<_i3.Response<dynamic>>.value(_FakeResponse_3<dynamic>(
+          this,
+          Invocation.method(
+            #download,
+            [
+              urlPath,
+              savePath,
+            ],
+            {
+              #onReceiveProgress: onReceiveProgress,
+              #queryParameters: queryParameters,
+              #cancelToken: cancelToken,
+              #deleteOnError: deleteOnError,
+              #lengthHeader: lengthHeader,
+              #data: data,
+              #options: options,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<dynamic>>.value(_FakeResponse_3<dynamic>(
+          this,
+          Invocation.method(
+            #download,
+            [
+              urlPath,
+              savePath,
+            ],
+            {
+              #onReceiveProgress: onReceiveProgress,
+              #queryParameters: queryParameters,
+              #cancelToken: cancelToken,
+              #deleteOnError: deleteOnError,
+              #lengthHeader: lengthHeader,
+              #data: data,
+              #options: options,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<dynamic>>);
+  @override
+  _i5.Future<_i3.Response<dynamic>> downloadUri(
+    Uri? uri,
+    dynamic savePath, {
+    _i3.ProgressCallback? onReceiveProgress,
+    _i3.CancelToken? cancelToken,
+    bool? deleteOnError = true,
+    String? lengthHeader = r'content-length',
+    Object? data,
+    _i3.Options? options,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #downloadUri,
+          [
+            uri,
+            savePath,
+          ],
+          {
+            #onReceiveProgress: onReceiveProgress,
+            #cancelToken: cancelToken,
+            #deleteOnError: deleteOnError,
+            #lengthHeader: lengthHeader,
+            #data: data,
+            #options: options,
+          },
+        ),
+        returnValue:
+            _i5.Future<_i3.Response<dynamic>>.value(_FakeResponse_3<dynamic>(
+          this,
+          Invocation.method(
+            #downloadUri,
+            [
+              uri,
+              savePath,
+            ],
+            {
+              #onReceiveProgress: onReceiveProgress,
+              #cancelToken: cancelToken,
+              #deleteOnError: deleteOnError,
+              #lengthHeader: lengthHeader,
+              #data: data,
+              #options: options,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<dynamic>>.value(_FakeResponse_3<dynamic>(
+          this,
+          Invocation.method(
+            #downloadUri,
+            [
+              uri,
+              savePath,
+            ],
+            {
+              #onReceiveProgress: onReceiveProgress,
+              #cancelToken: cancelToken,
+              #deleteOnError: deleteOnError,
+              #lengthHeader: lengthHeader,
+              #data: data,
+              #options: options,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<dynamic>>);
+  @override
+  _i5.Future<_i3.Response<T>> request<T>(
+    String? url, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    _i3.CancelToken? cancelToken,
+    _i3.Options? options,
+    _i3.ProgressCallback? onSendProgress,
+    _i3.ProgressCallback? onReceiveProgress,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #request,
+          [url],
+          {
+            #data: data,
+            #queryParameters: queryParameters,
+            #cancelToken: cancelToken,
+            #options: options,
+            #onSendProgress: onSendProgress,
+            #onReceiveProgress: onReceiveProgress,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #request,
+            [url],
+            {
+              #data: data,
+              #queryParameters: queryParameters,
+              #cancelToken: cancelToken,
+              #options: options,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #request,
+            [url],
+            {
+              #data: data,
+              #queryParameters: queryParameters,
+              #cancelToken: cancelToken,
+              #options: options,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
+  @override
+  _i5.Future<_i3.Response<T>> requestUri<T>(
+    Uri? uri, {
+    Object? data,
+    _i3.CancelToken? cancelToken,
+    _i3.Options? options,
+    _i3.ProgressCallback? onSendProgress,
+    _i3.ProgressCallback? onReceiveProgress,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #requestUri,
+          [uri],
+          {
+            #data: data,
+            #cancelToken: cancelToken,
+            #options: options,
+            #onSendProgress: onSendProgress,
+            #onReceiveProgress: onReceiveProgress,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #requestUri,
+            [uri],
+            {
+              #data: data,
+              #cancelToken: cancelToken,
+              #options: options,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #requestUri,
+            [uri],
+            {
+              #data: data,
+              #cancelToken: cancelToken,
+              #options: options,
+              #onSendProgress: onSendProgress,
+              #onReceiveProgress: onReceiveProgress,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
+  @override
+  _i5.Future<_i3.Response<T>> fetch<T>(_i3.RequestOptions? requestOptions) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetch,
+          [requestOptions],
+        ),
+        returnValue: _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #fetch,
+            [requestOptions],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Response<T>>.value(_FakeResponse_3<T>(
+          this,
+          Invocation.method(
+            #fetch,
+            [requestOptions],
+          ),
+        )),
+      ) as _i5.Future<_i3.Response<T>>);
 }

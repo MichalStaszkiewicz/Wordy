@@ -60,7 +60,7 @@ class ApiService {
     try {
       return await dio.get(endpoint,
           queryParameters: payload, cancelToken: cancelToken, options: options);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (e is BadNetworkApiError) {
         throw BadNetworkException();
       } else {
@@ -75,7 +75,7 @@ class ApiService {
     try {
       return await dio.post(endpoint,
           data: payload, cancelToken: cancelToken, options: options);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (e is BadNetworkApiError) {
         throw BadNetworkException();
       } else {

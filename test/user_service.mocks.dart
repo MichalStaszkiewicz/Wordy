@@ -68,40 +68,41 @@ class MockRepositoryMock extends _i1.Mock implements _i3.RepositoryMock {
         returnValueForMissingStub: null,
       );
   @override
-  _i4.Future<_i2.Either<_i5.DioError, List<_i6.Topic>>> getTopics() =>
+  _i4.Future<_i2.Either<_i5.DioException, List<_i6.Topic>>> getTopics() =>
       (super.noSuchMethod(
         Invocation.method(
           #getTopics,
           [],
         ),
         returnValue:
-            _i4.Future<_i2.Either<_i5.DioError, List<_i6.Topic>>>.value(
-                _FakeEither_0<_i5.DioError, List<_i6.Topic>>(
+            _i4.Future<_i2.Either<_i5.DioException, List<_i6.Topic>>>.value(
+                _FakeEither_0<_i5.DioException, List<_i6.Topic>>(
           this,
           Invocation.method(
             #getTopics,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, List<_i6.Topic>>>);
+      ) as _i4.Future<_i2.Either<_i5.DioException, List<_i6.Topic>>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, String>> recoverAccount(String? email) =>
+  _i4.Future<_i2.Either<_i5.DioException, String>> recoverAccount(
+          String? email) =>
       (super.noSuchMethod(
         Invocation.method(
           #recoverAccount,
           [email],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.DioError, String>>.value(
-            _FakeEither_0<_i5.DioError, String>(
+        returnValue: _i4.Future<_i2.Either<_i5.DioException, String>>.value(
+            _FakeEither_0<_i5.DioException, String>(
           this,
           Invocation.method(
             #recoverAccount,
             [email],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, String>>);
+      ) as _i4.Future<_i2.Either<_i5.DioException, String>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, _i7.ProfileData>> getProfileData(
+  _i4.Future<_i2.Either<_i5.DioException, _i7.ProfileData>> getProfileData(
           String? token) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -109,15 +110,15 @@ class MockRepositoryMock extends _i1.Mock implements _i3.RepositoryMock {
           [token],
         ),
         returnValue:
-            _i4.Future<_i2.Either<_i5.DioError, _i7.ProfileData>>.value(
-                _FakeEither_0<_i5.DioError, _i7.ProfileData>(
+            _i4.Future<_i2.Either<_i5.DioException, _i7.ProfileData>>.value(
+                _FakeEither_0<_i5.DioException, _i7.ProfileData>(
           this,
           Invocation.method(
             #getProfileData,
             [token],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, _i7.ProfileData>>);
+      ) as _i4.Future<_i2.Either<_i5.DioException, _i7.ProfileData>>);
   @override
   _i4.Future<_i2.Either<Exception, String>> validateResetPasswordToken(
     String? email,
@@ -169,24 +170,25 @@ class MockRepositoryMock extends _i1.Mock implements _i3.RepositoryMock {
         )),
       ) as _i4.Future<_i2.Either<Exception, String>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, _i8.ActiveCourse>>
+  _i4.Future<_i2.Either<_i5.DioException, _i8.ActiveCourse>>
       getUserCurrentCourseProgress(String? userId) => (super.noSuchMethod(
             Invocation.method(
               #getUserCurrentCourseProgress,
               [userId],
             ),
-            returnValue:
-                _i4.Future<_i2.Either<_i5.DioError, _i8.ActiveCourse>>.value(
-                    _FakeEither_0<_i5.DioError, _i8.ActiveCourse>(
+            returnValue: _i4.Future<
+                    _i2.Either<_i5.DioException, _i8.ActiveCourse>>.value(
+                _FakeEither_0<_i5.DioException, _i8.ActiveCourse>(
               this,
               Invocation.method(
                 #getUserCurrentCourseProgress,
                 [userId],
               ),
             )),
-          ) as _i4.Future<_i2.Either<_i5.DioError, _i8.ActiveCourse>>);
+          ) as _i4.Future<_i2.Either<_i5.DioException, _i8.ActiveCourse>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, List<_i9.Course>>> getAvailableCourses(
+  _i4.Future<
+      _i2.Either<_i5.DioException, List<_i9.Course>>> getAvailableCourses(
           String? userId) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -194,26 +196,26 @@ class MockRepositoryMock extends _i1.Mock implements _i3.RepositoryMock {
           [userId],
         ),
         returnValue:
-            _i4.Future<_i2.Either<_i5.DioError, List<_i9.Course>>>.value(
-                _FakeEither_0<_i5.DioError, List<_i9.Course>>(
+            _i4.Future<_i2.Either<_i5.DioException, List<_i9.Course>>>.value(
+                _FakeEither_0<_i5.DioException, List<_i9.Course>>(
           this,
           Invocation.method(
             #getAvailableCourses,
             [userId],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, List<_i9.Course>>>);
+      ) as _i4.Future<_i2.Either<_i5.DioException, List<_i9.Course>>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, _i10.UserActiveCoursesProgress>>
+  _i4.Future<_i2.Either<_i5.DioException, _i10.UserActiveCoursesProgress>>
       getUserActiveCoursesProgress(String? userId) => (super.noSuchMethod(
             Invocation.method(
               #getUserActiveCoursesProgress,
               [userId],
             ),
             returnValue: _i4.Future<
-                    _i2.Either<_i5.DioError,
+                    _i2.Either<_i5.DioException,
                         _i10.UserActiveCoursesProgress>>.value(
-                _FakeEither_0<_i5.DioError, _i10.UserActiveCoursesProgress>(
+                _FakeEither_0<_i5.DioException, _i10.UserActiveCoursesProgress>(
               this,
               Invocation.method(
                 #getUserActiveCoursesProgress,
@@ -221,57 +223,59 @@ class MockRepositoryMock extends _i1.Mock implements _i3.RepositoryMock {
               ),
             )),
           ) as _i4.Future<
-              _i2.Either<_i5.DioError, _i10.UserActiveCoursesProgress>>);
+              _i2.Either<_i5.DioException, _i10.UserActiveCoursesProgress>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, _i11.UpdateUserInterfaceLanguageResponse>>
-      switchInterfaceLangauge(
+  _i4.Future<
+      _i2.Either<_i5.DioException,
+          _i11.UpdateUserInterfaceLanguageResponse>> switchInterfaceLangauge(
     String? token,
     String? languageName,
   ) =>
-          (super.noSuchMethod(
-            Invocation.method(
-              #switchInterfaceLangauge,
-              [
-                token,
-                languageName,
-              ],
-            ),
-            returnValue: _i4.Future<
-                    _i2.Either<_i5.DioError,
-                        _i11.UpdateUserInterfaceLanguageResponse>>.value(
-                _FakeEither_0<_i5.DioError,
-                    _i11.UpdateUserInterfaceLanguageResponse>(
-              this,
-              Invocation.method(
-                #switchInterfaceLangauge,
-                [
-                  token,
-                  languageName,
-                ],
-              ),
-            )),
-          ) as _i4.Future<
-              _i2.Either<_i5.DioError,
-                  _i11.UpdateUserInterfaceLanguageResponse>>);
+      (super.noSuchMethod(
+        Invocation.method(
+          #switchInterfaceLangauge,
+          [
+            token,
+            languageName,
+          ],
+        ),
+        returnValue: _i4.Future<
+            _i2.Either<_i5.DioException,
+                _i11.UpdateUserInterfaceLanguageResponse>>.value(_FakeEither_0<
+            _i5.DioException, _i11.UpdateUserInterfaceLanguageResponse>(
+          this,
+          Invocation.method(
+            #switchInterfaceLangauge,
+            [
+              token,
+              languageName,
+            ],
+          ),
+        )),
+      ) as _i4.Future<
+          _i2.Either<_i5.DioException,
+              _i11.UpdateUserInterfaceLanguageResponse>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, _i12.RegisterationStatus>>
+  _i4.Future<_i2.Either<_i5.DioException, _i12.RegisterationStatus>>
       getRegisterationStatus(String? token) => (super.noSuchMethod(
             Invocation.method(
               #getRegisterationStatus,
               [token],
             ),
             returnValue: _i4.Future<
-                    _i2.Either<_i5.DioError, _i12.RegisterationStatus>>.value(
-                _FakeEither_0<_i5.DioError, _i12.RegisterationStatus>(
+                    _i2.Either<_i5.DioException,
+                        _i12.RegisterationStatus>>.value(
+                _FakeEither_0<_i5.DioException, _i12.RegisterationStatus>(
               this,
               Invocation.method(
                 #getRegisterationStatus,
                 [token],
               ),
             )),
-          ) as _i4.Future<_i2.Either<_i5.DioError, _i12.RegisterationStatus>>);
+          ) as _i4
+              .Future<_i2.Either<_i5.DioException, _i12.RegisterationStatus>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, _i13.UserSettings>> getUserSettings(
+  _i4.Future<_i2.Either<_i5.DioException, _i13.UserSettings>> getUserSettings(
           String? token) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -279,17 +283,17 @@ class MockRepositoryMock extends _i1.Mock implements _i3.RepositoryMock {
           [token],
         ),
         returnValue:
-            _i4.Future<_i2.Either<_i5.DioError, _i13.UserSettings>>.value(
-                _FakeEither_0<_i5.DioError, _i13.UserSettings>(
+            _i4.Future<_i2.Either<_i5.DioException, _i13.UserSettings>>.value(
+                _FakeEither_0<_i5.DioException, _i13.UserSettings>(
           this,
           Invocation.method(
             #getUserSettings,
             [token],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, _i13.UserSettings>>);
+      ) as _i4.Future<_i2.Either<_i5.DioException, _i13.UserSettings>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, String>> insertLearnedWordList(
+  _i4.Future<_i2.Either<_i5.DioException, String>> insertLearnedWordList(
     List<int>? wordIdList,
     String? token,
   ) =>
@@ -301,8 +305,8 @@ class MockRepositoryMock extends _i1.Mock implements _i3.RepositoryMock {
             token,
           ],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.DioError, String>>.value(
-            _FakeEither_0<_i5.DioError, String>(
+        returnValue: _i4.Future<_i2.Either<_i5.DioException, String>>.value(
+            _FakeEither_0<_i5.DioException, String>(
           this,
           Invocation.method(
             #insertLearnedWordList,
@@ -312,9 +316,9 @@ class MockRepositoryMock extends _i1.Mock implements _i3.RepositoryMock {
             ],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, String>>);
+      ) as _i4.Future<_i2.Either<_i5.DioException, String>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, List<_i14.Word>>> getLearnedWordList(
+  _i4.Future<_i2.Either<_i5.DioException, List<_i14.Word>>> getLearnedWordList(
           String? token) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -322,43 +326,44 @@ class MockRepositoryMock extends _i1.Mock implements _i3.RepositoryMock {
           [token],
         ),
         returnValue:
-            _i4.Future<_i2.Either<_i5.DioError, List<_i14.Word>>>.value(
-                _FakeEither_0<_i5.DioError, List<_i14.Word>>(
+            _i4.Future<_i2.Either<_i5.DioException, List<_i14.Word>>>.value(
+                _FakeEither_0<_i5.DioException, List<_i14.Word>>(
           this,
           Invocation.method(
             #getLearnedWordList,
             [token],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, List<_i14.Word>>>);
+      ) as _i4.Future<_i2.Either<_i5.DioException, List<_i14.Word>>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, List<_i14.Word>>> getBeginnerQuizWordList(
+  _i4.Future<_i2.Either<_i5.DioException, List<_i14.Word>>>
+      getBeginnerQuizWordList(
     String? topic,
     String? token,
   ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getBeginnerQuizWordList,
-          [
-            topic,
-            token,
-          ],
-        ),
-        returnValue:
-            _i4.Future<_i2.Either<_i5.DioError, List<_i14.Word>>>.value(
-                _FakeEither_0<_i5.DioError, List<_i14.Word>>(
-          this,
-          Invocation.method(
-            #getBeginnerQuizWordList,
-            [
-              topic,
-              token,
-            ],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, List<_i14.Word>>>);
+          (super.noSuchMethod(
+            Invocation.method(
+              #getBeginnerQuizWordList,
+              [
+                topic,
+                token,
+              ],
+            ),
+            returnValue:
+                _i4.Future<_i2.Either<_i5.DioException, List<_i14.Word>>>.value(
+                    _FakeEither_0<_i5.DioException, List<_i14.Word>>(
+              this,
+              Invocation.method(
+                #getBeginnerQuizWordList,
+                [
+                  topic,
+                  token,
+                ],
+              ),
+            )),
+          ) as _i4.Future<_i2.Either<_i5.DioException, List<_i14.Word>>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, List<_i15.FlashCardData>>>
+  _i4.Future<_i2.Either<_i5.DioException, List<_i15.FlashCardData>>>
       createFlashCardList(
     String? topic,
     String? token,
@@ -372,8 +377,9 @@ class MockRepositoryMock extends _i1.Mock implements _i3.RepositoryMock {
               ],
             ),
             returnValue: _i4.Future<
-                    _i2.Either<_i5.DioError, List<_i15.FlashCardData>>>.value(
-                _FakeEither_0<_i5.DioError, List<_i15.FlashCardData>>(
+                    _i2.Either<_i5.DioException,
+                        List<_i15.FlashCardData>>>.value(
+                _FakeEither_0<_i5.DioException, List<_i15.FlashCardData>>(
               this,
               Invocation.method(
                 #createFlashCardList,
@@ -383,139 +389,141 @@ class MockRepositoryMock extends _i1.Mock implements _i3.RepositoryMock {
                 ],
               ),
             )),
-          ) as _i4.Future<_i2.Either<_i5.DioError, List<_i15.FlashCardData>>>);
+          ) as _i4
+              .Future<_i2.Either<_i5.DioException, List<_i15.FlashCardData>>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, _i16.UserCourse>> updateUserCurrentCourse(
+  _i4.Future<_i2.Either<_i5.DioException, _i16.UserCourse>>
+      updateUserCurrentCourse(
     String? courseName,
     String? token,
   ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #updateUserCurrentCourse,
-          [
-            courseName,
-            token,
-          ],
-        ),
-        returnValue:
-            _i4.Future<_i2.Either<_i5.DioError, _i16.UserCourse>>.value(
-                _FakeEither_0<_i5.DioError, _i16.UserCourse>(
-          this,
-          Invocation.method(
-            #updateUserCurrentCourse,
-            [
-              courseName,
-              token,
-            ],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, _i16.UserCourse>>);
+          (super.noSuchMethod(
+            Invocation.method(
+              #updateUserCurrentCourse,
+              [
+                courseName,
+                token,
+              ],
+            ),
+            returnValue:
+                _i4.Future<_i2.Either<_i5.DioException, _i16.UserCourse>>.value(
+                    _FakeEither_0<_i5.DioException, _i16.UserCourse>(
+              this,
+              Invocation.method(
+                #updateUserCurrentCourse,
+                [
+                  courseName,
+                  token,
+                ],
+              ),
+            )),
+          ) as _i4.Future<_i2.Either<_i5.DioException, _i16.UserCourse>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, _i16.UserCourse>> getUserCurrentCourse(
-          String? token) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getUserCurrentCourse,
-          [token],
-        ),
-        returnValue:
-            _i4.Future<_i2.Either<_i5.DioError, _i16.UserCourse>>.value(
-                _FakeEither_0<_i5.DioError, _i16.UserCourse>(
-          this,
-          Invocation.method(
-            #getUserCurrentCourse,
-            [token],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, _i16.UserCourse>>);
+  _i4.Future<_i2.Either<_i5.DioException, _i16.UserCourse>>
+      getUserCurrentCourse(String? token) => (super.noSuchMethod(
+            Invocation.method(
+              #getUserCurrentCourse,
+              [token],
+            ),
+            returnValue:
+                _i4.Future<_i2.Either<_i5.DioException, _i16.UserCourse>>.value(
+                    _FakeEither_0<_i5.DioException, _i16.UserCourse>(
+              this,
+              Invocation.method(
+                #getUserCurrentCourse,
+                [token],
+              ),
+            )),
+          ) as _i4.Future<_i2.Either<_i5.DioException, _i16.UserCourse>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, String>> updateUserRegisterStatus(
+  _i4.Future<_i2.Either<_i5.DioException, String>> updateUserRegisterStatus(
           String? token) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateUserRegisterStatus,
           [token],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.DioError, String>>.value(
-            _FakeEither_0<_i5.DioError, String>(
+        returnValue: _i4.Future<_i2.Either<_i5.DioException, String>>.value(
+            _FakeEither_0<_i5.DioException, String>(
           this,
           Invocation.method(
             #updateUserRegisterStatus,
             [token],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, String>>);
+      ) as _i4.Future<_i2.Either<_i5.DioException, String>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, List<_i17.InterfaceLanguage>>>
+  _i4.Future<_i2.Either<_i5.DioException, List<_i17.InterfaceLanguage>>>
       getAvailableLanguages() => (super.noSuchMethod(
             Invocation.method(
               #getAvailableLanguages,
               [],
             ),
             returnValue: _i4.Future<
-                    _i2.Either<_i5.DioError,
+                    _i2.Either<_i5.DioException,
                         List<_i17.InterfaceLanguage>>>.value(
-                _FakeEither_0<_i5.DioError, List<_i17.InterfaceLanguage>>(
+                _FakeEither_0<_i5.DioException, List<_i17.InterfaceLanguage>>(
               this,
               Invocation.method(
                 #getAvailableLanguages,
                 [],
               ),
             )),
-          ) as _i4
-              .Future<_i2.Either<_i5.DioError, List<_i17.InterfaceLanguage>>>);
+          ) as _i4.Future<
+              _i2.Either<_i5.DioException, List<_i17.InterfaceLanguage>>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, _i18.LoginUserResponse>>? loginUser(
+  _i4.Future<_i2.Either<_i5.DioException, _i18.LoginUserResponse>>? loginUser(
           _i19.LoginUserRequest? request) =>
       (super.noSuchMethod(Invocation.method(
         #loginUser,
         [request],
-      )) as _i4.Future<_i2.Either<_i5.DioError, _i18.LoginUserResponse>>?);
+      )) as _i4.Future<_i2.Either<_i5.DioException, _i18.LoginUserResponse>>?);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, String>> registerUser(
+  _i4.Future<_i2.Either<_i5.DioException, String>> registerUser(
           _i20.RegisterUserRequest? request) =>
       (super.noSuchMethod(
         Invocation.method(
           #registerUser,
           [request],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.DioError, String>>.value(
-            _FakeEither_0<_i5.DioError, String>(
+        returnValue: _i4.Future<_i2.Either<_i5.DioException, String>>.value(
+            _FakeEither_0<_i5.DioException, String>(
           this,
           Invocation.method(
             #registerUser,
             [request],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, String>>);
+      ) as _i4.Future<_i2.Either<_i5.DioException, String>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, List<_i14.Word>>> getLearnedWordsByTopic(
+  _i4.Future<_i2.Either<_i5.DioException, List<_i14.Word>>>
+      getLearnedWordsByTopic(
     String? topic,
     String? token,
   ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getLearnedWordsByTopic,
-          [
-            topic,
-            token,
-          ],
-        ),
-        returnValue:
-            _i4.Future<_i2.Either<_i5.DioError, List<_i14.Word>>>.value(
-                _FakeEither_0<_i5.DioError, List<_i14.Word>>(
-          this,
-          Invocation.method(
-            #getLearnedWordsByTopic,
-            [
-              topic,
-              token,
-            ],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, List<_i14.Word>>>);
+          (super.noSuchMethod(
+            Invocation.method(
+              #getLearnedWordsByTopic,
+              [
+                topic,
+                token,
+              ],
+            ),
+            returnValue:
+                _i4.Future<_i2.Either<_i5.DioException, List<_i14.Word>>>.value(
+                    _FakeEither_0<_i5.DioException, List<_i14.Word>>(
+              this,
+              Invocation.method(
+                #getLearnedWordsByTopic,
+                [
+                  topic,
+                  token,
+                ],
+              ),
+            )),
+          ) as _i4.Future<_i2.Either<_i5.DioException, List<_i14.Word>>>);
   @override
-  _i4.Future<_i2.Either<_i5.DioError, List<_i14.Word>>> getWordsByTopic(
+  _i4.Future<_i2.Either<_i5.DioException, List<_i14.Word>>> getWordsByTopic(
           String? topic) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -523,15 +531,15 @@ class MockRepositoryMock extends _i1.Mock implements _i3.RepositoryMock {
           [topic],
         ),
         returnValue:
-            _i4.Future<_i2.Either<_i5.DioError, List<_i14.Word>>>.value(
-                _FakeEither_0<_i5.DioError, List<_i14.Word>>(
+            _i4.Future<_i2.Either<_i5.DioException, List<_i14.Word>>>.value(
+                _FakeEither_0<_i5.DioException, List<_i14.Word>>(
           this,
           Invocation.method(
             #getWordsByTopic,
             [topic],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, List<_i14.Word>>>);
+      ) as _i4.Future<_i2.Either<_i5.DioException, List<_i14.Word>>>);
   @override
   void saveTokenAccess(String? token) => super.noSuchMethod(
         Invocation.method(
@@ -549,21 +557,21 @@ class MockRepositoryMock extends _i1.Mock implements _i3.RepositoryMock {
         returnValueForMissingStub: null,
       );
   @override
-  _i4.Future<_i2.Either<_i5.DioError, bool>> cancelRequest() =>
+  _i4.Future<_i2.Either<_i5.DioException, bool>> cancelRequest() =>
       (super.noSuchMethod(
         Invocation.method(
           #cancelRequest,
           [],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.DioError, bool>>.value(
-            _FakeEither_0<_i5.DioError, bool>(
+        returnValue: _i4.Future<_i2.Either<_i5.DioException, bool>>.value(
+            _FakeEither_0<_i5.DioException, bool>(
           this,
           Invocation.method(
             #cancelRequest,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.DioError, bool>>);
+      ) as _i4.Future<_i2.Either<_i5.DioException, bool>>);
 }
 
 /// A class which mocks [MockUserService].
